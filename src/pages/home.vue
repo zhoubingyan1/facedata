@@ -208,9 +208,9 @@ export default {
     height: 100%;
     .left_silder{
       width: 220px !important;
-      // min-width: 200px !important;
-      // max-width: 200px !important;
-      // flex: 0 0 200px !important;
+      min-width: 220Px !important;
+      max-width: 220Px !important;
+      flex: 0 0 220Px !important;
       .system_bottom{
         text-align: center;
         opacity: 0.4;
@@ -264,7 +264,7 @@ export default {
       width: 300px;
       height: 40px;
       margin-top: 20px;
-      margin-right:30px;
+      margin-right:100px;
       padding:4px 10px 4px 46px;
       position: relative;
       .header_search_img{
@@ -304,7 +304,7 @@ export default {
       position: relative;
       font-size: 14px;
       line-height: 80px;
-      margin-right: 40px;
+      margin-right: 50px;
       cursor: pointer;
       height: 80px;
       &:hover{
