@@ -73,7 +73,7 @@
             系统管理
             </div>
         </Sider>
-        <Layout>
+        <Layout class="minindex_left_content">
             <Header>
               <div class="container_head">
                 <div class="header_search">
@@ -514,6 +514,9 @@ export default {
     vertical-align: middle;
     font-size: 22px;
   }
+.minindex_left_content{
+  min-width:880Px;
+}
 </style>
 
 

@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-      <Row style="padding-top:40px;">
+      <Row class="login_head_content">
         <Col span="8">
           <img class="logoimg" :src="imgUrl" alt="">
         </Col>
@@ -40,6 +40,7 @@
         <Checkbox v-model="single"> </Checkbox><span class="logincheckboxtext">我同意并遵守相关法律协议</span>
       </div>
       <div class="loginbottom">
+        
         FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.
       </div>
       <!-- 密码错误 -->
@@ -177,10 +178,15 @@ export default {
 </script>
 <style lang="scss">
 #login{
+  min-width: 1000Px;
     height: 100vh;
     background: url('~@/assets/images/bg.png') center center fixed
       no-repeat;
     background-size: cover;
+    position: relative;
+    .login_head_content{
+      padding-top: 80px;
+    }
     .logoimg{
       width:252px;
       height: 52px;
@@ -197,13 +203,13 @@ export default {
     .loginbox{
         width:540px;
         height:516px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        margin:20px auto;
+        // position: absolute;
+        // top: 50%;
+        // left: 50%;
+        // transform: translate(-50%, -50%);
+        // -webkit-transform: translate(-50%, -50%);
+        // -moz-transform: translate(-50%, -50%);
+        margin:150px auto 0px;
         background-color: #fff;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -213,19 +219,21 @@ export default {
           width:380px;
           margin:0 auto;
           .logo{
-            margin-bottom: 50px;
+            padding-top: 50px;
+            margin: 0px 0px 50px 0px;
             .logintitle{
               text-align: center;
-              margin:20px 0px;
               font-size: 70px;
               color: rgba(0,0,0,0.80);
               letter-spacing: 0;
+              line-height: 98px;
             }
             .logintitletips{
               font-size: 24px;
               color: rgba(0,0,0,0.40);
               letter-spacing: 0;
               text-align: center;
+              line-height: 33px;
             }
           }
           .facedata-label-input{
@@ -284,7 +292,7 @@ export default {
             font-size: 18px;
             color: #246FEA;
             letter-spacing: 0;
-            text-align: center;
+            text-align: left;
             line-height: 60px;
             cursor: pointer; 
           }
@@ -307,7 +315,7 @@ export default {
             background: #246FEA;
             box-shadow: 0 5px 20px 0 rgba(36,111,234,0.40);
             border-radius: 30px;
-            margin-right: -30px;
+            margin-right: -25px;
             cursor: pointer; 
           }
           @keyframes hvr-icon-wobble-horizontal {
@@ -358,12 +366,13 @@ export default {
         }
     }
     .logincheckbox{
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        position: absolute;
-        bottom:180px;
-        left: 50%;
+        // transform: translate(-50%, -50%);
+        // -webkit-transform: translate(-50%, -50%);
+        // -moz-transform: translate(-50%, -50%);
+        // position: absolute;
+        // top:848px;
+        // left: 50%;
+        margin-top:50px;
         text-align: center;
         font-family: PingFangSC-Regular;
         font-size: 18px;
@@ -388,18 +397,20 @@ export default {
         }
     }
     .loginbottom{
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        position: absolute;
-        bottom: 80px;
-        left: 50%;
+        // transform: translate(-50%, -50%);
+        // -webkit-transform: translate(-50%, -50%);
+        // -moz-transform: translate(-50%, -50%);
+        // position: absolute;
+        // bottom: 80px;
+        // left: 50%;
+        margin-top:120px;
         text-align: center;
         font-family: PingFangSC-Regular;
         font-size: 18px;
         color: rgba(0,0,0,0.40);
         letter-spacing: 0;
         line-height: 18px;
+        
     }
     
 }
