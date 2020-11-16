@@ -178,7 +178,7 @@ export default {
 </script>
 <style lang="scss">
 #login{
-  min-width: 1000Px;
+  min-width: 1400Px;
     height: 100vh;
     background: url('~@/assets/images/bg.png') center center fixed
       no-repeat;
@@ -209,7 +209,7 @@ export default {
         // transform: translate(-50%, -50%);
         // -webkit-transform: translate(-50%, -50%);
         // -moz-transform: translate(-50%, -50%);
-        margin:150px auto 0px;
+        margin:138px auto 0px;
         background-color: #fff;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;

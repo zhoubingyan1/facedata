@@ -266,7 +266,7 @@ export default {
     }
   .slider-btn{
     position: absolute;
-    top: 50%;
+    top: 286px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -300,7 +300,7 @@ export default {
 }
   .slider-indicators{
     position: absolute;
-    bottom: -100px;
+    bottom: -78px;
     z-index :999;
     .slider-center{
       left :50%;

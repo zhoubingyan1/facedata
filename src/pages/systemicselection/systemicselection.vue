@@ -1,6 +1,6 @@
 <template>
     <div id="Systemicselection">
-      <Row style="padding-top:40px;">
+      <Row class="Systemicselection_head_content">
         <Col span="24">
           <img class="logoimg" :src="imgUrl" alt="">
         </Col>
@@ -101,14 +101,16 @@ export default {
     //   no-repeat;
     // background-size: cover;
     background: #ffffff;
+    .Systemicselection_head_content{
+      padding-top: 80px;
+    }
     .logoimg{
       width:252px;
       height: 52px;
       margin-left: 80px;
     }
     .systemicselection_content{
-      padding:80px;
-      height: 660px;
+      padding:90px 100px 90px 100px;
     }
     .selection_content{
       width: 1350px;
@@ -117,8 +119,9 @@ export default {
       display: flex;
       flex-wrap:wrap ;
       .code-row-bg{
+        height: 194px;
         border: 1px solid rgba(0,0,0,0.20);
-        padding: 54px 40px;
+        padding: 0px 40px;
       }
       .code-row-bg:hover{
         border:1px solid #fff;
@@ -131,12 +134,16 @@ export default {
       }
       .selection_content_item{
         width: 649px;
-        // height:194px;
+        height:194px;
         margin-bottom: 20px;
         margin-right: 50px;
       }
+      
       .selection_content_item:nth-child(2n){
         margin-right: 0px !important;
+      }
+      .selection_content_item:nth-child(5),.selection_content_item:nth-child(6){
+        margin-bottom: 0px !important;
       }
       .selection_content_title{
         font-family: PingFangSC-Semibold;
