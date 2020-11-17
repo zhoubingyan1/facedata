@@ -621,316 +621,74 @@ export default {
             
             this.dom.setOption(option,true)
         },
-        drawTwo(legenddata,xAxisdata,seriesdata) {
-            var legenddata = legenddata||[]; //报表的标题
-            var xAxisdata = xAxisdata||[]; //报表得x轴
-            var seriesdata = seriesdata||[]; //报表得数据
+        drawTwo(legenddata, xAxisdata, seriesdata) {
+      var legenddata = legenddata || []; //报表的标题
+      var xAxisdata = xAxisdata || []; //报表得x轴
+      var seriesdata = seriesdata || []; //报表得数据
 
-            var bar_dv = this.$refs.charts_two;
-            // let echarts = this.echarts.init(document.getElementById('reports'))
-            this.dom1 = this.echarts.init(bar_dv)
+      var bar_dv = this.$refs.charts_two;
+      // let echarts = this.echarts.init(document.getElementById('reports'))
+      this.dom1 = this.echarts.init(bar_dv);
 
-            var testData = [
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.1)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.1)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                    
-                },
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.2)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.2)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    },
-                    value: 11.11,
-                    },
-                }, 
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.15)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.15)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.6)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.6)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.5)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.5)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.4)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.4)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.3)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.3)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "运营-会计业务管理\n科技-业务连续性管理",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.2)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.2)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.15)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.15)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                },
-                {
-                    name: "授信-贷后检查执行",
-                    label:{
-                        fontSize:12,
-                        align:'center',
-                        lineHeight:20
-                    },
-                    itemStyle:{
-                        color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: 'rgba(36,111,234,.2)' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: 'rgba(36,111,234,.2)' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                    },
-                    value: 11.11,
-                }
-            ]
-            let option = {
-                // dataZoom: [
-                //     {
-                //         id: 'dataZoomX',
-                //         type: 'slider',
-                //         xAxisIndex: [0],
-                //         filterMode: 'filter'
-                //     }
-                // ],
-                calculable: false,
-                series: [{
-                    type: 'treemap',
-                    left:'0',
-                    right:'0',
-                    top:'0',
-                    bottom:'o',
-                    label: {
-                        show: true,
-                        formatter: '{b}',
-                        fontSize: 17,
-                        ellipsis: true      
-                    },
-                    breadcrumb:{
-                        show:false
-                    },
-                    itemStyle: {
-                        
-                        normal: {
-                            //borderColor: '#EFEFEF',
-                            borderColor: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 1,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0, color: '#F8F8F8' // 0% 处的颜色
-                        }, {
-                            offset: 1, color: '#EFEFEF' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    },
-                            //   borderWidth:8,
-                            //   shadowColor: '#18AEF9',
-                            //   shadowOffsetX: 2,
-                            //   shadowOffsetY: 2,
-                            //   shadowBlur: 4,   
-                        }
-                    },
-                    data: testData,
-                    roam: false,
-                    nodeClick: false,
-                    breadcrumb: {show: false},
-                }]
-            }
-            
-            this.dom1.setOption(option,true)
+      var series_list = [];
+      var series_data = [
+        { name: "", value: [0, 0, 10] },
+        { name: "", value: [1, 0, 20] },
+        { name: "", value: [2, 0, 30] },
+        { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 20] },
+        { name: "", value: [1, 1, 30] },
+        { name: "", value: [2, 1, 40] },
+        { name: "授信-贷后检查执行", value: [0, 2, 30] },
+        { name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理", value: [1, 2, 40] },
+        { name: "", value: [2, 2, 50] },
+      ];
+
+     series_data.forEach(v=>{
+         var node={};
+         node.name=v.name;
+         node.type="heatmap",
+         node.data=[{value:v.value}];
+         node.label={
+              show: true,
+              formatter: "{a}",
+            };
+         series_list.push(node);
+     })
+    console.log(series_list);
+      let option = {
+        tooltip: {
+          show: false,
         },
+        animation: false,
+        grid: {
+          height: "100%",
+          left:0,top:0,
+          right:0,
+        },
+        xAxis: {
+          type: "category",
+          data: [0, 1, 2],
+          show: false,
+        },
+        yAxis: {
+          type: "category",
+          data: [0, 1, 2],
+          show: false,
+        },
+        visualMap: {
+          min: 0,
+          max: 100,
+          calculable: false,
+          orient: "horizontal",
+          inRange: {
+            color: ["rgba(36,111,234,.1)", "rgba(36,111,234,.9)"],
+          },
+          show: false,
+        },
+        series: series_list,
+      };
+      this.dom1.setOption(option, true);
+    },
         resize () {
         this.dom.resize()
         this.dom1.resize()
