@@ -1,7 +1,7 @@
 <template>
     <div id="index">
-        <Row :gutter="14">
-            <Col span="8">
+        <Row type="flex" justify="space-between">
+            <Col span="8" class="width480">
                 <div class="rkpi_index_content height415">
                     <div class="rkpi_index_content_title">
                         <span class="title">RKPI综合得分</span>
@@ -19,7 +19,7 @@
                     
                 </div>
             </Col>
-            <Col span="8">
+            <Col span="8" class="width500">
                 <div class="rkpi_index_content height440" style="margin-top:0px; padding-top:0px;">
                     <div class="rkpi_index_card">
                         <Tabs class="tabs-animation" value="1">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </Col>
-            <Col span="8">
+            <Col span="8" class="width480">
                  <div class="rkpi_index_content height415" >
                     <div class="rkpi_index_content_title">
                         <span class="title">RKPI和审核发现</span>
@@ -76,25 +76,24 @@
             </Col>
         </Row>
         <Row class="index_row">
-            <Card shadow>
-                <div class="rkpi_index_content_title">
+            <Card shadow class="echartstwocontent">
+                <div class="rkpi_index_content_title1">
                     <span class="title">风险分布热力图</span>
                     <span class="title_mini">Risk Heat Map</span>
                 </div>
-                <div class="reports" ref="charts_two"></div>
-                <div>
+                <div class="echartscontent">
+                    <div class="reports2" ref="charts_two"></div>
                     <Icon class="index_echarts_icon1" type="md-arrow-dropup" />
                     <div class="index_echartsline"></div>
                     <div class="index_echarts_height">高</div>
                     <div class="index_echarts_leftmiddle">发生频率</div>
                     <div class="index_echarts_bottom">低</div>
-                </div>
-                <div>
                     <div class="index_echartsline2"></div>
                     <div class="index_echarts_rightheight">高</div>
                     <div class="index_echarts_rightmiddle">影响程度</div>
                     <Icon class="index_echarts_icon2" type="md-arrow-dropright" />
                 </div>
+                
             </Card>
         </Row>
         <Row class="index_row">
@@ -103,7 +102,7 @@
                     <span class="title">转化率趋势图</span>
                     <span class="title_mini">Risk Heat Map</span>
                 </div>
-                <div class="reports" ref="charts_one"></div>
+                <div class="reports1" ref="charts_one"></div>
             </Card>
         </Row>
     </div>
@@ -622,73 +621,73 @@ export default {
             this.dom.setOption(option,true)
         },
         drawTwo(legenddata, xAxisdata, seriesdata) {
-      var legenddata = legenddata || []; //报表的标题
-      var xAxisdata = xAxisdata || []; //报表得x轴
-      var seriesdata = seriesdata || []; //报表得数据
+            var legenddata = legenddata || []; //报表的标题
+            var xAxisdata = xAxisdata || []; //报表得x轴
+            var seriesdata = seriesdata || []; //报表得数据
 
-      var bar_dv = this.$refs.charts_two;
-      // let echarts = this.echarts.init(document.getElementById('reports'))
-      this.dom1 = this.echarts.init(bar_dv);
+            var bar_dv = this.$refs.charts_two;
+            // let echarts = this.echarts.init(document.getElementById('reports'))
+            this.dom1 = this.echarts.init(bar_dv);
 
-      var series_list = [];
-      var series_data = [
-        { name: "", value: [0, 0, 10] },
-        { name: "", value: [1, 0, 20] },
-        { name: "", value: [2, 0, 30] },
-        { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 20] },
-        { name: "", value: [1, 1, 30] },
-        { name: "", value: [2, 1, 40] },
-        { name: "授信-贷后检查执行", value: [0, 2, 30] },
-        { name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理", value: [1, 2, 40] },
-        { name: "", value: [2, 2, 50] },
-      ];
+            var series_list = [];
+            var series_data = [
+                { name: "", value: [0, 0, 10] },
+                { name: "", value: [1, 0, 20] },
+                { name: "", value: [2, 0, 30] },
+                { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 20] },
+                { name: "", value: [1, 1, 30] },
+                { name: "", value: [2, 1, 40] },
+                { name: "授信-贷后检查执行", value: [0, 2, 30] },
+                { name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理", value: [1, 2, 40] },
+                { name: "", value: [2, 2, 50] },
+            ];
 
-     series_data.forEach(v=>{
-         var node={};
-         node.name=v.name;
-         node.type="heatmap",
-         node.data=[{value:v.value}];
-         node.label={
-              show: true,
-              formatter: "{a}",
+            series_data.forEach(v=>{
+                var node={};
+                node.name=v.name;
+                node.type="heatmap",
+                node.data=[{value:v.value}];
+                node.label={
+                    show: true,
+                    formatter: "{a}",
+                    };
+                series_list.push(node);
+            })
+            // console.log(series_list);
+            let option = {
+                tooltip: {
+                show: false,
+                },
+                animation: false,
+                grid: {
+                height: "100%",
+                left:0,top:0,
+                right:0,
+                },
+                xAxis: {
+                type: "category",
+                data: [0, 1, 2],
+                show: false,
+                },
+                yAxis: {
+                type: "category",
+                data: [0, 1, 2],
+                show: false,
+                },
+                visualMap: {
+                min: 0,
+                max: 100,
+                calculable: false,
+                orient: "horizontal",
+                inRange: {
+                    color: ["rgba(36,111,234,.1)", "rgba(36,111,234,.9)"],
+                },
+                show: false,
+                },
+                series: series_list,
             };
-         series_list.push(node);
-     })
-    console.log(series_list);
-      let option = {
-        tooltip: {
-          show: false,
+            this.dom1.setOption(option, true);
         },
-        animation: false,
-        grid: {
-          height: "100%",
-          left:0,top:0,
-          right:0,
-        },
-        xAxis: {
-          type: "category",
-          data: [0, 1, 2],
-          show: false,
-        },
-        yAxis: {
-          type: "category",
-          data: [0, 1, 2],
-          show: false,
-        },
-        visualMap: {
-          min: 0,
-          max: 100,
-          calculable: false,
-          orient: "horizontal",
-          inRange: {
-            color: ["rgba(36,111,234,.1)", "rgba(36,111,234,.9)"],
-          },
-          show: false,
-        },
-        series: series_list,
-      };
-      this.dom1.setOption(option, true);
-    },
         resize () {
         this.dom.resize()
         this.dom1.resize()
@@ -712,8 +711,9 @@ export default {
 </script>
 <style lang="scss">
 #index{
+    min-width:880Px;
     height: 100%;
-    padding: 70px;
+    padding: 50px 70px;
     width: 100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -721,8 +721,8 @@ export default {
         background: #F5F5F5;
         border-radius: 15px;
         position: absolute;
-        top:-40px;
-        left:30px;
+        top:-30px;
+        left:38px;
         padding: 20px 6px 20px 13px;
         z-index: 1;
         .title{
@@ -740,6 +740,36 @@ export default {
             line-height: 16px;
             margin-left: 15px;
         }
+    }
+    .rkpi_index_content_title1{
+        background: #F5F5F5;
+        border-radius: 15px;
+        position: absolute;
+        top:-30px;
+        left:38px;
+        padding: 20px 6px 20px 13px;
+        z-index: 1;
+        .title{
+            font-family: PingFangSC-Semibold;
+            font-size: 24px;
+            color: rgba(0,0,0,0.80);
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+        .title_mini{
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            color: rgba(0,0,0,0.40);
+            letter-spacing: 0;
+            line-height: 16px;
+            margin-left: 15px;
+        }
+    }
+    .width480{
+        width: 500px;
+    }
+    .width500{
+        width: 520px;
     }
     .tabs-content{ 
         height: 380px;
@@ -785,7 +815,7 @@ export default {
         box-shadow: 0 3px 5px 0 rgba(0,0,0,0.10);
         border-radius: 10px;
         position: relative;
-        margin-top:25px;
+        margin-top:30px;
         padding-top:50px;
         box-sizing: border-box;
         .rkpi_item{
@@ -859,21 +889,21 @@ export default {
         position: relative;
         .index_echartsline{
             position: absolute;
-            left: 40px;
-            top:140px;
+            left: 38px;
+            top:110px;
             width: 1px;
-            height: 530px;
+            height: 373px;
             background: #246FEA;
         }
         .index_echarts_height{
             position: absolute;
             left: 32px;
-            top:100px;
+            top:78px;
         }
         .index_echarts_icon1{
             position: absolute;
-            left: 31px;
-            top:118px;
+            left: 30px;
+            top:91px;
             background: #FFF;
             padding:10px 0px;
             color:#246FEA;
@@ -882,7 +912,7 @@ export default {
             position: absolute;
             left: 32px;
             width: 20px;
-            top:330px;
+            top:250px;
             background: #FFF;
             padding:10px 0px;
         }
@@ -892,31 +922,35 @@ export default {
             bottom:40px;
         }
         .index_echartsline2{
-            position: absolute;
-            left: 120px;
-            bottom:52px;
-            width: 1500px;
+            // position: absolute;
+            // left: 120px;
+            // bottom:52px;
+            width: 100%;
             height: 1px;
             background: #246FEA;
+            margin-top: 26px;
         }
         .index_echarts_rightheight{
             position: absolute;
-            right: 80px;
+            right: 68px;
             bottom:40px;
+            background: #fff;
+            padding-left:20px;
         }
         .index_echarts_rightmiddle{
             position: absolute;
             left: 800px;
             bottom:40px;
-            width: 100px;
+            // width: 100px;
             background: #FFF;
             padding:0px 10px;
         }
         .index_echarts_icon2{
             position: absolute;
-            right: 113px;
-            bottom:42px;
-             color:#246FEA;
+            right: 94px;
+            bottom:44px;
+            color:#246FEA;
+            //  background: #fff;
         }
     }
     .index_row:hover,.rkpi_index_content:hover{
@@ -942,10 +976,19 @@ export default {
             text-align: right;
         }
     }
-    .reports{
-        margin-top: 76px;
+    .reports2{
+        height:405px;
+        width: 100%;
+    }
+    .reports1{
         height: 612px;
-        margin:76px 50px; 
+        margin:60px 50px 76px 50px; 
+    }
+    .echartstwocontent{
+        height: 560px;
+    }
+    .echartscontent{
+        margin:60px 50px 0px 50px; 
     }
 }
 
