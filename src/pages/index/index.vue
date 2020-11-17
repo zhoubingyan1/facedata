@@ -697,7 +697,7 @@ export default {
             this.ishowtable1 = true
         },
         ishowsecondtable(){
-            console.log(1)
+            // console.log(1)
             this.ishowtable2 = true
         },
         ishowthreetable(){

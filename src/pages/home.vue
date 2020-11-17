@@ -382,7 +382,7 @@ export default {
     overflow: auto;
   }
   .ivu-menu-dark{
-    background: #fff;
+    background: #fff !important;
     padding: 10px 0 100px 20px;
   }
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu), .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu){
