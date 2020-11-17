@@ -71,7 +71,7 @@
         color: rgba(0,0,0,0.40);
         letter-spacing: 0;
         text-align: center;
-        line-height: 60px;
+        line-height: 70px;
         height:60px;
         position: relative;
         .tabs_right_top{

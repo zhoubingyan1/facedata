@@ -37,7 +37,7 @@
                   </div>
                   <div class="sildercircle"></div>
                 </MenuItem>
-                <!-- <MenuItem name="4-1">
+                <MenuItem name="4-1">
                   <span>场景4</span>
                   <div class="right_top">
                     <div class="border"></div>
@@ -56,7 +56,27 @@
                     <div class="border"></div>
                   </div>
                   <div class="sildercircle"></div>
-                </MenuItem> -->
+                </MenuItem>
+                <MenuItem name="6-1">
+                  <span>场景5</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="7-1">
+                  <span>场景5</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
             </Menu>
             <div>
               <Calendar
@@ -126,7 +146,7 @@ export default {
           ],
           wechatLogo:wechatLogo,
           routes: routers.routes,
-          username:'Natasha',
+          username:'Hi~Natasha',
           activeName: '1-1',
           openNames: ['1']
         }
@@ -207,7 +227,7 @@ export default {
 #home{
     height: 100%;
     .left_silder{
-      width: 220px !important;
+      width: 220Px !important;
       min-width: 220Px !important;
       max-width: 220Px !important;
       flex: 0 0 220Px !important;
@@ -248,6 +268,7 @@ export default {
 }
 .ivu-layout-header{
   padding: 0px !important;
+  height: 80px;
 }
 
 .container_head{
@@ -382,8 +403,8 @@ export default {
     overflow: auto;
   }
   .ivu-menu-dark{
-    background: #fff;
-    padding: 10px 0 100px 20px;
+    background: #fff !important;
+    padding: 0px 0 155px 20px;
   }
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu), .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu){
     
@@ -428,8 +449,8 @@ export default {
     }
     .sildercircle{
       position: absolute;
-      left: 40px;
-      top:30px;
+      left: 20px;
+      top:15px;
       background: #246FEA;
       width: 10px;
       height: 10px;
@@ -450,14 +471,16 @@ export default {
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-item{
     background: #fff !important;
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 16px !important;
     color: rgba(0,0,0,0.40);
     letter-spacing: 0;
     text-align: center;
     line-height: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     border-radius: 40px 0 0 40px !important;
     position: relative;
+    padding: 0px 20px !important;
+    height: 40px;
   }
   
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title{
