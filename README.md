@@ -1,4 +1,12 @@
-# pchtml
+####最小宽度1440的pc端自适应页面
+
+###运用到的模块
+
+
+- 几个表格之间画线指引 leader-line-vue
+    https://www.npmjs.com/package/leader-line-vue
+- 自适应  postcss-pxtorem
+    自适应页面 按照1980*1080 设计稿 
 
 > A Vue.js project
 
