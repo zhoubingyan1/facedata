@@ -83,17 +83,20 @@
                 </div>
                 <div class="echartscontent">
                     <div class="reports2" ref="charts_two"></div>
-                    <!-- <Icon class="index_echarts_icon1" type="md-arrow-dropup" />
-                    <div class="index_echartsline"></div>
-                    <div class="index_echarts_height">高</div>
+                    
+                    <div class="leftlinecontent">
+                        <div class="index_echarts_height">高<Icon class="index_echarts_icon1" type="md-arrow-dropup" /></div>
+                        <div class="index_echartsline"></div>
+                        <div class="index_echarts_bottom">低</div>
+                    </div>
                     <div class="index_echarts_leftmiddle">发生频率</div>
-                    <div class="index_echarts_bottom">低</div> -->
                 </div>
                 <div class="bottomlinecontent">
-                    <div class="index_echartsline2"></div>
-                    <div class="index_echarts_rightheight"><Icon class="index_echarts_icon2" type="md-arrow-dropright" />高</div>
+                    <div class="flexlineconent">
+                        <div class="index_echartsline2"></div>
+                        <div class="index_echarts_rightheight"><Icon class="index_echarts_icon2" type="md-arrow-dropright" />高</div>
+                    </div>
                     <div class="index_echarts_rightmiddle">影响程度</div>
-                    
                 </div>
             </Card>
         </Row>
@@ -888,40 +891,7 @@ export default {
         margin-top: 75px;
         border-radius: 10px;
         position: relative;
-        .index_echartsline{
-            position: absolute;
-            left: 39px;
-            top:110px;
-            width: 1px;
-            height: 373px;
-            background: #246FEA;
-        }
-        .index_echarts_bottom{
-            position: absolute;
-            left: 32px;
-            bottom:40px;
-        }
-        .index_echarts_height{
-            position: absolute;
-            left: 32px;
-            top:78px;
-        }
-        .index_echarts_icon1{
-            position: absolute;
-            left: 29px;
-            top:91px;
-            background: #FFF;
-            padding:10px 0px;
-            color:#246FEA;
-        }
-        .index_echarts_leftmiddle{
-            position: absolute;
-            left: 32px;
-            width: 20px;
-            top:250px;
-            background: #FFF;
-            padding:10px 0px;
-        }
+        
         
     }
     .index_row:hover,.rkpi_index_content:hover{
@@ -965,22 +935,22 @@ export default {
     .bottomlinecontent{
         position: relative;
         margin:35px 50px 0px 50px; 
-
+        .flexlineconent{
+            display: flex;
+            display: -webkit-flex; /* Safari */
+            align-items:center;
+            justify-content:center;
+        }
         .index_echartsline2{
-            // position: absolute;
-            // left: 120px;
-            // bottom:52px;
-            width: 100%;
+            width: calc(100% - 22Px);
             height: 1px;
             background: #246FEA;
             margin-top: 1px;
+            flex:1;
         }
         .index_echarts_rightheight{
-            position: absolute;
-            right: 0px;
-            bottom:-12px;
             background: #fff;
-            // padding-left:20px;
+            width:22Px;
         }
         .index_echarts_rightmiddle{
             position: absolute;
@@ -988,8 +958,7 @@ export default {
             transform: translate(-50%, -50%);
             -webkit-transform: translate(-50%, -50%);
             -moz-transform: translate(-50%, -50%);
-            bottom:-30px;
-            // width: 100px;
+            bottom:-14px;
             background: #FFF;
             padding:0px 10px;
         }
@@ -999,6 +968,54 @@ export default {
             //  background: #fff;
         }
     }
+    .leftlinecontent{
+        position: absolute;
+        left: -39px;
+        top:0px;
+        display: flex;
+        display: -webkit-flex; /* Safari */
+        align-items:center;
+        justify-content:center;
+        flex-direction:row-reverse ;
+        flex-wrap:wrap;
+        width: 15Px;
+        .index_echartsline{
+            width: 1px;
+            height:calc(318Px - 68Px);
+            background: #246FEA;
+        }
+        .index_echarts_bottom{
+            width: 15Px;
+            height:50Px;
+            text-align: center;
+            padding-top:30px;
+        }
+        .index_echarts_height{
+            width: 15Px;
+            height:18Px;
+            text-align: center;
+            z-index: 11;
+        }
+        .index_echarts_icon1{
+            background: #FFF;
+            // padding:10px 0px;
+            color:#246FEA;
+            margin-top:-30px;
+            height: 5px;
+        }
+        
+    }
+    .index_echarts_leftmiddle{
+            position: absolute;
+            left: -24px;
+            width: 20px;
+            top:50%;
+            background: #FFF;
+            padding:10px 0px;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+        }
 }
 
 </style>
