@@ -1,7 +1,7 @@
 <template>
     <div id="index">
-        <Row type="flex" justify="space-between">
-            <Col span="8" class="width480">
+        <Row :gutter="52">
+            <Col span="8">
                 <div class="rkpi_index_content height415">
                     <div class="rkpi_index_content_title">
                         <span class="title">RKPI综合得分</span>
@@ -19,7 +19,7 @@
                     
                 </div>
             </Col>
-            <Col span="8" class="width500">
+            <Col span="8">
                 <div class="rkpi_index_content height440" style="margin-top:0px; padding-top:0px;">
                     <div class="rkpi_index_card">
                         <Tabs class="tabs-animation" value="1">
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </Col>
-            <Col span="8" class="width480">
+            <Col span="8">
                  <div class="rkpi_index_content height415" >
                     <div class="rkpi_index_content_title">
                         <span class="title">RKPI和审核发现</span>
@@ -711,7 +711,7 @@ export default {
 </script>
 <style lang="scss">
 #index{
-    min-width:880Px;
+    min-width:1200Px;
     height: 100%;
     padding: 50px 70px;
     width: 100%;
@@ -764,12 +764,6 @@ export default {
             line-height: 16px;
             margin-left: 15px;
         }
-    }
-    .width480{
-        width: 500px;
-    }
-    .width500{
-        width: 520px;
     }
     .tabs-content{ 
         height: 380px;
