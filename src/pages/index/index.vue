@@ -83,17 +83,18 @@
                 </div>
                 <div class="echartscontent">
                     <div class="reports2" ref="charts_two"></div>
-                    <Icon class="index_echarts_icon1" type="md-arrow-dropup" />
+                    <!-- <Icon class="index_echarts_icon1" type="md-arrow-dropup" />
                     <div class="index_echartsline"></div>
                     <div class="index_echarts_height">高</div>
                     <div class="index_echarts_leftmiddle">发生频率</div>
-                    <div class="index_echarts_bottom">低</div>
-                    <div class="index_echartsline2"></div>
-                    <div class="index_echarts_rightheight">高</div>
-                    <div class="index_echarts_rightmiddle">影响程度</div>
-                    <Icon class="index_echarts_icon2" type="md-arrow-dropright" />
+                    <div class="index_echarts_bottom">低</div> -->
                 </div>
-                
+                <div class="bottomlinecontent">
+                    <div class="index_echartsline2"></div>
+                    <div class="index_echarts_rightheight"><Icon class="index_echarts_icon2" type="md-arrow-dropright" />高</div>
+                    <div class="index_echarts_rightmiddle">影响程度</div>
+                    
+                </div>
             </Card>
         </Row>
         <Row class="index_row">
@@ -889,11 +890,16 @@ export default {
         position: relative;
         .index_echartsline{
             position: absolute;
-            left: 38px;
+            left: 39px;
             top:110px;
             width: 1px;
             height: 373px;
             background: #246FEA;
+        }
+        .index_echarts_bottom{
+            position: absolute;
+            left: 32px;
+            bottom:40px;
         }
         .index_echarts_height{
             position: absolute;
@@ -902,7 +908,7 @@ export default {
         }
         .index_echarts_icon1{
             position: absolute;
-            left: 30px;
+            left: 29px;
             top:91px;
             background: #FFF;
             padding:10px 0px;
@@ -916,42 +922,7 @@ export default {
             background: #FFF;
             padding:10px 0px;
         }
-        .index_echarts_bottom{
-            position: absolute;
-            left: 32px;
-            bottom:40px;
-        }
-        .index_echartsline2{
-            // position: absolute;
-            // left: 120px;
-            // bottom:52px;
-            width: 100%;
-            height: 1px;
-            background: #246FEA;
-            margin-top: 26px;
-        }
-        .index_echarts_rightheight{
-            position: absolute;
-            right: 68px;
-            bottom:40px;
-            background: #fff;
-            padding-left:20px;
-        }
-        .index_echarts_rightmiddle{
-            position: absolute;
-            left: 800px;
-            bottom:40px;
-            // width: 100px;
-            background: #FFF;
-            padding:0px 10px;
-        }
-        .index_echarts_icon2{
-            position: absolute;
-            right: 94px;
-            bottom:44px;
-            color:#246FEA;
-            //  background: #fff;
-        }
+        
     }
     .index_row:hover,.rkpi_index_content:hover{
         background: #FFFFFF;
@@ -988,7 +959,45 @@ export default {
         height: 560px;
     }
     .echartscontent{
+        position: relative;
         margin:60px 50px 0px 50px; 
+    }
+    .bottomlinecontent{
+        position: relative;
+        margin:35px 50px 0px 50px; 
+
+        .index_echartsline2{
+            // position: absolute;
+            // left: 120px;
+            // bottom:52px;
+            width: 100%;
+            height: 1px;
+            background: #246FEA;
+            margin-top: 1px;
+        }
+        .index_echarts_rightheight{
+            position: absolute;
+            right: 0px;
+            bottom:-12px;
+            background: #fff;
+            // padding-left:20px;
+        }
+        .index_echarts_rightmiddle{
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            bottom:-30px;
+            // width: 100px;
+            background: #FFF;
+            padding:0px 10px;
+        }
+        .index_echarts_icon2{
+            color:#246FEA;
+            margin-left: -6px;
+            //  background: #fff;
+        }
     }
 }
 
