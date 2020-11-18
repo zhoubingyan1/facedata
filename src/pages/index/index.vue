@@ -631,15 +631,15 @@ export default {
 
             var series_list = [];
             var series_data = [
-                { name: "", value: [0, 0, 10] },
-                { name: "", value: [1, 0, 20] },
-                { name: "", value: [2, 0, 30] },
-                { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 20] },
-                { name: "", value: [1, 1, 30] },
-                { name: "", value: [2, 1, 40] },
-                { name: "授信-贷后检查执行", value: [0, 2, 30] },
-                { name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理", value: [1, 2, 40] },
-                { name: "", value: [2, 2, 50] },
+                { name: "", value: [0, 0, 5] },
+                { name: "", value: [1, 0, 10] },
+                { name: "", value: [2, 0, 15] },
+                { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 10] },
+                { name: "", value: [1, 1, 15] },
+                { name: "", value: [2, 1, 20] },
+                { name: "授信-贷后检查执行", value: [0, 2, 15] },
+                { name: "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理", value: [1, 2, 20]},
+                { name: "", value: [2, 2, 30] },
             ];
 
             series_data.forEach(v=>{
@@ -650,6 +650,12 @@ export default {
                 node.label={
                     show: true,
                     formatter: "{a}",
+                    lineHeight:15,
+                    fontSize:12,
+                    color:"#246FEA",
+                    align: 'left',
+                    offset:[-150,0],
+                    borderWidth:0
                     };
                 series_list.push(node);
             })
