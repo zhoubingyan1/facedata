@@ -306,6 +306,7 @@ export default {
             letter-spacing: 0;
             text-align: right;
             line-height: 60px;
+            margin-right: -10px;
             cursor: pointer; 
           }
           .loginbutton{

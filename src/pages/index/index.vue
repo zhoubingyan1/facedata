@@ -82,14 +82,16 @@
                     <span class="title_mini">Risk Heat Map</span>
                 </div>
                 <div class="echartscontent">
-                    <div class="reports2" ref="charts_two"></div>
-                    
-                    <div class="leftlinecontent">
-                        <div class="index_echarts_height">高<Icon class="index_echarts_icon1" type="md-arrow-dropup" /></div>
-                        <div class="index_echartsline"></div>
-                        <div class="index_echarts_bottom">低</div>
+                    <div style="position: relative;" class="leftecharts">
+                        <div class="leftlinecontent">
+                            <div>高</div>
+                            <div class="index_echarts_height"><Icon class="index_echarts_icon1" type="md-arrow-dropup" /></div>
+                            <div class="index_echartsline"></div>
+                            <div class="index_echarts_bottom">低</div>
+                        </div>
+                        <div class="index_echarts_leftmiddle">发生频率</div>
                     </div>
-                    <div class="index_echarts_leftmiddle">发生频率</div>
+                    <div class="reports2" ref="charts_two"></div>
                 </div>
                 <div class="bottomlinecontent">
                     <div class="flexlineconent">
@@ -917,6 +919,10 @@ export default {
             text-align: right;
         }
     }
+    .leftecharts{
+        width: 50px;
+        height:405px;
+    }
     .reports2{
         height:405px;
         width: 100%;
@@ -930,7 +936,8 @@ export default {
     }
     .echartscontent{
         position: relative;
-        margin:60px 50px 0px 50px; 
+        margin:60px 50px 0px 0px;
+        display: flex;
     }
     .bottomlinecontent{
         position: relative;
@@ -969,9 +976,6 @@ export default {
         }
     }
     .leftlinecontent{
-        position: absolute;
-        left: -39px;
-        top:0px;
         display: flex;
         display: -webkit-flex; /* Safari */
         align-items:center;
@@ -979,9 +983,10 @@ export default {
         flex-direction:row-reverse ;
         flex-wrap:wrap;
         width: 15Px;
+        height: 405px;
         .index_echartsline{
             width: 1px;
-            height:calc(318Px - 68Px);
+            height:387px;
             background: #246FEA;
         }
         .index_echarts_bottom{
@@ -992,29 +997,27 @@ export default {
         }
         .index_echarts_height{
             width: 15Px;
-            height:18Px;
+            height:5px;
             text-align: center;
             z-index: 11;
+            background: #fff;
         }
         .index_echarts_icon1{
             background: #FFF;
-            // padding:10px 0px;
             color:#246FEA;
-            margin-top:-30px;
             height: 5px;
+            line-height: 5px !important;
+            margin-top:-12px;
         }
         
     }
     .index_echarts_leftmiddle{
             position: absolute;
-            left: -24px;
+            left: 0px;
             width: 20px;
-            top:50%;
+            top:140px;
             background: #FFF;
             padding:10px 0px;
-            transform: translate(-50%, -50%);
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
         }
 }
 
