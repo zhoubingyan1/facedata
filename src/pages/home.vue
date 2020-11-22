@@ -428,7 +428,7 @@ export default {
     background: #F5F5F5 !important;
     border-radius: 40px 0 0 40px !important;
     color: var(--base) !important;
-    height: 40Px;
+    height: 40px;
     .right_top{
       width: 20px;
       height: 20px;
@@ -465,12 +465,12 @@ export default {
     }
     .sildercircle{
       position: absolute;
-      left: 20Px;
-      top:16Px;
+      left: 20px;
+      top:16px;
       background: #246FEA;
       width: 10px;
       height: 10px;
-      border-radius: 10Px;
+      border-radius: 10px;
     }
   }
  .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu){
@@ -491,12 +491,13 @@ export default {
     color: rgba(0,0,0,0.40) !important;
     letter-spacing: 0;
     text-align: center;
-    line-height: 40Px;
+    line-height: 40px;
     margin-bottom: 30px;
     border-radius: 40px 0 0 40px !important;
     position: relative;
     padding: 0px 20px !important;
-    height: 40Px;
+    height: 40px;
+
   }
   
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title{
