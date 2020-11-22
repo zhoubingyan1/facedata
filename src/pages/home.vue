@@ -488,7 +488,7 @@ export default {
     background: #fff !important;
     font-family: PingFangSC-Regular;
     font-size: 16px !important;
-    color: rgba(0,0,0,0.40);
+    color: rgba(0,0,0,0.40) !important;
     letter-spacing: 0;
     text-align: center;
     line-height: 40Px;
