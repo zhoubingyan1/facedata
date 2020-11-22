@@ -245,6 +245,21 @@ export default {
         box-shadow: 0 0 0 0 rgba(0,0,0,0.20);
       }
     }
+    .left_silder::-webkit-scrollbar {
+        width: 4px;    
+        /*height: 4px;*/
+    }
+    .left_silder::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        // background: rgba(0,0,0,0.2);
+    }
+    .left_silder::-webkit-scrollbar-track {
+        // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        // border-radius: 0;
+        // background: rgba(0,0,0,0.1);
+
+    }
     .ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title{
       background: #272b2f;
       /*color: var(--base);*/
@@ -413,6 +428,7 @@ export default {
     background: #F5F5F5 !important;
     border-radius: 40px 0 0 40px !important;
     color: var(--base) !important;
+    height: 40Px;
     .right_top{
       width: 20px;
       height: 20px;
@@ -449,12 +465,12 @@ export default {
     }
     .sildercircle{
       position: absolute;
-      left: 20px;
-      top:15px;
+      left: 20Px;
+      top:16Px;
       background: #246FEA;
       width: 10px;
       height: 10px;
-      border-radius: 50%;
+      border-radius: 10Px;
     }
   }
  .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu){
@@ -475,12 +491,12 @@ export default {
     color: rgba(0,0,0,0.40);
     letter-spacing: 0;
     text-align: center;
-    line-height: 40px;
+    line-height: 40Px;
     margin-bottom: 30px;
     border-radius: 40px 0 0 40px !important;
     position: relative;
     padding: 0px 20px !important;
-    height: 40px;
+    height: 40Px;
   }
   
   .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title{
@@ -539,6 +555,21 @@ export default {
   }
 .minindex_left_content{
   min-width:880Px;
+}
+.minindex_left_content::-webkit-scrollbar {
+    width: 6px;    
+    /*height: 4px;*/
+}
+.minindex_left_content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    // background: rgba(0,0,0,0.2);
+}
+.minindex_left_content::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    // border-radius: 0;
+    // background: rgba(0,0,0,0.1);
+
 }
 </style>
 

@@ -922,22 +922,27 @@ export default {
     .leftecharts{
         width: 50px;
         height:405px;
+        min-height: 405Px;
     }
     .reports2{
         height:405px;
         width: 100%;
+        min-height:405Px;
     }
     .reports1{
         height: 612px;
         margin:60px 50px 76px 50px; 
+        min-height:612Px;
     }
     .echartstwocontent{
         height: 560px;
+        min-height: 520Px;
     }
     .echartscontent{
         position: relative;
         margin:60px 50px 0px 0px;
         display: flex;
+        min-height: 400Px;
     }
     .bottomlinecontent{
         position: relative;
@@ -983,10 +988,11 @@ export default {
         flex-direction:row-reverse ;
         flex-wrap:wrap;
         width: 15Px;
-        height: 405px;
+        height: 465px;
+        min-height: 465Px;
         .index_echartsline{
             width: 1px;
-            height:387px;
+            height:387Px;
             background: #246FEA;
         }
         .index_echarts_bottom{
@@ -1015,7 +1021,7 @@ export default {
             position: absolute;
             left: 0px;
             width: 20px;
-            top:140px;
+            top:140Px;
             background: #FFF;
             padding:10px 0px;
         }
