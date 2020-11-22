@@ -549,7 +549,7 @@ export default {
                     type: 'category',
                     axisLine: {
                         lineStyle: {
-                            color: '#92BBFF'
+                            color: '#CDCDCD'
                         }
                     },
 
@@ -564,7 +564,7 @@ export default {
                     },
                     axisLine: {
                         lineStyle: {
-                            color: '#92BBFF'
+                            color: '#CDCDCD'
                         }
                     },
                     axisLabel: {
@@ -575,7 +575,7 @@ export default {
                 // series:seriesdata
                 series: [
                   {
-                    name:'文章海报',
+                    name:'',
                     type:'line',
                     showSymbol: false,
                     // type: 'bar',
@@ -584,7 +584,7 @@ export default {
                         color:'#92BBFF'
                     },
                     areaStyle: {
-                        color: '#F5F5F5'
+                        color: 'rgba(255,255,255,0)'
                     },
                     stack: '总量',
                     markLine: {
@@ -601,7 +601,7 @@ export default {
                     }
                   },
                   {
-                    name:'视频海报',
+                    name:'',
                     type:'line',
                     
                     data:[2210, 1821, 1911, 2134, 2190, 3310, 3110],
@@ -956,7 +956,7 @@ export default {
         .index_echartsline2{
             width: calc(100% - 22Px);
             height: 1px;
-            background: #246FEA;
+            background: #CDCDCD;
             margin-top: 1px;
             flex:1;
         }
@@ -975,7 +975,7 @@ export default {
             padding:0px 10px;
         }
         .index_echarts_icon2{
-            color:#246FEA;
+            color:#CDCDCD;
             margin-left: -6px;
             //  background: #fff;
         }
@@ -993,7 +993,7 @@ export default {
         .index_echartsline{
             width: 1px;
             height:387Px;
-            background: #246FEA;
+            background: #CDCDCD;
         }
         .index_echarts_bottom{
             width: 15Px;
@@ -1010,7 +1010,7 @@ export default {
         }
         .index_echarts_icon1{
             background: #FFF;
-            color:#246FEA;
+            color:#CDCDCD;
             height: 5px;
             line-height: 5px !important;
             margin-top:-12px;
