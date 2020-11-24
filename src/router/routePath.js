@@ -11,6 +11,7 @@ export default {
     },
     login: () => import('@/pages/login/login'),
     Systemicselection: () => import('@/pages/systemicselection/systemicselection'),
+    Forgetpassword: () => import('@/pages/forgetpassword/forgetpassword'),
     home: () => import('@/pages/home'),
     //首页
     index: () => import('@/pages/index/index'),

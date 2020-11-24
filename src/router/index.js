@@ -12,6 +12,11 @@ export default new Router({
       component: path.login
     },
     {
+      path: '/forgetpassword',
+      name: 'forgetpassword',
+      component: path.Forgetpassword
+    },
+    {
       path: '/systemicselection',
       name: 'systemicselection',
       component: path.Systemicselection

@@ -91,7 +91,21 @@
                         </div>
                         <div class="index_echarts_leftmiddle">发生频率</div>
                     </div>
-                    <div class="reports2" ref="charts_two"></div>
+                    <div class="reports2">
+                        <Row type="flex" justify="center" align="middle">
+                            
+                            <Col span="8" class="bg1"><div class="middlecontent">授信-贷后检查执行</div></Col>
+                            <Col span="8" class="bg2"><div class="middlecontent">授信-审批条件的落实，分类准确性、全面性，不良贷款管理<br/>运营-营业场所安全管理<br/>新兴-同业八项规定执行；交易员行为管理<br/>科技-信息科技治理，信息科技风险管理</div></Col>
+                            <Col span="8" class="bg3"><div></div></Col>
+                            <Col span="8" class="bg4"><div class="middlecontent">运营-会计业务管理<br/>科技-业务连续性管理</div></Col>
+                            <Col span="8" class="bg5"><div class="middlecontent"></div></Col>
+                            <Col span="8" class="bg6"><div class="middlecontent"></div></Col>
+                            <Col span="8" class="bg7"><div class="middlecontent"></div></Col>
+                            <Col span="8" class="bg8"><div class="middlecontent"></div></Col>
+                            <Col span="8" class="bg9"><div class="middlecontent"></div></Col>
+                        </Row>
+                    </div>
+                    <!-- <div class="reports2" ref="charts_two"></div> -->
                 </div>
                 <div class="bottomlinecontent">
                     <div class="flexlineconent">
@@ -462,7 +476,7 @@ export default {
     },
     mounted(){
         this.$nextTick(()=>{ 
-            this.drawTwo(this.legenddata,this.xAxisdata,this.seriesdata)
+            // this.drawTwo(this.legenddata,this.xAxisdata,this.seriesdata)
             this.drawOne()
             on(window, 'resize', this.resize)
         })
@@ -928,6 +942,61 @@ export default {
         height:405px;
         width: 100%;
         min-height:405Px;
+        .bg1{
+            text-align: center;
+            background: rgba(255,219,152,1);
+            height: 135Px;
+            align-self:center;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bg2{
+            text-align: center;
+            background: rgba(255,202,156,1);
+            height: 135Px;
+            align-self:center;
+        }
+        .bg3{
+            text-align: center;
+            background: rgba(255,178,153,1);
+            height: 135Px;
+            align-self:center;
+        }
+        .bg4{
+            text-align: center;
+            background: rgba(255,236,154,1);
+            height: 135Px;
+        }
+        .bg5{
+            text-align: center;
+            background: rgba(255,219,152,1);
+            height: 135Px;
+        }
+        .bg6{
+            text-align: center;
+            background: rgba(254,201,152,1);
+            height: 135Px;
+        }
+        .bg7{
+            text-align: center;
+            background: rgba(255,246,176,1);
+            height: 135Px;
+        }
+        .bg8{
+            text-align: center;
+            background: rgba(255,236,154,1);
+            height: 135Px;
+        }
+        .bg9{
+            text-align: center;
+            background: rgba(255,219,152,1);
+            height: 135Px;
+        }
+        .middlecontent{
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
     }
     .reports1{
         height: 612px;
