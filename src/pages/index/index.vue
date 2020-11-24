@@ -946,51 +946,82 @@ export default {
             text-align: center;
             background: rgba(255,219,152,1);
             height: 135Px;
-            align-self:center;
-            display: inline-block;
-            vertical-align: middle;
+            cursor: pointer;
+        }
+        .bg1:hover{
+            background: rgba(255,219,152,0.8);
         }
         .bg2{
             text-align: center;
             background: rgba(255,202,156,1);
             height: 135Px;
-            align-self:center;
+            cursor: pointer;
+        }
+        .bg2:hover{
+            background: rgba(255,202,156,0.8);
         }
         .bg3{
             text-align: center;
             background: rgba(255,178,153,1);
             height: 135Px;
-            align-self:center;
+            cursor: pointer;
+        }
+        .bg3:hover{
+            background: rgba(255,178,153,0.8);
         }
         .bg4{
             text-align: center;
             background: rgba(255,236,154,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg4:hover{
+            background: rgba(255,236,154,0.8);
         }
         .bg5{
             text-align: center;
             background: rgba(255,219,152,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg5:hover{
+            background: rgba(255,219,152,0.8);
         }
         .bg6{
             text-align: center;
             background: rgba(254,201,152,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg6:hover{
+            background: rgba(254,201,152,0.8);
         }
         .bg7{
             text-align: center;
             background: rgba(255,246,176,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg7:hover{
+            background: rgba(255,246,176,0.8);
         }
         .bg8{
             text-align: center;
             background: rgba(255,236,154,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg8:hover{
+            background: rgba(255,236,154,0.8);
         }
         .bg9{
             text-align: center;
             background: rgba(255,219,152,1);
             height: 135Px;
+            cursor: pointer;
+        }
+        .bg9:hover{
+            background: rgba(255,219,152,0.8);
         }
         .middlecontent{
             position: relative;
