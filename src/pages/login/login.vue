@@ -52,7 +52,9 @@
         </div>
         <div style="text-align:center">
           <Row class="margintop">
-            <Col span="8" class="forgetpassword">忘记密码?</Col>
+            <Col span="8" class="forgetpassword">
+              <div @click="ForgetPassword()">忘记密码?</div>
+            </Col>
             <Col span="6" offset="2">
               <div class="logintext" @click="handleSubmit()">登录</div>
             </Col>
@@ -67,15 +69,15 @@
     </div>
     <div class="logincheckbox">
       <Checkbox v-model="single"></Checkbox>
-      <span class="logincheckboxtext">我同意并遵守相关法律协议</span>
+      <span class="logincheckboxtext" @click="single=!single">我同意并遵守相关法律协议</span>
     </div>
     <div class="loginbottom">FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.</div>
     <!-- 密码错误 -->
     <Modal v-model="forgetPW_modal" class-name="vertical-center-modal">
       <div class="forgetpw_modal">
         <img class="forgetpw_modal_tips" src="../../assets/images/wrong@3x.png" alt />
-        <div class="forget_tips_text">密码错误</div>
-        <div class="forget_tips_text">请联系管理员！</div>
+
+        <div class="forget_tips_text" v-for="(node,index) in err_list" :key="index">{{node}}</div>
       </div>
     </Modal>
   </div>
@@ -92,6 +94,7 @@ export default {
       single: false,
       isshowcloseicon: false,
       hasPW: false,
+      err_list: [],
     };
   },
   created() {
@@ -170,13 +173,16 @@ export default {
     },
     handleSubmit() {
       var that = this;
-      // if (this.password === "" && this.username === "") {
-      //    this.$Modal.error({
-      //      title: "提示",
-      //      content: "账号或者密码不为空",
-      //    });
-      //   return;
-      // }
+      if (this.password === "" || this.username === "") {
+        that.err_list = ["账号或密码为空"];
+        that.forgetPW_modal = true;
+        return;
+      }
+      if (that.single === false) {
+        that.err_list = ["请阅读并同意协议"];
+        that.forgetPW_modal = true;
+        return;
+      }
       var query = {
         action: "Service",
         method: "login",
@@ -191,14 +197,21 @@ export default {
             this.$router.push("/systemicselection");
             return;
           } else {
-            this.forgetPW_modal = true;
+            that.err_list = ["账号或密码错误", "请联系管理员"];
+            that.forgetPW_modal = true;
             return;
           }
         },
         (error) => {
-          this.forgetPW_modal = true;
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.forgetPW_modal = true;
         }
       );
+    },
+    ForgetPassword() {
+      this.err_list = ["请联系管理员"];
+      this.forgetPW_modal = true;
+      return;
     },
   },
 };
