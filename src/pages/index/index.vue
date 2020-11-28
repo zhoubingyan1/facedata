@@ -791,6 +791,90 @@ export default {
             margin-left: 15px;
         }
     }
+    #tabs{
+        .tabs-nav{
+            width:100%;
+            //    border-bottom: 1px solid #ddd;
+            display: flex;
+            background: #E8E8E8;
+                border-radius: 10px 10px 0 0;
+            .tabs-tab{ 
+                flex:1; 
+                display: inline-block; vertical-align: middle; padding: 0 20px; cursor: pointer;
+                font-family: PingFangSC-Semibold;
+                font-size: 22px;
+                
+                color: rgba(0,0,0,0.40);
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 70px;
+                height:60px;
+                position: relative;
+                .tabs_right_top{
+                    width: 10px;
+                    height: 10px;
+                    // background: #F5F5F5;
+                    background: #fff;
+                    position: absolute;
+                    bottom:0px;
+                    right: -10px;
+                    // border-radius: 0px 0 20px 0 !important;
+                    .tabs_border{
+                        width: 10px;
+                        height: 10px;
+                        // background: #fff;
+                        background: #E8E8E8;
+                        border-radius: 0px 0 0 10px !important;
+                    }
+                }
+                .middle_line{
+                    position: absolute;
+                    top:26px;
+                    left: 0;
+                    width: 1px;
+                    height: 14px;
+                    background: rgba(0,0,0,0.20);
+                }
+                .middle_line1{
+                    position: absolute;
+                    top:26px;
+                    right: -1px;
+                    width: 1px;
+                    height: 14px;
+                    background: #e8e8e8;
+                    z-index: 111;
+                }
+            &.active{ 
+                color: #2d8cf0;
+                background:#fff;
+                border-radius: 0px 10px 0 0px ;
+                color: #246FEA !important;
+                }
+            .tip{ width: 20px; height: 20px; border-radius: 50%; background: #f00; text-align: center; line-height: 20px; display: inline-block; color: #fff; font-size: 12px; position: relative; top: -15px; }
+            &.disabled{color: #999;cursor: not-allowed}
+            }
+            .tabs-tab:first-child{
+                .middle_line{
+                    position: absolute;
+                    top:26px;
+                    left: 0;
+                    width: 0px !important;
+                    height: 14px;
+                    background: rgba(0,0,0,0.20);
+                }
+            }
+        }
+        .tabs-content{
+            .tab-pane{ display: none;
+            &.active{ display: block; }
+            }
+        }
+        .clearfix{
+            &:after{
+                clear: both;
+            }
+        }
+    }
     .tabs-content{ 
         height: 380px;
         overflow: hidden;
@@ -1118,13 +1202,89 @@ export default {
         
     }
     .index_echarts_leftmiddle{
-            position: absolute;
-            left: 0px;
-            width: 20px;
-            top:140Px;
-            background: #FFF;
-            padding:10px 0px;
+        position: absolute;
+        left: 0px;
+        width: 20px;
+        top:140Px;
+        background: #FFF;
+        padding:10px 0px;
+    }
+
+    //表格
+    .facedata-table.ivu-table-wrapper {
+        margin: 0 auto;
+        border: none;
+        box-shadow: 0px 0px 1px 0px #ece6e6;
+        transition: all .2s linear;
+        &:hover{
+            box-shadow: 0px 2px 10px 2px #ece6e6;
         }
+        .ivu-table {
+            &:before,
+            &:after {
+            background-color: transparent;
+            }
+        }
+        .ivu-table-tbody {
+            color: var(--font);
+        }
+        tr:nth-child(2n) td{
+            background-color: #fff;
+        }
+        tr:nth-child(2n+1) td{
+            background-color: rgba(36, 111, 234, .05);
+        }
+        th {
+            background-color: #fff;
+        }
+        th,
+        td {
+            border: none;
+            font-size: 14px;
+        }
+        .ivu-table-body tr.ivu-table-row-hover{
+            box-shadow: 0px 0px 1px 0px #ece6e6;
+        }
+        .ivu-table-body tr.ivu-table-row-hover td,
+        .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td,
+        tr.ivu-table-row-hover td {
+            background-color: rgba(36, 111, 234, .1);
+        }
+        //表格内的切换按钮
+        .ivu-switch {
+            width: 44px;
+        }
+        .ivu-switch:focus {
+            box-shadow: none;
+        }
+        .ivu-switch-checked {
+            border-color: var(--base);
+            background-color: var(--base);
+            &:after {
+            background: var(--zhijianswitch);
+            }
+        }
+        //表格内iconfont
+        .iconfont {
+            cursor: pointer;
+            font-size: 24px;
+            vertical-align: middle;
+            color: var(--icon);
+            transition: color .3s;
+            &.icon-edit {
+            margin: 0 20px;
+            &:hover {
+                color: var(--font);
+            }
+            }
+            &.icon-delete {
+            font-size: 20px;
+            &:hover {
+                color: var(--font);
+            }
+            }
+        }
+    }
 }
 
 </style>

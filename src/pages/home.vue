@@ -192,6 +192,9 @@ export default {
           case "2-1":
             this.$router.push({ name:'manage'})
             break
+          case "3-1":
+            this.$router.push({ name:'datatreating'})
+            break  
           default:
         }
       },

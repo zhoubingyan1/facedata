@@ -63,60 +63,6 @@ html {
     border-color: var(--base);
     box-shadow: none; }
 
-.facedata-table.ivu-table-wrapper {
-  margin: 0 auto;
-  border: none;
-  box-shadow: 0px 0px 1px 0px #ece6e6;
-  transition: all .2s linear; }
-  .facedata-table.ivu-table-wrapper:hover {
-    box-shadow: 0px 2px 10px 2px #ece6e6; }
-  .facedata-table.ivu-table-wrapper .ivu-table:before, .facedata-table.ivu-table-wrapper .ivu-table:after {
-    background-color: transparent; }
-  .facedata-table.ivu-table-wrapper .ivu-table-tbody {
-    color: var(--font); }
-  .facedata-table.ivu-table-wrapper tr:nth-child(2n) td {
-    background-color: #fff; }
-  .facedata-table.ivu-table-wrapper tr:nth-child(2n+1) td {
-    background-color: rgba(36, 111, 234, .05);
-    }
-  .facedata-table.ivu-table-wrapper th {
-    background-color: #fff; }
-  .facedata-table.ivu-table-wrapper th,
-  .facedata-table.ivu-table-wrapper td {
-    border: none;
-    font-size: 14px; }
-     .ivu-table-body tr.ivu-table-row-hover {
-       box-shadow: 0px 0px 1px 0px #ece6e6;
-     }
-  .facedata-table.ivu-table-wrapper .ivu-table-body tr.ivu-table-row-hover td,
-  .facedata-table.ivu-table-wrapper .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td,
-  .facedata-table.ivu-table-wrapper tr.ivu-table-row-hover td {
-    background-color: rgba(36, 111, 234, .1);
-    }
-  .facedata-table.ivu-table-wrapper .ivu-switch {
-    width: 44px; }
-  .facedata-table.ivu-table-wrapper .ivu-switch:focus {
-    box-shadow: none; }
-  .facedata-table.ivu-table-wrapper .ivu-switch-checked {
-    border-color: var(--base);
-    background-color: var(--base); }
-    .facedata-table.ivu-table-wrapper .ivu-switch-checked:after {
-      background: var(--zhijianswitch); }
-  .facedata-table.ivu-table-wrapper .iconfont {
-    cursor: pointer;
-    font-size: 24px;
-    vertical-align: middle;
-    color: var(--icon);
-    transition: color .3s; }
-    .facedata-table.ivu-table-wrapper .iconfont.icon-edit {
-      margin: 0 20px; }
-      .facedata-table.ivu-table-wrapper .iconfont.icon-edit:hover {
-        color: var(--font); }
-    .facedata-table.ivu-table-wrapper .iconfont.icon-delete {
-      font-size: 20px; }
-      .facedata-table.ivu-table-wrapper .iconfont.icon-delete:hover {
-        color: var(--font); }
-
 .ivu-modal-header {
   display: none; }
 

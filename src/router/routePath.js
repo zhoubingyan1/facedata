@@ -7,12 +7,17 @@ export default {
         'manage': {
           id: '2-1',
           parent: ['2']
+        },
+        'datatreating': {
+          id: '3-1',
+          parent: ['3']
         }
     },
     login: () => import('@/pages/login/login'),
     Systemicselection: () => import('@/pages/systemicselection/systemicselection'),
     Forgetpassword: () => import('@/pages/forgetpassword/forgetpassword'),
     home: () => import('@/pages/home'),
+    Datatreating: () => import('@/pages/views/datatreating'),
     //首页
     index: () => import('@/pages/index/index'),
     Manage: () => import('@/pages/index/manage')
