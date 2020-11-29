@@ -15,15 +15,15 @@
                     <div class="datatreating_firstitem_right">
                         <div class="datatreating_fr_content">
                             <div class="lf">
-                                <div class="header_iconconent" @click="choseleadingin">
+                                <div class="header_iconconent cursorpointer" @click="choseleadingin">
                                     <img class="icon" src="../../assets/images/leadingin.png" />
                                     <span class="span">导入</span>
                                 </div>
-                                <div class="header_iconconent">
+                                <div class="header_iconconent cursorpointer">
                                     <img class="icon" src="../../assets/images/createdata.png" />
                                     <span class="span">生成数据</span>
                                 </div>
-                                <div class="header_iconconent" @click="downloaddata">
+                                <div class="header_iconconent cursorpointer" @click="downloaddata">
                                     <img class="icon" src="../../assets/images/download.png" />
                                     <span class="span">下载数据</span>
                                 </div>
@@ -627,7 +627,11 @@ export default {
                     justify-content: flex-start;
                     align-items:center;
                 }
+                .cursorpointer{
+                    cursor: pointer;
+                }
                 .header_iconconent{
+                    cursor: pointer;
                     display: flex;
                     justify-content:center;
                     align-items:center;
