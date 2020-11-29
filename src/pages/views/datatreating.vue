@@ -3,45 +3,53 @@
         <Tabs class="tabs-animation" value="1" :showClose="true" v-on:closeiconClick="closeicon">
             <TabPane :name="item.name" v-for="(item,index) in TabList" :key="index" :label="item.label">
                 <div v-if="index==0" class="datatreating_firstitem">
-                    <div class="datatreating_firstitem_left">
-                        <div v-for="(tagtree,index) in leftTreeList" :key="index">
-                            <div class="left_name">{{tagtree.name}}</div>
-                            <div class="left_tree">
-                                <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                    <Row>
+                        <Col span="6">
+                            <div class="datatreating_firstitem_left">
+                                <div v-for="(tagtree,index) in leftTreeList" :key="index">
+                                    <div class="left_name">{{tagtree.name}}</div>
+                                    <div class="left_tree">
+                                        <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                                    </div>
+                                </div>
+                                
                             </div>
-                        </div>
-                        
-                    </div>
-                    <div class="datatreating_firstitem_right">
-                        <div class="datatreating_fr_content">
-                            <div class="lf">
-                                <div class="header_iconconent cursorpointer" @click="choseleadingin">
-                                    <img class="icon" src="../../assets/images/leadingin.png" />
-                                    <span class="span">导入</span>
+                        </Col>
+                        <Col span="18">
+                           <div class="datatreating_firstitem_right">
+                                <div class="datatreating_fr_content">
+                                    <div class="lf">
+                                        <div class="header_iconconent cursorpointer" @click="choseleadingin">
+                                            <img class="icon" src="../../assets/images/leadingin.png" />
+                                            <span class="span">导入</span>
+                                        </div>
+                                        <div class="header_iconconent cursorpointer">
+                                            <img class="icon" src="../../assets/images/createdata.png" />
+                                            <span class="span">生成数据</span>
+                                        </div>
+                                        <div class="header_iconconent cursorpointer" @click="downloaddata">
+                                            <img class="icon" src="../../assets/images/download.png" />
+                                            <span class="span">下载数据</span>
+                                        </div>
+                                    </div>
+                                    <div class="rg">
+                                        <div class="header_iconconent marginright0">
+                                            <img class="icon" src="../../assets/images/search@2x.png" />
+                                            <input placeholder="关键字搜索" class="datasearch_input">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="header_iconconent cursorpointer">
-                                    <img class="icon" src="../../assets/images/createdata.png" />
-                                    <span class="span">生成数据</span>
+                                <div class="datatreating_fr_table">
+                                    <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
                                 </div>
-                                <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                    <img class="icon" src="../../assets/images/download.png" />
-                                    <span class="span">下载数据</span>
+                                <div class="datatreating_fr_page">
+                                    <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
                                 </div>
                             </div>
-                            <div class="rg">
-                                <div class="header_iconconent">
-                                    <img class="icon" src="../../assets/images/search@2x.png" />
-                                    <input placeholder="关键字搜索" class="datasearch_input">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="datatreating_fr_table">
-                            <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
-                        </div>
-                        <div class="datatreating_fr_page">
-                            <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
-                        </div>
-                    </div>
+                        </Col>
+                    </Row>
+                    
+                    
                 </div>
                 <div v-else>
                     <div class="datatreating_fr_table">
@@ -62,14 +70,14 @@
             <div class="datamodal_content">
                 <div class="datamodal_item">
                     <div class="datamodal_item-title">选择表:</div>
-                    <div>
+                    <div class="datamodal_item_flex">
                         <div class="choose_biao"><div>{{choosename}}</div><img class="icon" src="../../assets/images/add@2x.png" /></div>
                         <input type="file" id="editorupload" accept="image/gif, image/jpeg, image/png, image/jpg" style="width:100px;height:32px;position:absolute;left:0;top:0;opacity:0;" @change="UploadMore"/>
                     </div>
                 </div>
                 <div class="datamodal_item">
                     <div class="datamodal_item-title">描述:</div>
-                    <div>
+                    <div class="datamodal_item_flex">
                         <textarea v-model="leadingindescribe" class="textarea-control" placeholder="非必填"></textarea>
                     </div>
                 </div>
@@ -119,34 +127,22 @@
             <div class="datamodal_content">
                 <div class="datamodal_item">
                     <div class="datamodal_item-title">模板类型:</div>
-                    <div class="downloadtemplate_content">
-                        <Dropdown>
-                            <a href="javascript:void(0)" class="downloadtemplate">
-                                北京小吃
-                                <Icon type="md-arrow-dropdown" />
-                            </a>
-                            <DropdownMenu slot="list">
-                                <DropdownItem>驴打滚</DropdownItem>
-                                <DropdownItem>炸酱面</DropdownItem>
-                                <DropdownItem>豆汁儿</DropdownItem>
-                                <Dropdown placement="right-start">
-                                    <DropdownItem>
-                                        北京烤鸭
-                                        <Icon type="ios-arrow-forward"></Icon>
-                                    </DropdownItem>
-                                    <DropdownMenu slot="list">
-                                        <DropdownItem>挂炉烤鸭</DropdownItem>
-                                        <DropdownItem>焖炉烤鸭</DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
-                                <DropdownItem>冰糖葫芦</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <div class="datamodal_item_flex">
+                        <Select v-model="model8" clearable class="downloadtemplate_content">
+                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <!-- <div class="select-head">
+                            <span class="select-head-cont">{{cont}}</span>
+                            <span class="select-icon">▼</span>
+                        </div>
+                        <ul class="option">
+                            <li class="option-item" v-for="item in cityList" @click="optionClick(v-1)">「「</li>
+                        </ul> -->
                     </div>
                 </div>
                 <div class="datamodal_item">
                     <div class="datamodal_item-title">模板名称:</div>
-                    <div>
+                    <div class="datamodal_item_flex">
                         <textarea v-model="templatename" class="textarea-control" placeholder="非必填"></textarea>
                     </div>
                 </div>
@@ -181,6 +177,7 @@ export default {
 
             downloadTemplate_modal:false,//下载模版弹窗
             templatename:'2020914KPI2101', //模版名称
+            model8:'',
             
             systemtips_modal:false,//系统提示弹窗
 
@@ -441,6 +438,10 @@ export default {
                     name1:'0.2033'
                 }]
             },
+            cityList:[{
+                label:'123',
+                value:'111'
+            }]
         }
     },
     created(){
@@ -597,7 +598,7 @@ export default {
         }
     }
     .datatreating_firstitem{
-        display: flex;
+       
         .datatreating_firstitem_left{
             width: 380px;
             .left_name{
@@ -661,6 +662,9 @@ export default {
                         outline: none;
                         margin-left: 10px;
                     }
+                }
+                .marginright0{
+                    margin-right: 0px !important;
                 }
             }
         }
@@ -765,6 +769,7 @@ export default {
     }
 }
 .ivu-modal {
+    min-width: 600Px;
     width: 600px !important;
     height: 334px;
     top:300px;
@@ -808,9 +813,27 @@ export default {
                     line-height: 44px;
                     width:90px;
                 }
+                .datamodal_item_flex{
+                    flex: 1;
+                    background: rgba(0,0,0,0.05);
+                    border-radius: 10px;
+                    .ivu-select-selection{
+                        width: 100%;
+                        border:none !important;
+                        background: none !important;
+                        -webkit-box-shadow: none; 
+                        box-shadow: none; 
+                        margin:0 -10px;
+                    }
+                    .ivu-select-placeholder{
+                        width: 100%;
+                    }
+                }
                 .textarea-control{
-                    flex:1;
-                    width:410px;
+                    // flex:1;
+                    // width:410px;
+                    // min-width: 410Px;
+                    width: 100%;
                     height: 80px; 
                     height: 164px; 
                     overflow: hidden;
@@ -819,7 +842,7 @@ export default {
                     line-height: 22px;
                     border: none;
                     display: inline-block;
-                    background: rgba(0,0,0,0.05);
+                    background: none;
                     border-radius: 10px;
                     font-size: 14px;
                     -webkit-box-sizing: border-box;
@@ -829,8 +852,9 @@ export default {
                     outline: none;
                 }
                 .choose_biao{
-                    width: 410px;
-                    background: rgba(0,0,0,0.05);
+                    // width: 410px;
+                    // min-width: 410Px;
+                    // background: rgba(0,0,0,0.05);
                     border-radius: 10px;
                     height: 44px;
                     display: flex;
@@ -846,7 +870,9 @@ export default {
                     }
                 }
                 .downloadtemplate_content{
-                    width: 410px;
+                    // width: 410px;
+                    // min-width: 410Px;
+                    width:100%;
                     background: rgba(0,0,0,0.05);
                     border-radius: 10px;
                     height: 44px;
@@ -855,12 +881,15 @@ export default {
                     align-items:center;
                     padding:0px 10px;
                     box-sizing: border-box;
+                    border:none;
                 }
                 .downloadtemplate{
-                    display: flex;
-                    width: 390px;
-                    justify-content: space-between;
-                    align-items:center;
+                    // display: flex;
+                    // width: 390px;
+                    // min-width: 390Px;
+                    width:100%;
+                    // justify-content: space-between;
+                    // align-items:center;
                     color: rgba(0,0,0,0.80);
                 }
                 .ivu-select-dropdown{
@@ -880,7 +909,9 @@ export default {
             }
             .datamodal_item_textarea{
                 margin-top:20px;
-                width: 500px;
+                // width: 500px;
+                // min-width: 500Px;
+                width:100%;
                 height: 192px;
                 border-radius: 10px;
                 .textarea-control1{

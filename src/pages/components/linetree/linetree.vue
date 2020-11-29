@@ -195,9 +195,9 @@ export default {
   content: "";
   position: absolute;
   height: 1px;
-  width: 16px;
+  width: 15px;
   left: 20px;
-  top: 9px;
+  top: 7px;
   background: #c3c5c8;
 }
 .third_layer::before {
@@ -206,7 +206,7 @@ export default {
   height: 1px;
   width: 20px;
   left: 20px;
-  top: 9px;
+  top: 7px;
   background: #c3c5c8;
 }
 
