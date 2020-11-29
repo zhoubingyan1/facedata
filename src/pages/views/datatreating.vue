@@ -1,6 +1,6 @@
 <template>
     <div id="Datatreating">
-        <Tabs class="tabs-animation" value="1" :showClose="true" v-on:closeiconClick="closeicon">
+        <Tabs class="tabs-animation" :active="tabsvalue" :showClose="true" v-on:closeiconClick="closeicon" v-on:tabclick="tabclick">
             <TabPane :name="item.name" v-for="(item,index) in TabList" :key="index" :label="item.label">
                 <div v-if="index==0" class="datatreating_firstitem">
                     <Row>
@@ -181,11 +181,12 @@ export default {
             
             systemtips_modal:false,//系统提示弹窗
 
-            
+            tabsvalue:'1',//tab选项卡的选定
             tabIndex:1,
             TabList:[{
                 label:'数据处理',
-                name:'1'
+                name:'1',
+                index:'1'
             }],
             leftTreeList:[
                 {
@@ -474,20 +475,33 @@ export default {
         itemClick(){
             //树的点击
         },
+        tabclick(item){
+            // console.log(item,'item')
+            this.tabsvalue = item.toString();
+        },
         //增加tab
         addTab(params) {
             let tabIndex =this.tabIndex
             this.tabIndex= tabIndex+1;
             this.TabList.push({
                 name: this.tabIndex,
-                label:'xxx-xx'
+                label:'xxx-xx',
+                index:this.tabIndex
             });
-            console.log(this.TabList)
+            // console.log(this.TabList)
             // this.isTip = false;
-            // this.editableTabsValue = newTabId;
         },
-        closeicon(item){
-            console.log(item)
+        closeicon(index){
+            // console.log(item)
+            this.TabList.splice(index,1)
+            if(this.TabList.length>0){
+                // console.log(this.TabList[this.TabList.length-1].name.toString(),'1234')
+                let newname=this.TabList[this.TabList.length-1].name
+                this.tabsvalue=newname.toString()
+                
+            }
+            
+            
         },
         UploadMore(e) {
 

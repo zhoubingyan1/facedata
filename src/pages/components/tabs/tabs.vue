@@ -5,7 +5,7 @@
             <div class="tabs-tab" v-for="(item,index) in tabsTab" :key="index" @click="_tabClick(item)"
                  :class="{'active':active==item.name,'disabled':item.disabled }">
                 {{item.label}}
-                <div v-if="showClose&&item.name&&index>0" class="tabscloseicon" @click="_closeClick(item)">x</div>
+                <div v-if="showClose&&item.name&&index>0" class="tabscloseicon" @click.stop="_closeClick(index)">x</div>
                 <span class="tip" v-if="item.tip">{{item.tip | maxFilter(tipMax)}}</span>
 
                 <div v-if="!showClose" :class="{'tabs_right_top':active==item.name&&index!=tabsTab.length-1}">
@@ -38,7 +38,7 @@
         data(){
             return {
                 tabsTab: this.$children,
-                active: this.value,//当前显示第几个
+                // active: this.value,//当前显示第几个
             }
         },
         props: {
@@ -46,8 +46,9 @@
                 type: Boolean,
                 default: false
             },
-            value:{
+            active:{
                 type: String,
+                default: '1'
             },
             tipMax:{
                  type: Number,
@@ -62,8 +63,7 @@
         methods: {
             _tabClick(item){
                 if (!item.disabled) {
-                    this.active = item.name;
-                    this.$emit('input', item.name);//v-model时双向绑定
+                    this.$emit('tabclick', item.name);//v-model时双向绑定
                     this.onChange ? this.onChange(item.name) : ""
                 }
             },
