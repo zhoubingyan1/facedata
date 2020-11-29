@@ -144,7 +144,7 @@ export default {
 	align-items: center;
 }
 .active_color{
-    color: #409EFF ;
+    // color: #409EFF ;
 }
 .reTree_box {
   overflow-y: auto;

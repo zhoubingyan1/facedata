@@ -23,7 +23,7 @@
                                     <img class="icon" src="../../assets/images/createdata.png" />
                                     <span class="span">生成数据</span>
                                 </div>
-                                <div class="header_iconconent">
+                                <div class="header_iconconent" @click="downloaddata">
                                     <img class="icon" src="../../assets/images/download.png" />
                                     <span class="span">下载数据</span>
                                 </div>
@@ -75,8 +75,8 @@
                 </div>
             </div>
             <div class="datamodal_footer">
-                <button class="btn">推出</button>
-                <button class="btn">保存</button>
+                <button class="btn" @click="lendinginleavefail">推出</button>
+                <button class="btn" @click="lendinginsave">保存</button>
             </div>
         </Modal>
         <!-- 系统提示弹窗 -->
@@ -456,7 +456,19 @@ export default {
         },
         // 选择导入
         choseleadingin(){
-
+            this.datatreating_modal = true
+        },
+        //导入保存
+        lendinginsave(){
+            this.systemtips_modal = true
+        },
+        //导入推出
+        lendinginleavefail(){
+            this.leadingInFail_modal=true
+        },
+        //下载数据
+        downloaddata(){
+            this.downloadTemplate_modal=true
         },
         itemClick(){
             //树的点击
@@ -925,6 +937,7 @@ export default {
             border: 1px solid #246FEA;
             border-radius: 5px;
             margin-left: 10px;
+            outline: none;
         }
     }
 }

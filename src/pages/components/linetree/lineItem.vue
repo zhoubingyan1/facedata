@@ -107,7 +107,7 @@ export default {
 	align-items: flex-start;
 }
 .active_color {
-  color: #409EFF;
+  // color: #409EFF;
 }
 .reTree_box {
   overflow-y: auto;
