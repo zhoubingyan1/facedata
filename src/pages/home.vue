@@ -8,7 +8,7 @@
             <Menu @on-select="routeTo" :active-name="activeName" :open-names="openNames" theme="dark" width="auto" accordion>
                 <MenuItem name="1-1">
                   <span class="slider_circle"></span>
-                  <span>场景1</span>
+                  <span>WorkSpace</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -28,7 +28,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="3-1">
-                  <span>场景3</span>
+                  <span>数据处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>

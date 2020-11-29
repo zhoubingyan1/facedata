@@ -476,9 +476,10 @@ export default {
         },
         //增加tab
         addTab(params) {
-            let newTabId = this.tabIndex+1;
+            let tabIndex =this.tabIndex
+            this.tabIndex= tabIndex+1;
             this.TabList.push({
-                name: newTabId,
+                name: this.tabIndex,
                 label:'xxx-xx'
             });
             console.log(this.TabList)
@@ -526,7 +527,7 @@ export default {
                 color: rgba(0,0,0,0.40);
                 letter-spacing: 0;
                 background: #E8E8E8;
-                .tabs_right_top{
+                .tabs_right_bottom{
                     width: 10px;
                     height: 10px;
                     // background: #F5F5F5;
@@ -540,8 +541,26 @@ export default {
                         width: 10px;
                         height: 10px;
                         // background: #fff;
-                        background: #f5f5f5;
+                        background: #E8E8E8;
                         border-radius: 0px 0 0 10px !important;
+                    }
+                }
+                .tabs_left_bottom{
+                    width: 10px;
+                    height: 10px;
+                    // background: #e8e8e8;
+                    background: #fff;
+                    position: absolute;
+                    bottom:0px;
+                    left: -10px;
+                    z-index: 1;
+                    // border-radius: 0px 0 20px 0 !important;
+                    .tabs_border{
+                        width: 10px;
+                        height: 10px;
+                        // background: #fff;
+                        background: #E8E8E8;
+                        border-radius: 0px 0px 10px 0px !important;
                     }
                 }
                 .middle_line{
@@ -562,9 +581,8 @@ export default {
                     z-index: 111;
                 }
             &.active{ 
-                color: #2d8cf0;
                 background:#fff;
-                border-radius: 0px 10px 0 0px ;
+                border-radius: 10px 10px 0 0px ;
                 color: #246FEA !important;
                 }
             .tip{ width: 20px; height: 20px; border-radius: 50%; background: #f00; text-align: center; line-height: 20px; display: inline-block; color: #fff; font-size: 12px; position: relative; top: -15px; }
@@ -578,6 +596,26 @@ export default {
                     width: 0px !important;
                     height: 14px;
                     background: rgba(0,0,0,0.20);
+                }
+            }
+            .tabs-tab:last-child{
+                .tabs_right_bottom{
+                    width: 10px;
+                    height: 10px;
+                    // background: #F5F5F5;
+                    background: #fff;
+                    position: absolute;
+                    bottom:0px;
+                    right: -10px;
+                    z-index: 1;
+                    // border-radius: 0px 0 20px 0 !important;
+                    .tabs_border{
+                        width: 10px;
+                        height: 10px;
+                        // background: #fff;
+                        background: #F5F5F5 !important;
+                        border-radius: 0px 0 0 10px !important;
+                    }
                 }
             }
         }

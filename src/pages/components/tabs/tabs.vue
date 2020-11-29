@@ -7,12 +7,20 @@
                 {{item.label}}
                 <div v-if="showClose&&item.name&&index>0" class="tabscloseicon" @click="_closeClick(item)">x</div>
                 <span class="tip" v-if="item.tip">{{item.tip | maxFilter(tipMax)}}</span>
-                <div :class="{'tabs_right_top':active==item.name&&index!=tabsTab.length-1}">
+
+                <div v-if="!showClose" :class="{'tabs_right_top':active==item.name&&index!=tabsTab.length-1}">
                     <div class="tabs_border"></div>
                 </div>
-                <div v-if="tabsTab.length==1" :class="{'tabs_right_top':active==item.name}">
+                <div v-if="showClose" :class="{'tabs_right_bottom':active==item.name}">
                     <div class="tabs_border"></div>
                 </div>
+                <div v-if="showClose" :class="{'tabs_left_bottom':active==item.name&&index!=0}">
+                    <div class="tabs_border"></div>
+                </div>
+                <div v-if="showClose&&tabsTab.length==1" :class="{'tabs_right_bottom':active==item.name}">
+                    <div class="tabs_border"></div>
+                </div>
+
                 <div v-if="!showClose" :class="{'middle_line1':active==item.name}"></div>
                 <div v-if="!showClose" :class="{'middle_line':active!=item.name}"></div>
                 
@@ -44,6 +52,9 @@
             tipMax:{
                  type: Number,
             },
+            onChange:{
+                type:Function,
+            }
         },
         mounted(){
         },
@@ -53,7 +64,7 @@
                 if (!item.disabled) {
                     this.active = item.name;
                     this.$emit('input', item.name);//v-model时双向绑定
-                    // this.onChange ? this.onChange(item.name) : ""
+                    this.onChange ? this.onChange(item.name) : ""
                 }
             },
             _closeClick(item){
@@ -78,4 +89,5 @@
        display: inline-block;
        color: rgba(0,0,0,0.20);
     }
+    
 </style>
