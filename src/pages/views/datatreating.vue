@@ -6,7 +6,7 @@
                     <Row>
                         <Col span="6">
                             <div class="datatreating_firstitem_left">
-                                <div v-for="(tagtree,index) in leftTreeList" :key="index">
+                                <div v-for="(tagtree,index) in leftTreeList" :key="index" class="marginright30">
                                     <div class="left_name">{{tagtree.name}}</div>
                                     <div class="left_tree">
                                         <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
@@ -15,7 +15,14 @@
                                 
                             </div>
                         </Col>
-                        <Col span="18">
+                        <Col span="1">
+                            <div class="datatreating_firstitem_middle">
+                                <div class="widthborder8">
+
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span="17">
                            <div class="datatreating_firstitem_right">
                                 <div class="datatreating_fr_content">
                                     <div class="lf">
@@ -49,7 +56,7 @@
                         </Col>
                     </Row>
                 </div>
-                <div v-if="item.name=='2'" >
+                <div v-else-if="item.name=='2'" >
                     <iframe src="https://www.baidu.com" style="width:100%;height:100%" frameborder="0"></iframe>   
                 </div> 
                 <div v-else>
@@ -682,7 +689,11 @@ export default {
     .datatreating_firstitem{
        
         .datatreating_firstitem_left{
-            width: 380px;
+            // width: 380px;
+            // border-right: 6px solid #e8e8e8;
+            .marginright30{
+                // margin-right: 20Px;
+            }
             .left_name{
                 font-family: PingFangSC-Semibold;
                 font-size: 24px;
@@ -697,9 +708,19 @@ export default {
                 padding: 20px 0px 50px 0px;
             }
         }
+        .datatreating_firstitem_middle{
+            width: 50Px;
+            text-align: center;
+            .widthborder8{
+                width: 6px;
+                height: 800px;
+                background:#e8e8e8 ;
+                margin:0 auto;
+            }
+        }
         .datatreating_firstitem_right{
-            flex: 1;
-            margin-left: 50px;
+            // flex: 1;
+            // margin-left: 50px;
             .datatreating_fr_content{
                 display: flex;
                 justify-content: space-between;
