@@ -60,6 +60,9 @@
                     </div>
                 </div> 
             </TabPane>
+            <TabPane label="生成数据" key="999">
+
+            </TabPane>
         </Tabs>
         <!-- 导入弹窗 -->
         <Modal v-model="datatreating_modal" class-name="vertical-center-modal">

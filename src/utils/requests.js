@@ -20,7 +20,7 @@ Message.config({
 })
 
 const arg = axios.create({
-    timeout: 60000
+    timeout: 600000
 })
 
 
