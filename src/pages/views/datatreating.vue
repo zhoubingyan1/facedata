@@ -2,7 +2,7 @@
     <div id="Datatreating">
         <Tabs class="tabs-animation" :active="tabsvalue" :showClose="true" v-on:closeiconClick="closeicon" v-on:tabclick="tabclick">
             <TabPane :name="item.name" v-for="(item,index) in TabList" :key="index" :label="item.label">
-                <div v-if="index==0" class="datatreating_firstitem">
+                <div v-if="item.name=='1'" class="datatreating_firstitem">
                     <Row>
                         <Col span="6">
                             <div class="datatreating_firstitem_left">
@@ -23,7 +23,7 @@
                                             <img class="icon" src="../../assets/images/leadingin.png" />
                                             <span class="span">导入</span>
                                         </div>
-                                        <div class="header_iconconent cursorpointer">
+                                        <div class="header_iconconent cursorpointer" @click="addtabs">
                                             <img class="icon" src="../../assets/images/createdata.png" />
                                             <span class="span">生成数据</span>
                                         </div>
@@ -48,9 +48,10 @@
                             </div>
                         </Col>
                     </Row>
-                    
-                    
                 </div>
+                <div v-if="item.name=='2'" >
+                    <iframe src="https://www.baidu.com" style="width:100%;height:100%" frameborder="0"></iframe>   
+                </div> 
                 <div v-else>
                     <div class="datatreating_fr_table">
                         <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
@@ -59,9 +60,6 @@
                         <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
                     </div>
                 </div> 
-            </TabPane>
-            <TabPane label="生成数据" key="999">
-
             </TabPane>
         </Tabs>
         <!-- 导入弹窗 -->
@@ -481,6 +479,29 @@ export default {
         tabclick(item){
             // console.log(item,'item')
             this.tabsvalue = item.toString();
+        },
+        addtabs(){
+            let tabIndex =this.tabIndex
+            this.tabIndex= tabIndex+1;
+            let ishasdata =true
+            if(this.TabList.length>0){
+                this.TabList.filter(function(item){
+                     if(item.name == "2"){
+                         ishasdata = false
+                     }
+                })
+                if(ishasdata){
+                    this.TabList.push({
+                        name: 2,
+                        label:'生成数据',
+                        index:tabIndex
+                    });
+                }
+                if(!ishasdata){
+                    this.tabsvalue='2'
+                }
+                
+            }
         },
         //增加tab
         addTab(params) {

@@ -167,7 +167,7 @@ export default {
   position: absolute;
   height: 1px;
   width: 15px;
-  left: 20px;
+  left: 20Px;
   top: 7px;
   background: #c3c5c8;
 }
@@ -176,7 +176,7 @@ export default {
   position: absolute;
   height: 1px;
   width: 22px;
-  left: 20px;
+  left: 20Px;
   top: 7px;
   background: #c3c5c8;
 }
@@ -186,7 +186,7 @@ export default {
   position: absolute;
   height: 100%;
   width: 1px;
-  left: 20px;
+  left: 20Px;
   top: 0px;
   background: #c3c5c8;
 }
@@ -197,7 +197,7 @@ export default {
   top: -14px;
   height: calc(100% + 14px);
   width: 1px;
-  left: 20px;
+  left: 20Px;
   background: #c3c5c8;
 }
 // 上半截
@@ -207,7 +207,7 @@ export default {
   height: 24px;
   top: -14px;
   width: 1px;
-  left: 20px;
+  left: 20Px;
   background: #c3c5c8;
 }
 .linkLine_last::after {
@@ -215,7 +215,7 @@ export default {
   position: absolute;
   height: 9px;
   width: 1px;
-  left: 20px;
+  left: 20Px;
   top: 0px;
   background: #c3c5c8;
 }
