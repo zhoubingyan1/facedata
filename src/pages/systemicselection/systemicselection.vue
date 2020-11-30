@@ -2,23 +2,16 @@
   <div id="Systemicselection">
     <Row class="Systemicselection_head_content">
       <Col span="24">
-      <img
-        class="logoimg"
-        :src="imgUrl"
-        alt=""
-      >
+        <img class="logoimg" :src="imgUrl" alt="" />
       </Col>
     </Row>
     <div class="systemicselection_content">
-      <slider
-        animation="fade"
-        :autoplay="false"
-      >
+      <slider animation="fade" :autoplay="false">
         <slider-item>
           <div class="selection_content">
             <div
               class="selection_content_item"
-              v-for="(item, index) in list.slice (0,6)"
+              v-for="(item, index) in list.slice(0, 6)"
               :key="index"
               @click.stop="goto(item.id)"
             >
@@ -29,15 +22,15 @@
                 class="code-row-bg"
               >
                 <Col span="4">
-                <img
-                  class="left_img"
-                  :src='require("../../assets/images/public.png")'
-                  alt=""
-                />
+                  <img
+                    class="left_img"
+                    :src="require('../../assets/images/public.png')"
+                    alt=""
+                  />
                 </Col>
                 <Col span="20">
-                <div class="selection_content_title">{{item.name}}</div>
-                <div class="selection_content_content">{{item.remark}}</div>
+                  <div class="selection_content_title">{{ item.name }}</div>
+                  <div class="selection_content_content">{{ item.remark }}</div>
                 </Col>
               </Row>
             </div>
@@ -45,7 +38,6 @@
         </slider-item>
       </slider>
     </div>
-
   </div>
 </template>
 <script>
@@ -111,7 +103,7 @@ export default {
           //   //弹窗 内容  你没有使用本系统的权限!
           //   return;
           // }
-           this.login(id,success.data.result[0].id);
+          this.login(id, success.data.result[0].id);
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -129,27 +121,31 @@ export default {
       };
       //设置集市 无需返回值
       that.$http.post(that.PATH.SetMart, JSON.stringify(query)).then(
-        (success) => {},
+        (success) => {
+          if (unit != null) {
+            query = {
+              action: "Service",
+              method: "setUnit",
+              data: [parseInt(unit)],
+            };
+
+            that.$http.post(that.PATH.SetUnit, JSON.stringify(query)).then(
+              (success) => {
+                this.$router.push("/index");
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.forgetPW_modal = true;
+              }
+            );
+          }
+        },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
           that.forgetPW_modal = true;
         }
       );
       //设置部门 无需返回值
-      if (unit != null) {
-        query.method = "SetUnit";
-        query.data[0] = parseInt(unit);
-        that.$http.post(that.PATH.SetUnit, JSON.stringify(query)).then(
-          (success) => {},
-          (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
-            that.forgetPW_modal = true;
-          }
-        );
-      }
-
-
-      this.$router.push('/index');
     },
   },
 };
