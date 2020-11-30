@@ -23,7 +23,7 @@ const arg = axios.create({
     timeout: 600000
 })
 
-
+arg.defaults.withCredentials = true
 arg.defaults.baseURL = process.env.API_PATH
 
 //网络监测
