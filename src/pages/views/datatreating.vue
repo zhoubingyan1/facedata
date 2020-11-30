@@ -496,6 +496,7 @@ export default {
                         label:'生成数据',
                         index:tabIndex
                     });
+                    this.tabsvalue='2'
                 }
                 if(!ishasdata){
                     this.tabsvalue='2'
@@ -506,12 +507,17 @@ export default {
         //增加tab
         addTab(params) {
             let tabIndex =this.tabIndex
-            this.tabIndex= tabIndex+1;
+            if(tabIndex==1){
+                this.tabIndex= tabIndex+2;
+            }else{
+                this.tabIndex= tabIndex+1;
+            }
             this.TabList.push({
                 name: this.tabIndex,
                 label:'xxx-xx',
                 index:this.tabIndex
             });
+            this.tabsvalue=this.tabIndex.toString()
             // console.log(this.TabList)
             // this.isTip = false;
         },
