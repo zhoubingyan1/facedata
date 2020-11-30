@@ -57,7 +57,7 @@
                     </Row>
                 </div>
                 <div v-else-if="item.name=='2'" >
-                    <iframe src="https://www.baidu.com" style="width:100%;height:100%" frameborder="0"></iframe>   
+                    <iframe src="http://192.168.1.236:8081/miner/v3/desktop/index.html" class='myiframe' frameborder="0"></iframe>   
                 </div> 
                 <div v-else>
                     <div class="datatreating_fr_table">
@@ -1078,5 +1078,9 @@ export default {
             outline: none;
         }
     }
+}
+.myiframe{
+    width:100%;
+    height:900px;
 }
 </style>

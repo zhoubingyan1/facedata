@@ -76,9 +76,7 @@ export default {
         method: "getCurUserMarts",
         data: [],
       };
-      that.$http.post(that.PATH.GetMenuList, JSON.stringify(query), {
-          withCredentials: true,
-        }).then(
+      that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data.result);
           //周 修改
@@ -104,9 +102,7 @@ export default {
         method: "getCurUserUnits",
         data: [id],
       };
-      that.$http.post(that.PATH.SetMenu, JSON.stringify(query), {
-          withCredentials: true,
-        }).then(
+      that.$http.post(that.PATH.SetMenu, JSON.stringify(query)).then(
         (success) => {
           console.log(1111);
           console.log(success.data.result);
@@ -132,9 +128,7 @@ export default {
         data: [parseInt(mart)],
       };
       //设置集市 无需返回值
-      that.$http.post(that.PATH.SetMart, JSON.stringify(query), {
-          withCredentials: true,
-        }).then(
+      that.$http.post(that.PATH.SetMart, JSON.stringify(query)).then(
         (success) => {},
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -145,9 +139,7 @@ export default {
       if (unit != null) {
         query.method = "SetUnit";
         query.data[0] = parseInt(unit);
-        that.$http.post(that.PATH.SetUnit, JSON.stringify(query), {
-          withCredentials: true,
-        }).then(
+        that.$http.post(that.PATH.SetUnit, JSON.stringify(query)).then(
           (success) => {},
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];

@@ -233,9 +233,7 @@ export default {
       };
       console.log(that.PATH.LOGIN);
       that.$http
-        .post(that.PATH.LOGIN, JSON.stringify(query), {
-          withCredentials: true,
-        })
+        .post(that.PATH.LOGIN, JSON.stringify(query))
         .then(
           (success) => {
             console.log(success.data);
