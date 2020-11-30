@@ -79,7 +79,7 @@ export default {
       that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data.result);
-          //周
+          //周 修改
           // if(success.data.result.length==0){
           //   //弹窗 内容  你没有使用本系统的权限!
           //   return;
