@@ -2,14 +2,21 @@
   <div id="login">
     <Row class="login_head_content">
       <Col span="8">
-        <img class="logoimg" :src="imgUrl" alt />
+      <img
+        class="logoimg"
+        :src="imgUrl"
+        alt
+      />
       </Col>
-      <Col span="8" offset="8">
-        <div class="logindate">
-          {{currentdate}}
-          <SUP>th</SUP>
-          . {{currentmonth}}. {{currentyear}}
-        </div>
+      <Col
+        span="8"
+        offset="8"
+      >
+      <div class="logindate">
+        {{currentdate}}
+        <SUP>th</SUP>
+        . {{currentmonth}}. {{currentyear}}
+      </div>
       </Col>
     </Row>
     <div class="loginbox">
@@ -19,8 +26,15 @@
           <div class="logintitletips">请登录您的账户</div>
         </div>
         <div class="facedata-label-input">
-          <input class="facedata-input" v-model="username" placeholder="请输入账号" />
-          <img class="usernameicon" src="../../assets/images/Username.png" />
+          <input
+            class="facedata-input"
+            v-model="username"
+            placeholder="请输入账号"
+          />
+          <img
+            class="usernameicon"
+            src="../../assets/images/Username.png"
+          />
           <img
             v-if="username!=''"
             class="closeicon"
@@ -36,7 +50,10 @@
             v-model="password"
             placeholder="请输入密码"
           />
-          <img class="usernameicon" src="../../assets/images/Password.png" />
+          <img
+            class="usernameicon"
+            src="../../assets/images/Password.png"
+          />
           <Icon
             v-if="password!=''&&hasPW"
             class="eyecloseicon"
@@ -52,16 +69,28 @@
         </div>
         <div style="text-align:center">
           <Row class="margintop">
-            <Col span="8" class="forgetpassword">
-              <div @click="ForgetPassword()">忘记密码?</div>
+            <Col
+              span="8"
+              class="forgetpassword"
+            >
+            <div @click="ForgetPassword()">忘记密码?</div>
             </Col>
-            <Col span="6" offset="2">
-              <div class="logintext" @click="handleSubmit()">登录</div>
+            <Col
+              span="6"
+              offset="2"
+            >
+            <div
+              class="logintext"
+              @click="handleSubmit()"
+            >登录</div>
             </Col>
             <Col span="8">
-              <div class="loginbutton" @click="handleSubmit()">
-                <Icon type="ios-arrow-round-forward" />
-              </div>
+            <div
+              class="loginbutton"
+              @click="handleSubmit()"
+            >
+              <Icon type="ios-arrow-round-forward" />
+            </div>
             </Col>
           </Row>
         </div>
@@ -69,15 +98,29 @@
     </div>
     <div class="logincheckbox">
       <Checkbox v-model="single"></Checkbox>
-      <span class="logincheckboxtext" @click="single=!single">我同意并遵守相关法律协议</span>
+      <span
+        class="logincheckboxtext"
+        @click="single=!single"
+      >我同意并遵守相关法律协议</span>
     </div>
     <div class="loginbottom">FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.</div>
     <!-- 密码错误 -->
-    <Modal v-model="forgetPW_modal" class-name="vertical-center-modal">
+    <Modal
+      v-model="forgetPW_modal"
+      class-name="vertical-center-modal"
+    >
       <div class="forgetpw_modal">
-        <img class="forgetpw_modal_tips" src="../../assets/images/wrong@3x.png" alt />
+        <img
+          class="forgetpw_modal_tips"
+          src="../../assets/images/wrong@3x.png"
+          alt
+        />
 
-        <div class="forget_tips_text" v-for="(node,index) in err_list" :key="index">{{node}}</div>
+        <div
+          class="forget_tips_text"
+          v-for="(node,index) in err_list"
+          :key="index"
+        >{{node}}</div>
       </div>
     </Modal>
   </div>
@@ -189,24 +232,28 @@ export default {
         data: [this.username, this.password],
       };
       console.log(that.PATH.LOGIN);
-      that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
-        (success) => {
-          console.log(success.data);
-          var res = success.data;
-          if (res.result != null) {
-            this.$router.push("/systemicselection");
-            return;
-          } else {
-            that.err_list = ["账号或密码错误", "请联系管理员"];
+      that.$http
+        .post(that.PATH.LOGIN, JSON.stringify(query), {
+          withCredentials: true,
+        })
+        .then(
+          (success) => {
+            console.log(success.data);
+            var res = success.data;
+            if (res.result != null) {
+              this.$router.push("/systemicselection");
+              return;
+            } else {
+              that.err_list = ["账号或密码错误", "请联系管理员"];
+              that.forgetPW_modal = true;
+              return;
+            }
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
             that.forgetPW_modal = true;
-            return;
           }
-        },
-        (error) => {
-          that.err_list = ["登录异常", "请联系管理员"];
-          that.forgetPW_modal = true;
-        }
-      );
+        );
     },
     ForgetPassword() {
       this.err_list = ["请联系管理员"];
