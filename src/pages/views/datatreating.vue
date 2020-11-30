@@ -388,6 +388,7 @@ export default {
                 },
               ],
             },
+<<<<<<< HEAD
             {
               label: "第一层(3)",
               children: [],
@@ -410,6 +411,88 @@ export default {
               children: [],
             },
           ],
+=======
+            cityList:[{
+                label:'123',
+                value:'111'
+            }]
+        }
+    },
+    created(){
+    },
+    mounted(){
+
+    },
+    methods: {
+        //分页切换
+        changePage(page) {
+            this.table.page = page;
+            this.changeTags();
+        },
+        // 选择导入
+        choseleadingin(){
+            this.datatreating_modal = true
+        },
+        //导入保存
+        lendinginsave(){
+            this.systemtips_modal = true
+        },
+        //导入推出
+        lendinginleavefail(){
+            this.leadingInFail_modal=true
+        },
+        //下载数据
+        downloaddata(){
+            this.downloadTemplate_modal=true
+        },
+        itemClick(){
+            //树的点击
+        },
+        tabclick(item){
+            // console.log(item,'item')
+            this.tabsvalue = item.toString();
+        },
+        addtabs(){
+            let tabIndex =this.tabIndex
+            this.tabIndex= tabIndex+1;
+            let ishasdata =true
+            if(this.TabList.length>0){
+                this.TabList.filter(function(item){
+                     if(item.name == "2"){
+                         ishasdata = false
+                     }
+                })
+                if(ishasdata){
+                    this.TabList.push({
+                        name: 2,
+                        label:'生成数据',
+                        index:tabIndex
+                    });
+                    this.tabsvalue='2'
+                }
+                if(!ishasdata){
+                    this.tabsvalue='2'
+                }
+                
+            }
+        },
+        //增加tab
+        addTab(params) {
+            let tabIndex =this.tabIndex
+            if(tabIndex==1){
+                this.tabIndex= tabIndex+2;
+            }else{
+                this.tabIndex= tabIndex+1;
+            }
+            this.TabList.push({
+                name: this.tabIndex,
+                label:'xxx-xx',
+                index:this.tabIndex
+            });
+            this.tabsvalue=this.tabIndex.toString()
+            // console.log(this.TabList)
+            // this.isTip = false;
+>>>>>>> cbce326ac493ec4b40303194b9129f688d330868
         },
         {
           name: "模型库",
