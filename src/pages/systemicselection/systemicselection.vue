@@ -38,6 +38,21 @@
         </slider-item>
       </slider>
     </div>
+    <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+      <div class="errorTips_modal">
+          <img
+          class="errorTips_modal_tips"
+          src="../../assets/images/wrong@3x.png"
+          alt
+          />
+
+          <div
+          class="forget_tips_text"
+          v-for="(node,index) in err_list"
+          :key="index"
+          >{{node}}</div>
+      </div>
+  </Modal>
   </div>
 </template>
 <script>
@@ -52,6 +67,8 @@ export default {
   },
   data() {
     return {
+      errorTips_modal:false,//错误弹框
+      err_list: [], //错误信息列表
       imgUrl: require("../../assets/images/logo-data.png"),
       list: [],
     };
@@ -74,13 +91,15 @@ export default {
           //周 修改
           // if(success.data.result.length==0){
           //   //弹窗 内容  你没有使用本系统的权限!
+          // that.err_list = ["你没有使用本系统的权限!"];
+          // that.errorTips_modal = true;
           //   return;
           // }
           that.list = success.data.result;
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
-          that.forgetPW_modal = true;
+          that.errorTips_modal = true;
         }
       );
     },
@@ -101,13 +120,15 @@ export default {
           //周  和上面一样
           // if(success.data.result.length==0){
           //   //弹窗 内容  你没有使用本系统的权限!
+          //   that.err_list = ["你没有使用本系统的权限!"];
+          //   that.errorTips_modal = true;
           //   return;
           // }
           this.login(id, success.data.result[0].id);
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
-          that.forgetPW_modal = true;
+          that.errorTips_modal = true;
         }
       );
     },
@@ -135,14 +156,14 @@ export default {
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
-                that.forgetPW_modal = true;
+                that.errorTips_modal = true;
               }
             );
           }
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
-          that.forgetPW_modal = true;
+          that.errorTips_modal = true;
         }
       );
       //设置部门 无需返回值
@@ -216,6 +237,44 @@ export default {
       color: rgba(0, 0, 0, 0.4);
       letter-spacing: 0;
       line-height: 30px;
+    }
+  }
+}
+//全局的报错弹框
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1400px;
+
+  .ivu-modal {
+    width: 300px !important;
+    height: 300px;
+
+    text-align: center;
+    top: 0;
+
+    .ivu-modal-content {
+      border-radius: 10px;
+    }
+
+    .errorTips_modal {
+      font-family: PingFangSC-Medium;
+      font-size: 20px;
+      color: #fd5056;
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 20px;
+
+      .errorTips_modal_tips {
+        width: 77px;
+        height: 100px;
+        margin: 10px auto 30px;
+      }
+
+      .forget_tips_text {
+        margin-bottom: 10px;
+      }
     }
   }
 }

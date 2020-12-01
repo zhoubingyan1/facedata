@@ -104,14 +104,14 @@
       >我同意并遵守相关法律协议</span>
     </div>
     <div class="loginbottom">FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.</div>
-    <!-- 密码错误 -->
+    <!-- 错误弹框 -->
     <Modal
-      v-model="forgetPW_modal"
+      v-model="errorTips_modal"
       class-name="vertical-center-modal"
     >
-      <div class="forgetpw_modal">
+      <div class="errorTips_modal">
         <img
-          class="forgetpw_modal_tips"
+          class="errorTips_modal_tips"
           src="../../assets/images/wrong@3x.png"
           alt
         />
@@ -133,7 +133,7 @@ export default {
       imgUrl: require("../../assets/images/logo-data.png"),
       username: "",
       password: "",
-      forgetPW_modal: false, //密码错误框
+      errorTips_modal: false, //密码错误框
       single: false,
       isshowcloseicon: false,
       hasPW: false,
@@ -218,12 +218,12 @@ export default {
       var that = this;
       if (this.password === "" || this.username === "") {
         that.err_list = ["账号或密码为空"];
-        that.forgetPW_modal = true;
+        that.errorTips_modal = true;
         return;
       }
       if (that.single === false) {
         that.err_list = ["请阅读并同意协议"];
-        that.forgetPW_modal = true;
+        that.errorTips_modal = true;
         return;
       }
       var query = {
@@ -243,19 +243,19 @@ export default {
               return;
             } else {
               that.err_list = ["账号或密码错误", "请联系管理员"];
-              that.forgetPW_modal = true;
+              that.errorTips_modal = true;
               return;
             }
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
-            that.forgetPW_modal = true;
+            that.errorTips_modal = true;
           }
         );
     },
     ForgetPassword() {
       this.err_list = ["请联系管理员"];
-      this.forgetPW_modal = true;
+      this.errorTips_modal = true;
       return;
     },
   },
@@ -495,21 +495,25 @@ export default {
     line-height: 18px;
   }
 }
+//全局的报错弹框
 .vertical-center-modal {
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 1400px;
+
   .ivu-modal {
     width: 300px !important;
     height: 300px;
 
     text-align: center;
     top: 0;
+
     .ivu-modal-content {
       border-radius: 10px;
     }
-    .forgetpw_modal {
+
+    .errorTips_modal {
       font-family: PingFangSC-Medium;
       font-size: 20px;
       color: #fd5056;
@@ -517,11 +521,12 @@ export default {
       text-align: center;
       line-height: 20px;
 
-      .forgetpw_modal_tips {
+      .errorTips_modal_tips {
         width: 77px;
         height: 100px;
         margin: 10px auto 30px;
       }
+
       .forget_tips_text {
         margin-bottom: 10px;
       }

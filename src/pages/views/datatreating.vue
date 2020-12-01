@@ -160,6 +160,21 @@
                 <button class="btn">保存</button>
             </div>
         </Modal>
+        <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+            <div class="errorTips_modal">
+                <img
+                class="errorTips_modal_tips"
+                src="../../assets/images/wrong@3x.png"
+                alt
+                />
+
+                <div
+                class="forget_tips_text"
+                v-for="(node,index) in err_list"
+                :key="index"
+                >{{node}}</div>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -176,6 +191,9 @@ export default {
     },
     data(){
         return{
+            errorTips_modal:false,//错误弹框
+            err_list: [], //错误信息列表
+
             datatreating_modal:false,//导入弹窗
             choosename:'', //导入选择表
             leadingindescribe:'',//导入描述
@@ -1078,6 +1096,44 @@ export default {
             outline: none;
         }
     }
+}
+//全局的报错弹框
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1400px;
+
+  .ivu-modal {
+    width: 300px !important;
+    height: 300px;
+
+    text-align: center;
+    top: 0;
+
+    .ivu-modal-content {
+      border-radius: 10px;
+    }
+
+    .errorTips_modal {
+      font-family: PingFangSC-Medium;
+      font-size: 20px;
+      color: #fd5056;
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 20px;
+
+      .errorTips_modal_tips {
+        width: 77px;
+        height: 100px;
+        margin: 10px auto 30px;
+      }
+
+      .forget_tips_text {
+        margin-bottom: 10px;
+      }
+    }
+  }
 }
 .myiframe{
     width:100%;

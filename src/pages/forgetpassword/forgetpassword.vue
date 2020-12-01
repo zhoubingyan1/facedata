@@ -45,14 +45,25 @@
       <div class="loginbottom">
         FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.
       </div>
-      <!-- 密码错误 -->
-      <Modal v-model="forgetPW_modal" class-name="vertical-center-modal">
-        <div class="forgetpw_modal">
-          <img class="forgetpw_modal_tips" src='../../assets/images/wrong@3x.png' alt="">
-          <div class="forget_tips_text">密码错误</div>
-          <div class="forget_tips_text">请联系管理员！</div>
+      <!-- 错误弹框 -->
+      <Modal
+        v-model="errorTips_modal"
+        class-name="vertical-center-modal"
+      >
+        <div class="errorTips_modal">
+          <img
+            class="errorTips_modal_tips"
+            src="../../assets/images/wrong@3x.png"
+            alt
+          />
+
+          <div
+            class="forget_tips_text"
+            v-for="(node,index) in err_list"
+            :key="index"
+          >{{node}}</div>
         </div>
-    </Modal>
+      </Modal>
     </div>
 </template>
 <script>
@@ -60,10 +71,11 @@ export default {
     name:"Forgetpassword",
     data(){
         return{
+            err_list:['密码错误','请联系管理员！'],
             imgUrl:require("../../assets/images/logo-data.png"),
             username: '',
             password:'',
-            forgetPW_modal:false,//密码错误框
+            errorTips_modal:false,//密码错误框
             single:false,
             isshowcloseicon:false,
             hasPW:false
@@ -380,32 +392,42 @@ export default {
     }
     
 }
-.vertical-center-modal{
+//全局的报错弹框
+.vertical-center-modal {
   display: flex;
   align-items: center;
   justify-content: center;
-  .ivu-modal{
+  min-width: 1400px;
+
+  .ivu-modal {
     width: 300px !important;
-    height:300px;
+    height: 300px;
+
     text-align: center;
     top: 0;
-    .forgetpw_modal{
+
+    .ivu-modal-content {
+      border-radius: 10px;
+    }
+
+    .errorTips_modal {
       font-family: PingFangSC-Medium;
       font-size: 20px;
-      color: #FD5056;
+      color: #fd5056;
       letter-spacing: 0;
       text-align: center;
       line-height: 20px;
-      .forgetpw_modal_tips{
+
+      .errorTips_modal_tips {
         width: 77px;
         height: 100px;
-        margin:10px auto 30px;
+        margin: 10px auto 30px;
       }
-      .forget_tips_text{
+
+      .forget_tips_text {
         margin-bottom: 10px;
       }
     }
   }
-  
 }
 </style>
