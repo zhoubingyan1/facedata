@@ -18,6 +18,7 @@ export default {
     Forgetpassword: () => import('@/pages/forgetpassword/forgetpassword'),
     home: () => import('@/pages/home'),
     Datatreating: () => import('@/pages/views/datatreating'),
+    Setmanage: () => import('@/pages/views/setmanage'),
     //首页
     index: () => import('@/pages/index/index'),
     Manage: () => import('@/pages/index/manage')

@@ -68,7 +68,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="7-1">
-                  <span>场景5</span>
+                  <span>系统管理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -194,7 +194,9 @@ export default {
             break
           case "3-1":
             this.$router.push({ name:'datatreating'})
-            break  
+            break 
+          case "7-1":
+            this.$router.push({ name:'setmanage'})
           default:
         }
       },

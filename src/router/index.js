@@ -33,9 +33,16 @@ export default new Router({
           component: path.index
         },
         {
+          //数据处理
           path: '/datatreating',
           name: 'datatreating',
           component: path.Datatreating
+        },
+        {
+          //设置
+          path: '/setmanage',
+          name: 'setmanage',
+          component: path.Setmanage
         },
         {
           //检测管理页
