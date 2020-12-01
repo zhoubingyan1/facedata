@@ -138,7 +138,7 @@ export default {
 .first_vertical_line {
   content: "";
   position: absolute;
-  width: 1px;
+  width: 1Px;
   left: 6px;
   top: 17px;
   background: #c3c5c8;
@@ -165,7 +165,7 @@ export default {
 .second_layer::before {
   content: "";
   position: absolute;
-  height: 1px;
+  height: 1Px;
   width: 15px;
   left: 20Px;
   top: 7px;
@@ -174,7 +174,7 @@ export default {
 .third_layer::before {
   content: "";
   position: absolute;
-  height: 1px;
+  height: 1Px;
   width: 22px;
   left: 20Px;
   top: 7px;
@@ -185,7 +185,7 @@ export default {
   content: "";
   position: absolute;
   height: 100%;
-  width: 1px;
+  width: 1Px;
   left: 20Px;
   top: 0px;
   background: #c3c5c8;
@@ -196,7 +196,7 @@ export default {
   /* 为了触顶 */
   top: -14px;
   height: calc(100% + 14px);
-  width: 1px;
+  width: 1Px;
   left: 20Px;
   background: #c3c5c8;
 }
@@ -206,7 +206,7 @@ export default {
   position: absolute;
   height: 24px;
   top: -14px;
-  width: 1px;
+  width: 1Px;
   left: 20Px;
   background: #c3c5c8;
 }
@@ -214,7 +214,7 @@ export default {
   content: "";
   position: absolute;
   height: 9px;
-  width: 1px;
+  width: 1Px;
   left: 20Px;
   top: 0px;
   background: #c3c5c8;
