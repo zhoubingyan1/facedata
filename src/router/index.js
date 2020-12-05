@@ -27,10 +27,22 @@ export default new Router({
       component: path.home,
       children:[
         {
-          //首页
+          //首页&场景1
           path: '/index',
           name: 'index',
           component: path.index
+        },
+        {
+          //场景2
+          path: '/scenetwo',
+          name: 'scenetwo',
+          component: path.Scenetwo
+        },
+        {
+          //场景3
+          path: '/scenethree',
+          name: 'scenethree',
+          component: path.Scenethree
         },
         {
           //数据处理
@@ -43,12 +55,11 @@ export default new Router({
           path: '/setmanage',
           name: 'setmanage',
           component: path.Setmanage
-        },
-        {
-          //检测管理页
-          path:'/manage',
-          name: 'manage',
-          component: path.Manage
+        },{
+          //应用建模
+          path: '/applicationmodel',
+          name: 'applicationmodel',
+          component: path.Applicationmodel
         }
       ]
     }

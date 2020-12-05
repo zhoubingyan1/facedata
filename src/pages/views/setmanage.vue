@@ -1,12 +1,226 @@
 <template>
     <div id="Setmanage">
-        <Tabs class="tabs-animation" :active="tabsvalue" :showClose="true" v-on:closeiconClick="closeicon" v-on:tabclick="tabclick">
-            <TabPane :name="item.name" v-for="(item,index) in TabList" :key="index" :label="item.label">
-                <div v-if="item.name=='1'" class="datatreating_firstitem">
+        <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
+            <!-- 算法右侧 -->
+            <div v-if="tabsvalue=='1'" slot="right_button">
+                <div class="search_iconconent">
+                    <img class="icon" src="../../assets/images/search@2x.png" />
+                    <input placeholder="关键字搜索" class="datasearch_input">
+                </div>
+            </div>
+            <!-- 数据参数右侧 -->
+            <div v-if="tabsvalue=='2'" slot="right_button">
+                <div class="displayflex">
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/shangchuan.png" />
+                        <span class="span">上传模版</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 系统日志右侧 -->
+            <div v-if="tabsvalue=='3'" slot="right_button">
+              <div class="displayflex">
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/shangchuan.png" />
+                        <span class="span">上传模版</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 用户右侧 -->
+            <div v-if="tabsvalue=='4'" slot="right_button">
+                <div class="displayflex">
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/authorization.png" />
+                        <span class="span">授权</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 角色权限右侧 -->
+            <div v-if="tabsvalue=='5'" slot="right_button">
+                <div class="displayflex">
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/resources.png" />
+                        <span class="span">分配资源</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 部门右侧 -->
+            <div v-if="tabsvalue=='6'" slot="right_button">
+                <div class="displayflex">
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="header-right-button" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/form.png" />
+                        <span class="span">分配表</span>
+                    </div>
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/user.png" />
+                        <span class="span">切换用户</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 机构右侧 -->
+            <div v-if="tabsvalue=='7'" slot="right_button">
+               <div class="displayflex">
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <!-- 标准目录右侧 -->
+            <div v-if="tabsvalue=='8'" slot="right_button">
+                <div class="displayflex">
+                    <div class="header-right-button marginright50" @click="choseleadingin">
+                        <img class="icon" src="../../assets/images/new.png" />
+                        <span class="span">新建</span>
+                    </div>
+                    <div class="search_iconconent">
+                        <img class="icon" src="../../assets/images/search@2x.png" />
+                        <input placeholder="关键字搜索" class="datasearch_input">
+                    </div>
+                </div>
+            </div>
+            <NewTabPane :name="item.name" v-for="(item,index) in setmanageTabList" :key="index" :label="item.label">
+                <!-- 算法表格 -->
+                <NewTabPane v-if="item.name=='1'">
+                    <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="arithmetictable.columns" :data="arithmetictable.data"></Table>
+                    </div>
+                    </div>
+                    <div class="datatreating_fr_page">
+                        <Page :total="arithmetictable.total" :current="arithmetictable.page" :showElevator="false" @on-change="changearithmetictablePage" :pageSize="arithmetictable.pagesize"></Page>
+                    </div>
+                </NewTabPane> 
+                <!-- 数据参数 -->
+                <div v-else-if="item.name=='2'">
+                    <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="parametertable.columns" :data="parametertable.data"></Table>
+                    </div>
+                    </div>
+                    <div class="datatreating_fr_page">
+                        <Page :total="parametertable.total" :current="parametertable.page" :showElevator="false" @on-change="changeparametertablePage" :pageSize="parametertable.pagesize"></Page>
+                    </div>
+                </div> 
+                <!-- 系统日志 -->
+                <div v-else-if="item.name=='3'">
+                    <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="systemtable.columns" :data="systemtable.data"></Table>
+                    </div>
+                    </div>
+                    <div class="datatreating_fr_page">
+                        <Page :total="systemtable.total" :current="systemtable.page" :showElevator="false" @on-change="changesystemtablePage " :pageSize="systemtable.pagesize"></Page>
+                    </div>
+                </div> 
+                <!-- 用户 -->
+                <div v-else-if="item.name=='4'">
+                    <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="userdatatable.columns" :data="userdatatable.data"></Table>
+                    </div>
+                    </div>
+                    <div class="datatreating_fr_page">
+                        <Page :total="userdatatable.total" :current="userdatatable.page" :showElevator="false" @on-change="changeuserdatatablePage " :pageSize="userdatatable.pagesize"></Page>
+                    </div>
+                </div> 
+                <!-- 角色权限 -->
+                <div v-else-if="item.name=='5'">
+                    <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="roletable.columns" :data="roletable.data"></Table>
+                    </div>
+                    </div>
+                    <div class="datatreating_fr_page">
+                        <Page :total="roletable.total" :current="roletable.page" :showElevator="false" @on-change="changeroletablePage " :pageSize="roletable.pagesize"></Page>
+                    </div>
+                </div> 
+                <!-- 部门 -->
+                <div v-else-if="item.name=='6'" class="datatreating_firstitem">
                     <Row>
                         <Col span="6">
                             <div class="datatreating_firstitem_left">
-                                <div v-for="(tagtree,index) in leftTreeList" :key="index" class="marginright30">
+                                <div v-for="(tagtree,index) in departmentTreeList" :key="index" class="marginright30">
+                                    <div class="left_name">{{tagtree.name}}</div>
+                                    <div class="left_tree">
+                                        <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                                    </div>
+                                </div>
+                                <div class="margintop200">
+                                    <div class="left_name">管辖机构</div>
+                                    <Table class="facedata-table1 account-table1" stripe :columns="departmentlefttable.columns" :data="departmentlefttable.data"></Table>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span="1">
+                            <div class="datatreating_firstitem_middle">
+                                <div class="widthborder8">
+
+                                </div>
+                            </div>
+                        </Col>
+                        <Col span="17">
+                           <div class="datatreating_firstitem_right">
+                                <div class="datatreating_fr_table">
+                                    <Table class="facedata-table account-table" stripe :columns="departmenttable.columns" :data="departmenttable.data"></Table>
+                                </div>
+                                <div class="datatreating_fr_page">
+                                    <Page :total="departmenttable.total" :current="departmenttable.page" :showElevator="false" @on-change="changePage" :pageSize="departmenttable.pagesize"></Page>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+                <!-- 机构 -->
+                <div v-else-if="item.name=='7'" class="datatreating_firstitem">
+                    <Row>
+                        <Col span="6">
+                            <div class="datatreating_firstitem_left">
+                                <div v-for="(tagtree,index) in organizationTreeList" :key="index" class="marginright30">
                                     <div class="left_name">{{tagtree.name}}</div>
                                     <div class="left_tree">
                                         <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
@@ -24,51 +238,29 @@
                         </Col>
                         <Col span="17">
                            <div class="datatreating_firstitem_right">
-                                <div class="datatreating_fr_content">
-                                    <div class="lf">
-                                        <div class="header_iconconent cursorpointer" @click="choseleadingin">
-                                            <img class="icon" src="../../assets/images/leadingin.png" />
-                                            <span class="span">导入</span>
-                                        </div>
-                                        <div class="header_iconconent cursorpointer" @click="addtabs">
-                                            <img class="icon" src="../../assets/images/createdata.png" />
-                                            <span class="span">生成数据</span>
-                                        </div>
-                                        <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                            <img class="icon" src="../../assets/images/download.png" />
-                                            <span class="span">下载数据</span>
-                                        </div>
-                                    </div>
-                                    <div class="rg">
-                                        <div class="header_iconconent marginright0">
-                                            <img class="icon" src="../../assets/images/search@2x.png" />
-                                            <input placeholder="关键字搜索" class="datasearch_input">
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="datatreating_fr_table">
-                                    <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
+                                    <Table class="facedata-table account-table" stripe :columns="organizationtable.columns" :data="organizationtable.data"></Table>
                                 </div>
                                 <div class="datatreating_fr_page">
-                                    <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
+                                    <Page :total="organizationtable.total" :current="organizationtable.page" :showElevator="false" @on-change="changePage" :pageSize="organizationtable.pagesize"></Page>
                                 </div>
                             </div>
                         </Col>
                     </Row>
                 </div>
-                <div v-else-if="item.name=='2'" >
-                    <iframe src="http://192.168.1.236:8081/miner/v3/desktop/index.html" class='myiframe' frameborder="0"></iframe>   
-                </div> 
+                <!-- 标准目录 -->
                 <div v-else>
                     <div class="datatreating_fr_table">
-                        <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
+                        <div class="datatreating_fr_table">
+                        <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table>
+                    </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
+                        <Page :total="standardtable.total" :current="standardtable.page" :showElevator="false" @on-change="changestandardPage" :pageSize="standardtable.pagesize"></Page>
                     </div>
                 </div> 
-            </TabPane>
-        </Tabs>
+            </NewTabPane>
+        </NewTabs>
         <!-- 导入弹窗 -->
         <Modal v-model="datatreating_modal" class-name="vertical-center-modal">
             <!-- 导入 -->
@@ -160,6 +352,7 @@
                 <button class="btn">保存</button>
             </div>
         </Modal>
+         <!-- 错误提示 -->
         <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
             <div class="errorTips_modal">
                 <img
@@ -179,18 +372,21 @@
 </template>
 <script>
 import linetree from "../components/linetree/linetree"
-import {Tabs, TabPane} from '../components/tabs/index'
+import { NewTabs,NewTabPane} from '../components/newtabs/index'
 import Page from '../components/page/index'
+
 export default {
     name:"Setmanage",
     components: {
         linetree,
-        Tabs,
-        TabPane,
+        NewTabs,
+        NewTabPane,
         Page
     },
     data(){
         return{
+            allAlign: null,
+
             errorTips_modal:false,//错误弹框
             err_list: [], //错误信息列表
 
@@ -209,12 +405,421 @@ export default {
 
             tabsvalue:'1',//tab选项卡的选定
             tabIndex:1,
-            TabList:[{
-                label:'数据处理',
-                name:'1',
-                index:'1'
-            }],
-            leftTreeList:[
+            setmanageTabList:[{
+                    label:'算法',
+                    name:'1',
+                    index:'1'
+                },{
+                    label:'数据参数',
+                    name:'2',
+                    index:'2'
+                },{
+                    label:'系统日志',
+                    name:'3',
+                    index:'3'
+                },{
+                    label:'用户',
+                    name:'4',
+                    index:'4'
+                },{
+                    label:'角色权限',
+                    name:'5',
+                    index:'5'
+                },{
+                    label:'部门',
+                    name:'6',
+                    index:'6'
+                },{
+                    label:'机构',
+                    name:'7',
+                    index:'7'
+                },{
+                    label:'标准目录',
+                    name:'8',
+                    index:'8'
+                }
+            ],
+            
+            arithmetictable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "算法名称",
+                        key: "id",
+                        width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: "参数名称",
+                        key: "name",
+                         width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: "参数值",
+                        key: "name1",
+                         width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                        let result = "0";
+                        return h("div", [
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-edit"
+                                },
+                                style: {
+                                   
+                                },
+                                on: {
+                                    click: () => {
+                                    this.addTab(params.row);
+                                    }
+                                },
+                            
+                            }),
+
+                            // h("i", {
+                            //     attrs: {
+                            //         class: "iconfont icon-delete"
+                            //     },
+                            //     style: {
+                                    
+                            //     },
+                            //     on: {
+                            //         click: () => {
+                            //         this.delID = params.row.id;
+                            //         this.delModal = true;
+                            //         }
+                            //     },
+                            
+                            // })
+                        ]);
+                        }
+                    }
+                ],
+                data: [{
+                    id:'因子分析',
+                    name:'阔值',
+                    name1:'0.8'
+                },{
+                    id:'主成分分析',
+                    name:'阔值',
+                    name1:'0.8'
+                },{
+                    id:'相关性分析',
+                    name:'阔值',
+                    name1:'0.8'
+                }]
+            },//算法表格
+            parametertable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "算法名称",
+                        key: "id",
+                         width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: "参数名称",
+                        key: "name",
+                         width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: "参数值",
+                        key: "name1",
+                         width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                        let result = "0";
+                        return h("div", [
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-edit"
+                                },
+                                style: {
+                                   
+                                },
+                                on: {
+                                    click: () => {
+                                    this.addTab(params.row);
+                                    }
+                                },
+                            
+                            }),
+
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-delete"
+                                },
+                                style: {
+                                    
+                                },
+                                on: {
+                                    click: () => {
+                                    this.delID = params.row.id;
+                                    this.delModal = true;
+                                    }
+                                },
+                            
+                            })
+                        ]);
+                        }
+                    }
+                ],
+                data: [{
+                    id:'因子分析',
+                    name:'阔值',
+                    name1:'0.8'
+                },{
+                    id:'主成分分析',
+                    name:'阔值',
+                    name1:'0.8'
+                },{
+                    id:'相关性分析',
+                    name:'阔值',
+                    name1:'0.8'
+                }]
+            },//数据参数表格
+            systemtable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: " 操作人",
+                        key: "name3",
+                        align: "center"
+                    },
+                    {
+                        title: "操作时间",
+                        key: "name4",
+                        align: "center"
+                    },
+                    {
+                        title: "所属单位",
+                        key: "name5",
+                        align: "center"
+                    },
+                    {
+                        title: "模块",
+                        key: "name6",
+                        align: "center"
+                    },
+                    {
+                        title: "操作类型",
+                        key: "name7",
+                        align: "center"
+                    },
+                    {
+                        title: "操作内容",
+                        width:'300',
+                        key: "name8",
+                        align: "left"
+                    }
+                ],
+                data: [{
+                    name3:'李四',
+                    name4:'2020年11月15日  12:30',
+                    name5:'大数据实验室',
+                    name6:'用户登录',
+                    name7:'用户登录',
+                    name8:'用户李四退出系统',
+                },{
+                    name3:'张三',
+                    name4:'2020年11月15日  12:30',
+                    name5:'大数据实验室',
+                    name6:'用户登录',
+                    name7:'用户登录',
+                    name8:'用户张三退出系统',
+                
+                },{
+                    name3:'李萌',
+                    name4:'2020年11月15日  12:30',
+                    name5:'大数据实验室',
+                    name6:'用户登录',
+                    name7:'用户登录',
+                    name8:'用户李萌退出系统',
+                
+                }]
+            },//系统日志表格
+            userdatatable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "账号",
+                        key: "name",
+                        align: "center"
+                    },
+                    {
+                        title: "名称",
+                        key: "name1",
+                        align: "center"
+                    },
+                    {
+                        title: "邮箱",
+                        key: "name2",
+                        align: "center"
+                    },
+                    {
+                        title: "电话",
+                        key: "name3",
+                        align: "center"
+                    },
+                    {
+                        title: "角色",
+                        key: "name4",
+                        align: "center"
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                        let result = "0";
+                            return h("div", [
+                                h("i", {
+                                    attrs: {
+                                        class: "iconfont icon-edit"
+                                    },
+                                    style: {
+                                    
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.addTab(params.row);
+                                        }
+                                    },
+                                
+                                }),
+                                h("i", {
+                                    attrs: {
+                                        class: "ivu-icon ivu-icon-ios-remove-circle-outline"
+                                    },
+                                    style: {
+                                        marginRight:"30"
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.delID = params.row.id;
+                                        this.delModal = true;
+                                        }
+                                    },
+                                
+                                }),
+                                h("i", {
+                                    attrs: {
+                                        class: "ivu-icon ivu-icon-ios-lock-outline"
+                                    },
+                                    style: {
+                                        
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.delID = params.row.id;
+                                        this.delModal = true;
+                                        }
+                                    },
+                                
+                                })
+                            ]);
+                        }
+                    }
+                ],
+                data: [{
+                    name:'00311983',
+                    name1:'李四',
+                    name2:'',
+                    name3:'',
+                    name4:'审计员审计员',
+                },{
+                    name:'00311983',
+                    name1:'张三',
+                    name2:'',
+                    name3:'',
+                    name4:'审计员审计员',
+                },{
+                    name:'00311983',
+                    name1:'刘丽',
+                    name2:'',
+                    name3:'',
+                    name4:'审计员审计员',
+                }]
+            },//用户表格
+            roletable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "角色名称",
+                        key: "name",
+                        width:'200',
+                        align: "center"
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                        let result = "0";
+                        return h("div", [
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-edit"
+                                },
+                                style: {
+                                   
+                                },
+                                on: {
+                                    click: () => {
+                                    this.addTab(params.row);
+                                    }
+                                },
+                            
+                            }),
+
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-delete"
+                                },
+                                style: {
+                                    
+                                },
+                                on: {
+                                    click: () => {
+                                    this.delID = params.row.id;
+                                    this.delModal = true;
+                                    }
+                                },
+                            
+                            })
+                        ]);
+                        }
+                    }
+                ],
+                data: [{
+                    name:'FData'
+                },{
+                    name:'agate'
+                },{
+                    name:'审计员'
+                }]
+            },//角色权限表格
+            departmentTreeList:[
                 {
                     name:'数据表',
                     linetreelist: [
@@ -275,31 +880,37 @@ export default {
                             children: []
                         }
                     ],
-                },
-                {
-                    name:'数据包',
-                    linetreelist: [
-                        {
-                            label: "xxxx-xx-xx",
-                            children: []
-                        }
-                    ],
-                },
-                {
-                    name:'模型库',
-                    linetreelist: [
-                        {
-                            label: "xxxx-xx-xx",
-                            children: []
-                        },
-                        {
-                            label: "xxxx-xx-xx",
-                            children: []
-                        }
-                    ],
                 }
-            ],
-            table: {
+            ],//部门左边的树
+            departmentlefttable: {
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "机构代码",
+                        key: "id",
+                        align: "center"
+                    },
+                    {
+                        title: "机构名称",
+                        key: "name",
+                        align: "center",
+                        
+                    },
+                ],
+                data: [{
+                    id:'1',
+                    name:'市北D'
+                },{
+                    id:'2',
+                    name:'苏州N'
+                },{
+                    id:'3',
+                    name:'深圳E'
+                }]
+            },//部门左边表格
+            departmenttable: {
                 page: 1,
                 pagesize: 15,
                 total: 50,
@@ -307,80 +918,19 @@ export default {
                     {
                         title: "排名",
                         key: "id",
-                        align: "center",
-                        render: (h, params) => {
-                            let result=""
-                            result = params.row.id
-                            return h("div", [
-                                h(
-                                "span",
-                                {
-                                    attrs: {
-                                    class: "cursor"
-                                    },
-                                    on: {
-                                    click: () => {
-                                        this.ishowsecondtable()
-                                    }
-                                    }
-                                },
-                                result
-                                )
-                            ]);
-                            // return h('span',result)
-                        }
+                        align: "center"
                     },
                     {
                         title: "机构名称",
                         key: "name",
                         align: "center",
-                        render: (h, params) => {
-                            let result=""
-                            result = params.row.name
-                            return h("div", [
-                                h(
-                                "span",
-                                {
-                                    attrs: {
-                                    class: "cursor"
-                                    },
-                                    on: {
-                                    click: () => {
-                                        this.ishowsecondtable()
-                                    }
-                                    }
-                                },
-                                result
-                                )
-                            ]);
-                            // return h('span',result)
-                        }
+                        
                     },
                     {
                         title: "风险因子2",
                         key: "name1",
                         align: "center",
-                        render: (h, params) => {
-                            let result=""
-                            result = params.row.name1
-                            return h("div", [
-                                h(
-                                "span",
-                                {
-                                    attrs: {
-                                    class: "cursor"
-                                    },
-                                    on: {
-                                    click: () => {
-                                        this.ishowsecondtable()
-                                    }
-                                    }
-                                },
-                                result
-                                )
-                            ]);
-                            // return h('span',result)
-                        }
+                        
                     },
                     {
                         title: " ",
@@ -464,7 +1014,241 @@ export default {
                     name:'南京G',
                     name1:'0.2033'
                 }]
-            },
+            },//部门右边表格
+            organizationTreeList:[
+                {
+                    name:'数据表',
+                    linetreelist: [
+                        {
+                            label: "第一层(1)",
+                            children: []
+                        },
+                        {
+                        label: "第一层(2)",
+                        children: [
+                            {
+                                label: "第二层(1)",
+                                children: []
+                            },
+                            {
+                                label: "第二层(2)",
+                                children: [{
+                                    label: "第三层(1)",
+                                    children: [
+                                        {
+                                            label: "第四层",
+                                            children: [
+                                                {
+                                                label: "第五层",
+                                                children: [{ label: "第六层", children: [] }]
+                                                }
+                                            ]
+                                        }
+                                    ]},
+                                    {
+                                        label: "第三层(2)",
+                                        children: []
+                                    },
+                                    {
+                                        label: "第三层(3)",
+                                        children: []
+                                    }
+                            ]},
+                            {
+                                label: "第二层(3)",
+                                children: []
+                            },
+                            {
+                                label: "第二层(4)",
+                                children: []
+                            }
+                        ]},
+                        {
+                            label: "第一层(3)",
+                            children: []
+                        },
+                        {
+                            label: "第一层(4)",
+                            children: []
+                        },
+                        {
+                            label: "第一层(5)",
+                            children: []
+                        }
+                    ],
+                }
+            ],//机构左边的树
+            organizationtable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "账号",
+                        key: "name",
+                        align: "center",
+                        width:'100'
+                    },
+                    {
+                        title: "名称",
+                        key: "name1",
+                        align: "center",
+                        width:'100'
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                        let result = "0";
+                        return h("div", [
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-edit"
+                                },
+                                style: {
+                                   
+                                },
+                                on: {
+                                    click: () => {
+                                    this.addTab(params.row);
+                                    }
+                                },
+                            
+                            }),
+
+                            h("i", {
+                                attrs: {
+                                    class: "iconfont icon-delete"
+                                },
+                                style: {
+                                    
+                                },
+                                on: {
+                                    click: () => {
+                                    this.delID = params.row.id;
+                                    this.delModal = true;
+                                    }
+                                },
+                            
+                            })
+                        ]);
+                        }
+                    }
+                ],
+                data: [{
+                    name:'FData',
+                    name1:'FData'
+                },{
+                    name:'agate',
+                    name1:'FData'
+                },{
+                    name:'审计员',
+                    name1:'FData'
+                }]
+            },//机构表格
+            standardtable:{
+                page: 1,
+                pagesize: 15,
+                total: 50,
+                columns: [
+                    {
+                        title: "目录名称",
+                        key: "name",
+                        align: "center"
+                    },
+                    {
+                        title: "管理员",
+                        key: "name1",
+                        align: "center"
+                    },
+                    {
+                        title: "快捷名称",
+                        key: "name2",
+                        align: "center"
+                    },
+                    {
+                        title: " ",
+                        align: "right",
+                        render: (h, params) => {
+                            return h("div", [
+                                h("i", {
+                                    attrs: {
+                                        class: "iconfont icon-edit"
+                                    },
+                                    style: {
+                                    
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.addTab(params.row);
+                                        }
+                                    },
+                                
+                                }),
+                                h("i", {
+                                    attrs: {
+                                        class: "ivu-icon ivu-icon-ios-remove-circle-outline"
+                                    },
+                                    style: {
+                                        marginRight:"30"
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.delID = params.row.id;
+                                        this.delModal = true;
+                                        }
+                                    },
+                                
+                                }),
+                                h("i", {
+                                    attrs: {
+                                        class: "ivu-icon ivu-icon-ios-lock-outline"
+                                    },
+                                    style: {
+                                        
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.delID = params.row.id;
+                                        this.delModal = true;
+                                        }
+                                    },
+                                
+                                }),
+                                h("i", {
+                                    attrs: {
+                                        class: "ivu-icon ivu-icon-ios-reorder"
+                                    },
+                                    style: {
+                                        
+                                    },
+                                    on: {
+                                        click: () => {
+                                        this.delID = params.row.id;
+                                        this.delModal = true;
+                                        }
+                                    },
+                                
+                                })
+                            ]);
+                        }
+                    }
+                ],
+                data: [{
+                    name:'FData',
+                    name1:'FData',
+                    name2:'FData',
+                },{
+                    name:'FData',
+                    name1:'FData',
+                    name2:'FData',
+                },{
+                    name:'FData',
+                    name1:'FData',
+                    name2:'FData',
+                }]
+            },//标准目录表格
+            
             cityList:[{
                 label:'123',
                 value:'111'
@@ -480,7 +1264,31 @@ export default {
         //分页切换
         changePage(page) {
             this.table.page = page;
-            this.changeTags();
+            // this.changeTags();
+        },
+        //切换算法的分页
+        changearithmetictablePage(page){
+            // arithmetictable
+        },
+        //切换数据参数的分页
+        changeparametertablePage(page){
+            // parametertable
+        },
+        //切换系统日志的分页
+        changesystemtablePage(page){
+            // systemtable
+        },
+        //切换用户的分页
+        changeuserdatatablePage(page){
+            // userdatatable
+        },
+        //切换角色权限的分页
+        changeroletablePage(page){
+            // roletable
+        },
+        //切换标准目录的分页
+        changestandardPage(page){
+
         },
         // 选择导入
         choseleadingin(){
@@ -509,14 +1317,14 @@ export default {
             let tabIndex =this.tabIndex
             this.tabIndex= tabIndex+1;
             let ishasdata =true
-            if(this.TabList.length>0){
-                this.TabList.filter(function(item){
+            if(this.setmanageTabList.length>0){
+                this.setmanageTabList.filter(function(item){
                      if(item.name == "2"){
                          ishasdata = false
                      }
                 })
                 if(ishasdata){
-                    this.TabList.push({
+                    this.setmanageTabList.push({
                         name: 2,
                         label:'生成数据',
                         index:tabIndex
@@ -537,21 +1345,21 @@ export default {
             }else{
                 this.tabIndex= tabIndex+1;
             }
-            this.TabList.push({
+            this.setmanageTabList.push({
                 name: this.tabIndex,
                 label:'xxx-xx',
                 index:this.tabIndex
             });
             this.tabsvalue=this.tabIndex.toString()
-            // console.log(this.TabList)
+            // console.log(this.setmanageTabList)
             // this.isTip = false;
         },
         closeicon(index){
             // console.log(item)
-            this.TabList.splice(index,1)
-            if(this.TabList.length>0){
-                // console.log(this.TabList[this.TabList.length-1].name.toString(),'1234')
-                let newname=this.TabList[this.TabList.length-1].name
+            this.setmanageTabList.splice(index,1)
+            if(this.setmanageTabList.length>0){
+                // console.log(this.setmanageTabList[this.setmanageTabList.length-1].name.toString(),'1234')
+                let newname=this.setmanageTabList[this.setmanageTabList.length-1].name
                 this.tabsvalue=newname.toString()
                 
             }
@@ -575,133 +1383,138 @@ export default {
     background: #f5f5f5;
     .tabs-animation{
         width: 100%;
+        background: #fff;
+        padding: 35px 50px;
     }
-    #tabs{
-        .tabs-nav{
-            width:100%;
-            //    border-bottom: 1px solid #ddd;
+    .displayflex{
+        display: flex;
+        justify-content:flex-end;
+        align-items:center;
+    }
+    .marginright50{
+        margin-right: 50px !important;
+    }
+    .search_iconconent{
+        cursor: pointer;
+        flex: 1;
+        display: flex;
+        // justify-content:center;
+        align-items:center;
+        border: 1px solid rgba(0,0,0,0.10);
+        border-radius: 5px;
+        height: 38px;
+        line-height: 38px;
+        padding:0px 30px;
+        
+        width: 174px;
+        position: relative;
+        .icon{
+            width: 18px;
+            height: 17px;
+        }
+        .span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(0,0,0,0.40);
+            letter-spacing: 0;
+            line-height: 14px;
+            padding-left: 6px;
+        }
+        .datasearch_input{
+            height: 38px;
+            line-height: 38px;
+            border:none;
+            background: none;
+            outline: none;
+            margin-left: 10px;
+        }
+    }
+    .header-right-button{
+        flex: 1;
+        cursor: pointer;
+        display: flex;
+        justify-content:center;
+        align-items:center;
+        border: 1px solid rgba(0,0,0,0.10);
+        border-radius: 5px;
+        height: 38px;
+        line-height: 38px;
+        // padding:0px 30px;
+        margin-right: 20px;
+        font-size: 14px !important;
+        color: rgba(0,0,0,0.40);
+        letter-spacing: 0;
+        width: 140px;
+        .icon{
+            width: 18px;
+            height: 17px;
+        }
+        .span{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(0,0,0,0.40);
+            letter-spacing: 0;
+            line-height: 14px;
+            padding-left: 10px;
+        }
+        .datasearch_input{
+            height: 38px;
+            line-height: 38px;
+            border:none;
+            background: none;
+            outline: none;
+            margin-left: 10px;
+        }
+        &:hover{
+                color: rgba(0,0,0,0.80);
+                border: 1px solid rgba(0,0,0,0.40);
+                .span{
+                    color: rgba(0,0,0,0.80);
+                }
+            }
+    }
+    #newtabs{
+        background: #fff;
+        .newtabs-nav{
+            padding:48px 0px;
             display: flex;
-            background: #F5F5F5;
-            border-radius: 10px 10px 0 0;
-            .tabs-tab{ 
-                width: 170px;
-                // flex:1; 
-                display: inline-block; vertical-align: middle; padding: 0 20px; cursor: pointer;
-                text-align: center;
-                line-height: 50px;
-                height:50px;
-                position: relative;
-                font-family: PingFangSC-Regular;
-                font-size: 16px;
-                color: rgba(0,0,0,0.40);
-                letter-spacing: 0;
-                background: #E8E8E8;
-                .tabs_right_bottom{
-                    width: 10px;
-                    height: 10px;
-                    // background: #F5F5F5;
-                    background: #fff;
-                    position: absolute;
-                    bottom:0px;
-                    right: -10px;
-                    z-index: 1;
-                    // border-radius: 0px 0 20px 0 !important;
-                    .tabs_border{
-                        width: 10px;
-                        height: 10px;
-                        // background: #fff;
-                        background: #E8E8E8;
-                        border-radius: 0px 0 0 10px !important;
-                    }
-                }
-                .tabs_left_bottom{
-                    width: 10px;
-                    height: 10px;
-                    // background: #e8e8e8;
-                    background: #fff;
-                    position: absolute;
-                    bottom:0px;
-                    left: -10px;
-                    z-index: 1;
-                    // border-radius: 0px 0 20px 0 !important;
-                    .tabs_border{
-                        width: 10px;
-                        height: 10px;
-                        // background: #fff;
-                        background: #E8E8E8;
-                        border-radius: 0px 0px 10px 0px !important;
-                    }
-                }
-                .middle_line{
-                    position: absolute;
-                    top:26px;
-                    left: 0;
-                    width: 1px;
-                    height: 14px;
-                    background: rgba(0,0,0,0.20);
-                }
-                .middle_line1{
-                    position: absolute;
-                    top:26px;
-                    right: -1px;
-                    width: 1px;
-                    height: 14px;
-                    background: #f5f5f5;
-                    z-index: 111;
-                }
-            &.active{ 
-                background:#fff;
-                border-radius: 10px 10px 0 0px ;
-                color: #246FEA !important;
-                }
-            .tip{ width: 20px; height: 20px; border-radius: 50%; background: #f00; text-align: center; line-height: 20px; display: inline-block; color: #fff; font-size: 12px; position: relative; top: -15px; }
-            &.disabled{color: #999;cursor: not-allowed}
-            }
-            .tabs-tab:first-child{
-                .middle_line{
-                    position: absolute;
-                    top:26px;
-                    left: 0;
-                    width: 0px !important;
-                    height: 14px;
-                    background: rgba(0,0,0,0.20);
-                }
-            }
-            .tabs-tab:last-child{
-                .tabs_right_bottom{
-                    width: 10px;
-                    height: 10px;
-                    // background: #F5F5F5;
-                    background: #fff;
-                    position: absolute;
-                    bottom:0px;
-                    right: -10px;
-                    z-index: 1;
-                    // border-radius: 0px 0 20px 0 !important;
-                    .tabs_border{
-                        width: 10px;
-                        height: 10px;
-                        // background: #fff;
-                        background: #F5F5F5 !important;
-                        border-radius: 0px 0 0 10px !important;
-                    }
-                }
-            }
+            justify-content: space-between;
+            align-items: center;
         }
-        .tabs-content{
-            padding: 30px 50px;
-            background: #FFFFFF;
-            box-shadow: 0 3px 5px 0 rgba(0,0,0,0.10);
-            border-radius: 0 10px 10px 10px; 
-            min-height: 970px;
-            .tab-pane{ display: none;
-            &.active{ display: block; }
-            }
+        .newtabs-tab-left{
+            width: 800px;
         }
-        .clearfix{
-            &:after{
-                clear: both;
-            }
+        .newtabs-tab-right{
+            flex:1;
+            // text-align: right;
+            display: flex;
+            justify-content:flex-end;
+            align-items: center;
+        }
+        .newtabs-tab{
+            display: inline-block;
+            margin-right: 30px;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: rgba(0,0,0,0.40);
+            letter-spacing: 0;
+            line-height: 38px;
+            cursor: pointer;
+        }
+        .newtabs-tab.active{
+            opacity: 0.8;
+            font-family: PingFangSC-Medium;
+            font-size: 24px;
+            color: #000000;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+        .middle_line1{
+            width: 30px;
+            height: 4px;
+            background: #246FEA;
+            border-radius: 2px;
+            margin:15px auto 0px;
         }
     }
     .datatreating_firstitem{
@@ -711,6 +1524,9 @@ export default {
             // border-right: 6px solid #e8e8e8;
             .marginright30{
                 // margin-right: 20Px;
+            }
+            .margintop200{
+                margin-top: 200px;
             }
             .left_name{
                 font-family: PingFangSC-Semibold;
@@ -736,65 +1552,13 @@ export default {
                 margin:0 auto;
             }
         }
-        .datatreating_firstitem_right{
-            // flex: 1;
-            // margin-left: 50px;
-            .datatreating_fr_content{
-                display: flex;
-                justify-content: space-between;
-                align-items:center;
-                margin-bottom: 30px;
-                .lf{
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items:center;
-                }
-                .cursorpointer{
-                    cursor: pointer;
-                }
-                .header_iconconent{
-                    cursor: pointer;
-                    display: flex;
-                    justify-content:center;
-                    align-items:center;
-                    border: 1px solid rgba(0,0,0,0.10);
-                    border-radius: 5px;
-                    height: 38px;
-                    line-height: 38px;
-                    padding:0px 30px;
-                    margin-right: 20px;
-                    .icon{
-                        width: 18px;
-                        height: 17px;
-                    }
-                    .span{
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                        color: rgba(0,0,0,0.40);
-                        letter-spacing: 0;
-                        line-height: 14px;
-                        padding-left: 6px;
-                    }
-                    .datasearch_input{
-                        height: 38px;
-                        line-height: 38px;
-                        border:none;
-                        background: none;
-                        outline: none;
-                        margin-left: 10px;
-                    }
-                }
-                .marginright0{
-                    margin-right: 0px !important;
-                }
-            }
-        }
     }
     .datatreating_fr_table{
         height: 787px;
         background: rgba(0,0,0,0.03);
         border-radius: 5px;
-        padding: 20px;
+        overflow: hidden;
+        // padding: 20px;
     }
     //表格
     .facedata-table.ivu-table-wrapper {
@@ -874,15 +1638,168 @@ export default {
             &.icon-edit {
             margin: 0 20px;
             &:hover {
-                color: var(--font);
+                color: #246FEA;
             }
             }
             &.icon-delete {
             font-size: 20px;
             &:hover {
-                color: var(--font);
+                color: #246FEA;
             }
             }
+        }
+        .ivu-icon{
+            cursor: pointer;
+            font-size: 24px;
+            vertical-align: middle;
+            color: var(--icon) !important;
+            transition: color .3s;
+            margin: 0 20px 0 0;
+            &.ivu-icon-ios-remove-circle-outline{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+            &.ivu-icon-ios-lock-outline{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+            &.ivu-icon-ios-reorder{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+        }
+        .ivu-icon:last-child{
+            margin-right: 0px !important;
+        }
+    }
+    .facedata-table1.ivu-table-wrapper {
+        margin: 0 auto;
+        border: none;
+        // box-shadow: 0px 0px 1px 0px #ece6e6;
+        transition: all .2s linear;
+        &:hover{
+            // box-shadow: 0px 2px 10px 2px #ece6e6;
+        }
+        .ivu-table {
+            background: none;
+            &:before,
+            &:after {
+            background-color: transparent;
+            }
+        }
+        .ivu-table-header{
+            height: 80px ;
+            line-height: 80px;
+            background:#fff;
+        }
+        .ivu-table-tbody {
+            color: var(--font);
+            .ivu-table-row{
+                height: 44px;
+                line-height: 44px;
+            }
+        }
+        tr:nth-child(2n) td{
+           background-color:rgba(0,0,0,0.02);
+        }
+        tr:nth-child(2n+1) td{
+            
+            background-color: rgba(0,0,0,0.05);
+        }
+        th {
+            background-color: #fff;
+            font-family: PingFangSC-Semibold;
+            font-size: 16px;
+            color: rgba(0,0,0,0.80);
+            letter-spacing: 0;
+        }
+        th,
+        td {
+            border: none;
+            font-size: 14px;
+        }
+        .ivu-table-body tr.ivu-table-row-hover{
+            // box-shadow: 0px 0px 1px 0px #ece6e6;
+        }
+        .ivu-table-body tr.ivu-table-row-hover td,
+        .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td,
+        tr.ivu-table-row-hover td {
+            background-color: #fff;
+        }
+        //表格内的切换按钮
+        .ivu-switch {
+            width: 44px;
+        }
+        .ivu-switch:focus {
+            box-shadow: none;
+        }
+        .ivu-switch-checked {
+            border-color: var(--base);
+            background-color: var(--base);
+            &:after {
+            background: var(--zhijianswitch);
+            }
+        }
+        //表格内iconfont
+        .iconfont {
+            cursor: pointer;
+            font-size: 24px;
+            vertical-align: middle;
+            color: var(--icon);
+            transition: color .3s;
+            &.icon-edit {
+            margin: 0 20px;
+            &:hover {
+                color: #246FEA;
+            }
+            }
+            &.icon-delete {
+            font-size: 20px;
+            &:hover {
+                color: #246FEA;
+            }
+            }
+        }
+        .ivu-icon{
+            cursor: pointer;
+            font-size: 24px;
+            vertical-align: middle;
+            color: var(--icon) !important;
+            transition: color .3s;
+            margin: 0 20px 0 0;
+            &.ivu-icon-ios-remove-circle-outline{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+            &.ivu-icon-ios-lock-outline{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+            &.ivu-icon-ios-reorder{
+                
+                color: var(--icon) !important;
+                &:hover {
+                    color: #246FEA !important;
+                }
+            }
+        }
+        .ivu-icon:last-child{
+            margin-right: 0px !important;
         }
     }
     .datatreating_fr_page{

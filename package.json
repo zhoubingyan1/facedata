@@ -82,5 +82,10 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
 }

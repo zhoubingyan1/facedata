@@ -28,7 +28,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="3-1">
-                  <span>数据处理</span>
+                  <span>场景3</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -38,7 +38,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="4-1">
-                  <span>场景4</span>
+                  <span>数据处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -48,7 +48,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="5-1">
-                  <span>场景5</span>
+                  <span>应用建模</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -58,16 +58,6 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="6-1">
-                  <span>场景5</span>
-                  <div class="right_top">
-                    <div class="border"></div>
-                  </div>
-                  <div class="right_bottom">
-                    <div class="border"></div>
-                  </div>
-                  <div class="sildercircle"></div>
-                </MenuItem>
-                <MenuItem name="7-1">
                   <span>系统管理</span>
                   <div class="right_top">
                     <div class="border"></div>
@@ -77,6 +67,16 @@
                   </div>
                   <div class="sildercircle"></div>
                 </MenuItem>
+                <!-- <MenuItem name="7-1">
+                  <span>系统管理</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem> -->
             </Menu>
             <div>
               <Calendar
@@ -190,12 +190,23 @@ export default {
             this.$router.push({ name:'index'})
             break
           case "2-1":
-            this.$router.push({ name:'manage'})
+            //场景2
+            this.$router.push({ name:'scenetwo'})
             break
           case "3-1":
+            //场景3
+            this.$router.push({ name:'scenethree'})
+            break  
+          case "4-1":
+            //数据处理
             this.$router.push({ name:'datatreating'})
             break 
-          case "7-1":
+          case "5-1":
+            //应用建模
+            this.$router.push({ name:'applicationmodel'})
+            break   
+          case "6-1":
+            //系统管理
             this.$router.push({ name:'setmanage'})
           default:
         }
@@ -212,15 +223,15 @@ export default {
         })*/
       },
       clickDay(data) {
-        console.log("选中了", data); //选中某天
+        // console.log("选中了", data); //选中某天
         this.$toast("选中了" + data);
       },
       clickToday(data) {
-        console.log("跳到了本月今天", data); //跳到了本月
+        // console.log("跳到了本月今天", data); //跳到了本月
       },
       changeDate(data) {
         this.$toast("切换到的月份为" + data);
-        console.log("左右点击切换月份", data); //左右点击切换月份
+        // console.log("左右点击切换月份", data); //左右点击切换月份
       },
       demo() {
         this.$refs.Calendar.ChoseMonth("2018-12-13"); //跳到12月12日选中12月12日
