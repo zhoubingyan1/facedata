@@ -6,24 +6,24 @@
                     <div class="datatreating_fr_content">
                         <div class="lf">
                             <div class="header_iconconent cursorpointer" @click="choseleadingin">
-                                <img class="icon" src="../../assets/images/leadingin.png" />
+                                <img class="icon" src="../../assets/images/applicationmodel/extract.png" />
                                 <span class="span">数据提取</span>
                             </div>
                             <div class="header_iconconent cursorpointer" @click="addtabs">
-                                <img class="icon" src="../../assets/images/createdata.png" />
+                                <img class="icon" src="../../assets/images/applicationmodel/analyse.png" />
                                 <span class="span">因子分析</span>
                             </div>
                             <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                <img class="icon" src="../../assets/images/download.png" />
+                                <img class="icon" src="../../assets/images/applicationmodel/element.png" />
                                 <span class="span">主要成分分析</span>
                             </div>
                             <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                <img class="icon" src="../../assets/images/download.png" />
+                                <img class="icon" src="../../assets/images/applicationmodel/correlation.png" />
                                 <span class="span">相关性分析</span>
                             </div>
                         </div>
                         <div class="rg">
-                            <div class="header_iconconent marginright0">
+                            <div class="header_iconconent width174 marginright0">
                                 <img class="icon" src="../../assets/images/search@2x.png" />
                                 <input placeholder="关键字搜索" class="datasearch_input">
                             </div>
@@ -35,16 +35,44 @@
                                 <div class="datatreating_fr_table">
                                     <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
                                 </div>
-                                <div class="datatreating_fr_page">
+                                <!-- <div class="datatreating_fr_page">
                                     <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
-                                </div>
+                                </div> -->
                             </div> 
                         </NewTabPane>
                     </NewTabs>
                 </div>
             </Col>
             <Col span="6">
-                dsljbdshk
+                <div class="applicationmodel_right_content">
+                    <div class="clearallinfo">
+                        <div class="clearallinfo_left">
+                            <i class="iconfont icon-delete"></i>
+                            清除全部
+                        </div>
+                        <div class="clearallinfo_right">
+                            <Icon type="ios-close" />
+                        </div>
+                    </div>
+                    <div class="right-timeline-content">
+                        <Timeline>
+                            <TimelineItem v-for="(item,index) in steplist" :key="index">
+                                <img class="doticon" slot="dot" src="../../assets/images/timecircle.png" />
+                                <p class="steptimeitemtit">{{item.name}}</p>
+                                <div class="steptimeitemcontent">
+                                    <div class="listtitle">{{item.content}}<Icon type="md-arrow-dropdown" /></div>
+                                    <div class="steptimeitem-items">
+                                        <div class="steptimeitem-itemsinfo" v-for="(timelineitems,indexs) in item.children" :key="indexs">
+                                            <span class="circle"></span>
+                                            <div class="infomiddle">{{timelineitems.title}}:<span class="infocontent">{{timelineitems.content}}</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </TimelineItem>
+                        </Timeline>
+                    </div>
+                    <div class="showmoreall">显示全部</div>
+                </div>
             </Col>
             
         </Row>
@@ -119,13 +147,6 @@
                         <Select v-model="model8" clearable class="downloadtemplate_content">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <!-- <div class="select-head">
-                            <span class="select-head-cont">{{cont}}</span>
-                            <span class="select-icon">▼</span>
-                        </div>
-                        <ul class="option">
-                            <li class="option-item" v-for="item in cityList" @click="optionClick(v-1)">「「</li>
-                        </ul> -->
                     </div>
                 </div>
                 <div class="datamodal_item">
@@ -293,6 +314,37 @@ export default {
             cityList:[{
                 label:'123',
                 value:'111'
+            }],
+            steplist:[{
+                name:"步骤1",
+                content:"因子分析",
+                children:[{
+                    title:'选择表',
+                    content:'DF_68_1506483847543(T1)'
+                },{
+                    title:'提取字段',
+                    content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
+                },{
+                    title:'提取字段',
+                    content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
+                },{
+                    title:'提取字段',
+                    content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
+                }]
+            },{
+                name:"步骤2",
+                content:"主成分分析",
+                children:[{
+                    title:'提取字段',
+                    content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
+                }]
+            },{
+                name:"步骤3",
+                content:"相关性分析",
+                children:[{
+                    title:'选择表',
+                    content:'DF_68_1506483847543(T1)'
+                }]
             }]
         }
     },
@@ -405,12 +457,13 @@ export default {
         background: #fff;
         padding: 35px 50px;
         margin-right: 50px;
+        height: 1020px;
     }
     .datatreating_fr_content{
         display: flex;
         justify-content: space-between;
         align-items:center;
-        margin-bottom: 30px;
+        // margin-bottom: 30px;
         .lf{
             display: flex;
             justify-content: flex-start;
@@ -428,11 +481,12 @@ export default {
             border-radius: 5px;
             height: 38px;
             line-height: 38px;
-            padding:0px 30px;
+            // padding:0px 30px;
             margin-right: 20px;
+            width: 154px;
             .icon{
                 width: 18px;
-                height: 17px;
+                height: 18px;
             }
             .span{
                 font-family: PingFangSC-Regular;
@@ -449,6 +503,7 @@ export default {
                 background: none;
                 outline: none;
                 margin-left: 10px;
+                width: 100px;
             }
             &:hover{
                 color: rgba(0,0,0,0.80);
@@ -458,13 +513,16 @@ export default {
                 }
             }
         }
+        .width174{
+            width: 194px !important;
+        }
         .marginright0{
             margin-right: 0px !important;
         }
     }
     #newtabs{
         .newtabs-nav{
-            padding:48px 0px;
+            padding:48px 0px 30px 0px;
             
         }
         .newtabs-tab{
@@ -527,7 +585,7 @@ export default {
         }
     }
     .datatreating_fr_table{
-        height: 787px;
+        height: 775px;
         background: rgba(0,0,0,0.03);
         border-radius: 5px;
         padding: 20px;
@@ -551,7 +609,7 @@ export default {
         .ivu-table-header{
             height: 80px ;
             line-height: 80px;
-            background: rgb(239,239,239);
+            background: rgba(0,0,0,0) !important;
         }
         .ivu-table-tbody {
             color: var(--font);
@@ -561,13 +619,13 @@ export default {
             }
         }
         tr:nth-child(2n) td{
-            background-color: rgb(239,239,239);
+            background: rgba(0,0,0,0);
         }
         tr:nth-child(2n+1) td{
-            background-color:rgb(247,247,247);
+            background: rgba(0,0,0,0.03);
         }
         th {
-            background-color: rgb(239,239,239);
+            background: rgba(0,0,0,0) !important;
             font-family: PingFangSC-Semibold;
             font-size: 16px;
             color: rgba(0,0,0,0.80);
@@ -623,6 +681,116 @@ export default {
     }
     .datatreating_fr_page{
         margin-top: 30px;
+    }
+    .applicationmodel_right_content{
+        height: 1020px;
+        background: #fff;
+        padding: 30px;
+        overflow: scroll;
+        .clearallinfo{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 0px 32px 0px;
+            border-bottom: 1px solid rgba(0,0,0,0.20);;
+            .clearallinfo_left{
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #246FEA;
+                letter-spacing: 0;
+            }
+            .clearallinfo_right{
+                font-size: 30px;
+            }
+        }
+        .right-timeline-content{
+            margin-top: 60px;
+            .ivu-timeline-item-tail{
+                border-left: 0.01rem dashed #246FEA !important;
+            }
+            .doticon{
+                width: 14px;
+                height: 14px;
+            }
+            .steptimeitemtit{
+                font-family: PingFangSC-Regular;
+                font-size: 16px;
+                color: rgba(0,0,0,0.40);
+                letter-spacing: 0;
+                line-height: 16px;
+            }
+            .steptimeitemcontent{
+                margin-top: 20px;
+                .listtitle{
+                    font-family: PingFangSC-Semibold;
+                    font-size: 20px;
+                    color: rgba(0,0,0,0.80);
+                    letter-spacing: 0;
+                    line-height: 20px;
+                    margin-bottom: 20px;
+                    cursor: pointer;
+                }
+            }
+            
+        }
+        .steptimeitem-items{
+            margin-bottom: 60px;
+            .steptimeitem-itemsinfo{
+                margin-bottom: 16px;
+                font-family: PingFangSC-Medium;
+                font-size: 12px;
+                color: rgba(0,0,0,0.80);
+                letter-spacing: 0;
+                display: flex;
+                .circle{
+                    display: inline-block;
+                    width: 8Px;
+                    height: 8Px;
+                    background: #FFC036;
+                    border-radius: 8Px;
+                    margin:8px 10px 0px 2px;
+
+                }
+                .infomiddle{
+                    flex: 1;
+                    display: inline-block;
+                    // margin-left:20Px;
+                    word-break:break-all;
+                    word-wrap:break-word;
+                }
+                .infocontent{
+                    font-family: PingFangSC-Regular;
+                    font-size: 12px;
+                    color: rgba(0,0,0,0.40);
+                    letter-spacing: 0;
+                    line-height: 12px;
+                }
+            }
+        }
+        .showmoreall{
+            width: 124px;
+            height: 38px;
+            line-height: 38px;
+            margin:30px auto;
+            border: 1px solid rgba(0,0,0,0.20);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            
+        }
+        .showmoreall:hover{
+                color: #000;
+                border: 1px solid rgba(0,0,0,0.6);
+            }
+    }
+    .applicationmodel_right_content::-webkit-scrollbar {
+        width: 4px;    
+        /*height: 4px;*/
+    }
+    .applicationmodel_right_content::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        // background: rgba(0,0,0,0.2);
     }
 }
 .ivu-modal {

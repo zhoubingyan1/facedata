@@ -18,6 +18,12 @@ import '@/utils/rem'
 // Vue.use(ElementUI, {
 //   size: 'small',
 // })
+import ViewUI from 'view-design';
+
+// import style
+import 'view-design/dist/styles/iview.css';
+
+Vue.use(ViewUI);
 
 Vue.use(iView)
 
