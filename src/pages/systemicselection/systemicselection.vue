@@ -89,12 +89,12 @@ export default {
         (success) => {
           console.log(success.data.result);
           //周 修改
-          // if(success.data.result.length==0){
-          //   //弹窗 内容  你没有使用本系统的权限!
-          // that.err_list = ["你没有使用本系统的权限!"];
-          // that.errorTips_modal = true;
-          //   return;
-          // }
+          if(success.data.result.length==0){
+            //弹窗 内容  你没有使用本系统的权限!
+            that.err_list = ["你没有使用本系统的权限!"];
+            that.errorTips_modal = true;
+            return;
+          }
           that.list = success.data.result;
         },
         (error) => {
@@ -118,12 +118,12 @@ export default {
           console.log(1111);
           console.log(success.data.result);
           //周  和上面一样
-          // if(success.data.result.length==0){
-          //   //弹窗 内容  你没有使用本系统的权限!
-          //   that.err_list = ["你没有使用本系统的权限!"];
-          //   that.errorTips_modal = true;
-          //   return;
-          // }
+          if(success.data.result.length==0){
+            //弹窗 内容  你没有使用本系统的权限!
+            that.err_list = ["你没有使用本系统的权限!"];
+            that.errorTips_modal = true;
+            return;
+          }
           this.login(id, success.data.result[0].id);
         },
         (error) => {
