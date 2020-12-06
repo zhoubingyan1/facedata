@@ -60,8 +60,8 @@
                                 <img class="doticon" slot="dot" src="../../assets/images/timecircle.png" />
                                 <p class="steptimeitemtit">{{item.name}}</p>
                                 <div class="steptimeitemcontent">
-                                    <div class="listtitle">{{item.content}}<Icon type="md-arrow-dropdown" /></div>
-                                    <div class="steptimeitem-items">
+                                    <div class="listtitle" @click="toggle(item)">{{item.content}}<Icon type="md-arrow-dropdown" /></div>
+                                    <div class="steptimeitem-items" v-if="item.open">
                                         <div class="steptimeitem-itemsinfo" v-for="(timelineitems,indexs) in item.children" :key="indexs">
                                             <span class="circle"></span>
                                             <div class="infomiddle">{{timelineitems.title}}:<span class="infocontent">{{timelineitems.content}}</span></div>
@@ -316,8 +316,10 @@ export default {
                 value:'111'
             }],
             steplist:[{
+                id:'1',
                 name:"步骤1",
                 content:"因子分析",
+                open:false,
                 children:[{
                     title:'选择表',
                     content:'DF_68_1506483847543(T1)'
@@ -332,15 +334,19 @@ export default {
                     content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
                 }]
             },{
+                id:'2',
                 name:"步骤2",
                 content:"主成分分析",
+                open:false,
                 children:[{
                     title:'提取字段',
                     content:'jsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfksjsdhfshdj.djhfskjdhfkjhskdhf,sdjfgsdgfjhgsjdfks(T1)(T1)'
                 }]
             },{
+                id:'3',
                 name:"步骤3",
                 content:"相关性分析",
+                open:false,
                 children:[{
                     title:'选择表',
                     content:'DF_68_1506483847543(T1)'
@@ -354,6 +360,20 @@ export default {
 
     },
     methods: {
+        toggle(item){
+            var id = item.id, list = this.steplist;
+            // 使用id获取打开的子列表
+            for (var i = 0, len = list.length; i < len; ++i) {
+                if (list[i].id == id) {
+                    list[i].open = !list[i].open
+                } else {
+                    list[i].open = false
+                }
+            }
+            // this.setData({
+            // list: list
+            // });
+        },
         //分页切换
         changePage(page) {
             this.table.page = page;
@@ -686,7 +706,7 @@ export default {
         height: 1020px;
         background: #fff;
         padding: 30px;
-        overflow: scroll;
+        
         .clearallinfo{
             display: flex;
             justify-content: space-between;
@@ -705,6 +725,8 @@ export default {
         }
         .right-timeline-content{
             margin-top: 60px;
+            height: 450Px;
+            overflow: scroll;
             .ivu-timeline-item-tail{
                 border-left: 0.01rem dashed #246FEA !important;
             }
