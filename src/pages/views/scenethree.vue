@@ -22,7 +22,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="birthday">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -40,7 +40,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="address">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -58,7 +58,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="action1">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -76,7 +76,7 @@
                                 
                                 </template>
                                 <template slot-scope="{ row, index }" slot="action2">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -118,7 +118,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="birthday">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -136,7 +136,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="address">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -154,7 +154,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="action1">
-                                    <div style=" position: relative;">
+                                    <div class="prset" >
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -172,7 +172,7 @@
                                 
                                 </template>
                                 <template slot-scope="{ row, index }" slot="action2">
-                                    <div style=" position: relative;">
+                                    <div class="prset" >
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -219,7 +219,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="birthday">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -237,7 +237,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="address">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -255,7 +255,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="action1">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -273,7 +273,7 @@
                                 
                                 </template>
                                 <template slot-scope="{ row, index }" slot="action2">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -314,7 +314,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="birthday">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -332,7 +332,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="address">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -350,7 +350,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="action1">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -368,7 +368,7 @@
                                 
                                 </template>
                                 <template slot-scope="{ row, index }" slot="action2">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -413,7 +413,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="birthday">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -431,7 +431,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="address">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -449,7 +449,7 @@
                                 </template>
 
                                 <template slot-scope="{ row, index }" slot="action1">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -467,7 +467,7 @@
                                 
                                 </template>
                                 <template slot-scope="{ row, index }" slot="action2">
-                                    <div style=" position: relative;">
+                                    <div class="prset">
                                         <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
                                         <div class="starcontent" v-if="row.show==1">
                                             <Icon type="ios-star" />
@@ -511,6 +511,7 @@ export default {
     name:"Scenethree",
     data(){
         return{
+            leadingindescribe:'',
             table:{
                 columns: [
                     {
@@ -610,6 +611,10 @@ export default {
     -webkit-box-sizing: border-box;
     .sceneitemcontent{
         margin-bottom: 70px;
+    }
+    .prset{
+        position: relative;
+        display: inline-block;
     }
     .rkpi_index_content_title{
         background: #F5F5F5;
@@ -866,7 +871,8 @@ export default {
             border-radius: 5px;
             color:#246FEA;
             min-width: 12px !important;
-            // padding:-2px -4px;
+            display:inline;
+            padding:2px 4px;
            
         }
         .starcontent{
