@@ -472,11 +472,36 @@ export default {
         }
     },
     created(){
+        // this.getdata()
     },
     mounted(){
 
     },
     methods: {
+        getdata() {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getCurUserMarts",
+                data: [],
+            };
+            that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
+                (success) => {
+                // console.log(success.data.result);
+                if(success.data.result.length==0){
+                    //弹窗 内容  你没有使用本系统的权限!
+                    that.err_list = ["你没有使用本系统的权限!"];
+                    that.errorTips_modal = true;
+                    return;
+                }
+                that.list = success.data.result;
+                },
+                (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+                }
+            );
+        },
         //分页切换
         changePage(page) {
             this.table.page = page;

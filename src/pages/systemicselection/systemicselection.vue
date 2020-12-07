@@ -52,7 +52,7 @@
           :key="index"
           >{{node}}</div>
       </div>
-  </Modal>
+    </Modal>
   </div>
 </template>
 <script>

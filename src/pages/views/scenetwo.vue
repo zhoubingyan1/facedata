@@ -310,6 +310,22 @@
                 </div>
             </div>
         </div>
+        <!-- 错误弹框 -->
+        <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+            <div class="errorTips_modal">
+                <img
+                class="errorTips_modal_tips"
+                src="../../assets/images/wrong@3x.png"
+                alt
+                />
+
+                <div
+                class="forget_tips_text"
+                v-for="(node,index) in err_list"
+                :key="index"
+                >{{node}}</div>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -317,6 +333,8 @@ export default {
     name:"Scenetwo",
     data(){
         return{
+            errorTips_modal:false,//错误弹框
+            err_list: [], //错误信息列表
             leadingindescribe:'',
             table:{
                 columns: [
@@ -375,33 +393,34 @@ export default {
         }
     },
     created(){
-        
+        // this.getdata()
     },
     mounted(){
         
     },
     methods: {
         //获取列表
-        getData() {
-            this.$http.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';  //此处是增加的代码，设置请求头的类型
-            this.$http.get('Manager.ashx?act=GetList&pageIndex='+this.table.page+'&pageSize='+this.table.pagesize).then(
-                success => {
-                    // console.log(success)
-                    if(success.data.code == '0') {
-                        this.table.data = success.data.data1
-                        this.table.total = success.data.total
-                    }else {
-                        this.$Modal.error({
-                            title:'提示',
-                            content: success.data.msg,
-                            onOk:()=>{
-                                
-                            }
-                        })
-                    }
+        getdata() {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getCurUserMarts",
+                data: [],
+            };
+            that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
+                (success) => {
+                // console.log(success.data.result);
+                if(success.data.result.length==0){
+                    //弹窗 内容  你没有使用本系统的权限!
+                    that.err_list = ["你没有使用本系统的权限!"];
+                    that.errorTips_modal = true;
+                    return;
+                }
+                that.list = success.data.result;
                 },
-                error => {
-                
+                (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
                 }
             );
         },
