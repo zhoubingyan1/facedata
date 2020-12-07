@@ -306,7 +306,7 @@ export default {
     width: 100%;
     height: 80px;
     background: #F5F5F5;
-    box-shadow: 0 0 0 0 rgba(0,0,0,0.20);
+    // box-shadow: 0 0 0 0 rgba(0,0,0,0.20);
     border-bottom: 1px solid rgba(0,0,0,0.10);
     display: flex;
     justify-content:flex-end;

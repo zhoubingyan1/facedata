@@ -2,14 +2,27 @@
   <div id="index">
     <Row :gutter="52">
       <Col span="8">
-      <div class="rkpi_index_content height415">
+      <div class="rkpi_index_content height465">
         <div class="rkpi_index_content_title">
           <span class="title">RKPI综合得分</span>
-          <span class="title_mini">RKPI Composite Score</span>
+          <!-- <span class="title_mini">RKPI Composite Score</span> -->
+        </div>
+        <div class="rkpi_index_content_sort">
+          <div class="left_sort">
+            <div class="left_sorttit">中间值: {{mediannumber}}</div>
+          </div>
+          <div class="right_sort">
+            <Select v-model="firstsort" @on-change="RKPIsort">
+              <Option value="得分升序">得分升序</Option>
+              <Option value="得分降序">得分降序</Option>
+              <Option value="机构名升序">机构名升序</Option>
+              <Option value="机构名降序">机构名降序</Option>
+          </Select>
+          </div>
         </div>
         <div class="rkpi_item">
           <div
-            v-for="(item,index) in rkpilist"
+            v-for="(item,index) in firstrkpilist"
             :key="index"
             class="rkpi_item_content"
             @click="ishowtable"
@@ -96,10 +109,13 @@
       </div>
       </Col>
       <Col span="8">
-      <div class="rkpi_index_content height415">
+      <div class="rkpi_index_content height465">
         <div class="rkpi_index_content_title">
           <span class="title">RKPI和审核发现</span>
           <span class="title_mini">RKPI and Audit Findings</span>
+        </div>
+        <div>
+
         </div>
         <div class="rkpi_item">
           <div
@@ -305,12 +321,59 @@ export default {
   components: { Tabs, TabPane },
   data() {
     return {
+      mediannumber:0,//综合得分中间值
+      firstsort:'得分升序',
+
       ishowtable1: false,
       ishowtable2: false,
       ishowtable3: false,
       dom: null,
       dom1: null,
       echarts: echarts,
+      firstrkpilist:[
+        {
+          name: "市北分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+        {
+          name: "成都分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+        {
+          name: "浦东分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+        {
+          name: "市北分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+        {
+          name: "成都分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+        {
+          name: "浦东分行",
+          number: "2.94016",
+          score: 45,
+          strokeWidth: 5,
+          strokeColor: ["#92BBFF", "#92BBFF"],
+        },
+      ],//综合得分
       rkpilist: [
         {
           name: "市北分行",
@@ -690,6 +753,9 @@ export default {
         method: "getColumns",
         data: [id],
       };
+      //用下面的that.getData2(res)，这个需要删掉，暂时使用
+      that.getData2([]);
+
 
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
@@ -708,9 +774,12 @@ export default {
       var id = "ZM_10268_2_S1607337857606_s_p$DM1";
 
       var list_data = [];
-      list.forEach((node) => {
-        list_data.push(node.name);
-      });
+      if(list.length>0){
+        list.forEach((node) => {
+          list_data.push(node.name);
+        });
+      }
+      
       var query_data = [
         {
           conditions: [],
@@ -726,19 +795,120 @@ export default {
         method: "pageQueryNoCount",
         data: query_data,
       };
+      let newfirstrkpilist = []
+      let newscorelist=[] //进度条列表
+      let middlenumber=new Number()
+
+
+      newfirstrkpilist = [{"FAC_0":2.69561589496609780000,"FAC_1":1.28274957746505170000,"FAC_2":0.45483501846858820000,"FAC_3":-0.11553851253478853000,"ORG":"D","ROW_NEXT":1,"SUM":4.31766197836494900000},{"FAC_0":-0.04202052734030215000,"FAC_1":1.41928239498359800000,"FAC_2":-0.51500984736003940000,"FAC_3":1.82710010086236950000,"ORG":"E","ROW_NEXT":2,"SUM":2.68935212114562600000},{"FAC_0":0.19757562416180352000,"FAC_1":-0.63684628998216100000,"FAC_2":0.05464861628870698600,"FAC_3":2.10222541577017940000,"ORG":"M","ROW_NEXT":3,"SUM":1.71760336623852880000},{"FAC_0":-0.29746060990558920000,"FAC_1":-0.65267539263366660000,"FAC_2":2.29230616475363960000,"FAC_3":-0.37638454913951014000,"ORG":"G","ROW_NEXT":4,"SUM":0.96578561307487370000},{"FAC_0":-1.18156917389401750000,"FAC_1":2.43363926795954300000,"FAC_2":0.33867819998110840000,"FAC_3":-0.88806160166182700000,"ORG":"L","ROW_NEXT":5,"SUM":0.70268669238480670000},{"FAC_0":-0.23374475554285723000,"FAC_1":-0.42433119879075254000,"FAC_2":1.12948060071829230000,"FAC_3":-0.25894143870177990000,"ORG":"H","ROW_NEXT":6,"SUM":0.21246320768290260000},{"FAC_0":-0.51089544772884920000,"FAC_1":-0.68418819769628230000,"FAC_2":0.44982163303364830000,"FAC_3":0.91554986338275900000,"ORG":"C","ROW_NEXT":7,"SUM":0.17028785099127586000},{"FAC_0":-0.19711919549819387000,"FAC_1":-0.43792809788120460000,"FAC_2":0.89507950898228300000,"FAC_3":-0.13642885033994628000,"ORG":"N","ROW_NEXT":8,"SUM":0.12360336526293819000},{"FAC_0":1.32850502468159300000,"FAC_1":-0.80013317469482610000,"FAC_2":-0.71915864915304280000,"FAC_3":-0.70308810794049070000,"ORG":"K","ROW_NEXT":9,"SUM":-0.89387490710676660000},{"FAC_0":-0.36996547389515280000,"FAC_1":-0.33531117770690766000,"FAC_2":-0.91423995126052770000,"FAC_3":0.33952641209310310000,"ORG":"I","ROW_NEXT":10,"SUM":-1.27999019076948530000},{"FAC_0":-0.53620511822902600000,"FAC_1":0.33295286858101614000,"FAC_2":-0.66757772986032120000,"FAC_3":-0.96081693486682340000,"ORG":"F","ROW_NEXT":11,"SUM":-1.83164691437515440000},]
+          if(newfirstrkpilist.length>0){
+            newfirstrkpilist.forEach((v,i)=>{
+              newfirstrkpilist[i].name = v.ORG
+              newfirstrkpilist[i].number =that.tofix(v.SUM,6)
+              newscorelist.push(newfirstrkpilist[i].number)
+              newfirstrkpilist[i].strokeWidth = 5
+              newfirstrkpilist[i].strokeColor = ["#92BBFF", "#92BBFF"]
+            })
+            //处理进度条值
+            newscorelist = [...new Set(newscorelist)]
+            let socrenumber=0
+            newfirstrkpilist.forEach((v,i)=>{
+              if(newscorelist[0]==v.number){
+                newfirstrkpilist[i].score=100
+              }else{
+                // console.log(newfirstrkpilist[i].number/newscorelist[0])
+                if(newfirstrkpilist[i].number/newscorelist[0]>0){
+                  newfirstrkpilist[i].score=(newfirstrkpilist[i].number/newscorelist[0]).toFixed(2)*100
+                }else{
+                  newfirstrkpilist[i].score=10
+                }
+              }
+            })
+            //取综合得分中间值
+            middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
+            this.mediannumber=middlenumber 
+            
+          }
+          that.firstrkpilist= newfirstrkpilist
+
+
+
+
 
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-  
           var res = success.data.result;
           //周
+
+          // name: "市北分行",
+          // number: "2.94016",
+          // score: 45,
+          // strokeWidth: 5,
+          // strokeColor: ["#92BBFF", "#92BBFF"],
           console.log(res);
+          // firstrkpilist
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
+    },
+    //综合得分排序
+    RKPIsort(data){
+      if(data='得分升序'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist,'number')
+      }else if(data='得分降序'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist,'number')
+      }else if(data='机构名升序'){
+        // 机构名升序
+        this.firstrkpilist.sort((a, b) => {
+          return a.name.localeCompare(b.name, 'zh-Hans-CN');
+        })
+        
+      }else if(data='机构名升序'){
+        // 机构名升序
+        this.firstrkpilist.sort((a, b) => {
+          return b.name.localeCompare(a.name, 'zh-Hans-CN');
+        })
+      }
+    },
+    //数组对象方法排序:升序
+    sortByKey(array,key){
+      return array.sort(function(a,b){
+        var x=a[key];
+        var y=b[key];
+        return ((x<y)?-1:((x>y)?1:0));
+      });
+    },
+    //数组对象方法排序:降序
+    sortDownByKey(array,key){
+      return array.sort(function(a,b){
+        var x=a[key];
+        var y=b[key];
+        return ((x>y)?-1:((x<y)?1:0));
+      });
+    },
+    //强制保留6位小数
+    tofix(val,len){
+      // debugger;
+      var f = parseFloat(val);
+      if (isNaN(f)) {
+          return false;
+      }
+      var f = Math.round(val*Math.pow(10,len))/Math.pow(10,len);
+      var s = f.toString();
+      var rs = s.indexOf('.');
+      if (rs < 0) {
+          rs = s.length;
+          s += '.';
+      }
+      while (s.length <= rs + len) {
+          s += '0';
+      }
+      return s;
     },
     drawOne() {
       // charts_one
@@ -980,13 +1150,14 @@ export default {
   width: 100%;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  background: #f5f5f5;
   .rkpi_index_content_title {
     background: #f5f5f5;
     border-radius: 15px;
     position: absolute;
     top: -30px;
     left: 38px;
-    padding: 20px 6px 20px 13px;
+    padding: 20px 20px 20px 20px;
     z-index: 1;
     .title {
       font-family: PingFangSC-Semibold;
@@ -1026,6 +1197,30 @@ export default {
       letter-spacing: 0;
       line-height: 16px;
       margin-left: 15px;
+    }
+  }
+  .rkpi_index_content_sort{
+    display: flex;
+    padding: 0px 50px 0px 50px;
+    margin: 30px 0px;
+    .left_sort{
+      width:261px;
+      margin-right: 10px;
+      background: rgba(0,0,0,0.03);
+      border-radius: 5px;
+      
+      .left_sorttit{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: rgba(0,0,0,0.40);
+        letter-spacing: 0;
+        line-height: 30px;
+        margin-left: 20px;
+      }
+    }
+    .right_sort{
+      flex:1;
+      // width: 109px;
     }
   }
   #tabs {
@@ -1168,10 +1363,10 @@ export default {
     }
   }
   .height440 {
-    height: 440px;
+    height: 500px;
   }
-  .height415 {
-    height: 415px;
+  .height465 {
+    height: 465px;
   }
   .ivu-progress-inner {
     .ivu-progress-bg {
