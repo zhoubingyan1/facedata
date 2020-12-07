@@ -240,6 +240,8 @@ export default {
           if (res.result != null) {
             var name = res.result.name;
             var user_id = res.result.user_id;
+            sessionStorage.setItem("UserName", res.result.name);
+            sessionStorage.setItem("UserId", res.result.user_id);
             this.$router.push("/systemicselection");
             return;
           } else {

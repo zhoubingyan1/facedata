@@ -146,7 +146,7 @@ export default {
           ],
           wechatLogo:wechatLogo,
           routes: routers.routes,
-          username:'Hi~Natasha',
+          username:sessionStorage.getItem("UserName"),
           activeName: '1-1',
           openNames: ['1']
         }

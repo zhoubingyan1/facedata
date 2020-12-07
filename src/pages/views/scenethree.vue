@@ -1,17 +1,17 @@
 <template>
     <div id="Scenethree">
-        <div class="sceneitemcontent">
-            <Row :gutter="50">
-                <Col span="8">
-                    <div class="rkpi_index_content height542">
+        <!-- 表格全屏放大 -->
+        <div v-if="enlarge"> 
+            <!-- <Row>
+                <Col span="24">
+                    <div class="rkpi_index_content height271">
                         <div class="rkpi_index_content_title">
-                            <span class="title">旋转后的成分矩阵</span>
-                            <span class="title_mini">Component Matrix</span>
+                            <span class="title">总-分行检查结果分析</span>
                         </div>
                         <div class="resizeicon">
                             <Icon type="ios-resize" />
                         </div>
-                        <div class="rkpi_item height470">
+                        <div class="rkpi_item">
                             <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                 <template slot-scope="{ row, index }" slot="name">
                                 {{row.name}}
@@ -97,9 +97,210 @@
                         </div>
                     </div>
                 </Col>
-                <Col span="16">
-                    <div class="rkpi_index_content height542" style="margin-top:0px; padding-top:0px;">
+            </Row> -->
+        </div>
+        <div v-if="!enlarge">
+            <div class="sceneitemcontent">
+                <Row :gutter="50">
+                    <Col span="8">
                         <div class="rkpi_index_content height542">
+                            <div class="rkpi_index_content_title">
+                                <span class="title">旋转后的成分矩阵</span>
+                                <span class="title_mini">Component Matrix</span>
+                            </div>
+                            <div class="resizeicon">
+                                <Icon type="ios-resize" />
+                            </div>
+                            <div class="rkpi_item height470">
+                                <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
+                                    <template slot-scope="{ row, index }" slot="name">
+                                    {{row.name}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="age">
+                                    {{row.age}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="birthday">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="address">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="action1">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                    <template slot-scope="{ row, index }" slot="action2">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                </Table>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col span="16">
+                        <div class="rkpi_index_content height542" style="margin-top:0px; padding-top:0px;">
+                            <div class="rkpi_index_content height542">
+                                <div class="rkpi_index_content_title">
+                                    <span class="title">相关性分析</span>
+                                    <span class="title_mini">Correlation Analysis</span>
+                                </div>
+                                <div class="resizeicon">
+                                    <Icon type="ios-resize" />
+                                </div>
+                                <div class="rkpi_item height470">
+                                    <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
+                                    <template slot-scope="{ row, index }" slot="name">
+                                    {{row.name}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="age">
+                                    {{row.age}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="birthday">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="address">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="action1">
+                                        <div class="prset" >
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                    <template slot-scope="{ row, index }" slot="action2">
+                                        <div class="prset" >
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                </Table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+            <div class="sceneitemcontent">
+                <Row :gutter="50">
+                    <Col span="15">
+                        <div class="rkpi_index_content height521">
                             <div class="rkpi_index_content_title">
                                 <span class="title">相关性分析</span>
                                 <span class="title_mini">Correlation Analysis</span>
@@ -107,391 +308,291 @@
                             <div class="resizeicon">
                                 <Icon type="ios-resize" />
                             </div>
-                            <div class="rkpi_item height470">
+                            <div class="rkpi_item height450">
                                 <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
-                                <template slot-scope="{ row, index }" slot="name">
-                                {{row.name}}
-                                </template>
+                                    <template slot-scope="{ row, index }" slot="name">
+                                    {{row.name}}
+                                    </template>
 
-                                <template slot-scope="{ row, index }" slot="age">
-                                {{row.age}}
-                                </template>
+                                    <template slot-scope="{ row, index }" slot="age">
+                                    {{row.age}}
+                                    </template>
 
-                                <template slot-scope="{ row, index }" slot="birthday">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
+                                    <template slot-scope="{ row, index }" slot="birthday">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
                                         </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
+                                    </template>
 
-                                <template slot-scope="{ row, index }" slot="address">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
+                                    <template slot-scope="{ row, index }" slot="address">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
                                         </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
+                                    </template>
 
-                                <template slot-scope="{ row, index }" slot="action1">
-                                    <div class="prset" >
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
+                                    <template slot-scope="{ row, index }" slot="action1">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
                                         </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
+                                    
+                                    </template>
+                                    <template slot-scope="{ row, index }" slot="action2">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
                                         </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                                <template slot-scope="{ row, index }" slot="action2">
-                                    <div class="prset" >
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                            </Table>
+                                    
+                                    </template>
+                                </Table>
                             </div>
-                            
                         </div>
-                    </div>
-                </Col>
-            </Row>
-        </div>
-        <div class="sceneitemcontent">
-            <Row :gutter="50">
-                <Col span="15">
-                    <div class="rkpi_index_content height521">
-                        <div class="rkpi_index_content_title">
-                            <span class="title">相关性分析</span>
-                            <span class="title_mini">Correlation Analysis</span>
+                    </Col>
+                    <Col span="9">
+                        <div class="rkpi_index_content height521">
+                            <div class="rkpi_index_content_title">
+                                <span class="title">相关性分析</span>
+                                <span class="title_mini">Correlation Analysis</span>
+                            </div>
+                            <div class="resizeicon">
+                                <Icon type="ios-resize" />
+                            </div>
+                            <div class="rkpi_item height450">
+                                <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
+                                    <template slot-scope="{ row, index }" slot="name">
+                                    {{row.name}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="age">
+                                    {{row.age}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="birthday">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="address">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="action1">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                    <template slot-scope="{ row, index }" slot="action2">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                </Table>
+                            </div>
                         </div>
-                        <div class="resizeicon">
-                            <Icon type="ios-resize" />
+                    </Col>
+                </Row>
+            </div>
+            <div class="sceneitemcontent">
+                <Row :gutter="50">
+                    <Col span="9">
+                        <div class="rkpi_index_content height521">
+                            <div class="rkpi_index_content_title">
+                                <span class="title">相关性分析</span>
+                                <span class="title_mini">Correlation Analysis</span>
+                            </div>
+                            <div class="resizeicon">
+                                <Icon type="ios-resize" />
+                            </div>
+                            <div class="rkpi_item height450">
+                                <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
+                                    <template slot-scope="{ row, index }" slot="name">
+                                    {{row.name}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="age">
+                                    {{row.age}}
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="birthday">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="address">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    </template>
+
+                                    <template slot-scope="{ row, index }" slot="action1">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                    <template slot-scope="{ row, index }" slot="action2">
+                                        <div class="prset">
+                                            <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
+                                            <div class="starcontent" v-if="row.show==1">
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==2">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                            <div class="starcontent" v-if="row.show==3">
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                                <Icon type="ios-star" />
+                                            </div>
+                                        </div>
+                                    
+                                    </template>
+                                </Table>
+                            </div>
                         </div>
-                        <div class="rkpi_item height450">
-                            <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
-                                <template slot-scope="{ row, index }" slot="name">
-                                {{row.name}}
-                                </template>
+                    </Col>
+                    <Col span="15">
 
-                                <template slot-scope="{ row, index }" slot="age">
-                                {{row.age}}
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="birthday">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="address">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="action1">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                                <template slot-scope="{ row, index }" slot="action2">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                            </Table>
-                        </div>
-                    </div>
-                </Col>
-                <Col span="9">
-                    <div class="rkpi_index_content height521">
-                        <div class="rkpi_index_content_title">
-                            <span class="title">相关性分析</span>
-                            <span class="title_mini">Correlation Analysis</span>
-                        </div>
-                        <div class="resizeicon">
-                            <Icon type="ios-resize" />
-                        </div>
-                        <div class="rkpi_item height450">
-                            <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
-                                <template slot-scope="{ row, index }" slot="name">
-                                {{row.name}}
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="age">
-                                {{row.age}}
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="birthday">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="address">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="action1">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                                <template slot-scope="{ row, index }" slot="action2">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                            </Table>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-        </div>
-        <div class="sceneitemcontent">
-            <Row :gutter="50">
-                <Col span="9">
-                    <div class="rkpi_index_content height521">
-                        <div class="rkpi_index_content_title">
-                            <span class="title">相关性分析</span>
-                            <span class="title_mini">Correlation Analysis</span>
-                        </div>
-                        <div class="resizeicon">
-                            <Icon type="ios-resize" />
-                        </div>
-                        <div class="rkpi_item height450">
-                            <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
-                                <template slot-scope="{ row, index }" slot="name">
-                                {{row.name}}
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="age">
-                                {{row.age}}
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="birthday">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.birthday}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="address">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.address}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                </template>
-
-                                <template slot-scope="{ row, index }" slot="action1">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action1}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                                <template slot-scope="{ row, index }" slot="action2">
-                                    <div class="prset">
-                                        <div :class="row.show>0?'bottomstar':''" >{{row.action2}}</div>
-                                        <div class="starcontent" v-if="row.show==1">
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==2">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                        <div class="starcontent" v-if="row.show==3">
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                            <Icon type="ios-star" />
-                                        </div>
-                                    </div>
-                                
-                                </template>
-                            </Table>
-                        </div>
-                    </div>
-                </Col>
-                <Col span="15">
-
-                </Col>
-            </Row>
+                    </Col>
+                </Row>
+            </div>
         </div>
         <!-- <div class="sceneitemcontent">
             <div class="rkpi_index_content1 height271">
@@ -527,6 +628,7 @@ export default {
     name:"Scenethree",
     data(){
         return{
+            enlarge:false,
             errorTips_modal:false,//错误弹框
             err_list: [], //错误信息列表
             leadingindescribe:'',
