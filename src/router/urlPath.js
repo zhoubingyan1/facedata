@@ -18,6 +18,9 @@ export default {
     // setMart	
     // setUnit	
         // /sys/explorer/dfi.upload
-    GETCOLUMS:'/qry/common/base.entity.direct',
-    PAGEQUERYNOCOUNT:'/qry/common/qry.common.direct'
+    GETCOLUMS:'/v3/qry/common/base.entity.direct',
+    PAGEQUERYNOCOUNT:'/v3/qry/common/qry.common.direct'
+
+
+
 }

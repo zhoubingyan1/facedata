@@ -134,7 +134,7 @@ export default {
       username: "",
       password: "",
       errorTips_modal: false, //密码错误框
-      single: false,
+      single: true,
       isshowcloseicon: false,
       hasPW: false,
       err_list: [],
@@ -232,26 +232,27 @@ export default {
         data: [this.username, this.password],
       };
       console.log(that.PATH.LOGIN);
-      that.$http
-        .post(that.PATH.LOGIN, JSON.stringify(query))
-        .then(
-          (success) => {
-            console.log(success.data);
-            var res = success.data;
-            if (res.result != null) {
-              this.$router.push("/systemicselection");
-              return;
-            } else {
-              that.err_list = ["账号或密码错误", "请联系管理员"];
-              that.errorTips_modal = true;
-              return;
-            }
-          },
-          (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
+      that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
+        (success) => {
+          console.log(success.data);
+          var res = success.data;
+
+          if (res.result != null) {
+            var name = res.result.name;
+            var user_id=res.result.user_id;
+            this.$router.push("/systemicselection");
+            return;
+          } else {
+            that.err_list = ["账号或密码错误", "请联系管理员"];
             that.errorTips_modal = true;
+            return;
           }
-        );
+        },
+        (error) => {
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
     },
     ForgetPassword() {
       this.err_list = ["请联系管理员"];
