@@ -729,8 +729,10 @@ export default {
 
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          console.log(success);
+  
           var res = success.data.result;
+          //周
+          console.log(res);
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
