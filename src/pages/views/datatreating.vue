@@ -495,6 +495,34 @@ export default {
         //   newtabledata=success.data.result.data
           that.table.data=newtabledata
           that.table.total =success.data.result.count
+
+          //储存localstore
+          if(newtabledata.length>0){
+            //   因子分析datavb入库------RKPI综合得分
+            //     因子分析datasd入库------总行
+            //     因子分析datasc入库------分行
+            //     因子分析datase入库------监管
+            //     因子分析datascde入库------综合
+            //     因子分析datavkpi入库------rkpi和审核发现
+            newtabledata.forEach((v,i)=>{
+                if(v.name=='因子分析datavb入库'){
+                    modaltype[v.name]=v.param
+                }else if(v.name=='因子分析datasd入库'){
+                    modaltype[v.name]=v.param
+                }else if(v.name=='因子分析datasc入库'){
+                    modaltype[v.name]=v.param
+                }else if(v.name=='因子分析datase入库'){
+                    modaltype[v.name]=v.param
+                }else if(v.name=='因子分析datascde入库'){
+                    modaltype[v.name]=v.param
+                }else if(v.name=='因子分析datavkpi入库'){
+                    modaltype[v.name]=v.param
+                }
+            })
+            
+            localStorage.setItem('modaltype',JSON.stringify(modaltype))
+        }
+
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
