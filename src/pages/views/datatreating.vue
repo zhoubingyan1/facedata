@@ -622,7 +622,8 @@ export default {
         this.gettable(item.id);
       } else {
         //文件夹
-        this.getdata2(item, item.id);
+        //this.getdata2(item, item.id);
+         this.getdata( item.id);
       }
 
       //   right-left =1
