@@ -217,6 +217,8 @@ export default {
   },
   data() {
     return {
+      currenttableid:'',
+
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 
@@ -476,12 +478,12 @@ export default {
           }
         );
     },
-    gettable(id) {
+    gettable(id,page,pagesize) {
       var that = this;
       var query = {
         action: "Service",
         method: "getByCatalog",
-        data: [id, 1, 90],
+        data: [id, page, pagesize],
       };
       let newtabledata = [];
 
@@ -594,7 +596,7 @@ export default {
     //分页切换
     changePage(page) {
       this.table.page = page;
-      this.changeTags();
+      this.gettable(this.currenttableid ,this.table.page,this.table.pagesize);
     },
     // 选择导入
     choseleadingin() {
@@ -616,7 +618,9 @@ export default {
       if (item.right - item.left == 1) {
         //文件,获取右边的表格
         // this.gettable(item.id)
-        this.gettable(item.id);
+        this.table.page=1
+        this.currenttableid =item.id
+        this.gettable(item.id,this.table.page,this.table.pagesize);
       } else {
         //文件夹
         this.getdata2(item, item.id);

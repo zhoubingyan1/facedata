@@ -43,7 +43,8 @@
         :list="item.children"
         v-on="$listeners"
         :size="size"
-        v-if="item.expand&&item.children&&item.children.length>0"
+        v-if="item.expand&&item.right-item.left!=1"
+
       ></line-item>
     </div>
   </div>
