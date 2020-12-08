@@ -1584,7 +1584,7 @@ export default {
   #newtabs{
         background: #fff;
         .newtabs-nav{
-            padding:37px 50px 0px 50px;
+            padding:0px 50px 0px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
