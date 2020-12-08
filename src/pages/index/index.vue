@@ -790,9 +790,9 @@ export default {
             } else if (i == "因子分析datasd入库") {
               this.getData(newmodaltype[i],'indexdata1');
             } else if (i == "因子分析datasc入库") {
-              this.getData(newmodaltype[i],'indexdata4');
+              this.getData(newmodaltype[i],'indexdata2');
             } else if (i == "因子分析datase入库") {
-              this.getData(newmodaltype[i],'indexdata5');
+              this.getData(newmodaltype[i],'indexdata3');
             } else if (i == "因子分析datascde入库") {
               this.getData(newmodaltype[i],'indexdata4');
             } else if (i == "因子分析datavkpi入库") {
@@ -1094,18 +1094,23 @@ export default {
 
     //数组对象方法排序:升序
     sortByKey(array, key) {
+      // return array.sort(function (a, b) {
+      //   var x = a[key];
+      //   var y = b[key];
+      //   return x < y ? -1 : x > y ? 1 : 0;
+      // });
       return array.sort(function (a, b) {
-        var x = a[key];
-        var y = b[key];
-        return x < y ? -1 : x > y ? 1 : 0;
+        var value1 = a[key];
+        var value2 = b[key];
+        return value1 - value2;
       });
     },
     //数组对象方法排序:降序
     sortDownByKey(array, key) {
       return array.sort(function (a, b) {
-        var x = a[key];
-        var y = b[key];
-        return x > y ? -1 : x < y ? 1 : 0;
+        var value1 = a[key];
+        var value2 = b[key];
+        return value2 - value1;
       });
     },
     //正序
