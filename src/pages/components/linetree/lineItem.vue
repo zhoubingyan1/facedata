@@ -19,17 +19,17 @@
           'active_color': item.expand
         }"
       >
-        <Icon v-if="!item.expand&&item.children&&item.children.length>0" type="md-arrow-dropright" />
-        <Icon v-if="item.expand&&item.children&&item.children.length>0" type="md-arrow-dropdown" />
-        <div v-if="item.children&&item.children.length==0" class="noicon"></div>
+        <Icon v-if="!item.expand&&item.children&&item.right-item.left!=1" type="md-arrow-dropright" />
+        <Icon v-if="item.expand&&item.children&&item.right-item.left!=1" type="md-arrow-dropdown" />
+        <div v-if="item.children&&item.right-item.left==1" class="noicon"></div>
         <div
           v-if="item.children"
           class="reTree_icon"
           :style="{height: (size||14*1.2) +'px',width: (size||14*1.2) +'px'}"
           :class="{
-          'reTree_default_icon': item.children.length===0,
-          'reTree_collapse_icon': item.expand && item.children.length>0,
-          'reTree_expand_icon': !item.expand && item.children.length>0,
+          'reTree_default_icon': item.right-item.left==1,
+          'reTree_collapse_icon': item.expand && item.right-item.left!=1,
+          'reTree_expand_icon': !item.expand && item.right-item.left!=1,
         }"
         ></div>
         <div

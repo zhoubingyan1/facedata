@@ -8,6 +8,41 @@
       <div
         class="row-flex-start basic_banner"
         :class="{
+          'active_color': item.expand && item.right-item.left!=1,
+          
+        }"
+        @click="itemClick(item)"
+      >
+        <Icon v-if="!item.expand&&item.right-item.left!=1" type="md-arrow-dropright" />
+        <Icon v-if="item.expand&&item.right-item.left
+        !=1" type="md-arrow-dropdown" />
+        <div v-if="item.right-item.left==1" class="noicon"></div>
+        <div
+          class="reTree_icon"
+          :style="{height: (size||14*1.2 )+'px',width: (size||14*1.2) +'px'}"
+          :class="{
+          'reTree_default_icon': item.right-item.left==1,
+          'reTree_collapse_icon': item.expand && item.right-item.left!=1,
+          'reTree_expand_icon': !item.expand && item.right-item.left!=1,
+        }"
+        ></div>
+        <div class="layer_text nowrap">{{item.name}}</div>
+      </div>
+
+      <lineItem v-if="item.expand&&item.right-item.left==1" v-on="$listeners" :list="item.children" :size="size"></lineItem>
+    </div>
+  </div>
+
+
+  <!-- <div
+    class="content column-start-center reTree_box"
+    :style="{fontSize: (size||14) +'px',lineHeight:(size||14) +'px'}"
+    style="width:347px"
+  >
+    <div class="column-start-center basic_layer" v-for="(item,index) in formatData" :key="index">
+      <div
+        class="row-flex-start basic_banner"
+        :class="{
           'active_color': item.expand && item.children.length>0,
           
         }"
@@ -30,7 +65,7 @@
 
       <lineItem v-if="item.expand&&item.children.length>0" v-on="$listeners" :list="item.children" :size="size"></lineItem>
     </div>
-  </div>
+  </div> -->
 </template>
 <script>
 import lineItem from "./lineItem.vue";
@@ -54,20 +89,27 @@ export default {
   watch: {
     pd(n, o) {
       this.formatData = this.preDealData(n);
-      console.log(this.formatData);
+      // console.log(this.formatData);
     }
   },
   created() {
-    console.log("lineTree create");
+    // console.log("lineTree create");
+    console.log(this.pd,'this.pd')
     this.preDealData(this.pd);
   },
 
   methods: {
     preDealData(list) {
-      list.forEach(x => {
-        if (!x.expand) this.$set(x, "expand", false);
-        if (x.children && x.children.length > 0) this.preDealData(x.children);
-      });
+      console.log(list,'list')
+      if(list.length>0){
+        list.forEach(x => {
+          if (!x.expand) this.$set(x, "expand", false);
+          if (x.children && x.children.length > 0) this.preDealData(x.children);
+          
+          
+        });
+      }
+      
       return list;
     },
     // 根据id展开树的具体项

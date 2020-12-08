@@ -248,7 +248,7 @@ export default {
            linetreelist: []
       },{
           name: "数据包",
-           linetreelist: []
+           
       },{
           name: "模型库",
           linetreelist: []
@@ -348,86 +348,28 @@ export default {
         total: 50,
         columns: [
           {
-            title: "排名",
-            key: "id",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.id;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "机构名称",
+            title: "名称",
             key: "name",
             align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
           },
           {
-            title: "风险因子2",
-            key: "name1",
+            title: "拥有者",
+            key: "ownerName",
             align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name1;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
           },
           {
-            title: " ",
+            title: "来源",
+            key: "source",
             align: "center",
+          },
+          {
+            title: "更新时间",
+            key: "createTime",
+            align: "center",
+          },
+          {
+            title: "来源",
+            align: "",
             render: (h, params) => {
               let result = "0";
               return h("div", [
@@ -459,58 +401,7 @@ export default {
             },
           },
         ],
-        data: [
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-        ],
+        data: [],
       },
       cityList: [
         {
@@ -561,15 +452,38 @@ export default {
         method: "getByCatalog",
         data: [id,1,90],
       };
+      let newtabledata=[]
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data.result);
+        //   createTime
+            newtabledata = success.data.result.data
+            if(newtabledata.length>0){
+                newtabledata.forEach((v,i)=>{
+                    newtabledata[i].createTime= that.getNweDate(v.createTime,'year')
+                })
+            }
+          newtabledata=success.data.result.data
+          thst.table.total =success.data.result.total
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
+    },
+    getNweDate(timeStamp, startType){
+        const d = new Date(timeStamp * 1000)
+        const year = d.getFullYear()
+        const month = getHandledValue(d.getMonth() + 1)
+        const date = getHandledValue(d.getDate())
+        const hours = getHandledValue(d.getHours())
+        const minutes = getHandledValue(d.getMinutes())
+        const second = getHandledValue(d.getSeconds())
+        let resStr = ''
+        if (startType === 'year') resStr = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + second
+        else resStr = month + '-' + date + ' ' + hours + ':' + minutes
+        return resStr
     },
     //分页切换
     changePage(page) {
@@ -595,7 +509,16 @@ export default {
     itemClick(item) {
       //树的点击
       console.log(item,1111)
-      this.getdata(item.id)
+      if(item.right-item.left==1){
+          //文件,获取右边的表格
+        this.gettable(item.id)
+        // this.gettable(19)
+      }else{
+          //文件夹
+          this.getdata(item.id)
+      }
+      
+    //   right-left =1
     },
     tabclick(item) {
       // console.log(item,'item')
