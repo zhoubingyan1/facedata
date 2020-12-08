@@ -243,105 +243,108 @@ export default {
           index: "1",
         },
       ],
-      leftTreeList:[{
+      leftTreeList: [
+        {
           name: "数据表",
-           linetreelist: []
-      },{
+          linetreelist: [],
+        },
+        {
           name: "数据包",
-           
-      },{
+        },
+        {
           name: "模型库",
-          linetreelist: []
-      }],
-    //   leftTreeList: [
-    //     {
-    //       name: "数据表",
-    //       linetreelist: [
-    //         {
-    //           label: "第一层(1)",
-    //           children: [],
-    //         },
-    //         {
-    //           label: "第一层(2)",
-    //           children: [
-    //             {
-    //               label: "第二层(1)",
-    //               children: [],
-    //             },
-    //             {
-    //               label: "第二层(2)",
-    //               children: [
-    //                 {
-    //                   label: "第三层(1)",
-    //                   children: [
-    //                     {
-    //                       label: "第四层",
-    //                       children: [
-    //                         {
-    //                           label: "第五层",
-    //                           children: [{ label: "第六层", children: [] }],
-    //                         },
-    //                       ],
-    //                     },
-    //                   ],
-    //                 },
-    //                 {
-    //                   label: "第三层(2)",
-    //                   children: [],
-    //                 },
-    //                 {
-    //                   label: "第三层(3)",
-    //                   children: [],
-    //                 },
-    //               ],
-    //             },
-    //             {
-    //               label: "第二层(3)",
-    //               children: [],
-    //             },
-    //             {
-    //               label: "第二层(4)",
-    //               children: [],
-    //             },
-    //           ],
-    //         },
-    //         {
-    //           label: "第一层(3)",
-    //           children: [],
-    //         },
-    //         {
-    //           label: "第一层(4)",
-    //           children: [],
-    //         },
-    //         {
-    //           label: "第一层(5)",
-    //           children: [],
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       name: "数据包",
-    //       linetreelist: [
-    //         {
-    //           label: "xxxx-xx-xx",
-    //           children: [],
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       name: "模型库",
-    //       linetreelist: [
-    //         {
-    //           label: "xxxx-xx-xx",
-    //           children: [],
-    //         },
-    //         {
-    //           label: "xxxx-xx-xx",
-    //           children: [],
-    //         },
-    //       ],
-    //     },
-    //   ],
+          linetreelist: [],
+        },
+      ],
+      //   leftTreeList: [
+      //     {
+      //       name: "数据表",
+      //       linetreelist: [
+      //         {
+      //           label: "第一层(1)",
+      //           children: [],
+      //         },
+      //         {
+      //           label: "第一层(2)",
+      //           children: [
+      //             {
+      //               label: "第二层(1)",
+      //               children: [],
+      //             },
+      //             {
+      //               label: "第二层(2)",
+      //               children: [
+      //                 {
+      //                   label: "第三层(1)",
+      //                   children: [
+      //                     {
+      //                       label: "第四层",
+      //                       children: [
+      //                         {
+      //                           label: "第五层",
+      //                           children: [{ label: "第六层", children: [] }],
+      //                         },
+      //                       ],
+      //                     },
+      //                   ],
+      //                 },
+      //                 {
+      //                   label: "第三层(2)",
+      //                   children: [],
+      //                 },
+      //                 {
+      //                   label: "第三层(3)",
+      //                   children: [],
+      //                 },
+      //               ],
+      //             },
+      //             {
+      //               label: "第二层(3)",
+      //               children: [],
+      //             },
+      //             {
+      //               label: "第二层(4)",
+      //               children: [],
+      //             },
+      //           ],
+      //         },
+      //         {
+      //           label: "第一层(3)",
+      //           children: [],
+      //         },
+      //         {
+      //           label: "第一层(4)",
+      //           children: [],
+      //         },
+      //         {
+      //           label: "第一层(5)",
+      //           children: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       name: "数据包",
+      //       linetreelist: [
+      //         {
+      //           label: "xxxx-xx-xx",
+      //           children: [],
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       name: "模型库",
+      //       linetreelist: [
+      //         {
+      //           label: "xxxx-xx-xx",
+      //           children: [],
+      //         },
+      //         {
+      //           label: "xxxx-xx-xx",
+      //           children: [],
+      //         },
+      //       ],
+      //     },
+      //   ],
       table: {
         page: 1,
         pagesize: 15,
@@ -425,19 +428,50 @@ export default {
         method: "getExplorerChildren",
         data: [id],
       };
-      let newResult=new Array()
+      let newResult = new Array();
       that.$http
         .post(that.PATH.getExplorerChildren, JSON.stringify(query))
         .then(
           (success) => {
             console.log(success.data.result);
-            newResult = success.data.result
-            if(newResult.length>0){
-                newResult.forEach((v,i)=>{
-                    newResult[i].children=[]
-                })
+            newResult = success.data.result;
+            if (newResult.length > 0) {
+              newResult.forEach((v, i) => {
+                newResult[i].children = [];
+              });
             }
-            this.leftTreeList[0].linetreelist=newResult
+            this.leftTreeList[0].linetreelist = newResult;
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    getdata2(a, id) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getExplorerChildren",
+        data: [id],
+      };
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.getExplorerChildren, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data.result);
+            newResult = success.data.result;
+            if (newResult.length > 0) {
+              newResult.forEach((v, i) => {
+                newResult[i].children = [];
+              });
+            }
+            a.children=newResult;
+            var b = this.cloneObj(this.leftTreeList[0].linetreelist);
+            this.leftTreeList[0].linetreelist = [];
+            this.leftTreeList[0].linetreelist = b;
+            console.log();
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -450,79 +484,81 @@ export default {
       var query = {
         action: "Service",
         method: "getByCatalog",
-        data: [id,1,90],
+        data: [id, 1, 90],
       };
-      let newtabledata=[]
+      let newtabledata = [];
 
-    //   let tabledatalist={"action":"Service","method":"getByCatalog","result":{"count":21,"data":[{"catalog":19,"createTime":1607345072934,"id":1607345072000003,"name":"因子分析datavb入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607345071367,"id":1607345071000002,"name":"因子分析datasd入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344790562,"id":1607344790000001,"name":"å› å­åˆ†æždatascdeå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344789088,"id":1607344789000000,"name":"å› å­åˆ†æždatascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343743543,"id":1607343743000014,"name":"å› å­åˆ†æždatavbå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343742127,"id":1607343742000013,"name":"å› å­åˆ†æždatavbå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146744,"id":1607343146000012,"name":"å› å­åˆ†æždataseå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146269,"id":1607343146000011,"name":"å› å­åˆ†æždataseå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118795,"id":1607343118000010,"name":"å› å­åˆ†æždatasdå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118262,"id":1607343118000009,"name":"å› å­åˆ†æždatasdå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088889,"id":1607343088000008,"name":"å› å­åˆ†æždatascå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088405,"id":1607343088000007,"name":"å› å­åˆ†æždatascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607339612004,"id":1607339612000004,"name":"datavb","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10273_1_S1607339571440_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322212273,"id":1607322212000004,"name":"datascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10264_7_S1607322171163_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322047933,"id":1607322047000003,"name":"因子分析datasc入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10266_16_S1607321963553_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607318392139,"id":1607318392000001,"name":"因子分析datavkpi入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10263_16_S1607318302833_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607302801259,"id":1607302801000002,"name":"因子分析datase入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302799776$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302547013,"id":1607302547000001,"name":"DåŽŸå§‹æ•°æ®","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302545485$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302375485,"id":1607302375000000,"name":"因子分析datascde入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302373986$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606750045988,"id":1606750045000000,"name":"kpi","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1606750044488$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606747810251,"id":1606747810000003,"name":"datascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10256_16_S1606747723063_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"}]},"state":0,"tid":0}
-    //   console.log(tabledatalist.result.data,'tabledatalist')
-      let modaltype= new Object()
-    //   if(tabledatalist.result.data.length>0){
-    //     //   因子分析datavb入库------RKPI综合得分
-    //     //     因子分析datasd入库------总行
-    //     //     因子分析datasc入库------分行
-    //     //     因子分析datase入库------监管
-    //     //     因子分析datascde入库------综合
-    //     //     因子分析datavkpi入库------rkpi和审核发现
-    //     tabledatalist.result.data.forEach((v,i)=>{
-    //         if(v.name=='因子分析datavb入库'){
-    //             modaltype[v.name]=v.param
-    //         }else if(v.name=='因子分析datasd入库'){
-    //             modaltype[v.name]=v.param
-    //         }else if(v.name=='因子分析datasc入库'){
-    //             modaltype[v.name]=v.param
-    //         }else if(v.name=='因子分析datase入库'){
-    //             modaltype[v.name]=v.param
-    //         }else if(v.name=='因子分析datascde入库'){
-    //             modaltype[v.name]=v.param
-    //         }else if(v.name=='因子分析datavkpi入库'){
-    //             modaltype[v.name]=v.param
-    //         }
-    //     })
-        
-    //     localStorage.setItem('modaltype',JSON.stringify(modaltype))
-    //   }
+      //   let tabledatalist={"action":"Service","method":"getByCatalog","result":{"count":21,"data":[{"catalog":19,"createTime":1607345072934,"id":1607345072000003,"name":"因子分析datavb入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607345071367,"id":1607345071000002,"name":"因子分析datasd入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344790562,"id":1607344790000001,"name":"å› å­åˆ†æždatascdeå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344789088,"id":1607344789000000,"name":"å› å­åˆ†æždatascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343743543,"id":1607343743000014,"name":"å› å­åˆ†æždatavbå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343742127,"id":1607343742000013,"name":"å› å­åˆ†æždatavbå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146744,"id":1607343146000012,"name":"å› å­åˆ†æždataseå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146269,"id":1607343146000011,"name":"å› å­åˆ†æždataseå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118795,"id":1607343118000010,"name":"å› å­åˆ†æždatasdå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118262,"id":1607343118000009,"name":"å› å­åˆ†æždatasdå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088889,"id":1607343088000008,"name":"å› å­åˆ†æždatascå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088405,"id":1607343088000007,"name":"å› å­åˆ†æždatascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607339612004,"id":1607339612000004,"name":"datavb","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10273_1_S1607339571440_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322212273,"id":1607322212000004,"name":"datascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10264_7_S1607322171163_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322047933,"id":1607322047000003,"name":"因子分析datasc入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10266_16_S1607321963553_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607318392139,"id":1607318392000001,"name":"因子分析datavkpi入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10263_16_S1607318302833_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607302801259,"id":1607302801000002,"name":"因子分析datase入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302799776$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302547013,"id":1607302547000001,"name":"DåŽŸå§‹æ•°æ®","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302545485$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302375485,"id":1607302375000000,"name":"因子分析datascde入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302373986$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606750045988,"id":1606750045000000,"name":"kpi","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1606750044488$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606747810251,"id":1606747810000003,"name":"datascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10256_16_S1606747723063_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"}]},"state":0,"tid":0}
+      //   console.log(tabledatalist.result.data,'tabledatalist')
+      let modaltype = new Object();
+      //   if(tabledatalist.result.data.length>0){
+      //     //   因子分析datavb入库------RKPI综合得分
+      //     //     因子分析datasd入库------总行
+      //     //     因子分析datasc入库------分行
+      //     //     因子分析datase入库------监管
+      //     //     因子分析datascde入库------综合
+      //     //     因子分析datavkpi入库------rkpi和审核发现
+      //     tabledatalist.result.data.forEach((v,i)=>{
+      //         if(v.name=='因子分析datavb入库'){
+      //             modaltype[v.name]=v.param
+      //         }else if(v.name=='因子分析datasd入库'){
+      //             modaltype[v.name]=v.param
+      //         }else if(v.name=='因子分析datasc入库'){
+      //             modaltype[v.name]=v.param
+      //         }else if(v.name=='因子分析datase入库'){
+      //             modaltype[v.name]=v.param
+      //         }else if(v.name=='因子分析datascde入库'){
+      //             modaltype[v.name]=v.param
+      //         }else if(v.name=='因子分析datavkpi入库'){
+      //             modaltype[v.name]=v.param
+      //         }
+      //     })
+
+      //     localStorage.setItem('modaltype',JSON.stringify(modaltype))
+      //   }
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data.result);
-        //   createTime
-            newtabledata = success.data.result.data
-            if(newtabledata.length>0){
-                newtabledata.forEach((v,i)=>{
-                    newtabledata[i].createTime= that.getNweDate(v.createTime,'year')
-                })
-            }
-        //   newtabledata=success.data.result.data
-          that.table.data=newtabledata
-          that.table.total =success.data.result.count
+          //   createTime
+          newtabledata = success.data.result.data;
+          if (newtabledata.length > 0) {
+            newtabledata.forEach((v, i) => {
+              newtabledata[i].createTime = that.getNweDate(
+                v.createTime,
+                "year"
+              );
+            });
+          }
+          //   newtabledata=success.data.result.data
+          that.table.data = newtabledata;
+          that.table.total = success.data.result.count;
 
           //储存localstore
-          if(newtabledata.length>0){
+          if (newtabledata.length > 0) {
             //   因子分析datavb入库------RKPI综合得分
             //     因子分析datasd入库------总行
             //     因子分析datasc入库------分行
             //     因子分析datase入库------监管
             //     因子分析datascde入库------综合
             //     因子分析datavkpi入库------rkpi和审核发现
-            newtabledata.forEach((v,i)=>{
-                if(v.name=='因子分析datavb入库'){
-                    modaltype[v.name]=v.param
-                }else if(v.name=='因子分析datasd入库'){
-                    modaltype[v.name]=v.param
-                }else if(v.name=='因子分析datasc入库'){
-                    modaltype[v.name]=v.param
-                }else if(v.name=='因子分析datase入库'){
-                    modaltype[v.name]=v.param
-                }else if(v.name=='因子分析datascde入库'){
-                    modaltype[v.name]=v.param
-                }else if(v.name=='因子分析datavkpi入库'){
-                    modaltype[v.name]=v.param
-                }
-            })
-            
-            localStorage.setItem('modaltype',JSON.stringify(modaltype))
-        }
+            newtabledata.forEach((v, i) => {
+              if (v.name == "因子分析datavb入库") {
+                modaltype[v.name] = v.param;
+              } else if (v.name == "因子分析datasd入库") {
+                modaltype[v.name] = v.param;
+              } else if (v.name == "因子分析datasc入库") {
+                modaltype[v.name] = v.param;
+              } else if (v.name == "因子分析datase入库") {
+                modaltype[v.name] = v.param;
+              } else if (v.name == "因子分析datascde入库") {
+                modaltype[v.name] = v.param;
+              } else if (v.name == "因子分析datavkpi入库") {
+                modaltype[v.name] = v.param;
+              }
+            });
 
+            localStorage.setItem("modaltype", JSON.stringify(modaltype));
+          }
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -530,21 +566,33 @@ export default {
         }
       );
     },
-    getNweDate(timeStamp, startType){
-        const d = new Date(timeStamp * 1000)
-        const year = d.getFullYear()
-        const month = this.getHandledValue(d.getMonth() + 1)
-        const date = this.getHandledValue(d.getDate())
-        const hours = this.getHandledValue(d.getHours())
-        const minutes = this.getHandledValue(d.getMinutes())
-        const second = this.getHandledValue(d.getSeconds())
-        let resStr = ''
-        if (startType === 'year') resStr = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + second
-        else resStr = month + '-' + date + ' ' + hours + ':' + minutes
-        return resStr
+    getNweDate(timeStamp, startType) {
+      const d = new Date(timeStamp * 1000);
+      const year = d.getFullYear();
+      const month = this.getHandledValue(d.getMonth() + 1);
+      const date = this.getHandledValue(d.getDate());
+      const hours = this.getHandledValue(d.getHours());
+      const minutes = this.getHandledValue(d.getMinutes());
+      const second = this.getHandledValue(d.getSeconds());
+      let resStr = "";
+      if (startType === "year")
+        resStr =
+          year +
+          "-" +
+          month +
+          "-" +
+          date +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          second;
+      else resStr = month + "-" + date + " " + hours + ":" + minutes;
+      return resStr;
     },
-    getHandledValue(num){
-        return num < 10 ? '0' + num : num
+    getHandledValue(num) {
+      return num < 10 ? "0" + num : num;
     },
     //分页切换
     changePage(page) {
@@ -568,19 +616,31 @@ export default {
       this.downloadTemplate_modal = true;
     },
     itemClick(item) {
-      //树的点击
-      console.log(item,1111)
-      if(item.right-item.left==1){
-          //文件,获取右边的表格
+      if (item.right - item.left == 1) {
+        //文件,获取右边的表格
         // this.gettable(item.id)
-        this.gettable(19)
-      }else{
-          //文件夹
-          this.getdata(item.id)
+        this.gettable(item.id);
+      } else {
+        //文件夹
+        this.getdata2(item, item.id);
       }
-      
-    //   right-left =1
+
+      //   right-left =1
     },
+
+    cloneObj(obj) {
+      var newObj = {};
+      if (obj instanceof Array) {
+        newObj = [];
+      }
+      for (var key in obj) {
+        var val = obj[key];
+        //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
+        newObj[key] = typeof val === "object" ? this.cloneObj(val) : val;
+      }
+      return newObj;
+    },
+
     tabclick(item) {
       // console.log(item,'item')
       this.tabsvalue = item.toString();
@@ -885,6 +945,7 @@ export default {
     }
   }
   .datatreating_fr_table {
+    overflow: auto;
     height: 787px;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
