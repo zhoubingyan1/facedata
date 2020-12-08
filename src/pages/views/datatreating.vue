@@ -468,10 +468,7 @@ export default {
               });
             }
             a.children=newResult;
-            var b = this.cloneObj(this.leftTreeList[0].linetreelist);
-            this.leftTreeList[0].linetreelist = [];
-            this.leftTreeList[0].linetreelist = b;
-            console.log();
+            console.log(this.leftTreeList[0].linetreelist);
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -622,8 +619,8 @@ export default {
         this.gettable(item.id);
       } else {
         //文件夹
-        //this.getdata2(item, item.id);
-         this.getdata( item.id);
+        this.getdata2(item, item.id);
+         //this.getdata( item.id);
       }
 
       //   right-left =1
