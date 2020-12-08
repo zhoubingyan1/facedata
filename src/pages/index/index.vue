@@ -786,17 +786,17 @@ export default {
           console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
             if (i == "因子分析datavb入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata');
             } else if (i == "因子分析datasd入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata1');
             } else if (i == "因子分析datasc入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata4');
             } else if (i == "因子分析datase入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata5');
             } else if (i == "因子分析datascde入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata4');
             } else if (i == "因子分析datavkpi入库") {
-              this.getData(newmodaltype[i]);
+              this.getData(newmodaltype[i],'indexdata5');
             }
           }
         }
@@ -814,8 +814,11 @@ export default {
   },
   methods: {
     //获取列表
-    getData(id) {
+    getData(id,datatype) {
        console.log(11111111);
+      if(datatype==null){
+        return
+      }
       var that = this;
       // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
       var query = {
@@ -831,7 +834,7 @@ export default {
          
           console.log(success);
           var res = success.data.result;
-          that.getData2(res, id);
+          that.getData2(res, id,datatype);
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -839,7 +842,7 @@ export default {
         }
       );
     },
-    getData2(list, id) {
+    getData2(list, id,datatype) {
       var that = this;
       // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
         console.log(2222222222222);
@@ -866,8 +869,8 @@ export default {
         data: query_data,
       };
       // let newfirstrkpilist = []
-      // let newscorelist=[] //进度条列表
-      // let middlenumber=new Number()
+      let newscorelist=[] //进度条列表
+      let middlenumber=new Number()
 
       // newfirstrkpilist = [{"FAC_0":2.69561589496609780000,"FAC_1":1.28274957746505170000,"FAC_2":0.45483501846858820000,"FAC_3":-0.11553851253478853000,"ORG":"D","ROW_NEXT":1,"SUM":4.31766197836494900000},{"FAC_0":-0.04202052734030215000,"FAC_1":1.41928239498359800000,"FAC_2":-0.51500984736003940000,"FAC_3":1.82710010086236950000,"ORG":"E","ROW_NEXT":2,"SUM":2.68935212114562600000},{"FAC_0":0.19757562416180352000,"FAC_1":-0.63684628998216100000,"FAC_2":0.05464861628870698600,"FAC_3":2.10222541577017940000,"ORG":"M","ROW_NEXT":3,"SUM":1.71760336623852880000},{"FAC_0":-0.29746060990558920000,"FAC_1":-0.65267539263366660000,"FAC_2":2.29230616475363960000,"FAC_3":-0.37638454913951014000,"ORG":"G","ROW_NEXT":4,"SUM":0.96578561307487370000},{"FAC_0":-1.18156917389401750000,"FAC_1":2.43363926795954300000,"FAC_2":0.33867819998110840000,"FAC_3":-0.88806160166182700000,"ORG":"L","ROW_NEXT":5,"SUM":0.70268669238480670000},{"FAC_0":-0.23374475554285723000,"FAC_1":-0.42433119879075254000,"FAC_2":1.12948060071829230000,"FAC_3":-0.25894143870177990000,"ORG":"H","ROW_NEXT":6,"SUM":0.21246320768290260000},{"FAC_0":-0.51089544772884920000,"FAC_1":-0.68418819769628230000,"FAC_2":0.44982163303364830000,"FAC_3":0.91554986338275900000,"ORG":"C","ROW_NEXT":7,"SUM":0.17028785099127586000},{"FAC_0":-0.19711919549819387000,"FAC_1":-0.43792809788120460000,"FAC_2":0.89507950898228300000,"FAC_3":-0.13642885033994628000,"ORG":"N","ROW_NEXT":8,"SUM":0.12360336526293819000},{"FAC_0":1.32850502468159300000,"FAC_1":-0.80013317469482610000,"FAC_2":-0.71915864915304280000,"FAC_3":-0.70308810794049070000,"ORG":"K","ROW_NEXT":9,"SUM":-0.89387490710676660000},{"FAC_0":-0.36996547389515280000,"FAC_1":-0.33531117770690766000,"FAC_2":-0.91423995126052770000,"FAC_3":0.33952641209310310000,"ORG":"I","ROW_NEXT":10,"SUM":-1.27999019076948530000},{"FAC_0":-0.53620511822902600000,"FAC_1":0.33295286858101614000,"FAC_2":-0.66757772986032120000,"FAC_3":-0.96081693486682340000,"ORG":"F","ROW_NEXT":11,"SUM":-1.83164691437515440000},]
       //     if(newfirstrkpilist.length>0){
@@ -913,54 +916,39 @@ export default {
             that.get_progress(res)
             //取综合得分中间值
             middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
-            that.mediannumber=middlenumber 
+            
           }
-          //that.firstrkpilist= res
-          // //处理默认的得分升序
-          // this.sortByKey(this.firstrkpilist,'number')
-          let newmodaltype=localStorage.getItem("modaltype")
-          // console.log(newmodaltype,'newmodaltype',typeof newmodaltype)
-          if(newmodaltype){
-            newmodaltype=JSON.parse(newmodaltype)
-            if(Object.keys(newmodaltype).length>0){
-              // 因子分析datavb入库------RKPI综合得分
-              // 因子分析datasd入库------总行
-              // 因子分析datasc入库------分行
-              // 因子分析datase入库------监管
-              // 因子分析datascde入库------综合
-              // 因子分析datavkpi入库------rkpi和审核发现
-              for (const i in newmodaltype) {
-                console.log(i,newmodaltype[i])
-                if (newmodaltype.hasOwnProperty(i)) {
-                  if(i=='因子分析datavb入库'){
-                    that.firstrkpilist= res
-                    // //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist,'number')
-                  }else if(i=='因子分析datasd入库'){
-                    that.firstrkpilist1= res
-                    //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist1,'number')
-                  }else if(i=='因子分析datasc入库'){
-                       that.firstrkpilist2= res
-                    //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist2,'number')
-                  }else if(i=='因子分析datase入库'){
-                    that.firstrkpilist3= res
-                    //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist3,'number')
-                  }else if(i=='因子分析datascde入库'){
-                    that.firstrkpilist4= res
-                    //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist4,'number')
-                  }else if(i=='因子分析datavkpi入库'){
-                    that.firstrkpilist5= res
-                    //处理默认的得分升序
-                    that.sortByKey(that.firstrkpilist5,'number')
-                  }
-                  
-                }
-              }
-            }
+          if(datatype=='indexdata'){
+            that.firstrkpilist= res
+            // //处理默认的得分升序
+            that.sortByKey(that.firstrkpilist,'number')
+            that.mediannumber=middlenumber 
+          }else if(datatype=='indexdata1'){
+            that.firstrkpilist1= res
+            // //处理默认的得分升序
+            that.mediannumber1=middlenumber 
+            that.sortByKey(that.firstrkpilist1,'number')
+            
+          }else if(datatype=='indexdata2'){
+            that.firstrkpilist2= res
+            // //处理默认的得分升序
+            that.mediannumber2=middlenumber 
+            that.sortByKey(that.firstrkpilist2,'number')
+          }else if(datatype=='indexdata3'){
+            that.firstrkpilist3= res
+            // //处理默认的得分升序
+            that.mediannumber3=middlenumber 
+            that.sortByKey(that.firstrkpilist3,'number')
+          }else if(datatype=='indexdata4'){
+            that.firstrkpilist4= res
+            // //处理默认的得分升序
+            that.mediannumber4=middlenumber 
+            that.sortByKey(that.firstrkpilist4,'number')
+          }else if(datatype=='indexdata5'){
+            that.firstrkpilist5= res
+            // //处理默认的得分升序
+            that.mediannumber5=middlenumber 
+            that.sortByKey(that.firstrkpilist5,'number')
           }
   
           
