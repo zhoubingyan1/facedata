@@ -12,9 +12,9 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/': {
-                target: 'http://192.168.1.236:8081/miner',
+                target: 'http://192.168.1.236:8081',
                 //target: 'http://192.168.1.113:8088',
-                changeOrigin: true,
+
                 pathRewrite: {
                     '^/': ''
                 }
