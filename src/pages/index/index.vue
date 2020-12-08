@@ -7,53 +7,72 @@
             <span class="title">RKPI综合得分</span>
             <!-- <span class="title_mini">RKPI Composite Score</span> -->
           </div>
-          <div class="rkpi_index_content_sort">
-            <div class="left_sort">
-              <div class="left_sorttit">中间值: {{mediannumber}}</div>
+          <div class="heightoverflow">
+            <div class="rkpi_index_content_sort">
+              <div class="left_sort">
+                <div class="left_sorttit">中间值: {{mediannumber}}</div>
+              </div>
+              <div class="right_sort">
+                <Select v-model="firstsort" @on-change="RKPIsort">
+                  <Option value="scoreup">得分升序</Option>
+                  <Option value="scoredown">得分降序</Option>
+                  <Option value="organizationup">机构名升序</Option>
+                  <Option value="organizationdown">机构名降序</Option>
+                </Select>
+              </div>
             </div>
-            <div class="right_sort">
-              <Select v-model="firstsort" @on-change="RKPIsort">
-                <Option value="scoreup">得分升序</Option>
-                <Option value="scoredown">得分降序</Option>
-                <Option value="organizationup">机构名升序</Option>
-                <Option value="organizationdown">机构名降序</Option>
-              </Select>
-            </div>
-          </div>
-          <div class="rkpi_item">
-            <div
-              v-for="(item,index) in firstrkpilist"
-              :key="index"
-              class="rkpi_item_content"
-              @click="ishowtable"
-            >
-              <Row>
-                <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
-                <Col
-                  span="12"
-                  class="rkpi_item_righttitle"
-                  style="text-align:right;"
-                >{{item.number}}</Col>
-              </Row>
-              <Progress
-                :percent="item.score"
-                :stroke-width="item.strokeWidth"
-                status="active"
-                :stroke-color="item.strokeColor"
-                hide-info
-              />
+            <div class="rkpi_item">
+              <div
+                v-for="(item,index) in firstrkpilist"
+                :key="index"
+                class="rkpi_item_content"
+                @click="ishowtable"
+              >
+                <Row>
+                  <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                  <Col
+                    span="12"
+                    class="rkpi_item_righttitle"
+                    style="text-align:right;"
+                  >{{item.number}}</Col>
+                </Row>
+                <Progress
+                  :percent="item.score"
+                  :stroke-width="item.strokeWidth"
+                  status="active"
+                  :stroke-color="item.strokeColor"
+                  hide-info
+                />
+              </div>
             </div>
           </div>
         </div>
       </Col>
       <Col span="8">
-        <div class="rkpi_index_content height440" style="margin-top:0px; padding-top:0px;">
-          <div class="rkpi_index_card">
-            <Tabs class="tabs-animation" value="1">
-              <TabPane label="总行" name="1">
+        <div class="rkpi_index_content height465">
+          <div class="rkpi_index_content_title">
+            <span class="title">RKPI和审核发现</span>
+            <!-- <span class="title_mini">RKPI and Audit Findings</span> -->
+          </div>
+          <div class="heightoverflow">
+            <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
+              <NewTabPane label="总行" name="1">
+                <div class="rkpi_index_content_sort">
+                  <div class="left_sort">
+                    <div class="left_sorttit">中间值: {{mediannumber1}}</div>
+                  </div>
+                  <div class="right_sort">
+                    <Select v-model="firstsort1" @on-change="RKPIsort1">
+                      <Option value="scoreup">得分升序</Option>
+                      <Option value="scoredown">得分降序</Option>
+                      <Option value="organizationup">机构名升序</Option>
+                      <Option value="organizationdown">机构名降序</Option>
+                    </Select>
+                  </div>
+                </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in rkpilist1"
+                    v-for="(item,index) in firstrkpilist1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
@@ -75,11 +94,125 @@
                     />
                   </div>
                 </div>
-              </TabPane>
-              <TabPane label="分行" name="2">this is tabs 2 content</TabPane>
-              <TabPane label="监督" name="3">this is tabs 3 content</TabPane>
-              <TabPane label="综合" name="4">this is tabs 4 content</TabPane>
-            </Tabs>
+              </NewTabPane>
+              <NewTabPane label="分行" name="2">
+                <div class="rkpi_index_content_sort">
+                  <div class="left_sort">
+                    <div class="left_sorttit">中间值: {{mediannumber2}}</div>
+                    </div>
+                    <div class="right_sort">
+                      <Select v-model="firstsort2" @on-change="RKPIsort2">
+                        <Option value="scoreup">得分升序</Option>
+                        <Option value="scoredown">得分降序</Option>
+                        <Option value="organizationup">机构名升序</Option>
+                        <Option value="organizationdown">机构名降序</Option>
+                      </Select>
+                    </div>
+                  </div>
+                <div class="rkpi_item">
+                  <div
+                    v-for="(item,index) in firstrkpilist2"
+                    :key="index"
+                    class="rkpi_item_content"
+                    @click="ishowtable"
+                  >
+                    <Row>
+                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col
+                        span="12"
+                        class="rkpi_item_righttitle"
+                        style="text-align:right;"
+                      >{{item.number}}</Col>
+                    </Row>
+                    <Progress
+                      :percent="item.score"
+                      :stroke-width="item.strokeWidth"
+                      status="active"
+                      :stroke-color="item.strokeColor"
+                      hide-info
+                    />
+                  </div>
+                </div>
+              </NewTabPane>
+              <NewTabPane label="监督" name="3">
+                <div class="rkpi_index_content_sort">
+                  <div class="left_sort">
+                    <div class="left_sorttit">中间值: {{mediannumber3}}</div>
+                    </div>
+                    <div class="right_sort">
+                      <Select v-model="firstsort3" @on-change="RKPIsort3">
+                        <Option value="scoreup">得分升序</Option>
+                        <Option value="scoredown">得分降序</Option>
+                        <Option value="organizationup">机构名升序</Option>
+                        <Option value="organizationdown">机构名降序</Option>
+                      </Select>
+                    </div>
+                  </div>
+                <div class="rkpi_item">
+                  <div
+                    v-for="(item,index) in firstrkpilist3"
+                    :key="index"
+                    class="rkpi_item_content"
+                    @click="ishowtable"
+                  >
+                    <Row>
+                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col
+                        span="12"
+                        class="rkpi_item_righttitle"
+                        style="text-align:right;"
+                      >{{item.number}}</Col>
+                    </Row>
+                    <Progress
+                      :percent="item.score"
+                      :stroke-width="item.strokeWidth"
+                      status="active"
+                      :stroke-color="item.strokeColor"
+                      hide-info
+                    />
+                  </div>
+                </div>
+              </NewTabPane>
+              <NewTabPane label="综合" name="4">
+                <div class="rkpi_index_content_sort">
+                  <div class="left_sort">
+                    <div class="left_sorttit">中间值: {{mediannumber4}}</div>
+                    </div>
+                    <div class="right_sort">
+                      <Select v-model="firstsort4" @on-change="RKPIsort4">
+                        <Option value="scoreup">得分升序</Option>
+                        <Option value="scoredown">得分降序</Option>
+                        <Option value="organizationup">机构名升序</Option>
+                        <Option value="organizationdown">机构名降序</Option>
+                      </Select>
+                    </div>
+                  </div>
+                <div class="rkpi_item">
+                  <div
+                    v-for="(item,index) in firstrkpilist4"
+                    :key="index"
+                    class="rkpi_item_content"
+                    @click="ishowtable"
+                  >
+                    <Row>
+                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col
+                        span="12"
+                        class="rkpi_item_righttitle"
+                        style="text-align:right;"
+                      >{{item.number}}</Col>
+                    </Row>
+                    <Progress
+                      :percent="item.score"
+                      :stroke-width="item.strokeWidth"
+                      status="active"
+                      :stroke-color="item.strokeColor"
+                      hide-info
+                    />
+                  </div>
+                </div>
+              </NewTabPane>
+            </NewTabs>
           </div>
         </div>
       </Col>
@@ -87,31 +220,45 @@
         <div class="rkpi_index_content height465">
           <div class="rkpi_index_content_title">
             <span class="title">RKPI和审核发现</span>
-            <span class="title_mini">RKPI and Audit Findings</span>
+            <!-- <span class="title_mini">RKPI and Audit Findings</span> -->
           </div>
-          <div></div>
-          <div class="rkpi_item">
-            <div
-              v-for="(item,index) in rkpilist1"
-              :key="index"
-              class="rkpi_item_content"
-              @click="ishowtable"
-            >
-              <Row>
-                <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
-                <Col
-                  span="12"
-                  class="rkpi_item_righttitle"
-                  style="text-align:right;"
-                >{{item.number}}</Col>
-              </Row>
-              <Progress
-                :percent="item.score"
-                :stroke-width="item.strokeWidth"
-                status="active"
-                :stroke-color="item.strokeColor"
-                hide-info
-              />
+          <div class="heightoverflow">
+            <div class="rkpi_index_content_sort">
+              <div class="left_sort">
+                <div class="left_sorttit">中间值: {{mediannumber5}}</div>
+              </div>
+              <div class="right_sort">
+                <Select v-model="firstsort5" @on-change="RKPIsort5">
+                  <Option value="scoreup">得分升序</Option>
+                  <Option value="scoredown">得分降序</Option>
+                  <Option value="organizationup">机构名升序</Option>
+                  <Option value="organizationdown">机构名降序</Option>
+                </Select>
+              </div>
+            </div>
+            <div class="rkpi_item">
+              <div
+                v-for="(item,index) in firstrkpilist5"
+                :key="index"
+                class="rkpi_item_content"
+                @click="ishowtable"
+              >
+                <Row>
+                  <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                  <Col
+                    span="12"
+                    class="rkpi_item_righttitle"
+                    style="text-align:right;"
+                  >{{item.number}}</Col>
+                </Row>
+                <Progress
+                  :percent="item.score"
+                  :stroke-width="item.strokeWidth"
+                  status="active"
+                  :stroke-color="item.strokeColor"
+                  hide-info
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -229,14 +376,32 @@
 <script>
 import echarts from "echarts";
 import { on, off } from "@/utils/tools";
-import { Tabs, TabPane } from "../components/tabs/index";
+// import { Tabs, TabPane } from "../components/tabs/index";
+import { NewTabs,NewTabPane} from '../components/newtabs/index'
 export default {
   name: "index",
-  components: { Tabs, TabPane },
+  // components: { Tabs, TabPane },
+  components: { NewTabs, NewTabPane },
   data() {
     return {
       mediannumber: 0, //综合得分中间值
       firstsort: "scoreup",
+      mediannumber1:0,//总行中间值
+      firstsort1:'scoreup',
+
+      mediannumber2:0,//分行中间值
+      firstsort2:'scoreup',
+
+      mediannumber3:0,//监督中间值
+      firstsort3:'scoreup',
+
+      mediannumber4:0,//综合中间值
+      firstsort4:'scoreup',
+
+      mediannumber5:0,//rkpi和审核发现中间值
+      firstsort5:'scoreup',
+
+      tabsvalue:'1',
 
       ishowtable1: false,
       ishowtable2: false,
@@ -244,50 +409,13 @@ export default {
       dom: null,
       dom1: null,
       echarts: echarts,
-      firstrkpilist: [
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-      ], //综合得分
+      firstrkpilist:[],//综合得分
+      firstrkpilist1:[],//总行
+      firstrkpilist2:[],//分行
+      firstrkpilist3:[],//监督
+      firstrkpilist4:[],//综合
+      firstrkpilist5:[],//RKPI和审核发现
+
       rkpilist: [
         {
           name: "市北分行",
@@ -772,14 +900,80 @@ export default {
           // score: 45,
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
-  
           console.log(res);
+          if(res.length>0){
+            res.forEach((v,i)=>{
+              res[i].name = v.ORG
+              res[i].number =that.tofix(v.SUM,6)
+              newscorelist.push(res[i].number)
+              res[i].strokeWidth = 5
+              res[i].strokeColor = ["#92BBFF", "#92BBFF"]
+            })
+            //处理进度条值
+            that.get_progress(res)
+            //取综合得分中间值
+            middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
+            that.mediannumber=middlenumber 
+          }
+          //that.firstrkpilist= res
+          // //处理默认的得分升序
+          // this.sortByKey(this.firstrkpilist,'number')
+          let newmodaltype=localStorage.getItem("modaltype")
+          // console.log(newmodaltype,'newmodaltype',typeof newmodaltype)
+          if(newmodaltype){
+            newmodaltype=JSON.parse(newmodaltype)
+            if(Object.keys(newmodaltype).length>0){
+              // 因子分析datavb入库------RKPI综合得分
+              // 因子分析datasd入库------总行
+              // 因子分析datasc入库------分行
+              // 因子分析datase入库------监管
+              // 因子分析datascde入库------综合
+              // 因子分析datavkpi入库------rkpi和审核发现
+              for (const i in newmodaltype) {
+                console.log(i,newmodaltype[i])
+                if (newmodaltype.hasOwnProperty(i)) {
+                  if(i=='因子分析datavb入库'){
+                    that.firstrkpilist= res
+                    // //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist,'number')
+                  }else if(i=='因子分析datasd入库'){
+                    that.firstrkpilist1= res
+                    //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist1,'number')
+                  }else if(i=='因子分析datasc入库'){
+                       that.firstrkpilist2= res
+                    //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist2,'number')
+                  }else if(i=='因子分析datase入库'){
+                    that.firstrkpilist3= res
+                    //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist3,'number')
+                  }else if(i=='因子分析datascde入库'){
+                    that.firstrkpilist4= res
+                    //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist4,'number')
+                  }else if(i=='因子分析datavkpi入库'){
+                    that.firstrkpilist5= res
+                    //处理默认的得分升序
+                    that.sortByKey(that.firstrkpilist5,'number')
+                  }
+                  
+                }
+              }
+            }
+          }
+  
+          
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
+    },
+    tabclick(item){
+        // console.log(item,'item')
+        this.tabsvalue = item.toString();
     },
     //综合得分排序
     RKPIsort(data) {
@@ -795,6 +989,91 @@ export default {
       } else if (data == "organizationdown") {
         // 机构名降序
         this.firstrkpilist.sort(this.namedesc("name"));
+      }
+    },
+    //总行排序
+    RKPIsort1(data){
+      if(data=='scoreup'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist1,'number')
+      }else if(data=='scoredown'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist1,'number')
+      }else if(data=='organizationup'){
+        // 机构名升序
+        this.firstrkpilist1.sort(this.nameasc('name'))
+        
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist1.sort(this.namedesc('name'))
+      }
+    },
+    //分行排序
+    RKPIsort2(data){
+      if(data=='scoreup'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist2,'number')
+      }else if(data=='scoredown'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist2,'number')
+      }else if(data=='organizationup'){
+        // 机构名升序
+        this.firstrkpilist2.sort(this.nameasc('name'))
+        
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist2.sort(this.namedesc('name'))
+      }
+    },
+    //监督排序
+    RKPIsort3(data){
+      if(data=='scoreup'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist3,'number')
+      }else if(data=='scoredown'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist3,'number')
+      }else if(data=='organizationup'){
+        // 机构名升序
+        this.firstrkpilist3.sort(this.nameasc('name'))
+        
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist3.sort(this.namedesc('name'))
+      }
+    },
+    //综合排序
+    RKPIsort4(data){
+      if(data=='scoreup'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist4,'number')
+      }else if(data=='scoredown'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist4,'number')
+      }else if(data=='organizationup'){
+        // 机构名升序
+        this.firstrkpilist4.sort(this.nameasc('name'))
+        
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist4.sort(this.namedesc('name'))
+      }
+    },
+    //RKPI和审核发现
+    RKPIsort5(data){
+      if(data=='scoreup'){ 
+        // 得分升序
+        this.sortByKey(this.firstrkpilist5,'number')
+      }else if(data=='scoredown'){
+        // 得分降序
+        this.sortDownByKey(this.firstrkpilist5,'number')
+      }else if(data=='organizationup'){
+        // 机构名升序
+        this.firstrkpilist5.sort(this.nameasc('name'))
+        
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist5.sort(this.namedesc('name'))
       }
     },
     //进度条算法
@@ -1138,7 +1417,7 @@ export default {
     position: absolute;
     top: -30px;
     left: 38px;
-    padding: 20px 20px 20px 20px;
+    padding: 13px 20px 13px 20px;
     z-index: 1;
     .title {
       font-family: PingFangSC-Semibold;
@@ -1309,6 +1588,50 @@ export default {
       }
     }
   }
+  #newtabs{
+        background: #fff;
+        .newtabs-nav{
+            padding:37px 50px 0px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .newtabs-tab-left{
+            width: 800px;
+        }
+        .newtabs-tab-right{
+            flex:1;
+            // text-align: right;
+            display: flex;
+            justify-content:flex-end;
+            align-items: center;
+        }
+        .newtabs-tab{
+            display: inline-block;
+            margin-right: 30px;
+            font-family: PingFangSC-Regular;
+            font-size: 18px;
+            color: rgba(0,0,0,0.40);
+            letter-spacing: 0;
+            line-height: 38px;
+            cursor: pointer;
+        }
+        .newtabs-tab.active{
+            opacity: 0.8;
+            font-family: PingFangSC-Medium;
+            font-size: 24px;
+            color: #000000;
+            letter-spacing: 0;
+            line-height: 24px;
+        }
+        .middle_line1{
+            width: 30px;
+            height: 4px;
+            background: #246FEA;
+            border-radius: 2px;
+            margin:15px auto 0px;
+        }
+    }
   .tabs-content {
     height: 380px;
     overflow: hidden;
@@ -1349,6 +1672,10 @@ export default {
   .height465 {
     height: 465px;
   }
+  .heightoverflow{
+    height:400px;
+    overflow: hidden;
+  }
   .ivu-progress-inner {
     .ivu-progress-bg {
       height: 10px;
@@ -1364,6 +1691,13 @@ export default {
     padding-top: 50px;
     box-sizing: border-box;
     .rkpi_item {
+      height: 240px;
+      overflow: scroll;
+      padding: 0px 50px 0px 50px;
+      margin-top: 25px;
+      margin-bottom: 50px;
+    }
+    .rkpi_item1 {
       height: 330px;
       overflow: scroll;
       padding: 0px 50px 0px 50px;
