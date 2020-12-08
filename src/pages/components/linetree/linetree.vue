@@ -29,10 +29,14 @@
         <div class="layer_text nowrap">{{item.name}}</div>
       </div>
 
-      <lineItem v-if="item.expand&&item.right-item.left==1" v-on="$listeners" :list="item.children" :size="size"></lineItem>
+      <lineItem
+        v-if="item.expand&&item.right-item.left==1"
+        v-on="$listeners"
+        :list="item.children"
+        :size="size"
+      ></lineItem>
     </div>
   </div>
-
 
   <!-- <div
     class="content column-start-center reTree_box"
@@ -65,7 +69,7 @@
 
       <lineItem v-if="item.expand&&item.children.length>0" v-on="$listeners" :list="item.children" :size="size"></lineItem>
     </div>
-  </div> -->
+  </div>-->
 </template>
 <script>
 import lineItem from "./lineItem.vue";
@@ -75,48 +79,49 @@ export default {
     pd: {},
     size: {
       type: Number,
-      default: 14
-    }
+      default: 14,
+    },
   },
   components: { lineItem },
   data() {
     return {
       selectedDetail: {},
       timer: {},
-      formatData: []
+      formatData: [],
     };
   },
   watch: {
-    pd(n, o) {
-      this.formatData = this.preDealData(n);
-      // console.log(this.formatData);
-    }
+    pd: {
+      handler(n, o) {
+        this.formatData = this.preDealData(n);
+      },
+      // immediate: true,  //刷新加载 立马触发一次handler
+    //  deep: true  // 可以深度检测到 person 对象的属性值的变化
+    },
   },
   created() {
     // console.log("lineTree create");
-    console.log(this.pd,'this.pd')
+    console.log(this.pd, "this.pd");
     this.preDealData(this.pd);
   },
 
   methods: {
     preDealData(list) {
-      console.log(list,'list')
-      if(list.length>0){
-        list.forEach(x => {
+      console.log(list, "list");
+      if (list.length > 0) {
+        list.forEach((x) => {
           if (!x.expand) this.$set(x, "expand", false);
           if (x.children && x.children.length > 0) this.preDealData(x.children);
-          
-          
         });
       }
-      
+
       return list;
     },
     // 根据id展开树的具体项
     expandTreeItemById(idList) {
       let _this = this;
       function loopTree(list) {
-        list.forEach(x => {
+        list.forEach((x) => {
           if (idList.includes(x.id)) {
             _this.$set(x, "expand", true);
           } else {
@@ -128,9 +133,9 @@ export default {
       }
       this.formatData = loopTree(this.pd);
     },
-    itemClick(item){
-      item.expand=!item.expand
-      this.$emit('itemClick',item)
+    itemClick(item) {
+      item.expand = !item.expand;
+      this.$emit("itemClick", item);
     },
     // 详情点击
     detailClick(data) {
@@ -144,17 +149,16 @@ export default {
       clearTimeout(this.timer);
       this.selectedDetail = data;
       this.$emit("detailDoubleClick", data);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-
 .content {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 }
-.noicon{
+.noicon {
   display: inline-block;
   // font-family: Ionicons;
   speak: none;
@@ -168,25 +172,25 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
   font-size: 14px;
-  width:14Px;
-  height: 14Px;
+  width: 14px;
+  height: 14px;
 }
 .column-start-center {
-	display: flex;
-	display: -webkit-flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 .row-flex-start {
-	display: flex;
-	display: -webkit-flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
-.active_color{
-    // color: #409EFF ;
+.active_color {
+  // color: #409EFF ;
 }
 .reTree_box {
   overflow-y: auto;
@@ -209,7 +213,7 @@ export default {
 .first_vertical_line {
   content: "";
   position: absolute;
-  width: 1Px;
+  width: 1px;
   left: 6px;
   top: 17px;
   background: #c3c5c8;
@@ -236,18 +240,18 @@ export default {
 .second_layer::before {
   content: "";
   position: absolute;
-  height: 1Px;
+  height: 1px;
   width: 15px;
-  left: 20Px;
+  left: 20px;
   top: 7px;
   background: #c3c5c8;
 }
 .third_layer::before {
   content: "";
   position: absolute;
-  height: 1Px;
+  height: 1px;
   width: 20px;
-  left: 20Px;
+  left: 20px;
   top: 7px;
   background: #c3c5c8;
 }
@@ -256,8 +260,8 @@ export default {
   content: "";
   position: absolute;
   height: 100%;
-  width: 1Px;
-  left: 20Px;
+  width: 1px;
+  left: 20px;
   top: 0px;
   background: #c3c5c8;
 }
@@ -267,8 +271,8 @@ export default {
   /* 为了触顶 */
   top: -14px;
   height: calc(100% + 14px);
-  width: 1Px;
-  left: 20Px;
+  width: 1px;
+  left: 20px;
   background: #c3c5c8;
 }
 // 上半截
@@ -277,16 +281,16 @@ export default {
   position: absolute;
   height: 24px;
   top: -14px;
-  width: 1Px;
-  left: 20Px;
+  width: 1px;
+  left: 20px;
   background: #c3c5c8;
 }
 .linkLine_last::after {
   content: "";
   position: absolute;
   height: 9px;
-  width: 1Px;
-  left: 20Px;
+  width: 1px;
+  left: 20px;
   top: 0px;
   background: #c3c5c8;
 }
@@ -304,5 +308,4 @@ export default {
   background: url("../../../assets/images/6.png") no-repeat center center;
   background-size: contain;
 }
-
 </style>
