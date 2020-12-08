@@ -30,7 +30,7 @@
       </div>
 
       <lineItem
-        v-if="item.expand&&item.right-item.left==1"
+        v-if="item.expand&&item.right-item.left!=1"
         v-on="$listeners"
         :list="item.children"
         :size="size"
