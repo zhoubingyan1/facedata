@@ -25,7 +25,7 @@
           'reTree_expand_icon': !item.expand && item.children.length>0,
         }"
         ></div>
-        <div class="layer_text nowrap">{{item.label}}</div>
+        <div class="layer_text nowrap">{{item.name}}</div>
       </div>
 
       <lineItem v-if="item.expand&&item.children.length>0" v-on="$listeners" :list="item.children" :size="size"></lineItem>

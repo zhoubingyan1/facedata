@@ -37,7 +37,7 @@
           :class="{
           'active_color': item.expand
         }"
-        >{{item.label}}</div>
+        >{{item.name}}</div>
       </div>
       <line-item
         :list="item.children"

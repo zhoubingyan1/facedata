@@ -87,6 +87,8 @@ function guid() {
 
 arg.interceptors.request.use(config => {
     // config.headers.token = sessionStorage.getItem('token')
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+    // config.responseType = 'arraybuffer'
     
     if (config.method === 'post') {
         config.cancelToken = new CancelToken((c) => {

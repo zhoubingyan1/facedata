@@ -757,7 +757,7 @@ export default {
       that.getData2([]);
 
 
-      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
+      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query),{ responseType: 'arraybuffer'}).then(
         (success) => {
           console.log(success);
           var res = success.data.result;

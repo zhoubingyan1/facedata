@@ -243,95 +243,105 @@ export default {
           index: "1",
         },
       ],
-      leftTreeList: [
-        {
+      leftTreeList:[{
           name: "数据表",
-          linetreelist: [
-            {
-              label: "第一层(1)",
-              children: [],
-            },
-            {
-              label: "第一层(2)",
-              children: [
-                {
-                  label: "第二层(1)",
-                  children: [],
-                },
-                {
-                  label: "第二层(2)",
-                  children: [
-                    {
-                      label: "第三层(1)",
-                      children: [
-                        {
-                          label: "第四层",
-                          children: [
-                            {
-                              label: "第五层",
-                              children: [{ label: "第六层", children: [] }],
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                    {
-                      label: "第三层(2)",
-                      children: [],
-                    },
-                    {
-                      label: "第三层(3)",
-                      children: [],
-                    },
-                  ],
-                },
-                {
-                  label: "第二层(3)",
-                  children: [],
-                },
-                {
-                  label: "第二层(4)",
-                  children: [],
-                },
-              ],
-            },
-            {
-              label: "第一层(3)",
-              children: [],
-            },
-            {
-              label: "第一层(4)",
-              children: [],
-            },
-            {
-              label: "第一层(5)",
-              children: [],
-            },
-          ],
-        },
-        {
+           linetreelist: []
+      },{
           name: "数据包",
-          linetreelist: [
-            {
-              label: "xxxx-xx-xx",
-              children: [],
-            },
-          ],
-        },
-        {
+           linetreelist: []
+      },{
           name: "模型库",
-          linetreelist: [
-            {
-              label: "xxxx-xx-xx",
-              children: [],
-            },
-            {
-              label: "xxxx-xx-xx",
-              children: [],
-            },
-          ],
-        },
-      ],
+          linetreelist: []
+      }],
+    //   leftTreeList: [
+    //     {
+    //       name: "数据表",
+    //       linetreelist: [
+    //         {
+    //           label: "第一层(1)",
+    //           children: [],
+    //         },
+    //         {
+    //           label: "第一层(2)",
+    //           children: [
+    //             {
+    //               label: "第二层(1)",
+    //               children: [],
+    //             },
+    //             {
+    //               label: "第二层(2)",
+    //               children: [
+    //                 {
+    //                   label: "第三层(1)",
+    //                   children: [
+    //                     {
+    //                       label: "第四层",
+    //                       children: [
+    //                         {
+    //                           label: "第五层",
+    //                           children: [{ label: "第六层", children: [] }],
+    //                         },
+    //                       ],
+    //                     },
+    //                   ],
+    //                 },
+    //                 {
+    //                   label: "第三层(2)",
+    //                   children: [],
+    //                 },
+    //                 {
+    //                   label: "第三层(3)",
+    //                   children: [],
+    //                 },
+    //               ],
+    //             },
+    //             {
+    //               label: "第二层(3)",
+    //               children: [],
+    //             },
+    //             {
+    //               label: "第二层(4)",
+    //               children: [],
+    //             },
+    //           ],
+    //         },
+    //         {
+    //           label: "第一层(3)",
+    //           children: [],
+    //         },
+    //         {
+    //           label: "第一层(4)",
+    //           children: [],
+    //         },
+    //         {
+    //           label: "第一层(5)",
+    //           children: [],
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       name: "数据包",
+    //       linetreelist: [
+    //         {
+    //           label: "xxxx-xx-xx",
+    //           children: [],
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       name: "模型库",
+    //       linetreelist: [
+    //         {
+    //           label: "xxxx-xx-xx",
+    //           children: [],
+    //         },
+    //         {
+    //           label: "xxxx-xx-xx",
+    //           children: [],
+    //         },
+    //       ],
+    //     },
+    //   ],
       table: {
         page: 1,
         pagesize: 15,
@@ -513,7 +523,7 @@ export default {
   created() {
     //获取根目录
     this.getdata(0);
-    this.gettable(17);
+    // this.gettable(17);
   },
   mounted() {},
   methods: {
@@ -524,11 +534,19 @@ export default {
         method: "getExplorerChildren",
         data: [id],
       };
+      let newResult=new Array()
       that.$http
         .post(that.PATH.getExplorerChildren, JSON.stringify(query))
         .then(
           (success) => {
             console.log(success.data.result);
+            newResult = success.data.result
+            if(newResult.length>0){
+                newResult.forEach((v,i)=>{
+                    newResult[i].children=[]
+                })
+            }
+            this.leftTreeList[0].linetreelist=newResult
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -574,8 +592,10 @@ export default {
     downloaddata() {
       this.downloadTemplate_modal = true;
     },
-    itemClick() {
+    itemClick(item) {
       //树的点击
+      console.log(item,1111)
+      this.getdata(item.id)
     },
     tabclick(item) {
       // console.log(item,'item')
