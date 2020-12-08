@@ -35,7 +35,7 @@ if (!navigator.onLine) {
     })
 }
 const EventUtil = {
-    addHandler: function (element, type, handler) {
+    addHandler: function(element, type, handler) {
         if (element.addEventListener) {
             element.addEventListener(type, handler, false)
         } else if (element.attachEvent) {
@@ -64,15 +64,15 @@ EventUtil.addHandler(window, "offline", () => {
 let pending = []
 let CancelToken = axios.CancelToken
 let removePending = (config, f) => {
+    return;
     let flagUrl = config.url + '&' + config.method
     pending.indexOf(flagUrl) !== -1 ?
         f ?
-            f() :
-            pending.splice(pending.indexOf(flagUrl), 1)
-        :
+        f() :
+        pending.splice(pending.indexOf(flagUrl), 1) :
         f ?
-            pending.push(flagUrl) :
-            pending = []
+        pending.push(flagUrl) :
+        pending = []
 }
 
 //标识码
@@ -88,8 +88,8 @@ function guid() {
 arg.interceptors.request.use(config => {
     // config.headers.token = sessionStorage.getItem('token')
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-    // config.responseType = 'arraybuffer'
-    
+        // config.responseType = 'arraybuffer'
+
     if (config.method === 'post') {
         config.cancelToken = new CancelToken((c) => {
             removePending(config, c)
