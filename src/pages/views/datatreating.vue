@@ -476,15 +476,18 @@ export default {
     getNweDate(timeStamp, startType){
         const d = new Date(timeStamp * 1000)
         const year = d.getFullYear()
-        const month = getHandledValue(d.getMonth() + 1)
-        const date = getHandledValue(d.getDate())
-        const hours = getHandledValue(d.getHours())
-        const minutes = getHandledValue(d.getMinutes())
-        const second = getHandledValue(d.getSeconds())
+        const month = this.getHandledValue(d.getMonth() + 1)
+        const date = this.getHandledValue(d.getDate())
+        const hours = this.getHandledValue(d.getHours())
+        const minutes = this.getHandledValue(d.getMinutes())
+        const second = this.getHandledValue(d.getSeconds())
         let resStr = ''
         if (startType === 'year') resStr = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + second
         else resStr = month + '-' + date + ' ' + hours + ':' + minutes
         return resStr
+    },
+    getHandledValue = num => {
+        return num < 10 ? '0' + num : num
     },
     //分页切换
     changePage(page) {
@@ -512,8 +515,8 @@ export default {
       console.log(item,1111)
       if(item.right-item.left==1){
           //文件,获取右边的表格
-        this.gettable(item.id)
-        // this.gettable(19)
+        // this.gettable(item.id)
+        this.gettable(19)
       }else{
           //文件夹
           this.getdata(item.id)
