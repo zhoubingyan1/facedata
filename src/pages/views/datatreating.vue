@@ -463,8 +463,9 @@ export default {
                     newtabledata[i].createTime= that.getNweDate(v.createTime,'year')
                 })
             }
-          newtabledata=success.data.result.data
-          thst.table.total =success.data.result.total
+        //   newtabledata=success.data.result.data
+          that.table.data=newtabledata
+          that.table.total =success.data.result.count
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
