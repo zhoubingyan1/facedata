@@ -13,10 +13,10 @@
           </div>
           <div class="right_sort">
             <Select v-model="firstsort" @on-change="RKPIsort">
-              <Option value="得分升序">得分升序</Option>
-              <Option value="得分降序">得分降序</Option>
-              <Option value="机构名升序">机构名升序</Option>
-              <Option value="机构名降序">机构名降序</Option>
+              <Option value="scoreup">得分升序</Option>
+              <Option value="scoredown">得分降序</Option>
+              <Option value="organizationup">机构名升序</Option>
+              <Option value="organizationdown">机构名降序</Option>
           </Select>
           </div>
         </div>
@@ -322,7 +322,7 @@ export default {
   data() {
     return {
       mediannumber:0,//综合得分中间值
-      firstsort:'得分升序',
+      firstsort:'scoreup',
 
       ishowtable1: false,
       ishowtable2: false,
@@ -810,30 +810,16 @@ export default {
               newfirstrkpilist[i].strokeColor = ["#92BBFF", "#92BBFF"]
             })
             //处理进度条值
-            newscorelist = [...new Set(newscorelist)]
-            let socrenumber=0
-            newfirstrkpilist.forEach((v,i)=>{
-              if(newscorelist[0]==v.number){
-                newfirstrkpilist[i].score=100
-              }else{
-                // console.log(newfirstrkpilist[i].number/newscorelist[0])
-                if(newfirstrkpilist[i].number/newscorelist[0]>0){
-                  newfirstrkpilist[i].score=(newfirstrkpilist[i].number/newscorelist[0]).toFixed(2)*100
-                }else{
-                  newfirstrkpilist[i].score=10
-                }
-              }
-            })
+            that.get_progress(newfirstrkpilist)
             //取综合得分中间值
             middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
-            this.mediannumber=middlenumber 
+            that.mediannumber=middlenumber 
             
           }
+          // console.log(newfirstrkpilist,'newfirstrkpilist')
           that.firstrkpilist= newfirstrkpilist
-
-
-
-
+          //处理默认的得分升序
+          this.sortByKey(this.firstrkpilist,'number')
 
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
@@ -846,7 +832,7 @@ export default {
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
           console.log(res);
-          // firstrkpilist
+          
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -856,25 +842,38 @@ export default {
     },
     //综合得分排序
     RKPIsort(data){
-      if(data='得分升序'){ 
+      if(data=='scoreup'){ 
         // 得分升序
         this.sortByKey(this.firstrkpilist,'number')
-      }else if(data='得分降序'){
+      }else if(data=='scoredown'){
         // 得分降序
         this.sortDownByKey(this.firstrkpilist,'number')
-      }else if(data='机构名升序'){
+      }else if(data=='organizationup'){
         // 机构名升序
-        this.firstrkpilist.sort((a, b) => {
-          return a.name.localeCompare(b.name, 'zh-Hans-CN');
-        })
+        this.firstrkpilist.sort(this.nameasc('name'))
         
-      }else if(data='机构名升序'){
-        // 机构名升序
-        this.firstrkpilist.sort((a, b) => {
-          return b.name.localeCompare(a.name, 'zh-Hans-CN');
-        })
+      }else if(data=='organizationdown'){
+        // 机构名降序
+        this.firstrkpilist.sort(this.namedesc('name'))
       }
     },
+    //进度条算法
+    get_progress(list){
+      var max=Math.max.apply(Math,list.map(item => { return Number(item.number) }));
+      var min=Math.min.apply(Math,list.map(item => { return  Number(item.number) }));
+      var cha=0;
+      if(min<0){
+        cha= -1 *min;
+        max=max-min;
+        min=0;
+      }
+      // console.log(cha,'cha');
+      for(var i=0;i<list.length;i++){
+        list[i].score=((1/max)*(Number(list[i].number)+cha)).toFixed(2)*100;
+      }
+      // console.log(list,'123');
+    },
+
     //数组对象方法排序:升序
     sortByKey(array,key){
       return array.sort(function(a,b){
@@ -891,9 +890,40 @@ export default {
         return ((x>y)?-1:((x<y)?1:0));
       });
     },
+    //正序
+    numasc(property){
+        return function(a,b){
+            var value1 = a[property];
+            var value2 = b[property];
+            return value1 - value2;
+        }
+    },
+    //倒序
+    numdesc(property){
+        return function(a,b){
+            var value1 = a[property];
+            var value2 = b[property];
+            return value2 - value1;
+        }
+    },
+    //字母正
+    nameasc(property){
+        return function(a,b){
+            var value1 = a[property];
+            var value2 = b[property];
+            return value1[0].charCodeAt() - value2[0].charCodeAt();
+        }
+    },
+    //字母倒
+    namedesc(property){
+        return function(a,b){
+            var value1 = a[property];
+            var value2 = b[property];
+            return value2[0].charCodeAt() - value1[0].charCodeAt();
+        }
+    },
     //强制保留6位小数
     tofix(val,len){
-      // debugger;
       var f = parseFloat(val);
       if (isNaN(f)) {
           return false;
