@@ -733,7 +733,36 @@ export default {
     };
   },
   created() {
-    this.getData();
+    // this.getData();
+    let newmodaltype=localStorage.getItem("modaltype")
+    console.log(newmodaltype,'newmodaltype',typeof newmodaltype)
+    if(newmodaltype){
+      newmodaltype=JSON.parse(newmodaltype)
+      if(Object.keys(newmodaltype).length>0){
+        console.log(111)
+        for (const i in newmodaltype) {
+          console.log(i,newmodaltype[i])
+          if (newmodaltype.hasOwnProperty(i)) {
+            if(i=='因子分析datavb入库'){
+                this.getData(newmodaltype[i])
+            }else if(i=='因子分析datasd入库'){
+                this.getData(newmodaltype[i])
+            }else if(i=='因子分析datasc入库'){
+                this.getData(newmodaltype[i])
+            }else if(i=='因子分析datase入库'){
+                this.getData(newmodaltype[i])
+            }else if(i=='因子分析datascde入库'){
+                this.getData(newmodaltype[i])
+            }else if(i=='因子分析datavkpi入库'){
+                this.getData(newmodaltype[i])
+            }
+            
+          }
+        }
+      }
+    }
+    
+        
     // this.drawTwo(this.legenddata,this.xAxisdata,this.seriesdata)
   },
   mounted() {
@@ -745,23 +774,23 @@ export default {
   },
   methods: {
     //获取列表
-    getData() {
+    getData(id) {
       var that = this;
-      var id = "ZM_10268_2_S1607337857606_s_p$DM1";
+      // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
       var query = {
         action: "Service",
         method: "getColumns",
         data: [id],
       };
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
-      that.getData2([]);
+      // that.getData2([]);
 
 
-      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query),{ responseType: 'arraybuffer'}).then(
+      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
           console.log(success);
           var res = success.data.result;
-          that.getData2(res);
+          that.getData2(res,id);
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -769,9 +798,9 @@ export default {
         }
       );
     },
-    getData2(list) {
+    getData2(list,id) {
       var that = this;
-      var id = "ZM_10268_2_S1607337857606_s_p$DM1";
+      // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
 
       var list_data = [];
       if(list.length>0){
