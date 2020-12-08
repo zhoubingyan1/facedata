@@ -486,7 +486,7 @@ export default {
         else resStr = month + '-' + date + ' ' + hours + ':' + minutes
         return resStr
     },
-    getHandledValue = num => {
+    getHandledValue(num){
         return num < 10 ? '0' + num : num
     },
     //分页切换
