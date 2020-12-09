@@ -232,12 +232,16 @@ export default {
         data: [this.username, this.password],
       };
       console.log(that.PATH.LOGIN);
+      // {responseType: 'json',}
       that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data);
           var res = success.data;
 
           if (res.result != null) {
+            localStorage.removeItem("modaltype");//清空模型
+            sessionStorage.removeItem("UserName");
+            sessionStorage.removeItem("UserId");
             var name = res.result.name;
             var user_id = res.result.user_id;
             sessionStorage.setItem("UserName", res.result.name);

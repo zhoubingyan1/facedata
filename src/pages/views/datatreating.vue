@@ -530,7 +530,8 @@ export default {
           }
           //   newtabledata=success.data.result.data
           that.table.data = newtabledata;
-          that.table.total = success.data.result.count;
+          that.table.total = Number(success.data.result.count);
+          console.log(that.table.total,'that.table.total')
           //储存localstore
           if (newtabledata.length > 0) {
             //   因子分析datavb入库------RKPI综合得分
