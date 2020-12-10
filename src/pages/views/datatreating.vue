@@ -343,6 +343,7 @@ export default {
           {
             title: "名称",
             key: "name",
+            width:'200',
             align: "center",
           },
           {
@@ -361,8 +362,8 @@ export default {
             align: "center",
           },
           {
-            title: "来源",
-            align: "",
+            title: "操作",
+            align: "center",
             render: (h, params) => {
               let result = "0";
               return h("div", [
@@ -557,7 +558,12 @@ export default {
       );
     },
     getNweDate(timeStamp, startType) {
-      const d = new Date(timeStamp * 1000);
+      var d = null;
+      if ((timeStamp).toString().length == 10) {
+          d = new Date(timeStamp * 1000);
+      } else if ((timeStamp).toString().length >= 13) {
+          d = new Date(timeStamp);
+      }
       const year = d.getFullYear();
       const month = this.getHandledValue(d.getMonth() + 1);
       const date = this.getHandledValue(d.getDate());
