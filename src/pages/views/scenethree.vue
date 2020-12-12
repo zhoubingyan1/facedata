@@ -111,7 +111,7 @@
                             <div class="resizeicon">
                                 <Icon type="ios-resize" />
                             </div>
-                            <div class="rkpi_item height470">
+                            <div class="rkpi_item height447">
                                 <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                     <template slot-scope="{ row, index }" slot="name">
                                     {{row.name}}
@@ -207,7 +207,7 @@
                                 <div class="resizeicon">
                                     <Icon type="ios-resize" />
                                 </div>
-                                <div class="rkpi_item height470">
+                                <div class="rkpi_item height447">
                                     <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                     <template slot-scope="{ row, index }" slot="name">
                                     {{row.name}}
@@ -308,7 +308,7 @@
                             <div class="resizeicon">
                                 <Icon type="ios-resize" />
                             </div>
-                            <div class="rkpi_item height450">
+                            <div class="rkpi_item height426">
                                 <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                     <template slot-scope="{ row, index }" slot="name">
                                     {{row.name}}
@@ -403,7 +403,7 @@
                             <div class="resizeicon">
                                 <Icon type="ios-resize" />
                             </div>
-                            <div class="rkpi_item height450">
+                            <div class="rkpi_item height426">
                                 <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                     <template slot-scope="{ row, index }" slot="name">
                                     {{row.name}}
@@ -502,7 +502,7 @@
                             <div class="resizeicon">
                                 <Icon type="ios-resize" />
                             </div>
-                            <div class="rkpi_item height450">
+                            <div class="rkpi_item height426">
                                 <Table class="facedata-table account-table" :columns="table.columns" :data="table.data">
                                     <template slot-scope="{ row, index }" slot="name">
                                     {{row.name}}
@@ -684,6 +684,96 @@ export default {
                         action2:'454',
                         show:0
                     },
+                    {
+                        name: '分行检查结果',
+                        age: '相关性',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:1
+                    },
+                    {
+                        name: '',
+                        age: '显著性(双尾)',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:0
+                    },
+                    {
+                        name: '分行检查结果',
+                        age: '相关性',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:1
+                    },
+                    {
+                        name: '',
+                        age: '显著性(双尾)',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:0
+                    },
+                    {
+                        name: '分行检查结果',
+                        age: '相关性',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:1
+                    },
+                    {
+                        name: '',
+                        age: '显著性(双尾)',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:0
+                    },
+                    {
+                        name: '分行检查结果',
+                        age: '相关性',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:1
+                    },
+                    {
+                        name: '',
+                        age: '显著性(双尾)',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:0
+                    },
+                    {
+                        name: '分行检查结果',
+                        age: '相关性',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:1
+                    },
+                    {
+                        name: '',
+                        age: '显著性(双尾)',
+                        birthday: '454',
+                        address: '454',
+                        action1:'454',
+                        action2:'454',
+                        show:0
+                    },
                 ],
             },
         }
@@ -804,11 +894,11 @@ export default {
         padding-top:50px;
         box-sizing: border-box;
         // overflow: hidden;
-        .height470{
-            height: 470px;
+        .height447{
+            height: 447px;
         }
         .rkpi_item{
-            overflow: hidden;
+            overflow: scroll;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;
             margin-bottom: 50px;
@@ -870,14 +960,14 @@ export default {
         .resizeicon:hover{
             color: #246FEA;
         }
-        .height470{
-            height: 470px;
+        .height447{
+            height: 447px;
         }
-        .height450{
-            height: 450px;
+        .height426{
+            height: 426px;
         }
         .rkpi_item{
-            overflow: hidden;
+            overflow: scroll;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;
             margin-bottom: 50px;

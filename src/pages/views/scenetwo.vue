@@ -605,8 +605,8 @@ export default {
         padding-top:50px;
         box-sizing: border-box;
         .rkpi_item{
-            height: 200px;
-            overflow: scroll;
+            height: 180px;
+            overflow: hidden;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;
             margin-bottom: 50px;
@@ -659,6 +659,7 @@ export default {
         margin-top:30px;
         padding-top:50px;
         box-sizing: border-box;
+        padding-bottom: 30px;
         .resizeicon{
             position: absolute;
             top: 10px;
@@ -668,7 +669,7 @@ export default {
             color: #246FEA;
         }
         .rkpi_item{
-            height: 200px;
+            height: 180px;
             overflow: scroll;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;

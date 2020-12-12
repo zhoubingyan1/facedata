@@ -15,6 +15,7 @@
                 <div v-for="(tagtree,index) in leftTreeList" :key="index" class="marginright30">
                   <div class="left_name">{{tagtree.name}}</div>
                   <div class="left_tree">
+                    <!-- <vue-ztree :list.sync='ztreeDataSource' :func='nodeClick' :expand='expandClick' :contextmenu='contextmenuClick' :is-open='true'></vue-ztree> -->
                     <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
                   </div>
                 </div>
@@ -206,7 +207,44 @@ export default {
   data() {
     return {
       currenttableid:'',
-
+      ztreeDataSource:[{
+                id:1,
+                name:"音乐",
+                children:[],
+                url:"http://www.baidu.com"
+      },{
+          id:2,
+          name:"视频",
+          children:[{
+             id:3,
+             name:"电影",
+             children:[{
+                id:4,
+                name:"国产电影",
+                url:""
+             },{
+                id:5,
+                name:"好莱坞电影",
+                url:""
+             },{
+                id:6,
+                name:"小语种电影",
+                url:""
+             }]
+          },{
+             id:7,
+             name:"短片",
+             children:[{
+                id:9,
+                name:"电视剧",
+                url:""
+             },{
+                id:10,
+                name:"短片",
+                url:""
+             }]
+          }]
+      }],
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 

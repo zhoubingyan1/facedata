@@ -23,6 +23,9 @@ import ViewUI from 'view-design';
 // import style
 import 'view-design/dist/styles/iview.css';
 
+import vueztree from 'vue-ztree-2.0/dist/vue-ztree-2.0.umd.min.js'
+import 'vue-ztree-2.0/dist/vue-ztree-2.0.css'
+Vue.use(vueztree)
 
 
 Vue.use(ViewUI);
