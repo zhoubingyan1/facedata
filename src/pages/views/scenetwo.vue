@@ -538,6 +538,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    background: #f5f5f5;
     .sceneitemcontent{
         margin-bottom: 70px;
     }

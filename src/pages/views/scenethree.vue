@@ -819,6 +819,7 @@ export default {
     height: 100%;
     padding: 50px 70px;
     width: 100%;
+    background: #f5f5f5;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     .sceneitemcontent{

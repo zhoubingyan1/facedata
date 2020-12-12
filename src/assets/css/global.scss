@@ -17,14 +17,18 @@ html,body{
 .facedata-pagination {
   margin: 10px;
   height: 40px;
-  text-align: right;
+  text-align: center;
   .ivu-page {
     height: 40px;
   }
+  .ivu-page-item {
+    height: 40px;
+  }
   .ivu-page-item:hover {
-    border-color: var(--base);
+    background: rgba(0, 0, 0, 0.10);
+    border-radius: 2px;
     a {
-      color: var(--base);
+      color: rgba(0, 0, 0, 0.40);
     }
   }
   .ivu-page-item-active {
@@ -42,9 +46,24 @@ html,body{
   .ivu-page-next:hover,
   .ivu-page-prev:hover {
     border-color: var(--base);
+    background: rgba(36, 111, 234, .1);
+    border-radius: 2px;
     a {
       color: var(--base);
     }
+  }
+  .ivu-page.mini .ivu-page-next,
+  .ivu-page.mini .ivu-page-prev {
+    background: rgba(0, 0, 0, 0.10);
+    border-radius: 2px;
+  }
+
+  .ivu-icon-ios-arrow-back:before {
+    content: "\F33F" !important;
+  }
+
+  .ivu-icon-ios-arrow-forward:before {
+    content: "\F341" !important;
   }
   .ivu-page-item-jump-next,
   .ivu-page-item-jump-prev {

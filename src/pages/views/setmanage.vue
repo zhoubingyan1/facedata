@@ -132,7 +132,11 @@
                     </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="arithmetictable.total" :current="arithmetictable.page" :showElevator="false" @on-change="changearithmetictablePage" :pageSize="arithmetictable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                            <div class="facedata-pagination">
+                            <Page :total="arithmetictable.total" :current="arithmetictable.page" size="small" @on-change="changearithmetictablePage" :pageSize="arithmetictable.pagesize"></Page>
+                            </div>
+                        </div>
                     </div>
                 </NewTabPane> 
                 <!-- 数据参数 -->
@@ -143,7 +147,9 @@
                     </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="parametertable.total" :current="parametertable.page" :showElevator="false" @on-change="changeparametertablePage" :pageSize="parametertable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                        <Page :total="parametertable.total" :current="parametertable.page" size="small" @on-change="changeparametertablePage" :pageSize="parametertable.pagesize"></Page>
+                        </div>
                     </div>
                 </div> 
                 <!-- 系统日志 -->
@@ -154,7 +160,9 @@
                     </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="systemtable.total" :current="systemtable.page" :showElevator="false" @on-change="changesystemtablePage " :pageSize="systemtable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                        <Page :total="systemtable.total" :current="systemtable.page" size="small" @on-change="changesystemtablePage " :pageSize="systemtable.pagesize"></Page>
+                        </div>
                     </div>
                 </div> 
                 <!-- 用户 -->
@@ -165,7 +173,9 @@
                     </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="userdatatable.total" :current="userdatatable.page" :showElevator="false" @on-change="changeuserdatatablePage " :pageSize="userdatatable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                        <Page :total="userdatatable.total" :current="userdatatable.page" size="small" @on-change="changeuserdatatablePage " :pageSize="userdatatable.pagesize"></Page>
+                        </div>
                     </div>
                 </div> 
                 <!-- 角色权限 -->
@@ -176,7 +186,9 @@
                     </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="roletable.total" :current="roletable.page" :showElevator="false" @on-change="changeroletablePage " :pageSize="roletable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                        <Page :total="roletable.total" :current="roletable.page" size="small" @on-change="changeroletablePage " :pageSize="roletable.pagesize"></Page>
+                        </div>
                     </div>
                 </div> 
                 <!-- 部门 -->
@@ -184,10 +196,11 @@
                     <Row>
                         <Col span="6">
                             <div class="datatreating_firstitem_left">
-                                <div v-for="(tagtree,index) in departmentTreeList" :key="index" class="marginright30">
-                                    <div class="left_name">{{tagtree.name}}</div>
+                                <div class="marginright30">
+                                    <div class="left_name">数据表</div>
                                     <div class="left_tree">
-                                        <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                                        <ztree :setting="setting" :nodes="nodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                                        <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
                                     </div>
                                 </div>
                                 <div class="margintop200">
@@ -209,7 +222,9 @@
                                     <Table class="facedata-table account-table" stripe :columns="departmenttable.columns" :data="departmenttable.data"></Table>
                                 </div>
                                 <div class="datatreating_fr_page">
-                                    <Page :total="departmenttable.total" :current="departmenttable.page" :showElevator="false" @on-change="changePage" :pageSize="departmenttable.pagesize"></Page>
+                                    <div class="facedata-pagination">
+                                    <Page :total="departmenttable.total" :current="departmenttable.page" size="small" @on-change="changedepartmenttablePage" :pageSize="departmenttable.pagesize"></Page>
+                                    </div>
                                 </div>
                             </div>
                         </Col>
@@ -220,10 +235,11 @@
                     <Row>
                         <Col span="6">
                             <div class="datatreating_firstitem_left">
-                                <div v-for="(tagtree,index) in organizationTreeList" :key="index" class="marginright30">
-                                    <div class="left_name">{{tagtree.name}}</div>
+                                <div class="marginright30">
+                                    <div class="left_name">数据表</div>
                                     <div class="left_tree">
-                                        <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                                        <ztree :setting="setting" :nodes="departmentnodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                                        <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
                                     </div>
                                 </div>
                                 
@@ -242,7 +258,9 @@
                                     <Table class="facedata-table account-table" stripe :columns="organizationtable.columns" :data="organizationtable.data"></Table>
                                 </div>
                                 <div class="datatreating_fr_page">
-                                    <Page :total="organizationtable.total" :current="organizationtable.page" :showElevator="false" @on-change="changePage" :pageSize="organizationtable.pagesize"></Page>
+                                    <div class="facedata-pagination">
+                                    <Page :total="organizationtable.total" :current="organizationtable.page" size="small" @on-change="changeorganizationtablePage" :pageSize="organizationtable.pagesize"></Page>
+                                    </div>
                                 </div>
                             </div>
                         </Col>
@@ -252,11 +270,16 @@
                 <div v-else>
                     <div class="datatreating_fr_table">
                         <div class="datatreating_fr_table">
-                        <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table>
-                    </div>
+                            <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
+                            <ztree :setting="datatreatingsetting" :nodes="datatreatingnodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                        </div>
                     </div>
                     <div class="datatreating_fr_page">
-                        <Page :total="standardtable.total" :current="standardtable.page" :showElevator="false" @on-change="changestandardPage" :pageSize="standardtable.pagesize"></Page>
+                        <div class="facedata-pagination">
+                            <div class="facedata-pagination">
+                            <Page :total="standardtable.total" :current="standardtable.page" size="small" @on-change="changestandardtablePage" :pageSize="standardtable.pagesize"></Page>
+                            </div>
+                        </div>
                     </div>
                 </div> 
             </NewTabPane>
@@ -373,18 +396,84 @@
 <script>
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
-import Page from '../components/page/index'
+import ztree from "../components/ztree/ztree";
+const simpleData = [
+  { id: 1, pid: 0, name: "随意勾选 1", open: false, },
+  { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
+  { id: 111, pid: 11, name: "随意勾选 1-1-1" , open: false },
+  { id: 112, pid: 11,open: false, name: "随意勾选 1-1-2",},
+  { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
+  { id: 121, pid: 12, name: "随意勾选 1-2-1" , open: false },
+  { id: 122, pid: 12, name: "随意勾选 1-2-2" , open: false },
+  { id: 2, pid: 0,name: "随意勾选 2-1" ,open: false, },
+  { id: 21, pid: 2, name: "随意勾选 2-1" , open: false },
+  { id: 22, pid: 2, name: "随意勾选 2-2", open: false, },
+  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true , open: false,},
+  { id: 222, pid: 22, name: "随意勾选 2-2-2" , open: false },
+  { id: 23, pid: 2, name: "随意勾选 2-3" , open: false }
+];
+function addDiyDom(treeId, treeNode) {
+    var sObj = $("#" + treeNode.tId + "_span");
+    if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+        + "' title='add node' onfocus='this.blur();'></span>";
+    sObj.after(addStr);
 
+};
 export default {
     name:"Setmanage",
     components: {
         linetree,
         NewTabs,
         NewTabPane,
-        Page
+        ztree
     },
     data(){
         return{
+
+            ztreeObj: null,
+            setting: {
+                async:{
+                autoParam:[],
+                enable:true
+                },
+                data: {
+                simpleData: {
+                    enable: true,
+                    pIdKey: "pid",
+                }
+                },
+                view: {
+                dblClickExpand: false,//屏蔽掉双击事件
+                showIcon: true
+                }
+            }, //树节点设置
+            nodes:[],
+            nodes:simpleData,
+            departmentnodes:[],
+            departmentnodes:simpleData,
+
+            datatreatingsetting: {
+                async:{
+                    autoParam:[],
+                    enable:true
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        pIdKey: "pid",
+                    }
+                },
+                view: {
+                    
+                    showIcon: true,
+                    addDiyDom:addDiyDom
+                }
+            }, //树节点设置
+            datatreatingnodes:[],
+            datatreatingnodes:simpleData,
+            // addDiyDom
+
             allAlign: null,
 
             errorTips_modal:false,//错误弹框
@@ -819,69 +908,6 @@ export default {
                     name:'审计员'
                 }]
             },//角色权限表格
-            departmentTreeList:[
-                {
-                    name:'数据表',
-                    linetreelist: [
-                        {
-                            label: "第一层(1)",
-                            children: []
-                        },
-                        {
-                        label: "第一层(2)",
-                        children: [
-                            {
-                                label: "第二层(1)",
-                                children: []
-                            },
-                            {
-                                label: "第二层(2)",
-                                children: [{
-                                    label: "第三层(1)",
-                                    children: [
-                                        {
-                                            label: "第四层",
-                                            children: [
-                                                {
-                                                label: "第五层",
-                                                children: [{ label: "第六层", children: [] }]
-                                                }
-                                            ]
-                                        }
-                                    ]},
-                                    {
-                                        label: "第三层(2)",
-                                        children: []
-                                    },
-                                    {
-                                        label: "第三层(3)",
-                                        children: []
-                                    }
-                            ]},
-                            {
-                                label: "第二层(3)",
-                                children: []
-                            },
-                            {
-                                label: "第二层(4)",
-                                children: []
-                            }
-                        ]},
-                        {
-                            label: "第一层(3)",
-                            children: []
-                        },
-                        {
-                            label: "第一层(4)",
-                            children: []
-                        },
-                        {
-                            label: "第一层(5)",
-                            children: []
-                        }
-                    ],
-                }
-            ],//部门左边的树
             departmentlefttable: {
                 page: 1,
                 pagesize: 15,
@@ -1015,69 +1041,6 @@ export default {
                     name1:'0.2033'
                 }]
             },//部门右边表格
-            organizationTreeList:[
-                {
-                    name:'数据表',
-                    linetreelist: [
-                        {
-                            label: "第一层(1)",
-                            children: []
-                        },
-                        {
-                        label: "第一层(2)",
-                        children: [
-                            {
-                                label: "第二层(1)",
-                                children: []
-                            },
-                            {
-                                label: "第二层(2)",
-                                children: [{
-                                    label: "第三层(1)",
-                                    children: [
-                                        {
-                                            label: "第四层",
-                                            children: [
-                                                {
-                                                label: "第五层",
-                                                children: [{ label: "第六层", children: [] }]
-                                                }
-                                            ]
-                                        }
-                                    ]},
-                                    {
-                                        label: "第三层(2)",
-                                        children: []
-                                    },
-                                    {
-                                        label: "第三层(3)",
-                                        children: []
-                                    }
-                            ]},
-                            {
-                                label: "第二层(3)",
-                                children: []
-                            },
-                            {
-                                label: "第二层(4)",
-                                children: []
-                            }
-                        ]},
-                        {
-                            label: "第一层(3)",
-                            children: []
-                        },
-                        {
-                            label: "第一层(4)",
-                            children: []
-                        },
-                        {
-                            label: "第一层(5)",
-                            children: []
-                        }
-                    ],
-                }
-            ],//机构左边的树
             organizationtable:{
                 page: 1,
                 pagesize: 15,
@@ -1287,34 +1250,37 @@ export default {
                 }
             );
         },
-        //分页切换
-        changePage(page) {
-            this.table.page = page;
-            // this.changeTags();
-        },
         //切换算法的分页
         changearithmetictablePage(page){
-            // arithmetictable
+            this.arithmetictable.page = page;
         },
         //切换数据参数的分页
         changeparametertablePage(page){
-            // parametertable
+            this.parametertable.page = page;
         },
         //切换系统日志的分页
         changesystemtablePage(page){
-            // systemtable
+            this.systemtable.page = page;
         },
         //切换用户的分页
         changeuserdatatablePage(page){
-            // userdatatable
+            this.userdatatable.page = page;
         },
         //切换角色权限的分页
         changeroletablePage(page){
-            // roletable
+            this.roletable.page = page;
+        },
+        //切换部门的分页
+        changedepartmenttablePage(page){
+            this.departmenttable.page = page;
+        },
+        //切换机构的分页
+        changeorganizationtablePage(page){
+            this.organizationtable.page = page;
         },
         //切换标准目录的分页
-        changestandardPage(page){
-
+        changestandardtablePage(page){
+            this.standardtable.page = page;
         },
         // 选择导入
         choseleadingin(){
@@ -1332,8 +1298,69 @@ export default {
         downloaddata(){
             this.downloadTemplate_modal=true
         },
-        itemClick(){
-            //树的点击
+        //树节点展开图标点击
+        onExpand: function(evt, treeId, treeNode) {
+        // 点击事件
+            // treeNode.id
+            this.treeClick(evt, treeId, treeNode)
+        },
+        onClick: function(evt, treeId, treeNode) {
+            // 点击事件
+            // this.treeClick(evt, treeId, treeNode)
+        },
+        treeClick:function(evt, treeId, treeNode) {
+            // 点击事件
+            console.log(treeNode.open,'onClick');
+            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
+            const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getExplorerChildren",
+                data: [treeNode.id],
+            };
+            if(!treeNode.open){
+                if (treeNode.right - treeNode.left == 1) {
+                //文件,获取右边的表格
+                // this.gettable(treeNode.id)
+                this.table.page=1
+                this.currenttableid =treeNode.id
+                this.gettable(treeNode.id,this.table.page,this.table.pagesize);
+                } else {
+                //文件夹
+                treeNode.children = [];
+                that.gettable(treeNode.id,that.table.page,that.table.pagesize);
+                if(treeNode.isParent){
+                    that.$http
+                    .post(that.PATH.getExplorerChildren, JSON.stringify(query))
+                    .then(
+                        (success) => {
+                        console.log(success.data.result);
+                        const childrenData=eval(success.data.result)
+                            //判断子节点是否包含子元素
+                            for(var i in childrenData){
+                                if(childrenData[i].isContainSon === 1){
+                                    childrenData[i].isParent = true;
+                                }
+                            };
+                            console.log(childrenData)
+                            this.ztreeObj.refresh();
+                            this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
+                        },
+                        (error) => {
+                        that.err_list = ["登录异常", "请联系管理员"];
+                        that.errorTips_modal = true;
+                        }
+                    );
+                } 
+                }
+                
+            }
+        },
+        handleCreated: function(ztreeObj) {
+            this.ztreeObj = ztreeObj;
+            // onCreated 中操作ztreeObj对象展开第一个节点
+            ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
         },
         tabclick(item){
             // console.log(item,'item')

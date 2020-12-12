@@ -12,11 +12,25 @@
           <Row>
             <Col span="6">
               <div class="datatreating_firstitem_left">
-                <div v-for="(tagtree,index) in leftTreeList" :key="index" class="marginright30">
-                  <div class="left_name">{{tagtree.name}}</div>
+                <div class="marginright30">
+                  <div class="left_name">数据表</div>
                   <div class="left_tree">
-                    <!-- <vue-ztree :list.sync='ztreeDataSource' :func='nodeClick' :expand='expandClick' :contextmenu='contextmenuClick' :is-open='true'></vue-ztree> -->
-                    <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree>
+                     <ztree :setting="setting" :nodes="nodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                  </div>
+                </div>
+                <div class="marginright30">
+                  <div class="left_name">数据包</div>
+                  <div class="left_tree">
+                     <ztree :setting="setting" :nodes="nodes1" @onClick="onClick"  @onCreated="handleCreated"></ztree>
+                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                  </div>
+                </div>
+                <div class="marginright30">
+                  <div class="left_name">模型库</div>
+                  <div class="left_tree">
+                     <ztree :setting="setting" :nodes="nodes2" @onClick="onClick"  @onCreated="handleCreated"></ztree>
+                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
                   </div>
                 </div>
               </div>
@@ -59,7 +73,9 @@
                   ></Table>
                 </div>
                 <div class="datatreating_fr_page">
+                  <div class="facedata-pagination">
                     <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -82,7 +98,9 @@
             ></Table>
           </div>
           <div class="datatreating_fr_page">
-              <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
+              <div class="facedata-pagination">
+                <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
+              </div>
           </div>
         </div>
       </TabPane>
@@ -195,56 +213,61 @@
 <script>
 import linetree from "../components/linetree/linetree";
 import { Tabs, TabPane } from "../components/tabs/index";
-// import Page from "../components/page/index";
+import ztree from "../components/ztree/ztree";
+
+const simpleData = [
+  { id: 1, pid: 0, name: "随意勾选 1", open: false, },
+  { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
+  { id: 111, pid: 11, name: "随意勾选 1-1-1" , open: false },
+  { id: 112, pid: 11,open: false, name: "随意勾选 1-1-2",},
+  { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
+  { id: 121, pid: 12, name: "随意勾选 1-2-1" , open: false },
+  { id: 122, pid: 12, name: "随意勾选 1-2-2" , open: false },
+  { id: 2, pid: 0,name: "随意勾选 2-1" ,open: false, },
+  { id: 21, pid: 2, name: "随意勾选 2-1" , open: false },
+  { id: 22, pid: 2, name: "随意勾选 2-2", open: false, },
+  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true , open: false,},
+  { id: 222, pid: 22, name: "随意勾选 2-2-2" , open: false },
+  { id: 23, pid: 2, name: "随意勾选 2-3" , open: false }
+];
+
 export default {
   name: "Datatreating",
   components: {
     linetree,
     Tabs,
     TabPane,
-    // Page,
+    ztree
   },
   data() {
     return {
       currenttableid:'',
-      ztreeDataSource:[{
-                id:1,
-                name:"音乐",
-                children:[],
-                url:"http://www.baidu.com"
-      },{
-          id:2,
-          name:"视频",
-          children:[{
-             id:3,
-             name:"电影",
-             children:[{
-                id:4,
-                name:"国产电影",
-                url:""
-             },{
-                id:5,
-                name:"好莱坞电影",
-                url:""
-             },{
-                id:6,
-                name:"小语种电影",
-                url:""
-             }]
-          },{
-             id:7,
-             name:"短片",
-             children:[{
-                id:9,
-                name:"电视剧",
-                url:""
-             },{
-                id:10,
-                name:"短片",
-                url:""
-             }]
-          }]
-      }],
+
+      showIndex: 1,
+      ztreeObj: null,
+      setting: {
+        async:{
+          autoParam:[],
+          enable:true
+        },
+        data: {
+          simpleData: {
+            enable: true,
+            pIdKey: "pid",
+          }
+        },
+        view: {
+          dblClickExpand: false,//屏蔽掉双击事件
+          showIcon: true
+        }
+      },
+      
+
+      // nodes:[],
+      nodes:simpleData,
+      nodes1:[],
+      nodes2:[],
+
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 
@@ -284,95 +307,7 @@ export default {
           linetreelist: [],
         },
       ],
-      //   leftTreeList: [
-      //     {
-      //       name: "数据表",
-      //       linetreelist: [
-      //         {
-      //           label: "第一层(1)",
-      //           children: [],
-      //         },
-      //         {
-      //           label: "第一层(2)",
-      //           children: [
-      //             {
-      //               label: "第二层(1)",
-      //               children: [],
-      //             },
-      //             {
-      //               label: "第二层(2)",
-      //               children: [
-      //                 {
-      //                   label: "第三层(1)",
-      //                   children: [
-      //                     {
-      //                       label: "第四层",
-      //                       children: [
-      //                         {
-      //                           label: "第五层",
-      //                           children: [{ label: "第六层", children: [] }],
-      //                         },
-      //                       ],
-      //                     },
-      //                   ],
-      //                 },
-      //                 {
-      //                   label: "第三层(2)",
-      //                   children: [],
-      //                 },
-      //                 {
-      //                   label: "第三层(3)",
-      //                   children: [],
-      //                 },
-      //               ],
-      //             },
-      //             {
-      //               label: "第二层(3)",
-      //               children: [],
-      //             },
-      //             {
-      //               label: "第二层(4)",
-      //               children: [],
-      //             },
-      //           ],
-      //         },
-      //         {
-      //           label: "第一层(3)",
-      //           children: [],
-      //         },
-      //         {
-      //           label: "第一层(4)",
-      //           children: [],
-      //         },
-      //         {
-      //           label: "第一层(5)",
-      //           children: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       name: "数据包",
-      //       linetreelist: [
-      //         {
-      //           label: "xxxx-xx-xx",
-      //           children: [],
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       name: "模型库",
-      //       linetreelist: [
-      //         {
-      //           label: "xxxx-xx-xx",
-      //           children: [],
-      //         },
-      //         {
-      //           label: "xxxx-xx-xx",
-      //           children: [],
-      //         },
-      //       ],
-      //     },
-      //   ],
+
       table: {
         page: 1,
         pagesize: 5,
@@ -443,6 +378,11 @@ export default {
       ],
     };
   },
+  computed: {
+    // nodes: function() {
+    //   return dataQueue[this.showIndex];
+    // }
+  },
   created() {
     //获取根目录
     this.getdata(0);
@@ -467,38 +407,19 @@ export default {
             // newResult=[]
             if (newResult.length > 0) {
               newResult.forEach((v, i) => {
+                newResult[i].open = false
+                if(newResult[i].right-newResult[i].left!=1){
+                  newResult[i].isParent=true
+                }
+                if(newResult[i].right-newResult[i].left==1){
+                  newResult[i].isParent=false
+                }
+                  
                 newResult[i].children = [];
               });
             }
-            this.leftTreeList[0].linetreelist = newResult;
-          },
-          (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
-            that.errorTips_modal = true;
-          }
-        );
-    },
-    getdata2(a, id) {
-      var that = this;
-      var query = {
-        action: "Service",
-        method: "getExplorerChildren",
-        data: [id],
-      };
-      let newResult = new Array();
-      that.$http
-        .post(that.PATH.getExplorerChildren, JSON.stringify(query))
-        .then(
-          (success) => {
-            console.log(success.data.result);
-            newResult = success.data.result;
-            if (newResult.length > 0) {
-              newResult.forEach((v, i) => {
-                newResult[i].children = [];
-              });
-            }
-            a.children=newResult;
-            console.log(this.leftTreeList[0].linetreelist);
+            this.nodes= newResult;
+            console.log(this.nodes,'this.nodes')
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -664,18 +585,68 @@ export default {
 
       //   right-left =1
     },
-
-    cloneObj(obj) {
-      var newObj = {};
-      if (obj instanceof Array) {
-        newObj = [];
+    onExpand: function(evt, treeId, treeNode) {
+      // 点击事件
+      // treeNode.id
+      this.treeClick(evt, treeId, treeNode)
+    },
+    onClick: function(evt, treeId, treeNode) {
+      // 点击事件
+      this.treeClick(evt, treeId, treeNode)
+    },
+    treeClick:function(evt, treeId, treeNode) {
+      // 点击事件
+      console.log(treeNode.open,'onClick');
+      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
+      const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getExplorerChildren",
+        data: [treeNode.id],
+      };
+      if(!treeNode.open){
+        if (treeNode.right - treeNode.left == 1) {
+          //文件,获取右边的表格
+          // this.gettable(treeNode.id)
+          this.table.page=1
+          this.currenttableid =treeNode.id
+          this.gettable(treeNode.id,this.table.page,this.table.pagesize);
+        } else {
+          //文件夹
+          treeNode.children = [];
+          that.gettable(treeNode.id,that.table.page,that.table.pagesize);
+          if(treeNode.isParent){
+            that.$http
+              .post(that.PATH.getExplorerChildren, JSON.stringify(query))
+              .then(
+                (success) => {
+                  console.log(success.data.result);
+                  const childrenData=eval(success.data.result)
+                    //判断子节点是否包含子元素
+                    for(var i in childrenData){
+                        if(childrenData[i].isContainSon === 1){
+                            childrenData[i].isParent = true;
+                        }
+                    };
+                    console.log(childrenData)
+                    this.ztreeObj.refresh();
+                    this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
+                },
+                (error) => {
+                  that.err_list = ["登录异常", "请联系管理员"];
+                  that.errorTips_modal = true;
+                }
+              );
+          } 
+        }
+        
       }
-      for (var key in obj) {
-        var val = obj[key];
-        //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
-        newObj[key] = typeof val === "object" ? this.cloneObj(val) : val;
-      }
-      return newObj;
+    },
+    handleCreated: function(ztreeObj) {
+      this.ztreeObj = ztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
 
     tabclick(item) {
@@ -746,6 +717,18 @@ export default {
   background: #f5f5f5;
   .tabs-animation {
     width: 100%;
+  }
+  .ico_docu{
+    margin-right:2px; background:url('../../assets/images/5.png') no-repeat;
+    background-size: 20px 20px !important;
+  }
+  .ico_open{
+    margin-right:2px; background:url('../../assets/images/4.png') no-repeat;
+    background-size: 20px 20px !important;
+  }
+  .ico_close{
+    margin-right:2px; background:url('../../assets/images/6.png') no-repeat;
+    background-size: 20px 20px !important;
   }
   #tabs {
     .tabs-nav {

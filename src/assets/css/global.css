@@ -32,16 +32,38 @@ html {
 .facedata-pagination {
   margin: 10px 10px 50px 10px;
   height: 40px;
-  text-align: right; }
+  text-align: center;
+ }
   .facedata-pagination .ivu-page {
     height: 40px; }
+    .facedata-pagination .ivu-page-item {
+      height: 40px;
+    }
   .facedata-pagination .ivu-page-item:hover {
-    border-color: var(--base); }
+    /* border-color: var(--base);  */
+    background: rgba(0, 0, 0, 0.10);
+    border-radius: 2px;
+  }
     .facedata-pagination .ivu-page-item:hover a {
-      color: var(--base); }
+      color: rgba(0, 0, 0, 0.40);
+    }
   .facedata-pagination .ivu-page-item-active {
     background-color: var(--base);
-    border-color: var(--base); }
+    border-color: var(--base); 
+  }
+
+  .facedata-pagination .ivu-page.mini .ivu-page-next,
+  .facedata-pagination .ivu-page.mini .ivu-page-prev {
+    background: rgba(0, 0, 0, 0.10);
+    border-radius: 2px;
+  }
+  .facedata-pagination .ivu-icon-ios-arrow-back:before {
+    content: "\F33F" !important;
+  }
+
+  .facedata-pagination .ivu-icon-ios-arrow-forward:before {
+    content: "\F341" !important;
+  }
 
     .facedata-pagination .ivu-page-item-active a{
       color: #fff;
@@ -50,7 +72,10 @@ html {
       color: #fff; }
   .facedata-pagination .ivu-page-next:hover,
   .facedata-pagination .ivu-page-prev:hover {
-    border-color: var(--base); }
+    border-color: var(--base);
+    background: rgba(36, 111, 234, .1);
+    border-radius: 2px;
+  }
     .facedata-pagination .ivu-page-next:hover a,
     .facedata-pagination .ivu-page-prev:hover a {
       color: var(--base); }
