@@ -16,6 +16,10 @@
 # install dependencies
 npm install
 
+#ztree在vue中使用
+npm install @ztree/ztree_v3
+npm install jquery
+
 # serve with hot reload at localhost:8080
 npm run dev
 
