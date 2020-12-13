@@ -149,18 +149,18 @@ export default {
   left: 10px;
   height: 50%;
   top: 50%;
-  border-left-width: 1px;
+  border-left-width: 1Px;
 }
 .ztree >>> .roots_docu:after {
   top: 50%;
   left: 11px;
   width: 50%;
-  border-top-width: 1px;
+  border-top-width: 1Px;
 }
 .ztree >>> .center_docu:before {
   left: 10px;
   height: 100%;
-  border-left-width: 1px;
+  border-left-width: 1Px;
 }
 .ztree >>> .center_docu:after {
   top: 50%;
@@ -171,13 +171,13 @@ export default {
 .ztree >>> .bottom_docu:before {
   left: 10px;
   height: 50%;
-  border-left-width: 1px;
+  border-left-width: 1Px;
 }
 .ztree >>> .bottom_docu:after {
   top: 50%;
   left: 11px;
   width: 50%;
-  border-top-width: 1px;
+  border-top-width: 1Px;
 }
 .ztree >>> li a {
   display: inline-block;

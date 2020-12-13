@@ -24,6 +24,24 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 
 
+import {
+  getCookie,
+  setCookie,
+  delCookie,
+  copyContent,
+  getFormatDate,
+  getenumlistContent,
+  formatTime
+} from '@/utils/util'
+
+Vue.prototype.getCookie = getCookie
+Vue.prototype.setCookie = setCookie
+Vue.prototype.delCookie = delCookie
+Vue.prototype.copyContent = copyContent
+Vue.prototype.getFormatDate = getFormatDate
+Vue.prototype.getenumlistContent = getenumlistContent
+Vue.prototype.formatTime = formatTime
+
 Vue.use(ViewUI);
 
 Vue.use(iView)

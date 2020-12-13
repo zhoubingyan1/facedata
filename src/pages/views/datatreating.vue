@@ -208,6 +208,14 @@
         <div class="forget_tips_text" v-for="(node,index) in err_list" :key="index">{{node}}</div>
       </div>
     </Modal>
+     <!-- 删除确认弹框 -->
+    <Modal :mask-closable="false" v-model="delModal" width="360" class-name="mr-del-modal">
+      <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
+      <div class="facedata-btn-box">
+        <div class="facedata-btn-confirm" style="margin-right: 20px" @click="datatreatingtableDel">删除</div>
+        <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -241,6 +249,9 @@ export default {
   },
   data() {
     return {
+      delModal: false, // 删除确认弹框
+      delID: "",
+
       currenttableid:'',
 
       showIndex: 1,
@@ -267,6 +278,7 @@ export default {
       nodes:simpleData,
       nodes1:[],
       nodes2:[],
+      treenodeID:null,//记录树的id
 
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
@@ -361,6 +373,7 @@ export default {
                     click: () => {
                       this.delID = params.row.id;
                       this.delModal = true;
+                    //  this.datatreatingtableDel(params.row);
                     },
                   },
                 }),
@@ -427,6 +440,38 @@ export default {
             that.errorTips_modal = true;
           }
         );
+    },
+    datatreatingtableDel(id){
+      console.log(id,'params')
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "delete",
+        data: [id],
+      };
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.DATATREATINGDELETE, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            that.$Modal.success({
+              width: 360,
+              content: "删除成功",
+              onOk: () => {
+                that.delModal = false;
+                that.ztreeObj.getNodeByParam('id', that.treenodeID);
+                that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
+              }
+            });
+            
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
     },
     gettable(id,page,pagesize) {
       var that = this;
@@ -598,6 +643,7 @@ export default {
     treeClick:function(evt, treeId, treeNode) {
       // 点击事件
       console.log(treeNode.open,'onClick');
+      this.treenodeID = treeNode.id
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
       const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
       var that = this;

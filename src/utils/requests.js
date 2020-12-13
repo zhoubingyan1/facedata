@@ -2,7 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
 import router from '@/router/index'
-import { LoadingBar, Message, Notice, Modal } from 'iview'
+import {
+    LoadingBar,
+    Message,
+    Notice,
+    Spin
+} from 'iview'
 
 Vue.use(Router)
 
@@ -101,18 +106,22 @@ arg.interceptors.request.use(config => {
         config.url = config.url + "?timestamp=" + guid()
     }
     LoadingBar.start()
+    Spin.show()
     return config
 }, error => {
+    Spin.hide()
     LoadingBar.error()
     Message.error('请求失败')
     return Promise.reject(error)
 })
 arg.interceptors.response.use(config => {
     LoadingBar.finish()
+    Spin.hide()
     removePending(config.config)
     return config
 }, error => {
     LoadingBar.error()
+    Spin.hide()
     if (!navigator.onLine) {
         Notice.destroy()
         Notice.error({

@@ -24,7 +24,7 @@ export default {
     getExplorerChildren: '/v3/sys/explorer/sys.catalog.direct',
     getByCatalog: '/v3/sys/explorer/explorer.direct',
 
-    delete: '/v3/sys/explorer/sys.explorer.direct',
+    DATATREATINGDELETE: '/v3/sys/explorer/sys.explorer.direct',
 
     getByCatalog: '/v3/sys/explorer/sys.explorer.direct'
 
