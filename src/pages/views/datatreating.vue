@@ -585,7 +585,7 @@ export default {
     //tab上的分页切换
     changeothertablePage(page){
       this.othertable.page = page;
-      this.getpageQueryNoCount(that.othertable.columns,this.othertablelistdata.param);
+      this.getTableData(this.othertable.columns,this.othertablelistdata.param);
     },
     // 选择导入
     choseleadingin() {
@@ -691,7 +691,7 @@ export default {
       }else{
         this.othertable.page=1
         this.tabsvalue = item.name.toString();
-        this.getnewDataTable(this.othertablelistdata.param)
+        this.getnewDataTableCol(this.othertablelistdata.param)
       }
       
     },
@@ -730,7 +730,7 @@ export default {
       this.othertable.page=1
       if(oneTabitem.length>0){
         this.tabsvalue = oneTabitem[0].index.toString();
-        // this.getnewDataTable(params.param)
+        // this.getnewDataTableCol(params.param)
       }else{
         if (tabIndex == 1) {
           this.tabIndex = tabIndex + 2;
@@ -743,14 +743,14 @@ export default {
           index: this.tabIndex,
         });
 
-        this.getnewDataTable(params.param)
+        this.getnewDataTableCol(params.param)
         this.tabsvalue = this.tabIndex.toString();
       }
       this.othertablelistdata=params
       // console.log(this.TabList)
       // this.isTip = false;
     },
-    getnewDataTable(id) {
+    getnewDataTableCol(id) {
       var that = this;
       var query = {
         action: "Service",
@@ -764,11 +764,14 @@ export default {
         (success) => {
           var res = success.data.result;
           console.log(success.data,'gettablecolumes');
+          that.othertable.columns=[]
+          that.othertable.data=[]
           if(res.length>0){
             newResult = success.data.result;
             newResult.forEach((v,i)=>{
-              v.title = v.name
-              v.key=v.desc
+              v.title = v.desc
+              v.key=v.name
+              // name
               v.align="center"
             })
               // {
@@ -778,7 +781,8 @@ export default {
             //   // align: "center",
             // },
             that.othertable.columns=newResult
-            that.getpageQueryNoCount(res, id);
+            that.getTableData(res, id);
+            that.gettablepagetotal(res,id)
           }
             
         },
@@ -788,7 +792,7 @@ export default {
         }
       );
     },
-    getpageQueryNoCount(list, id) {
+    getTableData(list, id) {
       var that = this;
       var list_data = [];
       if (list.length > 0) {
@@ -840,22 +844,20 @@ export default {
           conditions: [],
           entityId: id,
           fields: list_data,
-          orderBy: [{ name: "SUM", asc: false }],
-        },
-        that.othertable.page,
-        that.othertable.pagesize,
+          orderBy: [],
+        }
       ];
       var query = {
         action: "Service",
-        method: "pageQueryNoCount",
+        method: "getCount",
         data: query_data,
       };
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          // var res = success.data.result;
+          var res = success.data.result;
           //周
           console.log(res);
-          // that.othertable.data=res
+          that.othertable.total=res
           
         },
         (error) => {
