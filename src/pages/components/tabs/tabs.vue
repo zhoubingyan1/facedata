@@ -4,7 +4,7 @@
         <div class="tabs-nav clearfix">
             <div class="tabs-tab" v-for="(item,index) in tabsTab" :key="index" @click="_tabClick(item)"
                  :class="{'active':active==item.name,'disabled':item.disabled }">
-                {{item.label}}
+                <div class="newtabs-tab-tit">{{item.label}}</div>
                 <div v-if="showClose&&item.name&&index>0" class="tabscloseicon" @click.stop="_closeClick(index)">x</div>
                 <span class="tip" v-if="item.tip">{{item.tip | maxFilter(tipMax)}}</span>
 
@@ -63,7 +63,7 @@
         methods: {
             _tabClick(item){
                 if (!item.disabled) {
-                    this.$emit('tabclick', item.name);//v-model时双向绑定
+                    this.$emit('tabclick', item);//v-model时双向绑定
                     this.onChange ? this.onChange(item.name) : ""
                 }
             },
@@ -85,9 +85,9 @@
 </script>
 <style scoped lang="scss">
     .tabscloseicon{
-       margin-left: 30px;
        display: inline-block;
        color: rgba(0,0,0,0.20);
+       vertical-align: middle;
     }
     
 </style>

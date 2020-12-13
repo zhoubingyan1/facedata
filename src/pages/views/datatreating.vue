@@ -273,8 +273,8 @@ export default {
       },
       
 
-      // nodes:[],
-      nodes:simpleData,
+      nodes:[],
+      // nodes:simpleData,
       nodes1:[],
       nodes2:[],
       treenodeID:null,//记录树的id
@@ -295,7 +295,7 @@ export default {
       model8: "",
 
       systemtips_modal: false, //系统提示弹窗
-
+      
       tabsvalue: "1", //tab选项卡的选定
       tabIndex: 1,
       TabList: [
@@ -382,9 +382,10 @@ export default {
         ],
         data: [],
       },
+      othertablelistdata:null,//除数据处理、
       othertable: {
         page: 1,
-        pagesize: 5,
+        pagesize: 1,
         total: 0,
         columns: [],
         data: [],
@@ -584,7 +585,7 @@ export default {
     //tab上的分页切换
     changeothertablePage(page){
       this.othertable.page = page;
-      this.gettable(this.currenttableid ,this.othertable.page,this.othertable.pagesize);
+      this.getpageQueryNoCount(that.othertable.columns,this.othertablelistdata.param);
     },
     // 选择导入
     choseleadingin() {
@@ -681,8 +682,18 @@ export default {
     },
 
     tabclick(item) {
-      // console.log(item,'item')
-      this.tabsvalue = item.toString();
+      console.log(item,'item')
+      // this.tabsvalue = item.toString();
+      if(item.name==1){
+        this.tabsvalue = item.name.toString();
+      }else if(item.name==1){
+        this.tabsvalue = item.name.toString();
+      }else{
+        this.othertable.page=1
+        this.tabsvalue = item.name.toString();
+        this.getnewDataTable(this.othertablelistdata.param)
+      }
+      
     },
     addtabs() {
       let tabIndex = this.tabIndex;
@@ -709,15 +720,17 @@ export default {
     },
     //增加tab
     addTab(params) {
-      console.log(params)
+      console.log(params,'addTab')
       let oneTabitem =new Array()
       let tabIndex = this.tabIndex;
       oneTabitem=this.TabList.filter(function(item){
          return item.label==params.name
       })
       console.log(oneTabitem,'oneTabitem')
+      this.othertable.page=1
       if(oneTabitem.length>0){
         this.tabsvalue = oneTabitem[0].index.toString();
+        // this.getnewDataTable(params.param)
       }else{
         if (tabIndex == 1) {
           this.tabIndex = tabIndex + 2;
@@ -729,14 +742,15 @@ export default {
           label: params.name,
           index: this.tabIndex,
         });
+
         this.getnewDataTable(params.param)
         this.tabsvalue = this.tabIndex.toString();
       }
+      this.othertablelistdata=params
       // console.log(this.TabList)
       // this.isTip = false;
     },
     getnewDataTable(id) {
-       console.log(11111111);
       var that = this;
       var query = {
         action: "Service",
@@ -750,20 +764,23 @@ export default {
         (success) => {
           var res = success.data.result;
           console.log(success.data,'gettablecolumes');
+          if(res.length>0){
             newResult = success.data.result;
             newResult.forEach((v,i)=>{
               v.title = v.name
               v.key=v.desc
               v.align="center"
             })
-            // {
-            // title: "名称",
-            // key: "name",
-            // width:'200',
-          //   // align: "center",
-          // },
-          that.othertable.columns=newResult
-          that.getpageQueryNoCount(res, id);
+              // {
+              // title: "名称",
+              // key: "name",
+              // width:'200',
+            //   // align: "center",
+            // },
+            that.othertable.columns=newResult
+            that.getpageQueryNoCount(res, id);
+          }
+            
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -801,6 +818,44 @@ export default {
           //周
           console.log(res);
           that.othertable.data=res
+          
+        },
+        (error) => {
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
+    },
+    gettablepagetotal(list,id){
+      var that = this;
+      var list_data = [];
+      if (list.length > 0) {
+        list.forEach((node) => {
+          list_data.push(node.name);
+        });
+      }
+
+      var query_data = [
+        {
+          conditions: [],
+          entityId: id,
+          fields: list_data,
+          orderBy: [{ name: "SUM", asc: false }],
+        },
+        that.othertable.page,
+        that.othertable.pagesize,
+      ];
+      var query = {
+        action: "Service",
+        method: "pageQueryNoCount",
+        data: query_data,
+      };
+      that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
+        (success) => {
+          // var res = success.data.result;
+          //周
+          console.log(res);
+          // that.othertable.data=res
           
         },
         (error) => {
@@ -847,14 +902,18 @@ export default {
     background-size: 20px 20px !important;
   }
   #tabs {
+    width: 100%;
+    overflow: scroll;
     .tabs-nav {
       width: 100%;
       //    border-bottom: 1px solid #ddd;
       display: flex;
       background: #f5f5f5;
       border-radius: 10px 10px 0 0;
+      
+    
       .tabs-tab {
-        // width: 170px;
+        width: 170px;
         // flex:1;
         display: inline-block;
         vertical-align: middle;
@@ -869,6 +928,15 @@ export default {
         color: rgba(0, 0, 0, 0.4);
         letter-spacing: 0;
         background: #e8e8e8;
+        .newtabs-tab-tit{
+          display: inline-block;
+          min-width: 100px;
+          width: 100px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+        }
         .tabs_right_bottom {
           width: 10px;
           height: 10px;
