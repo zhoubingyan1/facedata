@@ -209,14 +209,14 @@
       </div>
     </Modal>
     <!-- 删除确认弹框 -->
-    <Modal :mask-closable="false" v-model="delModal" width="360" class-name="mr-del-modal">
+    <Modal :mask-closable="true" v-model="delModal" width="360" class-name="mr-del-modal">
       <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
       <div class="facedata-btn-box">
         <div class="facedata-btn-confirm" style="margin-right: 20px" @click="datatreatingtableDel">删除</div>
         <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
       </div>
     </Modal>
-    <Modal :mask-closable="false" v-model="delModalAfter" width="360" class-name="mr-del-modal">
+    <Modal :mask-closable="true" v-model="delModalAfter" width="360" class-name="mr-del-modal">
       <div style="text-align:center;margin-bottom: 30px;font-size: 14px">删除成功</div>
       
     </Modal>
@@ -461,12 +461,17 @@ export default {
           (success) => {
             console.log(success.data);
             that.delModal = false;
-            that.delModalAfter=true
-            setTimeout(()=>{
-              that.delModalAfter=false
-              that.ztreeObj.getNodeByParam('id', that.treenodeID);
-              that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
-            },3000)
+            // that.delModalAfter=true
+            // setTimeout(()=>{
+            //   // that.delModalAfter=false
+              
+            // },1000)
+            this.$Message.success({
+                content: '删除成功',
+                duration: 1
+            })
+            that.ztreeObj.getNodeByParam('id', that.treenodeID);
+            that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
             
             
             
