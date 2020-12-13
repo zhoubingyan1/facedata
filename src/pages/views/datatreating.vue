@@ -208,13 +208,17 @@
         <div class="forget_tips_text" v-for="(node,index) in err_list" :key="index">{{node}}</div>
       </div>
     </Modal>
-     <!-- 删除确认弹框 -->
+    <!-- 删除确认弹框 -->
     <Modal :mask-closable="false" v-model="delModal" width="360" class-name="mr-del-modal">
       <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
       <div class="facedata-btn-box">
         <div class="facedata-btn-confirm" style="margin-right: 20px" @click="datatreatingtableDel">删除</div>
         <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
       </div>
+    </Modal>
+    <Modal :mask-closable="false" v-model="delModalAfter" width="360" class-name="mr-del-modal">
+      <div style="text-align:center;margin-bottom: 30px;font-size: 14px">删除成功</div>
+      
     </Modal>
   </div>
 </template>
@@ -250,6 +254,7 @@ export default {
   data() {
     return {
       delModal: false, // 删除确认弹框
+      delModalAfter:false,
       delID: "",
 
       currenttableid:'',
@@ -441,13 +446,13 @@ export default {
           }
         );
     },
-    datatreatingtableDel(id){
-      console.log(id,'params')
+    datatreatingtableDel(){
+      
       var that = this;
       var query = {
         action: "Service",
         method: "delete",
-        data: [id],
+        data: [that.delID],
       };
       let newResult = new Array();
       that.$http
@@ -455,15 +460,15 @@ export default {
         .then(
           (success) => {
             console.log(success.data);
-            that.$Modal.success({
-              width: 360,
-              content: "删除成功",
-              onOk: () => {
-                that.delModal = false;
-                that.ztreeObj.getNodeByParam('id', that.treenodeID);
-                that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
-              }
-            });
+            that.delModal = false;
+            that.delModalAfter=true
+            setTimeout(()=>{
+              that.delModalAfter=false
+              that.ztreeObj.getNodeByParam('id', that.treenodeID);
+              that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
+            },3000)
+            
+            
             
           },
           (error) => {
