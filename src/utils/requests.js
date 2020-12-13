@@ -14,8 +14,8 @@ Vue.use(Router)
 new Vue({ router })
 
 LoadingBar.config({
-    color: '#44f9e5',
-    failedColor: '#dc4a51',
+    color: '#4246FEA',
+    failedColor: '#246FEA',
     height: 2
 })
 

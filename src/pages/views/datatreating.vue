@@ -16,21 +16,20 @@
                   <div class="left_name">数据表</div>
                   <div class="left_tree">
                      <ztree :setting="setting" :nodes="nodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
-                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
                   </div>
                 </div>
                 <div class="marginright30">
                   <div class="left_name">数据包</div>
                   <div class="left_tree">
                      <ztree :setting="setting" :nodes="nodes1" @onClick="onClick"  @onCreated="handleCreated"></ztree>
-                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                    
                   </div>
                 </div>
                 <div class="marginright30">
                   <div class="left_name">模型库</div>
                   <div class="left_tree">
                      <ztree :setting="setting" :nodes="nodes2" @onClick="onClick"  @onCreated="handleCreated"></ztree>
-                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                    
                   </div>
                 </div>
               </div>
@@ -93,13 +92,13 @@
             <Table
               class="facedata-table account-table"
               stripe
-              :columns="table.columns"
-              :data="table.data"
+              :columns="othertable.columns"
+              :data="othertable.data"
             ></Table>
           </div>
           <div class="datatreating_fr_page">
               <div class="facedata-pagination">
-                <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
+                <Page :total="othertable.total" :current="othertable.page" size="small" @on-change="changeothertablePage" :pageSize="othertable.pagesize"></Page>
               </div>
           </div>
         </div>
@@ -383,6 +382,13 @@ export default {
         ],
         data: [],
       },
+      othertable: {
+        page: 1,
+        pagesize: 5,
+        total: 0,
+        columns: [],
+        data: [],
+      },
       cityList: [
         {
           label: "123",
@@ -484,31 +490,7 @@ export default {
 
         //newtabledata={"action":"Service","method":"getByCatalog","result":{"count":21,"data":[{"catalog":19,"createTime":1607345072934,"id":1607345072000003,"name":"因子分析datavb入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607345071367,"id":1607345071000002,"name":"因子分析datasd入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344790562,"id":1607344790000001,"name":"å› å­åˆ†æždatascdeå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344789088,"id":1607344789000000,"name":"å› å­åˆ†æždatascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343743543,"id":1607343743000014,"name":"å› å­åˆ†æždatavbå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343742127,"id":1607343742000013,"name":"å› å­åˆ†æždatavbå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146744,"id":1607343146000012,"name":"å› å­åˆ†æždataseå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146269,"id":1607343146000011,"name":"å› å­åˆ†æždataseå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118795,"id":1607343118000010,"name":"å› å­åˆ†æždatasdå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118262,"id":1607343118000009,"name":"å› å­åˆ†æždatasdå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088889,"id":1607343088000008,"name":"å› å­åˆ†æždatascå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088405,"id":1607343088000007,"name":"å› å­åˆ†æždatascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607339612004,"id":1607339612000004,"name":"datavb","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10273_1_S1607339571440_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322212273,"id":1607322212000004,"name":"datascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10264_7_S1607322171163_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322047933,"id":1607322047000003,"name":"因子分析datasc入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10266_16_S1607321963553_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607318392139,"id":1607318392000001,"name":"因子分析datavkpi入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10263_16_S1607318302833_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607302801259,"id":1607302801000002,"name":"因子分析datase入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302799776$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302547013,"id":1607302547000001,"name":"DåŽŸå§‹æ•°æ®","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302545485$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302375485,"id":1607302375000000,"name":"因子分析datascde入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302373986$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606750045988,"id":1606750045000000,"name":"kpi","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1606750044488$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606747810251,"id":1606747810000003,"name":"datascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10256_16_S1606747723063_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"}]},"state":0,"tid":0}
       let modaltype = new Object();
-      //   if(tabledatalist.result.data.length>0){
-      //     //   因子分析datavb入库------RKPI综合得分
-      //     //     因子分析datasd入库------总行
-      //     //     因子分析datasc入库------分行
-      //     //     因子分析datase入库------监管
-      //     //     因子分析datascde入库------综合
-      //     //     因子分析datavkpi入库------rkpi和审核发现
-      //     tabledatalist.result.data.forEach((v,i)=>{
-      //         if(v.name=='因子分析datavb入库'){
-      //             modaltype[v.name]=v.param
-      //         }else if(v.name=='因子分析datasd入库'){
-      //             modaltype[v.name]=v.param
-      //         }else if(v.name=='因子分析datasc入库'){
-      //             modaltype[v.name]=v.param
-      //         }else if(v.name=='因子分析datase入库'){
-      //             modaltype[v.name]=v.param
-      //         }else if(v.name=='因子分析datascde入库'){
-      //             modaltype[v.name]=v.param
-      //         }else if(v.name=='因子分析datavkpi入库'){
-      //             modaltype[v.name]=v.param
-      //         }
-      //     })
 
-      //     localStorage.setItem('modaltype',JSON.stringify(modaltype))
-      //   }
 
       // that.table.data = newtabledata.result.data;
       //     that.table.total = Number(newtabledata.result.count);
@@ -600,6 +582,11 @@ export default {
       this.table.page = page;
       this.gettable(this.currenttableid ,this.table.page,this.table.pagesize);
     },
+    //tab上的分页切换
+    changeothertablePage(page){
+      this.othertable.page = page;
+      this.gettable(this.currenttableid ,this.othertable.page,this.othertable.pagesize);
+    },
     // 选择导入
     choseleadingin() {
       this.datatreating_modal = true;
@@ -615,21 +602,6 @@ export default {
     //下载数据
     downloaddata() {
       this.downloadTemplate_modal = true;
-    },
-    itemClick(item) {
-      if (item.right - item.left == 1) {
-        //文件,获取右边的表格
-        // this.gettable(item.id)
-        this.table.page=1
-        this.currenttableid =item.id
-        this.gettable(item.id,this.table.page,this.table.pagesize);
-      } else {
-        //文件夹
-        this.getdata2(item, item.id);
-         //this.getdata( item.id);
-      }
-
-      //   right-left =1
     },
     onExpand: function(evt, treeId, treeNode) {
       // 点击事件
@@ -738,6 +710,18 @@ export default {
     },
     //增加tab
     addTab(params) {
+      console.log(params)
+      // this.TabList.filter(function(item){
+      //     if(params.name==item.name){
+      //       this.tabsvalue = item.index.toString();
+      //     }
+      // })
+      // console.log(this.TabList.filter(function(item){
+      //     if(params.name==item.name){
+      //       this.tabsvalue = item.index.toString();
+      //     }
+      // }),'123')
+
       let tabIndex = this.tabIndex;
       if (tabIndex == 1) {
         this.tabIndex = tabIndex + 2;
@@ -746,12 +730,98 @@ export default {
       }
       this.TabList.push({
         name: this.tabIndex,
-        label: "xxx-xx",
+        label: params.name,
         index: this.tabIndex,
       });
+      this.gettablecolumes(params.param)
+      this.getpageQueryNoCount(params,params.param)
+      // 
       this.tabsvalue = this.tabIndex.toString();
       // console.log(this.TabList)
       // this.isTip = false;
+    },
+    gettablecolumes(tableparam){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getColumns",
+        data: [tableparam],
+      };
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.GETCOLUMS, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data.result,'gettablecolumes');
+            newResult = success.data.result;
+            //             desc: "经营单位"
+            // entity: "DFI_41_1607845538472$DM1"
+            // key: false
+            // len: 300
+            // name: "A1"
+            // order: 1
+            // phyType: "VARCHAR"
+            // scale: 0
+            // sensitive: false
+            // valid: true
+            // __id: "LkblQI"
+            newResult.forEach((v,i)=>{
+              v.title = v.desc
+              v.key=""
+              v.align="center"
+            })
+            // {
+            // title: "名称",
+            // key: "name",
+            // width:'200',
+          //   // align: "center",
+          // },
+            that.othertable.columns=newResult
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
+    getpageQueryNoCount(list, id) {
+      var that = this;
+      var list_data = [];
+      if (list.length > 0) {
+        list.forEach((node) => {
+          list_data.push(node.name);
+        });
+      }
+
+      var query_data = [
+        {
+          conditions: [],
+          entityId: id,
+          fields: [list.name],
+          orderBy: [{ name: "SUM", asc: false }],
+        },
+        1,
+        30,
+      ];
+      var query = {
+        action: "Service",
+        method: "pageQueryNoCount",
+        data: query_data,
+      };
+      that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
+        (success) => {
+          console.log()
+          var res = success.data.result;
+          
+          //周
+          
+        },
+        (error) => {
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
     },
     closeicon(index) {
       // console.log(item)
