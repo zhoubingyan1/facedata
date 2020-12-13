@@ -72,11 +72,11 @@
                     :data="table.data"
                   ></Table>
                 </div>
-                <div class="datatreating_fr_page">
+                <!-- <div class="datatreating_fr_page">
                   <div class="facedata-pagination">
                     <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
                   </div>
-                </div>
+                </div> -->
               </div>
             </Col>
           </Row>
@@ -216,10 +216,6 @@
         <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
       </div>
     </Modal>
-    <Modal :mask-closable="true" v-model="delModalAfter" width="360" class-name="mr-del-modal">
-      <div style="text-align:center;margin-bottom: 30px;font-size: 14px">删除成功</div>
-      
-    </Modal>
   </div>
 </template>
 <script>
@@ -254,7 +250,6 @@ export default {
   data() {
     return {
       delModal: false, // 删除确认弹框
-      delModalAfter:false,
       delID: "",
 
       currenttableid:'',
@@ -327,7 +322,7 @@ export default {
 
       table: {
         page: 1,
-        pagesize: 5,
+        pagesize: 400,
         total: 0,
         columns: [
           {
@@ -447,7 +442,6 @@ export default {
         );
     },
     datatreatingtableDel(){
-      
       var that = this;
       var query = {
         action: "Service",
@@ -459,26 +453,22 @@ export default {
         .post(that.PATH.DATATREATINGDELETE, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
+            // console.log(success.data);
             that.delModal = false;
-            // that.delModalAfter=true
-            // setTimeout(()=>{
-            //   // that.delModalAfter=false
-              
-            // },1000)
-            this.$Message.success({
+            that.$Message.success({
                 content: '删除成功',
                 duration: 1
             })
             that.ztreeObj.getNodeByParam('id', that.treenodeID);
             that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
-            
-            
-            
           },
           (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
-            that.errorTips_modal = true;
+            that.$Message.error({
+                content: '删除失败,请联系管理员',
+                duration: 1
+            })
+            // that.err_list = ["登录异常", "请联系管理员"];
+            // that.errorTips_modal = true;
           }
         );
     
@@ -1036,6 +1026,7 @@ export default {
   .datatreating_fr_table {
     overflow: auto;
     height: 787px;
+    overflow: hidden;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
     padding: 20px;

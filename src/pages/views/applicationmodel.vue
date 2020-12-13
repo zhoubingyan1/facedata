@@ -629,6 +629,7 @@ export default {
     }
     .datatreating_fr_table{
         height: 775px;
+        overflow: hidden;
         background: rgba(0,0,0,0.03);
         border-radius: 5px;
         padding: 20px;
