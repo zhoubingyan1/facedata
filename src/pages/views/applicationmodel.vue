@@ -182,14 +182,12 @@
 <script>
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
-import Page from '../components/page/index'
 export default {
     name:"Applicationmodel",
     components: {
         linetree,
         NewTabs,
         NewTabPane,
-        Page
     },
     data(){
         return{

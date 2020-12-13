@@ -467,7 +467,7 @@ export default {
                 view: {
                     
                     showIcon: true,
-                    addDiyDom:addDiyDom
+                    addDiyDom:this.addDiyDom
                 }
             }, //树节点设置
             datatreatingnodes:[],
@@ -1249,6 +1249,20 @@ export default {
                 that.errorTips_modal = true;
                 }
             );
+        },
+        addDiyDom(treeid, treeNode){
+            const item = document.getElementById(`${treeNode.tId}_a`);
+            if(item && !item.querySelector('.tree_extra_btn')){
+                const btn = document.createElement('sapn');
+                btn.id = `${treeid}_${treeNode.id}_btn`;
+                btn.classList.add('tree_extra_btn');
+                btn.innerText = '删除';
+                btn.addEventListener('click', (e) => {
+                e.stopPropagation()
+                this.clickRemove(treeNode)
+                })
+                item.appendChild(btn);
+            }
         },
         //切换算法的分页
         changearithmetictablePage(page){
