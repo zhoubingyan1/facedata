@@ -410,12 +410,13 @@ export default {
                 newResult[i].open = false
                 if(newResult[i].right-newResult[i].left!=1){
                   newResult[i].isParent=true
+                  newResult[i].children = [];
                 }
                 if(newResult[i].right-newResult[i].left==1){
                   newResult[i].isParent=false
                 }
                   
-                newResult[i].children = [];
+                
               });
             }
             this.nodes= newResult;
@@ -624,11 +625,23 @@ export default {
                   console.log(success.data.result);
                   const childrenData=eval(success.data.result)
                     //判断子节点是否包含子元素
-                    for(var i in childrenData){
-                        if(childrenData[i].isContainSon === 1){
-                            childrenData[i].isParent = true;
-                        }
-                    };
+                    // for(var i in childrenData){
+                    //     if(childrenData[i].isContainSon === 1){
+                    //         childrenData[i].isParent = true;
+                    //     }
+                    // };
+                    childrenData.forEach((v, i) => {
+                      childrenData[i].open = false
+                      if(childrenData[i].right-childrenData[i].left!=1){
+                        childrenData[i].isParent=true
+                        childrenData[i].children = [];
+                      }
+                      if(childrenData[i].right-childrenData[i].left==1){
+                        childrenData[i].isParent=false
+                      }
+                        
+                      
+                    });
                     console.log(childrenData)
                     this.ztreeObj.refresh();
                     this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
