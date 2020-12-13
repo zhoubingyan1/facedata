@@ -415,7 +415,7 @@ export default {
         .post(that.PATH.getExplorerChildren, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data.result);
+            // console.log(success.data.result);
             newResult = success.data.result;
             // newResult=[]
             if (newResult.length > 0) {
@@ -433,7 +433,7 @@ export default {
               });
             }
             this.nodes= newResult;
-            console.log(this.nodes,'this.nodes')
+            // console.log(this.nodes,'this.nodes')
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -514,7 +514,7 @@ export default {
       //     that.table.total = Number(newtabledata.result.count);
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
-          console.log(success.data.result);
+          // console.log(success.data.result);
           //   createTime
           newtabledata = success.data.result.data;
           if (newtabledata.length > 0) {
@@ -527,8 +527,8 @@ export default {
           }
           //   newtabledata=success.data.result.data
           that.table.data = newtabledata;
-          that.table.total = Number(success.data.result.count);
-          console.log(that.table.total,'that.table.total')
+          // that.table.total = Number(success.data.result.count);
+          // console.log(that.table.total,'that.table.total')
           //储存localstore
           if (newtabledata.length > 0) {
             //   因子分析datavb入库------RKPI综合得分
@@ -633,16 +633,19 @@ export default {
     },
     onExpand: function(evt, treeId, treeNode) {
       // 点击事件
-      // treeNode.id
-      this.treeClick(evt, treeId, treeNode)
+      if(treeNode.open){
+        this.treeClick(evt, treeId, treeNode)
+      }
     },
     onClick: function(evt, treeId, treeNode) {
       // 点击事件
-      this.treeClick(evt, treeId, treeNode)
+      if(!treeNode.open){
+        this.treeClick(evt, treeId, treeNode)
+      }
     },
     treeClick:function(evt, treeId, treeNode) {
       // 点击事件
-      console.log(treeNode.open,'onClick');
+      // console.log(treeNode.open,'onClick');
       this.treenodeID = treeNode.id
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
       const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
@@ -652,55 +655,53 @@ export default {
         method: "getExplorerChildren",
         data: [treeNode.id],
       };
-      if(!treeNode.open){
-        if (treeNode.right - treeNode.left == 1) {
-          //文件,获取右边的表格
-          // this.gettable(treeNode.id)
-          this.table.page=1
-          this.currenttableid =treeNode.id
-          this.gettable(treeNode.id,this.table.page,this.table.pagesize);
-        } else {
-          //文件夹
-          treeNode.children = [];
-          that.gettable(treeNode.id,that.table.page,that.table.pagesize);
-          if(treeNode.isParent){
-            that.$http
-              .post(that.PATH.getExplorerChildren, JSON.stringify(query))
-              .then(
-                (success) => {
-                  console.log(success.data.result);
-                  const childrenData=eval(success.data.result)
-                    //判断子节点是否包含子元素
-                    // for(var i in childrenData){
-                    //     if(childrenData[i].isContainSon === 1){
-                    //         childrenData[i].isParent = true;
-                    //     }
-                    // };
-                    childrenData.forEach((v, i) => {
-                      childrenData[i].open = false
-                      if(childrenData[i].right-childrenData[i].left!=1){
-                        childrenData[i].isParent=true
-                        childrenData[i].children = [];
-                      }
-                      if(childrenData[i].right-childrenData[i].left==1){
-                        childrenData[i].isParent=false
-                      }
-                        
+      if (treeNode.right - treeNode.left == 1) {
+        //文件,获取右边的表格
+        // this.gettable(treeNode.id)
+        this.table.page=1
+        this.currenttableid =treeNode.id
+        this.gettable(treeNode.id,this.table.page,this.table.pagesize);
+      } else {
+        //文件夹
+        treeNode.children = [];
+        that.gettable(treeNode.id,that.table.page,that.table.pagesize);
+        if(treeNode.isParent){
+          that.$http
+            .post(that.PATH.getExplorerChildren, JSON.stringify(query))
+            .then(
+              (success) => {
+                // console.log(success.data.result);
+                const childrenData=eval(success.data.result)
+                  //判断子节点是否包含子元素
+                  // for(var i in childrenData){
+                  //     if(childrenData[i].isContainSon === 1){
+                  //         childrenData[i].isParent = true;
+                  //     }
+                  // };
+                  childrenData.forEach((v, i) => {
+                    childrenData[i].open = false
+                    if(childrenData[i].right-childrenData[i].left!=1){
+                      childrenData[i].isParent=true
+                      childrenData[i].children = [];
+                    }
+                    if(childrenData[i].right-childrenData[i].left==1){
+                      childrenData[i].isParent=false
+                    }
                       
-                    });
-                    console.log(childrenData)
-                    this.ztreeObj.refresh();
-                    this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
-                },
-                (error) => {
-                  that.err_list = ["登录异常", "请联系管理员"];
-                  that.errorTips_modal = true;
-                }
-              );
-          } 
-        }
-        
+                    
+                  });
+                  // console.log(childrenData)
+                  this.ztreeObj.refresh();
+                  this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+              }
+            );
+        } 
       }
+        
     },
     handleCreated: function(ztreeObj) {
       this.ztreeObj = ztreeObj;
