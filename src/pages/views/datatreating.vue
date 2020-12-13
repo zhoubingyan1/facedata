@@ -487,8 +487,6 @@ export default {
         data: [id, page, pagesize],
       };
       let newtabledata = [];
-
-        //newtabledata={"action":"Service","method":"getByCatalog","result":{"count":21,"data":[{"catalog":19,"createTime":1607345072934,"id":1607345072000003,"name":"因子分析datavb入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607345071367,"id":1607345071000002,"name":"因子分析datasd入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10276_3_S1607345025999_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344790562,"id":1607344790000001,"name":"å› å­åˆ†æždatascdeå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607344789088,"id":1607344789000000,"name":"å› å­åˆ†æždatascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10271_2_S1607338539485_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343743543,"id":1607343743000014,"name":"å› å­åˆ†æždatavbå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343742127,"id":1607343742000013,"name":"å› å­åˆ†æždatavbå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10275_8_S1607343576557_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146744,"id":1607343146000012,"name":"å› å­åˆ†æždataseå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343146269,"id":1607343146000011,"name":"å› å­åˆ†æždataseå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10270_2_S1607338288204_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118795,"id":1607343118000010,"name":"å› å­åˆ†æždatasdå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343118262,"id":1607343118000009,"name":"å› å­åˆ†æždatasdå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10268_2_S1607338281188_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088889,"id":1607343088000008,"name":"å› å­åˆ†æždatascå…¥åº“_å› å­è½½è·","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p_factor$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607343088405,"id":1607343088000007,"name":"å› å­åˆ†æždatascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10274_2_S1607339662131_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607339612004,"id":1607339612000004,"name":"datavb","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10273_1_S1607339571440_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322212273,"id":1607322212000004,"name":"datascdeå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10264_7_S1607322171163_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607322047933,"id":1607322047000003,"name":"因子分析datasc入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10266_16_S1607321963553_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607318392139,"id":1607318392000001,"name":"因子分析datavkpi入库","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10263_16_S1607318302833_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"},{"catalog":19,"createTime":1607302801259,"id":1607302801000002,"name":"因子分析datase入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302799776$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302547013,"id":1607302547000001,"name":"DåŽŸå§‹æ•°æ®","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302545485$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1607302375485,"id":1607302375000000,"name":"因子分析datascde入库","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1607302373986$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606750045988,"id":1606750045000000,"name":"kpi","owner":41,"ownerName":"æµ‹è¯•41","param":"DFI_41_1606750044488$DM1","source":"å¯¼å…¥è¡¨","type":"table"},{"catalog":19,"createTime":1606747810251,"id":1606747810000003,"name":"datascå…¥åº“","owner":41,"ownerName":"æµ‹è¯•41","param":"ZM_10256_16_S1606747723063_s_p$DM1","source":"æ¨¡åž‹è¡¨","type":"table"}]},"state":0,"tid":0}
       let modaltype = new Object();
 
 
@@ -508,6 +506,7 @@ export default {
             });
           }
           //   newtabledata=success.data.result.data
+          console.log(success.data.result.data,'success.data.result.data')
           that.table.data = newtabledata;
           // that.table.total = Number(success.data.result.count);
           // console.log(that.table.total,'that.table.total')
@@ -711,63 +710,50 @@ export default {
     //增加tab
     addTab(params) {
       console.log(params)
-      // this.TabList.filter(function(item){
-      //     if(params.name==item.name){
-      //       this.tabsvalue = item.index.toString();
-      //     }
-      // })
-      // console.log(this.TabList.filter(function(item){
-      //     if(params.name==item.name){
-      //       this.tabsvalue = item.index.toString();
-      //     }
-      // }),'123')
-
+      let oneTabitem =new Array()
       let tabIndex = this.tabIndex;
-      if (tabIndex == 1) {
-        this.tabIndex = tabIndex + 2;
-      } else {
-        this.tabIndex = tabIndex + 1;
+      oneTabitem=this.TabList.filter(function(item){
+         return item.label==params.name
+      })
+      console.log(oneTabitem,'oneTabitem')
+      if(oneTabitem.length>0){
+        this.tabsvalue = oneTabitem[0].index.toString();
+      }else{
+        if (tabIndex == 1) {
+          this.tabIndex = tabIndex + 2;
+        } else {
+          this.tabIndex = tabIndex + 1;
+        }
+        this.TabList.push({
+          name: this.tabIndex,
+          label: params.name,
+          index: this.tabIndex,
+        });
+        this.getnewDataTable(params.param)
+        this.tabsvalue = this.tabIndex.toString();
       }
-      this.TabList.push({
-        name: this.tabIndex,
-        label: params.name,
-        index: this.tabIndex,
-      });
-      this.gettablecolumes(params.param)
-      this.getpageQueryNoCount(params,params.param)
-      // 
-      this.tabsvalue = this.tabIndex.toString();
       // console.log(this.TabList)
       // this.isTip = false;
     },
-    gettablecolumes(tableparam){
+    getnewDataTable(id) {
+       console.log(11111111);
       var that = this;
       var query = {
         action: "Service",
         method: "getColumns",
-        data: [tableparam],
+        data: [id],
       };
-      let newResult = new Array();
-      that.$http
-        .post(that.PATH.GETCOLUMS, JSON.stringify(query))
-        .then(
-          (success) => {
-            console.log(success.data.result,'gettablecolumes');
+      //用下面的that.getData2(res)，这个需要删掉，暂时使用
+      // that.getData2([]);
+      let newResult = new Array()
+      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
+        (success) => {
+          var res = success.data.result;
+          console.log(success.data,'gettablecolumes');
             newResult = success.data.result;
-            //             desc: "经营单位"
-            // entity: "DFI_41_1607845538472$DM1"
-            // key: false
-            // len: 300
-            // name: "A1"
-            // order: 1
-            // phyType: "VARCHAR"
-            // scale: 0
-            // sensitive: false
-            // valid: true
-            // __id: "LkblQI"
             newResult.forEach((v,i)=>{
-              v.title = v.desc
-              v.key=""
+              v.title = v.name
+              v.key=v.desc
               v.align="center"
             })
             // {
@@ -776,14 +762,14 @@ export default {
             // width:'200',
           //   // align: "center",
           // },
-            that.othertable.columns=newResult
-          },
-          (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
-            that.errorTips_modal = true;
-          }
-        );
-    
+          that.othertable.columns=newResult
+          that.getpageQueryNoCount(res, id);
+        },
+        (error) => {
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
     },
     getpageQueryNoCount(list, id) {
       var that = this;
@@ -798,11 +784,11 @@ export default {
         {
           conditions: [],
           entityId: id,
-          fields: [list.name],
+          fields: list_data,
           orderBy: [{ name: "SUM", asc: false }],
         },
-        1,
-        30,
+        that.othertable.page,
+        that.othertable.pagesize,
       ];
       var query = {
         action: "Service",
@@ -811,10 +797,10 @@ export default {
       };
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          console.log()
           var res = success.data.result;
-          
           //周
+          console.log(res);
+          that.othertable.data=res
           
         },
         (error) => {
@@ -868,7 +854,7 @@ export default {
       background: #f5f5f5;
       border-radius: 10px 10px 0 0;
       .tabs-tab {
-        width: 170px;
+        // width: 170px;
         // flex:1;
         display: inline-block;
         vertical-align: middle;
