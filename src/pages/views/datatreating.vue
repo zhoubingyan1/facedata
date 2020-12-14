@@ -4,6 +4,7 @@
       class="tabs-animation"
       :active="tabsvalue"
       :showClose="true"
+      :tabsTab="TabList"
       v-on:closeiconClick="closeicon"
       v-on:tabclick="tabclick"
     >
@@ -303,6 +304,7 @@ export default {
           label: "数据处理",
           name: "1",
           index: "1",
+          paramId:''
         },
       ],
       leftTreeList: [
@@ -691,7 +693,8 @@ export default {
       }else{
         this.othertable.page=1
         this.tabsvalue = item.name.toString();
-        this.getnewDataTableCol(this.othertablelistdata.param)
+        console.log(item.paramId,'item.paramId')
+        this.getnewDataTableCol(item.paramId)
       }
       
     },
@@ -710,6 +713,7 @@ export default {
             name: 2,
             label: "生成数据",
             index: tabIndex,
+            paramId:''
           });
           this.tabsvalue = "2";
         }
@@ -720,13 +724,13 @@ export default {
     },
     //增加tab
     addTab(params) {
-      console.log(params,'addTab')
+      // console.log(params,'addTab')
       let oneTabitem =new Array()
       let tabIndex = this.tabIndex;
       oneTabitem=this.TabList.filter(function(item){
          return item.label==params.name
       })
-      console.log(oneTabitem,'oneTabitem')
+      // console.log(oneTabitem,'oneTabitem')
       this.othertable.page=1
       if(oneTabitem.length>0){
         this.tabsvalue = oneTabitem[0].index.toString();
@@ -737,17 +741,19 @@ export default {
         } else {
           this.tabIndex = tabIndex + 1;
         }
+        console.log(params,'addTabparams')
         this.TabList.push({
           name: this.tabIndex,
           label: params.name,
           index: this.tabIndex,
+          paramId:params.param
         });
 
         this.getnewDataTableCol(params.param)
         this.tabsvalue = this.tabIndex.toString();
       }
       this.othertablelistdata=params
-      // console.log(this.TabList)
+      console.log(this.TabList,'(this.TabList,')
       // this.isTip = false;
     },
     getnewDataTableCol(id) {
@@ -818,11 +824,12 @@ export default {
       };
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          var res = success.data.result;
-          //周
-          console.log(res);
-          that.othertable.data=res
-          
+          if (success.data.state== '0') {
+            var res = success.data.result;
+            //周
+            console.log(res,'getTableData列数据');
+            that.othertable.data=res
+          }
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];
@@ -915,7 +922,8 @@ export default {
       
     
       .tabs-tab {
-        width: 170px;
+        // width: 170px;
+        max-width: 240px;
         // flex:1;
         display: inline-block;
         vertical-align: middle;
@@ -932,9 +940,9 @@ export default {
         background: #e8e8e8;
         .newtabs-tab-tit{
           display: inline-block;
-          min-width: 100px;
+          // min-width: 100px;
           // width: 100px;
-          max-width: 170px;
+          max-width: 180px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
