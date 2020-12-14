@@ -14,7 +14,7 @@
       >
       <div class="logindate">
         {{currentdate}}
-        <SUP>th</SUP>
+        <SUP>{{currentdateinfo}}</SUP>
         . {{currentmonth}}. {{currentyear}}
       </div>
       </Col>
@@ -195,9 +195,26 @@ export default {
       if (month >= 1 && month <= 9) {
         month = "0" + month;
       }
+      let currentdateinfo=""
+      switch (strDate) {
+        case 1:
+          currentdateinfo='st'
+          break;
+        case 2:
+          currentdateinfo='nd'
+          break;
+        case 3:
+          currentdateinfo='rd'
+          break;
+         default:
+          currentdateinfo='th'
+      }
+      this.currentdateinfo=currentdateinfo
+      
       if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
       }
+      
       this.currentyear = year;
       this.currentmonth = newmonth;
       this.currentdate = strDate;
