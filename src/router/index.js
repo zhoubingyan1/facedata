@@ -36,6 +36,15 @@ export default new Router({
           }
         },
         {
+          //场景1
+          path: '/sceneone',
+          name: 'sceneone',
+          component: path.Sceneone,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
           //场景2
           path: '/scenetwo',
           name: 'scenetwo',

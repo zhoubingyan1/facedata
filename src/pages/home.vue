@@ -18,7 +18,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="2-1">
-                  <span>场景2</span>
+                  <span>场景1</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -28,7 +28,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="3-1">
-                  <span>场景3</span>
+                  <span>场景2</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -38,7 +38,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="4-1">
-                  <span>数据处理</span>
+                  <span>场景3</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -48,7 +48,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="5-1">
-                  <span>应用建模</span>
+                  <span>数据处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -58,6 +58,16 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="6-1">
+                  <span>应用建模</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="7-1">
                   <span>系统管理</span>
                   <div class="right_top">
                     <div class="border"></div>
@@ -67,16 +77,6 @@
                   </div>
                   <div class="sildercircle"></div>
                 </MenuItem>
-                <!-- <MenuItem name="7-1">
-                  <span>系统管理</span>
-                  <div class="right_top">
-                    <div class="border"></div>
-                  </div>
-                  <div class="right_bottom">
-                    <div class="border"></div>
-                  </div>
-                  <div class="sildercircle"></div>
-                </MenuItem> -->
             </Menu>
             <div>
               <Calendar
@@ -190,22 +190,25 @@ export default {
             this.$router.push({ name:'index'})
             break
           case "2-1":
+            this.$router.push({ name:'sceneone'})
+            break  
+          case "3-1":
             //场景2
             this.$router.push({ name:'scenetwo'})
             break
-          case "3-1":
+          case "4-1":
             //场景3
             this.$router.push({ name:'scenethree'})
             break  
-          case "4-1":
+          case "5-1":
             //数据处理
             this.$router.push({ name:'datatreating'})
             break 
-          case "5-1":
+          case "6-1":
             //应用建模
             this.$router.push({ name:'applicationmodel'})
             break   
-          case "6-1":
+          case "7-1":
             //系统管理
             this.$router.push({ name:'setmanage'})
           default:
