@@ -385,7 +385,7 @@ export default {
       othertablelistdata:null,//除数据处理、
       othertable: {
         page: 1,
-        pagesize: 1,
+        pagesize: 10,
         total: 0,
         columns: [],
         data: [],
@@ -933,7 +933,8 @@ export default {
         .newtabs-tab-tit{
           display: inline-block;
           min-width: 100px;
-          width: 100px;
+          // width: 100px;
+          max-width: 170px;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -1153,7 +1154,7 @@ export default {
   .datatreating_fr_table {
     overflow: auto;
     height: 787px;
-    overflow: hidden;
+    overflow: scroll;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
     padding: 20px;

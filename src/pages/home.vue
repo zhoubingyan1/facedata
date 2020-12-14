@@ -89,17 +89,20 @@
                 v-on:changeMonth="changeDate"
               ></Calendar>
             </div>
-            <div class="system_bottom">
+            <!-- <div class="system_bottom">
             系统管理
-            </div>
+            </div> -->
         </Sider>
         <Layout class="minindex_left_content">
             <Header>
               <div class="container_head">
+                <div>
+
+                </div>
                 <div class="header_search">
                     <img class="header_search_img" src="@/assets/images/search@2x.png" alt="LOGO">
                     <input class="header_search_input" placeholder="搜索" >
-                  </div>
+                </div>
                 <div>
                     <div class="user_info">
                         <span class="username">{{username}}</span>
