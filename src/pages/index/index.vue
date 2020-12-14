@@ -833,8 +833,11 @@ export default {
         (success) => {
          
           console.log(success);
-          var res = success.data.result;
-          that.getData2(res, id,datatype);
+          if(success.data.result){
+            var res = success.data.result;
+            that.getData2(res, id,datatype);
+          }
+          
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];

@@ -36,6 +36,15 @@ export default new Router({
           }
         },
         {
+          //Publicindex
+          path: '/publicindex',
+          name: 'publicindex',
+          component: path.Publicindex,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
           //场景1
           path: '/sceneone',
           name: 'sceneone',

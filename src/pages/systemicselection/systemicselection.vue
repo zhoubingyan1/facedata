@@ -89,12 +89,8 @@ export default {
         (success) => {
           console.log(success.data.result);
           const res=success.data.result
-          if(success.data.result.length>0){
-            success.data.result.forEach((v,i)=>{
-              if(v.name="console"){
-                 success.data.result.splice(i,1)
-              }
-            })
+          if(res.length>0){
+            res.splice(0,1)
           }
           //周 修改
           if(success.data.result.length==0){
@@ -103,7 +99,7 @@ export default {
             that.errorTips_modal = true;
             return;
           }
-          that.list = success.data.result;
+          that.list = res;
         },
         (error) => {
           that.err_list = ["登录异常", "请联系管理员"];

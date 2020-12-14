@@ -37,11 +37,15 @@
         name: 'tabs',
         data(){
             return {
-                tabsTab: this.$children,
+                // tabsTab: this.$children,
                 // active: this.value,//当前显示第几个
             }
         },
         props: {
+            tabsTab:{
+                type:Array,
+                default:[]
+            },
             showClose: {
                 type: Boolean,
                 default: false
@@ -62,6 +66,7 @@
         components: {},
         methods: {
             _tabClick(item){
+                console.log(item,'_tabClick')
                 if (!item.disabled) {
                     this.$emit('tabclick', item);//v-model时双向绑定
                     this.onChange ? this.onChange(item.name) : ""

@@ -27,6 +27,64 @@ export default {
         'setmanage': {
           id: '7-1',
           parent: ['7']
+        },
+
+        'publicindex': {
+          id: '11-1',
+          parent: ['11']
+        },
+        'publicindex': {
+          id: '12-1',
+          parent: ['12']
+        },
+        'publicindex': {
+          id: '13-1',
+          parent: ['13']
+        },
+        'publicindex': {
+          id: '14-1',
+          parent: ['14']
+        },
+        'publicindex': {
+          id: '15-1',
+          parent: ['15']
+        },
+        'publicindex': {
+          id: '16-1',
+          parent: ['16']
+        },
+        'publicindex': {
+          id: '17-1',
+          parent: ['17']
+        },
+
+        'publicindex': {
+          id: '21-1',
+          parent: ['21']
+        },
+        'publicindex': {
+          id: '22-1',
+          parent: ['22']
+        },
+        'publicindex': {
+          id: '23-1',
+          parent: ['23']
+        },
+        'publicindex': {
+          id: '24-1',
+          parent: ['24']
+        },
+        'publicindex': {
+          id: '25-1',
+          parent: ['25']
+        },
+        'publicindex': {
+          id: '26-1',
+          parent: ['26']
+        },
+        'publicindex': {
+          id: '27-1',
+          parent: ['27']
         }
     },
     login: () => import('@/pages/login/login'),//登录
@@ -41,6 +99,9 @@ export default {
     Sceneone: () => import('@/pages/views/sceneone'),//场景1
     Scenetwo: () => import('@/pages/views/scenetwo'),//场景2
     Scenethree: () => import('@/pages/views/scenethree'),//场景3
+
+    //其他
+    Publicindex: () => import('@/pages/views/publicindex'),
 
 
     

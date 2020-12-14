@@ -5,6 +5,8 @@
           <div class="index_logo">
             <img class="logoimg" src="@/assets/images/logo.png" alt="LOGO">
           </div>
+          <!-- 对公 -->
+          <div v-if="businessactive=='1'">
             <Menu @on-select="routeTo" :active-name="activeName" :open-names="openNames" theme="dark" width="auto" accordion>
                 <MenuItem name="1-1">
                   <span class="slider_circle"></span>
@@ -78,44 +80,206 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
             </Menu>
-            <div>
-              <Calendar
-                ref="Calendar"
-                :markDateMore="arr"
-                :markDate="arr2"
-                v-on:isToday="clickToday"
-                agoDayHide="1530115221"
-                v-on:choseDay="clickDay"
-                v-on:changeMonth="changeDate"
-              ></Calendar>
-            </div>
-            <!-- <div class="system_bottom">
-            系统管理
-            </div> -->
+          </div>
+          <!-- 对私 -->
+          <div v-if="businessactive=='2'">
+            <Menu @on-select="routeTo" :active-name="activeName" :open-names="openNames" theme="dark" width="auto" accordion>
+                <MenuItem name="11-1">
+                  <span class="slider_circle"></span>
+                  <span>WorkSpace</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="12-1">
+                  <span>场景1</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="13-1">
+                  <span>场景2</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="14-1">
+                  <span>场景3</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="15-1">
+                  <span>数据处理</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="16-1">
+                  <span>应用建模</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="17-1">
+                  <span>系统管理</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+            </Menu>
+          </div>  
+          <!-- 同业 -->
+          <div v-if="businessactive=='3'">
+            <Menu @on-select="routeTo" :active-name="activeName" :open-names="openNames" theme="dark" width="auto" accordion>
+                <MenuItem name="21-1">
+                  <span class="slider_circle"></span>
+                  <span>WorkSpace</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="22-1">
+                  <span>场景1</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="23-1">
+                  <span>场景2</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="24-1">
+                  <span>场景3</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="25-1">
+                  <span>数据处理</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="26-1">
+                  <span>应用建模</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+                <MenuItem name="27-1">
+                  <span>系统管理</span>
+                  <div class="right_top">
+                    <div class="border"></div>
+                  </div>
+                  <div class="right_bottom">
+                    <div class="border"></div>
+                  </div>
+                  <div class="sildercircle"></div>
+                </MenuItem>
+            </Menu>
+          </div> 
+          <!-- 日历 -->
+          <div>
+            <Calendar
+              ref="Calendar"
+              :markDateMore="arr"
+              :markDate="arr2"
+              v-on:isToday="clickToday"
+              agoDayHide="1530115221"
+              v-on:choseDay="clickDay"
+              v-on:changeMonth="changeDate"
+            ></Calendar>
+          </div>
+          <!-- <div class="system_bottom">
+          系统管理
+          </div> -->
         </Sider>
         <Layout class="minindex_left_content">
             <Header>
               <div class="container_head">
-                <div>
-
+                <div class="container_head_left">
+                  <div class="header-switch-container">
+                      <div class="header-switch-content">
+                        <div class="header-switch-tab" :class="{'active':businessactive==item.type}" v-for="(item,index) in businesstypelist" :key="index" @click="headerTab(item)">{{item.name}}</div>
+                      </div>
+                  </div>
                 </div>
-                <div class="header_search">
-                    <img class="header_search_img" src="@/assets/images/search@2x.png" alt="LOGO">
-                    <input class="header_search_input" placeholder="搜索" >
+                <div  class="container_head_right">
+                  <div class="header_search">
+                      <img class="header_search_img" src="@/assets/images/search@2x.png" alt="LOGO">
+                      <input class="header_search_input" placeholder="搜索" >
+                  </div>
+                  <div>
+                      <div class="user_info">
+                          <span class="username">{{username}}</span>
+                          <img :src="wechatLogo" class="useicon">
+                          <section class="nav_section_list">
+                            <ul>
+                                <li @click="loginout">
+                                  <span>登出</span>
+                                </li>
+                            </ul>
+                          </section>
+                      </div>
+                  </div>
                 </div>
-                <div>
-                    <div class="user_info">
-                        <span class="username">{{username}}</span>
-                        <img :src="wechatLogo" class="useicon">
-                        <section class="nav_section_list">
-                          <ul>
-                              <li @click="loginout">
-                                <span>登出</span>
-                              </li>
-                          </ul>
-                        </section>
-                    </div>
-                </div>
+                
+                
             </div>
             </Header>
             <Content>
@@ -136,6 +300,8 @@ export default {
     },
     data(){
         return{
+          businessactive:'1',
+          businesstypelist:[{name:'对公',type:'1'},{name:'对私',type:'2'},{name:'同业',type:'3'}],
           arr2: [],
           arr: [
             {
@@ -187,6 +353,242 @@ export default {
         sessionStorage.removeItem('username')
         this.$router.push({ name:'login'});
       },
+      headerTab(item){
+        console.log(this.activeName,item,'this.activeName')
+        this.businessactive = item.type
+        switch (this.activeName) {
+          case "1-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'index'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "2-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'sceneone'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "3-1":
+            //场景2
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenetwo'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "4-1":
+            //场景3
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenethree'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "5-1":
+            //数据处理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'datatreating'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break 
+          case "6-1":
+            //应用建模
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'applicationmodel'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break   
+          case "7-1":
+            //系统管理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'setmanage'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "11-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'index'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "12-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'sceneone'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "13-1":
+            //场景2
+           if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenetwo'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "14-1":
+            //场景3
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenethree'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "15-1":
+            //数据处理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'datatreating'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break 
+          case "16-1":
+            //应用建模
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'applicationmodel'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break   
+          case "17-1":
+            //系统管理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'setmanage'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+            
+          case "21-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'index'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "22-1":
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'sceneone'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "23-1":
+            //场景2
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenetwo'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break
+          case "24-1":
+            //场景3
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'scenethree'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break  
+          case "25-1":
+            //数据处理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'datatreating'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break 
+          case "26-1":
+            //应用建模
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'applicationmodel'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            break   
+          case "27-1":
+            //系统管理
+            if(item.type=='1'){
+              //对公
+              this.$router.push({ name:'setmanage'})
+            }else if(item.type=='2'){
+              this.$router.push({ name:'publicindex'})
+            }else if(item.type=='3'){
+              this.$router.push({ name:'publicindex'})
+            }
+            
+            break
+              
+          default:
+        }
+        
+      },
       routeTo(name) {
         switch (name) {
           case "1-1":
@@ -213,8 +615,10 @@ export default {
             break   
           case "7-1":
             //系统管理
+            console.log(11)
             this.$router.push({ name:'setmanage'})
           default:
+            
         }
       },
       //设置菜单高亮
@@ -301,6 +705,35 @@ export default {
         height: 52px;
       }
     }
+    .header-switch-container{
+      padding: 25px 0px;
+      line-height: 28px !important;
+    }
+    .header-switch-content{
+      // width: 208px;
+      height: 30px;
+      background: #E8E8E8;
+      border-radius: 10px;
+      line-height: 28px !important;
+      padding: 2px 4px;
+      .header-switch-tab{
+        display: inline-block;
+        height: 26px;
+        padding: 0 20px;
+        cursor: pointer;
+        font-size: 14px;
+        color: rgba(0,0,0,0.40);
+        line-height: 28px !important;
+        border-radius: 10px;
+      }
+      .active{
+        background: #FFFFFF;
+      }
+
+
+
+
+    }
     
 }
 .ivu-layout-header{
@@ -315,13 +748,26 @@ export default {
     // box-shadow: 0 0 0 0 rgba(0,0,0,0.20);
     border-bottom: 1px solid rgba(0,0,0,0.10);
     display: flex;
-    justify-content:flex-end;
+    justify-content:space-between;
+    align-items: center;
+    .container_head_left{
+      display: flex;
+      justify-content:flex-start;
+      align-items: center;
+      padding: 0 70px;
+    }
+    .container_head_right{
+      display: flex;
+      justify-content:flex-start;
+      align-items: center;
+      // padding: 0 50px;
+    }
     .header_search{
       background: #E8E8E8;
       border-radius: 20px;
       width: 300px;
       height: 40px;
-      margin-top: 20px;
+      // margin-top: 20px;
       margin-right:100px;
       padding:4px 10px 4px 46px;
       position: relative;
