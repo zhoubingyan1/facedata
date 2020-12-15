@@ -878,13 +878,13 @@ export default {
   created() {
     // this.getData();
     let newmodaltype = localStorage.getItem("modaltype");
-    console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
+    // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
     if (newmodaltype) {
       newmodaltype = JSON.parse(newmodaltype);
       if (Object.keys(newmodaltype).length > 0) {
         // console.log(111);
         for (const i in newmodaltype) {
-          console.log(i, newmodaltype[i]);
+          // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
             if (i == "因子分析datavb入库") {
               this.getData(newmodaltype[i],'indexdata');
@@ -928,11 +928,12 @@ export default {
       };
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
       // that.getData2([]);
-
+      that.$Spin.show()
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
-         
-          console.log(success);
+        
+          that.$Spin.hide()
+          // console.log(success);
           if(success.data.result){
             var res = success.data.result;
             that.getData2(res, id,datatype);
@@ -940,6 +941,7 @@ export default {
           
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -975,8 +977,10 @@ export default {
 
      
 
+      that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
+          that.$Spin.hide()
           var res = success.data.result;
           //周
 
@@ -985,7 +989,7 @@ export default {
           // score: 45,
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
-          console.log(res);
+          // console.log(res);s
           if(res.length>0){
             res.forEach((v,i)=>{
               res[i].name = v.ORG
@@ -1036,6 +1040,7 @@ export default {
           
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -1178,7 +1183,7 @@ export default {
         // list[i].score =
           ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100;
       }
-      console.log(list,'123');
+      // console.log(list,'123');
     },
 
     //数组对象方法排序:升序
@@ -1830,6 +1835,7 @@ export default {
     .rkpi_item_content:hover .v-progress-linear{
       height: 20px !important;
       transition:none !important;
+      box-shadow: 0 3px 5px 0 rgba(0,0,0,0.1);
     }
     .rkpi_index_card {
       .ivu-tabs-nav-container {

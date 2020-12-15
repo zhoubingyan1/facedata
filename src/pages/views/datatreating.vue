@@ -485,10 +485,12 @@ export default {
 
       // that.table.data = newtabledata.result.data;
       //     that.table.total = Number(newtabledata.result.count);
+      that.$Spin.show()
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
           // console.log(success.data.result);
           //   createTime
+          that.$Spin.hide()
           newtabledata = success.data.result.data;
           if (newtabledata.length > 0) {
             newtabledata.forEach((v, i) => {
@@ -531,6 +533,7 @@ export default {
           }
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -785,8 +788,10 @@ export default {
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
       // that.getData2([]);
       let newResult = new Array()
+      that.$Spin.show()
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
+          that.$Spin.hide()
           var res = success.data.result;
           console.log(success.data,'gettablecolumes');
           that.othertable.columns=[]
@@ -812,6 +817,7 @@ export default {
             
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -841,8 +847,10 @@ export default {
         method: "pageQueryNoCount",
         data: query_data,
       };
+      that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
+          that.$Spin.hide()
           if (success.data.state== '0') {
             var res = success.data.result;
             //周
@@ -851,6 +859,7 @@ export default {
           }
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -878,8 +887,10 @@ export default {
         method: "getCount",
         data: query_data,
       };
+      that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
+          that.$Spin.hide()
           var res = success.data.result;
           //周
           console.log(res);
@@ -887,6 +898,7 @@ export default {
           
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -902,31 +914,44 @@ export default {
       }
     },
     UploadMore(e) {},
+    // downloadEXCEL(){
+    //   let that = this;
+    //   var params = {// 参数
+    //     path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'), 
+    //     delete:'n' 
+    //   };
+    //   console.log(that.downloadtemplatetype,'that.downloadtemplatetype')
+    //   console.log(Base64.encode(that.downloadtemplatetype),'Base64.encode')
+    //   var form = document.createElement('form');
+    //   form.id = 'form'
+    //   form.name = 'form'
+    //   document.body.appendChild(form);
+    //   for(var obj in params) {
+    //     if(params.hasOwnProperty(obj)) {
+    //       var input = document.createElement('input');
+    //       input.tpye='hidden';
+    //       input.name = obj;
+    //       input.value = params[obj];
+    //       form.appendChild(input)
+    //     }
+    //   }
+    //   form.method = "Get";//请求方式
+    //   form.action=encodeURI('http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload');
+    //   form.submit();
+    //   document.body.removeChild(form);
+
+    // },
     downloadEXCEL(){
-      let that = this;
-      var params = {// 参数
-        path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'), delete:'n' 
-      };
-      console.log(that.downloadtemplatetype,'that.downloadtemplatetype')
-      console.log(Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'),'Base64.encode')
-      var form = document.createElement('form');
-      form.id = 'form'
-      form.name = 'form'
-      document.body.appendChild(form);
-      for(var obj in params) {
-        if(params.hasOwnProperty(obj)) {
-          var input = document.createElement('input');
-          input.tpye='hidden';
-          input.name = obj;
-          input.value = params[obj];
-          form.appendChild(input)
-        }
-      }
-      form.method = "Get";//请求方式
-      // form.action = process.env.API_PATH+'/v3/sys/explorer/document.kbsdownload';
-      form.action='http://192.168.1.236:8081/v3/sys/explorer/document.kbsdownloa';
-      form.submit();
-      document.body.removeChild(form);
+      let that=this
+        let data='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B')
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = encodeURI(url);
+        link.setAttribute('download', '模版');
+        document.body.appendChild(link);
+        link.click();
+
     },
   },
 };

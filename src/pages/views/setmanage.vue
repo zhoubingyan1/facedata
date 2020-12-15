@@ -1233,8 +1233,10 @@ export default {
                 method: "getCurUserMarts",
                 data: [],
             };
+            that.$Spin.show()
             that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
                 (success) => {
+                    that.$Spin.hide()
                 // console.log(success.data.result);
                 if(success.data.result.length==0){
                     //弹窗 内容  你没有使用本系统的权限!
@@ -1245,6 +1247,7 @@ export default {
                 that.list = success.data.result;
                 },
                 (error) => {
+                    that.$Spin.hide()
                 that.err_list = ["登录异常", "请联系管理员"];
                 that.errorTips_modal = true;
                 }

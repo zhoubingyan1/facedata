@@ -85,9 +85,11 @@ export default {
         method: "getCurUserMarts",
         data: [],
       };
+      that.$Spin.show()
       that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
         (success) => {
-          console.log(success.data.result);
+          that.$Spin.hide()
+          // console.log(success.data.result);
           const res=success.data.result
           if(res.length>0){
             res.splice(0,1)
@@ -102,6 +104,7 @@ export default {
           that.list = res;
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -117,10 +120,12 @@ export default {
         method: "getCurUserUnits",
         data: [id],
       };
+      // that.$Spin.show()
       that.$http.post(that.PATH.SetMenu, JSON.stringify(query)).then(
         (success) => {
-          console.log(1111);
-          console.log(success.data.result);
+          // that.$Spin.hide()
+          // console.log(1111);
+          // console.log(success.data.result);
           //周  和上面一样
           if(success.data.result.length==0){
             //弹窗 内容  你没有使用本系统的权限!
@@ -131,6 +136,7 @@ export default {
           this.login(id, success.data.result[0].id);
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -145,8 +151,10 @@ export default {
         data: [parseInt(mart)],
       };
       //设置集市 无需返回值
+      // that.$Spin.show()
       that.$http.post(that.PATH.SetMart, JSON.stringify(query)).then(
         (success) => {
+          // that.$Spin.hide()
           if (unit != null) {
             query = {
               action: "Service",
@@ -166,6 +174,7 @@ export default {
           }
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }

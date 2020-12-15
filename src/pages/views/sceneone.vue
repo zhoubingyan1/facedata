@@ -828,15 +828,16 @@ export default {
       };
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
       // that.getData2([]);
-
+      that.$Spin.show()
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
-         
+          that.$Spin.hide()
           console.log(success);
           var res = success.data.result;
           that.getData2(res, id,datatype);
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -892,9 +893,10 @@ export default {
       //     that.firstrkpilist= newfirstrkpilist
       //     //处理默认的得分升序
       //     this.sortByKey(this.firstrkpilist,'number')
-
+      that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
+          that.$Spin.hide()
           var res = success.data.result;
           //周
 
@@ -903,7 +905,7 @@ export default {
           // score: 45,
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
-          console.log(res);
+          // console.log(res);
           if(res.length>0){
             res.forEach((v,i)=>{
               res[i].name = v.ORG
@@ -954,6 +956,7 @@ export default {
           
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }

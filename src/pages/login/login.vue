@@ -248,13 +248,14 @@ export default {
         method: "login",
         data: [this.username, this.password],
       };
-      console.log(that.PATH.LOGIN);
+      // console.log(that.PATH.LOGIN);
       // {responseType: 'json',}
+      that.$Spin.show()
       that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data);
+          that.$Spin.hide()
           var res = success.data;
-
           if (res.result != null) {
             localStorage.removeItem("modaltype");//清空模型
             sessionStorage.removeItem("UserName");
@@ -272,6 +273,7 @@ export default {
           }
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -463,7 +465,7 @@ export default {
         animation-iteration-count: 1;
       }
       .ivu-icon {
-        line-height: 60px;
+        line-height: 50px;
         color: #fff;
         font-size: 60px;
       }
