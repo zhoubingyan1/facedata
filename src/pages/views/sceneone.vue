@@ -1,5 +1,6 @@
 <template>
-  <div id="Sceneone">
+  <div id="sceneone">
+    
     <Row :gutter="52">
       <Col span="8">
         <div class="rkpi_index_content height465">
@@ -36,13 +37,30 @@
                     style="text-align:right;"
                   >{{item.number}}</Col>
                 </Row>
-                <Progress
+                <div class="progress-content">
+                  <v-progress-linear
+                    background-color="rgba(0,0,0,0.05)"
+                    color="#FD5056"
+                    :value="item.scoreleft"
+                    height="10"
+                    stream
+                    reverse
+                  ></v-progress-linear>
+                  <v-progress-linear
+                    background-color="rgba(0,0,0,0.05)"
+                    color="#246FEA"
+                    :value="item.scoreright"
+                    height="10"
+                  ></v-progress-linear>
+                </div>
+                
+                <!-- <Progress
                   :percent="item.score"
                   :stroke-width="item.strokeWidth"
                   status="active"
                   :stroke-color="item.strokeColor"
                   hide-info
-                />
+                /> -->
               </div>
             </div>
           </div>
@@ -85,13 +103,30 @@
                         style="text-align:right;"
                       >{{item.number}}</Col>
                     </Row>
-                    <Progress
+                    <div class="progress-content">
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#FD5056"
+                        :value="item.scoreleft"
+                        height="10"
+                        stream
+                        reverse
+                      ></v-progress-linear>
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#246FEA"
+                        :value="item.scoreright"
+                        height="10"
+                      ></v-progress-linear>
+                    </div>
+                    
+                    <!-- <Progress
                       :percent="item.score"
                       :stroke-width="item.strokeWidth"
                       status="active"
                       :stroke-color="item.strokeColor"
                       hide-info
-                    />
+                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -124,13 +159,29 @@
                         style="text-align:right;"
                       >{{item.number}}</Col>
                     </Row>
-                    <Progress
+                    <div class="progress-content">
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#FD5056"
+                        :value="item.scoreleft"
+                        height="10"
+                        stream
+                        reverse
+                      ></v-progress-linear>
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#246FEA"
+                        :value="item.scoreright"
+                        height="10"
+                      ></v-progress-linear>
+                    </div>
+                    <!-- <Progress
                       :percent="item.score"
                       :stroke-width="item.strokeWidth"
                       status="active"
                       :stroke-color="item.strokeColor"
                       hide-info
-                    />
+                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -163,13 +214,29 @@
                         style="text-align:right;"
                       >{{item.number}}</Col>
                     </Row>
-                    <Progress
+                    <div class="progress-content">
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#FD5056"
+                        :value="item.scoreleft"
+                        height="10"
+                        stream
+                        reverse
+                      ></v-progress-linear>
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#246FEA"
+                        :value="item.scoreright"
+                        height="10"
+                      ></v-progress-linear>
+                    </div>
+                    <!-- <Progress
                       :percent="item.score"
                       :stroke-width="item.strokeWidth"
                       status="active"
                       :stroke-color="item.strokeColor"
                       hide-info
-                    />
+                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -202,13 +269,29 @@
                         style="text-align:right;"
                       >{{item.number}}</Col>
                     </Row>
-                    <Progress
+                    <div class="progress-content">
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#FD5056"
+                        :value="item.scoreleft"
+                        height="10"
+                        stream
+                        reverse
+                      ></v-progress-linear>
+                      <v-progress-linear
+                        background-color="rgba(0,0,0,0.05)"
+                        color="#246FEA"
+                        :value="item.scoreright"
+                        height="10"
+                      ></v-progress-linear>
+                    </div>
+                    <!-- <Progress
                       :percent="item.score"
                       :stroke-width="item.strokeWidth"
                       status="active"
                       :stroke-color="item.strokeColor"
                       hide-info
-                    />
+                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -251,13 +334,29 @@
                     style="text-align:right;"
                   >{{item.number}}</Col>
                 </Row>
-                <Progress
+                <div class="progress-content">
+                  <v-progress-linear
+                    background-color="rgba(0,0,0,0.05)"
+                    color="#FD5056"
+                    :value="item.scoreleft"
+                    height="10"
+                    stream
+                    reverse
+                  ></v-progress-linear>
+                  <v-progress-linear
+                    background-color="rgba(0,0,0,0.05)"
+                    color="#246FEA"
+                    :value="item.scoreright"
+                    height="10"
+                  ></v-progress-linear>
+                </div>
+                <!-- <Progress
                   :percent="item.score"
                   :stroke-width="item.strokeWidth"
                   status="active"
                   :stroke-color="item.strokeColor"
                   hide-info
-                />
+                /> -->
               </div>
             </div>
           </div>
@@ -374,12 +473,14 @@
   </div>
 </template>
 <script>
+
+
 import echarts from "echarts";
 import { on, off } from "@/utils/tools";
 // import { Tabs, TabPane } from "../components/tabs/index";
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
 export default {
-  name: "Sceneone",
+  name: "sceneone",
   // components: { Tabs, TabPane },
   components: { NewTabs, NewTabPane },
   data() {
@@ -777,13 +878,13 @@ export default {
   created() {
     // this.getData();
     let newmodaltype = localStorage.getItem("modaltype");
-    console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
+    // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
     if (newmodaltype) {
       newmodaltype = JSON.parse(newmodaltype);
       if (Object.keys(newmodaltype).length > 0) {
-        console.log(111);
+        // console.log(111);
         for (const i in newmodaltype) {
-          console.log(i, newmodaltype[i]);
+          // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
             if (i == "因子分析datavb入库") {
               this.getData(newmodaltype[i],'indexdata');
@@ -815,7 +916,6 @@ export default {
   methods: {
     //获取列表
     getData(id,datatype) {
-       console.log(11111111);
       if(datatype==null){
         return
       }
@@ -831,10 +931,14 @@ export default {
       that.$Spin.show()
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
+        
           that.$Spin.hide()
-          console.log(success);
-          var res = success.data.result;
-          that.getData2(res, id,datatype);
+          // console.log(success);
+          if(success.data.result){
+            var res = success.data.result;
+            that.getData2(res, id,datatype);
+          }
+          
         },
         (error) => {
           that.$Spin.hide()
@@ -845,8 +949,6 @@ export default {
     },
     getData2(list, id,datatype) {
       var that = this;
-      // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
-        console.log(2222222222222);
       var list_data = [];
       if (list.length > 0) {
         list.forEach((node) => {
@@ -873,26 +975,8 @@ export default {
       let newscorelist=[] //进度条列表
       let middlenumber=new Number()
 
-      // newfirstrkpilist = [{"FAC_0":2.69561589496609780000,"FAC_1":1.28274957746505170000,"FAC_2":0.45483501846858820000,"FAC_3":-0.11553851253478853000,"ORG":"D","ROW_NEXT":1,"SUM":4.31766197836494900000},{"FAC_0":-0.04202052734030215000,"FAC_1":1.41928239498359800000,"FAC_2":-0.51500984736003940000,"FAC_3":1.82710010086236950000,"ORG":"E","ROW_NEXT":2,"SUM":2.68935212114562600000},{"FAC_0":0.19757562416180352000,"FAC_1":-0.63684628998216100000,"FAC_2":0.05464861628870698600,"FAC_3":2.10222541577017940000,"ORG":"M","ROW_NEXT":3,"SUM":1.71760336623852880000},{"FAC_0":-0.29746060990558920000,"FAC_1":-0.65267539263366660000,"FAC_2":2.29230616475363960000,"FAC_3":-0.37638454913951014000,"ORG":"G","ROW_NEXT":4,"SUM":0.96578561307487370000},{"FAC_0":-1.18156917389401750000,"FAC_1":2.43363926795954300000,"FAC_2":0.33867819998110840000,"FAC_3":-0.88806160166182700000,"ORG":"L","ROW_NEXT":5,"SUM":0.70268669238480670000},{"FAC_0":-0.23374475554285723000,"FAC_1":-0.42433119879075254000,"FAC_2":1.12948060071829230000,"FAC_3":-0.25894143870177990000,"ORG":"H","ROW_NEXT":6,"SUM":0.21246320768290260000},{"FAC_0":-0.51089544772884920000,"FAC_1":-0.68418819769628230000,"FAC_2":0.44982163303364830000,"FAC_3":0.91554986338275900000,"ORG":"C","ROW_NEXT":7,"SUM":0.17028785099127586000},{"FAC_0":-0.19711919549819387000,"FAC_1":-0.43792809788120460000,"FAC_2":0.89507950898228300000,"FAC_3":-0.13642885033994628000,"ORG":"N","ROW_NEXT":8,"SUM":0.12360336526293819000},{"FAC_0":1.32850502468159300000,"FAC_1":-0.80013317469482610000,"FAC_2":-0.71915864915304280000,"FAC_3":-0.70308810794049070000,"ORG":"K","ROW_NEXT":9,"SUM":-0.89387490710676660000},{"FAC_0":-0.36996547389515280000,"FAC_1":-0.33531117770690766000,"FAC_2":-0.91423995126052770000,"FAC_3":0.33952641209310310000,"ORG":"I","ROW_NEXT":10,"SUM":-1.27999019076948530000},{"FAC_0":-0.53620511822902600000,"FAC_1":0.33295286858101614000,"FAC_2":-0.66757772986032120000,"FAC_3":-0.96081693486682340000,"ORG":"F","ROW_NEXT":11,"SUM":-1.83164691437515440000},]
-      //     if(newfirstrkpilist.length>0){
-      //       newfirstrkpilist.forEach((v,i)=>{
-      //         newfirstrkpilist[i].name = v.ORG
-      //         newfirstrkpilist[i].number =that.tofix(v.SUM,6)
-      //         newscorelist.push(newfirstrkpilist[i].number)
-      //         newfirstrkpilist[i].strokeWidth = 5
-      //         newfirstrkpilist[i].strokeColor = ["#92BBFF", "#92BBFF"]
-      //       })
-      //       //处理进度条值
-      //       that.get_progress(newfirstrkpilist)
-      //       //取综合得分中间值
-      //       middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
-      //       that.mediannumber=middlenumber
+     
 
-      //     }
-      //     // console.log(newfirstrkpilist,'newfirstrkpilist')
-      //     that.firstrkpilist= newfirstrkpilist
-      //     //处理默认的得分升序
-      //     this.sortByKey(this.firstrkpilist,'number')
       that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
@@ -905,7 +989,7 @@ export default {
           // score: 45,
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
-          // console.log(res);
+          // console.log(res);s
           if(res.length>0){
             res.forEach((v,i)=>{
               res[i].name = v.ORG
@@ -1082,14 +1166,21 @@ export default {
         })
       );
       var cha = 0;
-      if (min < 0) {
-        cha = -1 * min;
-        max = max - min;
-        min = 0;
-      }
+      // if (min < 0) {
+      //   cha = -1 * min;
+      //   max = max - min;
+      //   min = 0;
+      // }
       // console.log(cha,'cha');
       for (var i = 0; i < list.length; i++) {
-        list[i].score =
+        if(((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100>=0){
+          list[i].scoreright =((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100
+          list[i].scoreleft=0
+        }else{
+          list[i].scoreleft =Math.abs(((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100)
+          list[i].scoreright =0
+        }
+        // list[i].score =
           ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100;
       }
       // console.log(list,'123');
@@ -1399,7 +1490,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#Sceneone {
+#sceneone {
   min-width: 1200px;
   height: 100%;
   padding: 50px 70px;
@@ -1478,6 +1569,10 @@ export default {
       flex: 1;
       // width: 109px;
     }
+  }
+  .progress-content{
+    display: flex;
+
   }
   #tabs {
     .tabs-nav {
@@ -1736,6 +1831,11 @@ export default {
       .ivu-progress-bg {
         height: 20px !important;
       }
+    }
+    .rkpi_item_content:hover .v-progress-linear{
+      height: 20px !important;
+      transition:none !important;
+      box-shadow: 0 3px 5px 0 rgba(0,0,0,0.1);
     }
     .rkpi_index_card {
       .ivu-tabs-nav-container {

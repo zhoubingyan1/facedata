@@ -271,7 +271,10 @@
                     <div class="datatreating_fr_table">
                         <div class="datatreating_fr_table">
                             <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
+                            <div class="setmanagetree-tit">目录名称</div>
+                            <div class="setmanagetree">
                             <ztree :setting="datatreatingsetting" :nodes="datatreatingnodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                            </div>
                         </div>
                     </div>
                     <div class="datatreating_fr_page">
@@ -1874,6 +1877,18 @@ export default {
     }
     .datatreating_fr_page{
         margin-top: 30px;
+    }
+    .setmanagetree-tit{
+        padding:50px 0px 0px 110px ;
+        font-family: PingFangSC-Semibold;
+        font-size: 16px;
+        color: rgba(0,0,0,0.80);
+        letter-spacing: 0;
+        line-height: 24px;
+    }
+    .setmanagetree{
+        
+        padding:30px 50px;
     }
 }
 .ivu-modal {

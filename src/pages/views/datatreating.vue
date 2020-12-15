@@ -950,17 +950,17 @@ export default {
     //   document.body.removeChild(form);
 
     // },
-    downloadEXCEL() {
-      let that = this;
-      let data =
-        "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path=" +
-        Base64.encode(that.downloadtemplatetype).replace(/\+/g, "%2B");
-     var  datas = encodeURI(data);
-
-      console.log(Base64.encode(that.downloadtemplatetype),"未替换");
-      console.log(Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'),"替换");
-      console.log(datas)
-      return;
+    downloadEXCEL(){
+      let that=this
+      let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B')
+      let a = document.createElement('a');
+      a.id = 'temp';
+      document.body.appendChild(a);
+      a.addEventListener('click', function(){
+        window.open(encodeURI(url),'_blank');
+      });
+      a.click();
+      document.body.removeChild(a);
     },
   },
 };
@@ -1378,6 +1378,8 @@ export default {
     }
     .datamodal_content {
       padding: 30px 20px;
+      // min-height: 200px;
+      overflow: scroll;
       .datamodal_item {
         display: flex;
         margin-bottom: 20px;
@@ -1457,6 +1459,10 @@ export default {
           padding: 0px 10px;
           box-sizing: border-box;
           border: none;
+          .ivu-select-dropdown-list{
+            height: 100px;
+            overflow: scroll;
+          }
         }
         .downloadtemplate {
           // display: flex;
@@ -1503,6 +1509,7 @@ export default {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      padding:0px 20px 14px 20px;
     }
     .systemtips_content {
       text-align: center;
