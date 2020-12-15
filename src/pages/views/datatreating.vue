@@ -16,21 +16,35 @@
                 <div class="marginright30">
                   <div class="left_name">数据表</div>
                   <div class="left_tree">
-                     <ztree :setting="setting" :nodes="nodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                    <ztree
+                      :setting="setting"
+                      :nodes="nodes"
+                      @onClick="onClick"
+                      @onCreated="handleCreated"
+                      @onExpand="onExpand"
+                    ></ztree>
                   </div>
                 </div>
                 <div class="marginright30">
                   <div class="left_name">数据包</div>
                   <div class="left_tree">
-                     <ztree :setting="setting" :nodes="nodes1" @onClick="onClick"  @onCreated="handleCreated"></ztree>
-                    
+                    <ztree
+                      :setting="setting"
+                      :nodes="nodes1"
+                      @onClick="onClick"
+                      @onCreated="handleCreated"
+                    ></ztree>
                   </div>
                 </div>
                 <div class="marginright30">
                   <div class="left_name">模型库</div>
                   <div class="left_tree">
-                     <ztree :setting="setting" :nodes="nodes2" @onClick="onClick"  @onCreated="handleCreated"></ztree>
-                    
+                    <ztree
+                      :setting="setting"
+                      :nodes="nodes2"
+                      @onClick="onClick"
+                      @onCreated="handleCreated"
+                    ></ztree>
                   </div>
                 </div>
               </div>
@@ -76,7 +90,7 @@
                   <div class="facedata-pagination">
                     <Page :total="table.total" :current="table.page" size="small" @on-change="changePage" :pageSize="table.pagesize"></Page>
                   </div>
-                </div> -->
+                </div>-->
               </div>
             </Col>
           </Row>
@@ -98,9 +112,15 @@
             ></Table>
           </div>
           <div class="datatreating_fr_page">
-              <div class="facedata-pagination">
-                <Page :total="othertable.total" :current="othertable.page" size="small" @on-change="changeothertablePage" :pageSize="othertable.pagesize"></Page>
-              </div>
+            <div class="facedata-pagination">
+              <Page
+                :total="othertable.total"
+                :current="othertable.page"
+                size="small"
+                @on-change="changeothertablePage"
+                :pageSize="othertable.pagesize"
+              ></Page>
+            </div>
           </div>
         </div>
       </TabPane>
@@ -134,7 +154,7 @@
         </div>
       </div>
       <div class="datamodal_footer">
-        <button class="btn" @click="lendinginleavefail">推出</button>
+        <button class="btn" @click="lendinginleavefail">退出</button>
         <button class="btn" @click="lendinginsave">保存</button>
       </div>
     </Modal>
@@ -187,7 +207,7 @@
           <div class="datamodal_item_flex">
             <textarea v-model="templatename" class="textarea-control" placeholder="非必填"></textarea>
           </div>
-        </div> -->
+        </div>-->
       </div>
       <div class="datamodal_footer">
         <button class="btn">推出</button>
@@ -205,7 +225,11 @@
     <Modal :mask-closable="true" v-model="delModal" width="360" class-name="mr-del-modal">
       <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
       <div class="facedata-btn-box">
-        <div class="facedata-btn-confirm" style="margin-right: 20px" @click="datatreatingtableDel">删除</div>
+        <div
+          class="facedata-btn-confirm"
+          style="margin-right: 20px"
+          @click="datatreatingtableDel"
+        >删除</div>
         <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
       </div>
     </Modal>
@@ -215,22 +239,22 @@
 import linetree from "../components/linetree/linetree";
 import { Tabs, TabPane } from "../components/tabs/index";
 import ztree from "../components/ztree/ztree";
-let Base64 = require('js-base64').Base64
+let Base64 = require("js-base64").Base64;
 
 const simpleData = [
-  { id: 1, pid: 0, name: "随意勾选 1", open: false, },
+  { id: 1, pid: 0, name: "随意勾选 1", open: false },
   { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
-  { id: 111, pid: 11, name: "随意勾选 1-1-1" , open: false },
-  { id: 112, pid: 11,open: false, name: "随意勾选 1-1-2",},
+  { id: 111, pid: 11, name: "随意勾选 1-1-1", open: false },
+  { id: 112, pid: 11, open: false, name: "随意勾选 1-1-2" },
   { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
-  { id: 121, pid: 12, name: "随意勾选 1-2-1" , open: false },
-  { id: 122, pid: 12, name: "随意勾选 1-2-2" , open: false },
-  { id: 2, pid: 0,name: "随意勾选 2-1" ,open: false, },
-  { id: 21, pid: 2, name: "随意勾选 2-1" , open: false },
-  { id: 22, pid: 2, name: "随意勾选 2-2", open: false, },
-  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true , open: false,},
-  { id: 222, pid: 22, name: "随意勾选 2-2-2" , open: false },
-  { id: 23, pid: 2, name: "随意勾选 2-3" , open: false }
+  { id: 121, pid: 12, name: "随意勾选 1-2-1", open: false },
+  { id: 122, pid: 12, name: "随意勾选 1-2-2", open: false },
+  { id: 2, pid: 0, name: "随意勾选 2-1", open: false },
+  { id: 21, pid: 2, name: "随意勾选 2-1", open: false },
+  { id: 22, pid: 2, name: "随意勾选 2-2", open: false },
+  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true, open: false },
+  { id: 222, pid: 22, name: "随意勾选 2-2-2", open: false },
+  { id: 23, pid: 2, name: "随意勾选 2-3", open: false },
 ];
 
 export default {
@@ -239,40 +263,39 @@ export default {
     linetree,
     Tabs,
     TabPane,
-    ztree
+    ztree,
   },
   data() {
     return {
       delModal: false, // 删除确认弹框
       delID: "",
 
-      currenttableid:'',
+      currenttableid: "",
 
       showIndex: 1,
       ztreeObj: null,
       setting: {
-        async:{
-          autoParam:[],
-          enable:true
+        async: {
+          autoParam: [],
+          enable: true,
         },
         data: {
           simpleData: {
             enable: true,
             pIdKey: "pid",
-          }
+          },
         },
         view: {
-          dblClickExpand: false,//屏蔽掉双击事件
-          showIcon: true
-        }
+          dblClickExpand: false, //屏蔽掉双击事件
+          showIcon: true,
+        },
       },
-      
 
-      nodes:[],
+      nodes: [],
       // nodes:simpleData,
-      nodes1:[],
-      nodes2:[],
-      treenodeID:null,//记录树的id
+      nodes1: [],
+      nodes2: [],
+      treenodeID: null, //记录树的id
 
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
@@ -290,7 +313,7 @@ export default {
       downloadtemplatetype: "",
 
       systemtips_modal: false, //系统提示弹窗
-      
+
       tabsvalue: "1", //tab选项卡的选定
       tabIndex: 1,
       TabList: [
@@ -298,7 +321,7 @@ export default {
           label: "数据处理",
           name: "1",
           index: "1",
-          paramId:''
+          paramId: "",
         },
       ],
       leftTreeList: [
@@ -323,7 +346,7 @@ export default {
           {
             title: "名称",
             key: "name",
-            width:'200',
+            width: "200",
             align: "center",
           },
           {
@@ -368,7 +391,7 @@ export default {
                     click: () => {
                       this.delID = params.row.id;
                       this.delModal = true;
-                    //  this.datatreatingtableDel(params.row);
+                      //  this.datatreatingtableDel(params.row);
                     },
                   },
                 }),
@@ -378,7 +401,7 @@ export default {
         ],
         data: [],
       },
-      othertablelistdata:null,//除数据处理、
+      othertablelistdata: null, //除数据处理、
       othertable: {
         page: 1,
         pagesize: 10,
@@ -386,8 +409,7 @@ export default {
         columns: [],
         data: [],
       },
-      DownloadtemplateList: [
-      ],
+      DownloadtemplateList: [],
     };
   },
   computed: {
@@ -419,19 +441,17 @@ export default {
             // newResult=[]
             if (newResult.length > 0) {
               newResult.forEach((v, i) => {
-                newResult[i].open = false
-                if(newResult[i].right-newResult[i].left!=1){
-                  newResult[i].isParent=true
+                newResult[i].open = false;
+                if (newResult[i].right - newResult[i].left != 1) {
+                  newResult[i].isParent = true;
                   newResult[i].children = [];
                 }
-                if(newResult[i].right-newResult[i].left==1){
-                  newResult[i].isParent=false
+                if (newResult[i].right - newResult[i].left == 1) {
+                  newResult[i].isParent = false;
                 }
-                  
-                
               });
             }
-            this.nodes= newResult;
+            this.nodes = newResult;
             // console.log(this.nodes,'this.nodes')
           },
           (error) => {
@@ -440,7 +460,7 @@ export default {
           }
         );
     },
-    datatreatingtableDel(){
+    datatreatingtableDel() {
       var that = this;
       var query = {
         action: "Service",
@@ -448,31 +468,32 @@ export default {
         data: [that.delID],
       };
       let newResult = new Array();
-      that.$http
-        .post(that.PATH.DATATREATINGDELETE, JSON.stringify(query))
-        .then(
-          (success) => {
-            // console.log(success.data);
-            that.delModal = false;
-            that.$Message.success({
-                content: '删除成功',
-                duration: 1
-            })
-            that.ztreeObj.getNodeByParam('id', that.treenodeID);
-            that.gettable(that.currenttableid ,that.table.page,that.table.pagesize);
-          },
-          (error) => {
-            that.$Message.error({
-                content: '删除失败,请联系管理员',
-                duration: 1
-            })
-            // that.err_list = ["登录异常", "请联系管理员"];
-            // that.errorTips_modal = true;
-          }
-        );
-    
+      that.$http.post(that.PATH.DATATREATINGDELETE, JSON.stringify(query)).then(
+        (success) => {
+          // console.log(success.data);
+          that.delModal = false;
+          that.$Message.success({
+            content: "删除成功",
+            duration: 1,
+          });
+          that.ztreeObj.getNodeByParam("id", that.treenodeID);
+          that.gettable(
+            that.currenttableid,
+            that.table.page,
+            that.table.pagesize
+          );
+        },
+        (error) => {
+          that.$Message.error({
+            content: "删除失败,请联系管理员",
+            duration: 1,
+          });
+          // that.err_list = ["登录异常", "请联系管理员"];
+          // that.errorTips_modal = true;
+        }
+      );
     },
-    gettable(id,page,pagesize) {
+    gettable(id, page, pagesize) {
       var that = this;
       var query = {
         action: "Service",
@@ -482,15 +503,14 @@ export default {
       let newtabledata = [];
       let modaltype = new Object();
 
-
       // that.table.data = newtabledata.result.data;
       //     that.table.total = Number(newtabledata.result.count);
-      that.$Spin.show()
+      that.$Spin.show();
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
           // console.log(success.data.result);
           //   createTime
-          that.$Spin.hide()
+          that.$Spin.hide();
           newtabledata = success.data.result.data;
           if (newtabledata.length > 0) {
             newtabledata.forEach((v, i) => {
@@ -501,7 +521,7 @@ export default {
             });
           }
           //   newtabledata=success.data.result.data
-          console.log(success.data.result.data,'success.data.result.data')
+          console.log(success.data.result.data, "success.data.result.data");
           that.table.data = newtabledata;
           // that.table.total = Number(success.data.result.count);
           // console.log(that.table.total,'that.table.total')
@@ -533,7 +553,7 @@ export default {
           }
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -541,10 +561,10 @@ export default {
     },
     getNweDate(timeStamp, startType) {
       var d = null;
-      if ((timeStamp).toString().length == 10) {
-          d = new Date(timeStamp * 1000);
-      } else if ((timeStamp).toString().length >= 13) {
-          d = new Date(timeStamp);
+      if (timeStamp.toString().length == 10) {
+        d = new Date(timeStamp * 1000);
+      } else if (timeStamp.toString().length >= 13) {
+        d = new Date(timeStamp);
       }
       const year = d.getFullYear();
       const month = this.getHandledValue(d.getMonth() + 1);
@@ -575,12 +595,12 @@ export default {
     //分页切换
     changePage(page) {
       this.table.page = page;
-      this.gettable(this.currenttableid ,this.table.page,this.table.pagesize);
+      this.gettable(this.currenttableid, this.table.page, this.table.pagesize);
     },
     //tab上的分页切换
-    changeothertablePage(page){
+    changeothertablePage(page) {
       this.othertable.page = page;
-      this.getTableData(this.othertable.columns,this.othertablelistdata.param);
+      this.getTableData(this.othertable.columns, this.othertablelistdata.param);
     },
     // 选择导入
     choseleadingin() {
@@ -604,47 +624,42 @@ export default {
         data: [],
       };
       let newResult = new Array();
-      that.$http
-        .post(that.PATH.GETTEMPLATEFIES, JSON.stringify(query))
-        .then(
-          (success) => {
-            console.log(success.data);
-            var res = success.data.result
-            if(res.length>0){
-              that.DownloadtemplateList= success.data.result
-            }
-          },
-          (error) => {
-            that.$Message.error({
-                content: '删除失败,请联系管理员',
-                duration: 1
-            })
-            // that.err_list = ["登录异常", "请联系管理员"];
-            // that.errorTips_modal = true;
+      that.$http.post(that.PATH.GETTEMPLATEFIES, JSON.stringify(query)).then(
+        (success) => {
+          console.log(success.data);
+          var res = success.data.result;
+          if (res.length > 0) {
+            that.DownloadtemplateList = success.data.result;
           }
-        );
-    
-    
-
+        },
+        (error) => {
+          that.$Message.error({
+            content: "删除失败,请联系管理员",
+            duration: 1,
+          });
+          // that.err_list = ["登录异常", "请联系管理员"];
+          // that.errorTips_modal = true;
+        }
+      );
     },
-    onExpand: function(evt, treeId, treeNode) {
+    onExpand: function (evt, treeId, treeNode) {
       // 点击事件
-      if(treeNode.open){
-        this.treeClick(evt, treeId, treeNode)
+      if (treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
       }
     },
-    onClick: function(evt, treeId, treeNode) {
+    onClick: function (evt, treeId, treeNode) {
       // 点击事件
-      if(!treeNode.open){
-        this.treeClick(evt, treeId, treeNode)
+      if (!treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
       }
     },
-    treeClick:function(evt, treeId, treeNode) {
+    treeClick: function (evt, treeId, treeNode) {
       // 点击事件
       // console.log(treeNode.open,'onClick');
-      this.treenodeID = treeNode.id
-      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
-      const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
+      this.treenodeID = treeNode.id;
+      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
       var that = this;
       var query = {
         action: "Service",
@@ -654,71 +669,67 @@ export default {
       if (treeNode.right - treeNode.left == 1) {
         //文件,获取右边的表格
         // this.gettable(treeNode.id)
-        this.table.page=1
-        this.currenttableid =treeNode.id
-        this.gettable(treeNode.id,this.table.page,this.table.pagesize);
+        this.table.page = 1;
+        this.currenttableid = treeNode.id;
+        this.gettable(treeNode.id, this.table.page, this.table.pagesize);
       } else {
         //文件夹
         treeNode.children = [];
-        that.gettable(treeNode.id,that.table.page,that.table.pagesize);
-        if(treeNode.isParent){
+        that.gettable(treeNode.id, that.table.page, that.table.pagesize);
+        if (treeNode.isParent) {
           that.$http
             .post(that.PATH.getExplorerChildren, JSON.stringify(query))
             .then(
               (success) => {
                 // console.log(success.data.result);
-                const childrenData=eval(success.data.result)
-                  //判断子节点是否包含子元素
-                  // for(var i in childrenData){
-                  //     if(childrenData[i].isContainSon === 1){
-                  //         childrenData[i].isParent = true;
-                  //     }
-                  // };
-                  childrenData.forEach((v, i) => {
-                    childrenData[i].open = false
-                    if(childrenData[i].right-childrenData[i].left!=1){
-                      childrenData[i].isParent=true
-                      childrenData[i].children = [];
-                    }
-                    if(childrenData[i].right-childrenData[i].left==1){
-                      childrenData[i].isParent=false
-                    }
-                      
-                    
-                  });
-                  // console.log(childrenData)
-                  this.ztreeObj.refresh();
-                  this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
+                const childrenData = eval(success.data.result);
+                //判断子节点是否包含子元素
+                // for(var i in childrenData){
+                //     if(childrenData[i].isContainSon === 1){
+                //         childrenData[i].isParent = true;
+                //     }
+                // };
+                childrenData.forEach((v, i) => {
+                  childrenData[i].open = false;
+                  if (childrenData[i].right - childrenData[i].left != 1) {
+                    childrenData[i].isParent = true;
+                    childrenData[i].children = [];
+                  }
+                  if (childrenData[i].right - childrenData[i].left == 1) {
+                    childrenData[i].isParent = false;
+                  }
+                });
+                // console.log(childrenData)
+                this.ztreeObj.refresh();
+                this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
                 that.errorTips_modal = true;
               }
             );
-        } 
+        }
       }
-        
     },
-    handleCreated: function(ztreeObj) {
+    handleCreated: function (ztreeObj) {
       this.ztreeObj = ztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
 
     tabclick(item) {
-      console.log(item,'item')
+      console.log(item, "item");
       // this.tabsvalue = item.toString();
-      if(item.name==1){
+      if (item.name == 1) {
         this.tabsvalue = item.name.toString();
-      }else if(item.name==1){
+      } else if (item.name == 1) {
         this.tabsvalue = item.name.toString();
-      }else{
-        this.othertable.page=1
+      } else {
+        this.othertable.page = 1;
         this.tabsvalue = item.name.toString();
-        console.log(item.paramId,'item.paramId')
-        this.getnewDataTableCol(item.paramId)
+        console.log(item.paramId, "item.paramId");
+        this.getnewDataTableCol(item.paramId);
       }
-      
     },
     addtabs() {
       let tabIndex = this.tabIndex;
@@ -735,7 +746,7 @@ export default {
             name: 2,
             label: "生成数据",
             index: tabIndex,
-            paramId:''
+            paramId: "",
           });
           this.tabsvalue = "2";
         }
@@ -747,35 +758,35 @@ export default {
     //增加tab
     addTab(params) {
       // console.log(params,'addTab')
-      let oneTabitem =new Array()
+      let oneTabitem = new Array();
       let tabIndex = this.tabIndex;
-      oneTabitem=this.TabList.filter(function(item){
-         return item.label==params.name
-      })
+      oneTabitem = this.TabList.filter(function (item) {
+        return item.label == params.name;
+      });
       // console.log(oneTabitem,'oneTabitem')
-      this.othertable.page=1
-      if(oneTabitem.length>0){
+      this.othertable.page = 1;
+      if (oneTabitem.length > 0) {
         this.tabsvalue = oneTabitem[0].index.toString();
         // this.getnewDataTableCol(params.param)
-      }else{
+      } else {
         if (tabIndex == 1) {
           this.tabIndex = tabIndex + 2;
         } else {
           this.tabIndex = tabIndex + 1;
         }
-        console.log(params,'addTabparams')
+        console.log(params, "addTabparams");
         this.TabList.push({
           name: this.tabIndex,
           label: params.name,
           index: this.tabIndex,
-          paramId:params.param
+          paramId: params.param,
         });
 
-        this.getnewDataTableCol(params.param)
+        this.getnewDataTableCol(params.param);
         this.tabsvalue = this.tabIndex.toString();
       }
-      this.othertablelistdata=params
-      console.log(this.TabList,'(this.TabList,')
+      this.othertablelistdata = params;
+      console.log(this.TabList, "(this.TabList,");
       // this.isTip = false;
     },
     getnewDataTableCol(id) {
@@ -787,37 +798,36 @@ export default {
       };
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
       // that.getData2([]);
-      let newResult = new Array()
-      that.$Spin.show()
+      let newResult = new Array();
+      that.$Spin.show();
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           var res = success.data.result;
-          console.log(success.data,'gettablecolumes');
-          that.othertable.columns=[]
-          that.othertable.data=[]
-          if(res.length>0){
+          console.log(success.data, "gettablecolumes");
+          that.othertable.columns = [];
+          that.othertable.data = [];
+          if (res.length > 0) {
             newResult = success.data.result;
-            newResult.forEach((v,i)=>{
-              v.title = v.desc
-              v.key=v.name
+            newResult.forEach((v, i) => {
+              v.title = v.desc;
+              v.key = v.name;
               // name
-              v.align="center"
-            })
-              // {
-              // title: "名称",
-              // key: "name",
-              // width:'200',
+              v.align = "center";
+            });
+            // {
+            // title: "名称",
+            // key: "name",
+            // width:'200',
             //   // align: "center",
             // },
-            that.othertable.columns=newResult
+            that.othertable.columns = newResult;
             that.getTableData(res, id);
-            that.gettablepagetotal(res,id)
+            that.gettablepagetotal(res, id);
           }
-            
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -847,25 +857,25 @@ export default {
         method: "pageQueryNoCount",
         data: query_data,
       };
-      that.$Spin.show()
+      that.$Spin.show();
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          that.$Spin.hide()
-          if (success.data.state== '0') {
+          that.$Spin.hide();
+          if (success.data.state == "0") {
             var res = success.data.result;
             //周
-            console.log(res,'getTableData列数据');
-            that.othertable.data=res
+            console.log(res, "getTableData列数据");
+            that.othertable.data = res;
           }
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
     },
-    gettablepagetotal(list,id){
+    gettablepagetotal(list, id) {
       var that = this;
       var list_data = [];
       if (list.length > 0) {
@@ -880,25 +890,24 @@ export default {
           entityId: id,
           fields: list_data,
           orderBy: [],
-        }
+        },
       ];
       var query = {
         action: "Service",
         method: "getCount",
         data: query_data,
       };
-      that.$Spin.show()
+      that.$Spin.show();
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           var res = success.data.result;
           //周
           console.log(res);
-          that.othertable.total=res
-          
+          that.othertable.total = res;
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -917,8 +926,8 @@ export default {
     // downloadEXCEL(){
     //   let that = this;
     //   var params = {// 参数
-    //     path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'), 
-    //     delete:'n' 
+    //     path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'),
+    //     delete:'n'
     //   };
     //   console.log(that.downloadtemplatetype,'that.downloadtemplatetype')
     //   console.log(Base64.encode(that.downloadtemplatetype),'Base64.encode')
@@ -968,16 +977,19 @@ export default {
   .tabs-animation {
     width: 100%;
   }
-  .ico_docu{
-    margin-right:2px; background:url('../../assets/images/5.png') no-repeat;
+  .ico_docu {
+    margin-right: 2px;
+    background: url("../../assets/images/5.png") no-repeat;
     background-size: 20px 20px !important;
   }
-  .ico_open{
-    margin-right:2px; background:url('../../assets/images/4.png') no-repeat;
+  .ico_open {
+    margin-right: 2px;
+    background: url("../../assets/images/4.png") no-repeat;
     background-size: 20px 20px !important;
   }
-  .ico_close{
-    margin-right:2px; background:url('../../assets/images/6.png') no-repeat;
+  .ico_close {
+    margin-right: 2px;
+    background: url("../../assets/images/6.png") no-repeat;
     background-size: 20px 20px !important;
   }
   #tabs {
@@ -989,8 +1001,7 @@ export default {
       display: flex;
       background: #f5f5f5;
       border-radius: 10px 10px 0 0;
-      
-    
+
       .tabs-tab {
         // width: 170px;
         max-width: 240px;
@@ -1008,7 +1019,7 @@ export default {
         color: rgba(0, 0, 0, 0.4);
         letter-spacing: 0;
         background: #e8e8e8;
-        .newtabs-tab-tit{
+        .newtabs-tab-tit {
           display: inline-block;
           // min-width: 100px;
           // width: 100px;
