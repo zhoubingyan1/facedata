@@ -952,7 +952,7 @@ export default {
     // },
     downloadEXCEL(){
       let that=this
-      let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B')
+      let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(encodeURI(that.downloadtemplatetype)).replace(/\+/g,'%2B')
       let a = document.createElement('a');
       a.id = 'temp';
       document.body.appendChild(a);
