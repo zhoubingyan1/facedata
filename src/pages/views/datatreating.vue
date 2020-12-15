@@ -943,15 +943,15 @@ export default {
     // },
     downloadEXCEL(){
       let that=this
-        let data='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B')
-        let url = window.URL.createObjectURL(new Blob([data]));
-        let link = document.createElement('a');
-        link.style.display = 'none';
-        link.href = encodeURI(url);
-        link.setAttribute('download', '模版');
-        document.body.appendChild(link);
-        link.click();
-
+      let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B')
+      let a = document.createElement('a');
+      a.id = 'temp';
+      document.body.appendChild(a);
+      a.addEventListener('click', function(){
+        window.open(encodeURI(url),'_blank');
+      });
+      a.click();
+      document.body.removeChild(a);
     },
   },
 };

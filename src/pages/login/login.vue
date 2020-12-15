@@ -465,14 +465,12 @@ export default {
         animation-iteration-count: 1;
       }
       .ivu-icon {
-        line-height: 50px;
+        line-height: 60px;
         color: #fff;
         font-size: 60px;
       }
     }
 
-    ::v-deep {
-    }
   }
   .logincheckbox {
     // transform: translate(-50%, -50%);

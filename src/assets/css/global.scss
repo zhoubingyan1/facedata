@@ -1,6 +1,10 @@
 html,body{
   height: 100%;
 }
+:after,
+:before {
+  vertical-align: baseline !important;
+}
 
 //全局颜色
 :root {
