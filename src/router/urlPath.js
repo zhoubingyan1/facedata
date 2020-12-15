@@ -26,6 +26,7 @@ export default {
 
     DATATREATINGDELETE: '/v3/sys/explorer/sys.explorer.direct',
 
-    getByCatalog: '/v3/sys/explorer/sys.explorer.direct'
+    getByCatalog: '/v3/sys/explorer/sys.explorer.direct',
+    GETTEMPLATEFIES:'v3/sys/explorer/dfi.excel.direct',
 
 }

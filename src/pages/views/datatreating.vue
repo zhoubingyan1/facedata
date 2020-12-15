@@ -173,32 +173,25 @@
         <div class="datamodal_item">
           <div class="datamodal_item-title">模板类型:</div>
           <div class="datamodal_item_flex">
-            <Select v-model="model8" clearable class="downloadtemplate_content">
+            <Select v-model="downloadtemplatetype" clearable class="downloadtemplate_content">
               <Option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-              >{{ item.label }}</Option>
+                v-for="item in DownloadtemplateList"
+                :value="item.fileAllPath"
+                :key="item.fileAllPath"
+              >{{ item.fileName }}</Option>
             </Select>
-            <!-- <div class="select-head">
-                            <span class="select-head-cont">{{cont}}</span>
-                            <span class="select-icon">▼</span>
-                        </div>
-                        <ul class="option">
-                            <li class="option-item" v-for="item in cityList" @click="optionClick(v-1)">「「</li>
-            </ul>-->
           </div>
         </div>
-        <div class="datamodal_item">
+        <!-- <div class="datamodal_item">
           <div class="datamodal_item-title">模板名称:</div>
           <div class="datamodal_item_flex">
             <textarea v-model="templatename" class="textarea-control" placeholder="非必填"></textarea>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="datamodal_footer">
         <button class="btn">推出</button>
-        <button class="btn">保存</button>
+        <button class="btn" @click="downloadEXCEL">保存</button>
       </div>
     </Modal>
     <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
@@ -222,6 +215,7 @@
 import linetree from "../components/linetree/linetree";
 import { Tabs, TabPane } from "../components/tabs/index";
 import ztree from "../components/ztree/ztree";
+let Base64 = require('js-base64').Base64
 
 const simpleData = [
   { id: 1, pid: 0, name: "随意勾选 1", open: false, },
@@ -293,7 +287,7 @@ export default {
 
       downloadTemplate_modal: false, //下载模版弹窗
       templatename: "2020914KPI2101", //模版名称
-      model8: "",
+      downloadtemplatetype: "",
 
       systemtips_modal: false, //系统提示弹窗
       
@@ -392,11 +386,7 @@ export default {
         columns: [],
         data: [],
       },
-      cityList: [
-        {
-          label: "123",
-          value: "111",
-        },
+      DownloadtemplateList: [
       ],
     };
   },
@@ -604,6 +594,35 @@ export default {
     //下载数据
     downloaddata() {
       this.downloadTemplate_modal = true;
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getTemplateFiles",
+        data: [],
+      };
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.GETTEMPLATEFIES, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            var res = success.data.result
+            if(res.length>0){
+              that.DownloadtemplateList= success.data.result
+            }
+          },
+          (error) => {
+            that.$Message.error({
+                content: '删除失败,请联系管理员',
+                duration: 1
+            })
+            // that.err_list = ["登录异常", "请联系管理员"];
+            // that.errorTips_modal = true;
+          }
+        );
+    
+    
+
     },
     onExpand: function(evt, treeId, treeNode) {
       // 点击事件
@@ -883,6 +902,32 @@ export default {
       }
     },
     UploadMore(e) {},
+    downloadEXCEL(){
+      let that = this;
+      var params = {// 参数
+        path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'), delete:'n' 
+      };
+      console.log(that.downloadtemplatetype,'that.downloadtemplatetype')
+      console.log(Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'),'Base64.encode')
+      var form = document.createElement('form');
+      form.id = 'form'
+      form.name = 'form'
+      document.body.appendChild(form);
+      for(var obj in params) {
+        if(params.hasOwnProperty(obj)) {
+          var input = document.createElement('input');
+          input.tpye='hidden';
+          input.name = obj;
+          input.value = params[obj];
+          form.appendChild(input)
+        }
+      }
+      form.method = "Get";//请求方式
+      // form.action = process.env.API_PATH+'/v3/sys/explorer/document.kbsdownload';
+      form.action='http://192.168.1.236:8081/v3/sys/explorer/document.kbsdownloa';
+      form.submit();
+      document.body.removeChild(form);
+    },
   },
 };
 </script>
@@ -1276,7 +1321,9 @@ export default {
       top: 14px;
     }
     .layer_header {
-      height: 60px;
+      text-align: left;
+      // height: 60px;
+      padding-top: 20px;
       line-height: 60px;
       overflow: hidden;
       padding-left: 30px;
