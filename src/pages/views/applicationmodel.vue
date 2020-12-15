@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="datamodal_footer">
-                <button class="btn" @click="lendinginleavefail">推出</button>
+                <button class="btn" @click="lendinginleavefail">退出</button>
                 <button class="btn" @click="lendinginsave">保存</button>
             </div>
         </Modal>
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="datamodal_footer">
-                <button class="btn">推出</button>
+                <button class="btn">退出</button>
                 <button class="btn">保存</button>
             </div>
         </Modal>

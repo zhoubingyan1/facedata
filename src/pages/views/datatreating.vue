@@ -210,7 +210,7 @@
         </div>-->
       </div>
       <div class="datamodal_footer">
-        <button class="btn">推出</button>
+        <button class="btn">退出</button>
         <button class="btn" @click="downloadEXCEL">保存</button>
       </div>
     </Modal>
