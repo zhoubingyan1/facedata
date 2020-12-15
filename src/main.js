@@ -34,6 +34,11 @@ import {
   formatTime
 } from '@/utils/util'
 
+import Vuetify from 'vuetify'
+import vuetify from '@/plugins/vuetify'
+import 'vuetify/dist/vuetify.min.css'
+
+Vue.use(Vuetify)
 Vue.prototype.getCookie = getCookie
 Vue.prototype.setCookie = setCookie
 Vue.prototype.delCookie = delCookie
@@ -54,6 +59,8 @@ Vue.prototype.PATH = requestURL
 new Vue({
   el: '#app',
   router,
+  vuetify,
   components: { App },
+  
   template: '<App/>'
 })
