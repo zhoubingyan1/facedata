@@ -83,7 +83,7 @@
         </div>
         <div v-else-if="item.name=='2'">
           <iframe
-            src="http://192.168.1.236:8081/miner/v3/desktop/index.html"
+            src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.store'"
             class="myiframe"
             frameborder="0"
           ></iframe>
