@@ -1368,7 +1368,7 @@ export default {
     .datamodal_content {
       padding: 30px 20px;
       // min-height: 200px;
-      overflow: scroll;
+      // overflow: scroll;
       .datamodal_item {
         display: flex;
         margin-bottom: 20px;
