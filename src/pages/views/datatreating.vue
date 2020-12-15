@@ -1367,6 +1367,8 @@ export default {
     }
     .datamodal_content {
       padding: 30px 20px;
+      // min-height: 200px;
+      overflow: scroll;
       .datamodal_item {
         display: flex;
         margin-bottom: 20px;
@@ -1446,6 +1448,10 @@ export default {
           padding: 0px 10px;
           box-sizing: border-box;
           border: none;
+          .ivu-select-dropdown-list{
+            height: 100px;
+            overflow: scroll;
+          }
         }
         .downloadtemplate {
           // display: flex;
@@ -1492,6 +1498,7 @@ export default {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      padding:0px 20px 14px 20px;
     }
     .systemtips_content {
       text-align: center;
