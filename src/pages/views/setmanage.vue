@@ -269,7 +269,7 @@
                 <!-- 标准目录 -->
                 <div v-else>
                     <div class="datatreating_fr_table">
-                        <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table" style="background:#fff;">
                             <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
                             <div class="setmanagetree-tit">目录名称</div>
                             <div class="setmanagetree">
@@ -357,13 +357,6 @@
                         <Select v-model="model8" clearable class="downloadtemplate_content">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <!-- <div class="select-head">
-                            <span class="select-head-cont">{{cont}}</span>
-                            <span class="select-icon">▼</span>
-                        </div>
-                        <ul class="option">
-                            <li class="option-item" v-for="item in cityList" @click="optionClick(v-1)">「「</li>
-                        </ul> -->
                     </div>
                 </div>
                 <div class="datamodal_item">
@@ -376,6 +369,16 @@
             <div class="datamodal_footer">
                 <button class="btn">推出</button>
                 <button class="btn">保存</button>
+            </div>
+        </Modal>
+        <!-- 目录 增加目录名称 -->
+        <Modal v-model="datatreatingEdit_modal" class-name="vertical-center-modal">
+            <div class="datamodal_content">
+                 <Input v-model="datatreatingEditname" placeholder="请输入节点名称"  />
+            </div>
+            <div class="datamodal_footer">
+                <button class="btn" @click="canceldatatreatingEditmodal">取消</button>
+                <button class="btn" @click="confirmdatatreatingEditmodal">确定</button>
             </div>
         </Modal>
          <!-- 错误提示 -->
@@ -400,21 +403,6 @@
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
 import ztree from "../components/ztree/ztree";
-const simpleData = [
-  { id: 1, pid: 0, name: "随意勾选 1", open: false, },
-  { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
-  { id: 111, pid: 11, name: "随意勾选 1-1-1" , open: false },
-  { id: 112, pid: 11,open: false, name: "随意勾选 1-1-2",},
-  { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
-  { id: 121, pid: 12, name: "随意勾选 1-2-1" , open: false },
-  { id: 122, pid: 12, name: "随意勾选 1-2-2" , open: false },
-  { id: 2, pid: 0,name: "随意勾选 2-1" ,open: false, },
-  { id: 21, pid: 2, name: "随意勾选 2-1" , open: false },
-  { id: 22, pid: 2, name: "随意勾选 2-2", open: false, },
-  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true , open: false,},
-  { id: 222, pid: 22, name: "随意勾选 2-2-2" , open: false },
-  { id: 23, pid: 2, name: "随意勾选 2-3" , open: false }
-];
 function addDiyDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
@@ -433,7 +421,10 @@ export default {
     },
     data(){
         return{
-
+            datatreatingEdit_modal:false,
+            datatreatingEditname:'',//目录节点名称
+            nodeitem:null,//暂存node节点信息
+            datatreatingtype:'new',
             ztreeObj: null,
             setting: {
                 async:{
@@ -452,9 +443,7 @@ export default {
                 }
             }, //树节点设置
             nodes:[],
-            nodes:simpleData,
             departmentnodes:[],
-            departmentnodes:simpleData,
 
             datatreatingsetting: {
                 async:{
@@ -474,7 +463,6 @@ export default {
                 }
             }, //树节点设置
             datatreatingnodes:[],
-            datatreatingnodes:simpleData,
             // addDiyDom
 
             allAlign: null,
@@ -1222,53 +1210,156 @@ export default {
         }
     },
     created(){
-        // this.getdata()
+        this.getdatatreatingdata() //获取目录的列表
     },
     mounted(){
 
     },
     methods: {
-        //获取列表
-        getdata() {
+        //获取标准目录的列表
+        getdatatreatingdata() {
             var that = this;
             var query = {
                 action: "Service",
-                method: "getCurUserMarts",
-                data: [],
+                method: "getChildrenBySource",
+                data: ["DAPAPP",-4],
+                type:"rpc",
+                tid:5
             };
             that.$Spin.show()
-            that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query)).then(
                 (success) => {
                     that.$Spin.hide()
-                // console.log(success.data.result);
-                if(success.data.result.length==0){
-                    //弹窗 内容  你没有使用本系统的权限!
-                    that.err_list = ["你没有使用本系统的权限!"];
-                    that.errorTips_modal = true;
-                    return;
-                }
-                that.list = success.data.result;
+                    console.log(success.data);
+                    let res=success.data.result
+                    that.datatreatingnodes = success.data.result;
                 },
                 (error) => {
                     that.$Spin.hide()
-                that.err_list = ["登录异常", "请联系管理员"];
-                that.errorTips_modal = true;
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
                 }
             );
         },
+        //
         addDiyDom(treeid, treeNode){
             const item = document.getElementById(`${treeNode.tId}_a`);
+            let that =this
             if(item && !item.querySelector('.tree_extra_btn')){
-                const btn = document.createElement('sapn');
-                btn.id = `${treeid}_${treeNode.id}_btn`;
-                btn.classList.add('tree_extra_btn');
-                btn.innerText = '删除';
-                btn.addEventListener('click', (e) => {
-                e.stopPropagation()
-                this.clickRemove(treeNode)
+                const addbtn = document.createElement('sapn');
+                addbtn.id = `${treeid}_${treeNode.id}_addbtn`;
+                addbtn.classList.add('tree_extra_addbtn');
+                addbtn.innerText = '增加';
+                addbtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='new'
+                    that.datatreatingEdit_modal = true
+                    that.nodeitem=treeNode
+                    // this.clickaddbtn(treeNode)
                 })
-                item.appendChild(btn);
+                item.appendChild(addbtn);
+                const renamebtn = document.createElement('sapn');
+                renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
+                renamebtn.classList.add('tree_extra_renamebtn');
+                renamebtn.innerText = '重命名';
+                renamebtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='edit'
+                    that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = treeNode.name
+                    that.nodeitem=treeNode
+                    // this.clickRename(treeNode)
+                })
+                item.appendChild(renamebtn);
+                const delbtn = document.createElement('sapn');
+                delbtn.id = `${treeid}_${treeNode.id}_delbtn`;
+                delbtn.classList.add('tree_extra_delbtn');
+                delbtn.innerText = '删除';
+                delbtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.DelDatatreatinNode(treeNode)
+                })
+                item.appendChild(delbtn);
             }
+        },
+        //弹框取消
+        canceldatatreatingEditmodal(){
+            this.datatreatingEdit_modal =false
+        },
+        //弹框确定
+        confirmdatatreatingEditmodal(){
+            let that =this
+            let nodeinfo= that.nodeitem
+            if(that.datatreatingtype=='edit'){
+                that.RenameDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+            }else{
+                that.addDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+            }
+            
+        },
+         addDatatreatinNode(nodeid,nodename) {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "add",
+                data: [nodeid,nodename,"DAPAPP"]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCEADD, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.getdatatreatingdata()
+                    that.datatreatingEdit_modal = false
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
+        },
+        RenameDatatreatinNode(nodeid,nodename) {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "rename",
+                data: [nodeid,nodename,"DAPAPP"]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCERENAME, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.getdatatreatingdata
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
+        },
+        DelDatatreatinNode(nodeid,nodename) {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "delete",
+                data: [treeNode.id]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCEDEL, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.getdatatreatingdata()
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
         },
         //切换算法的分页
         changearithmetictablePage(page){

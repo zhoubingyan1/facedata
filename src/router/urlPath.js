@@ -15,9 +15,6 @@ export default {
 
     GETCURUSERMARTS: '/sys.login.direct',
     GETCURUSERUNITS: '/sys.login.direct',
-    // setMart	
-    // setUnit	
-    // /sys/explorer/dfi.upload
     GETCOLUMS: '/v3/qry/common/base.entity.direct',
     PAGEQUERYNOCOUNT: '/v3/qry/common/qry.common.direct',
 
@@ -28,5 +25,11 @@ export default {
 
     getByCatalog: '/v3/sys/explorer/sys.explorer.direct',
     GETTEMPLATEFIES:'v3/sys/explorer/dfi.excel.direct',
+
+    GETCHILDRENBYSOURCELIST: '/v3/sys/catalog/sys.catalog.direct', //标准目录 获取列表
+    GETCHILDRENBYSOURCEADD: '/v3/sys/catalog/sys.catalog.direct', //标准目录 增加
+    GETCHILDRENBYSOURCERENAME: '/v3/sys/catalog/sys.catalog.direct', //标准目录 重命名
+    GETCHILDRENBYSOURCEDEL: '/v3/sys/catalog/sys.catalog.direct', //标准目录 删除
+
 
 }
