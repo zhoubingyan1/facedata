@@ -404,7 +404,7 @@
             <div
             class="facedata-btn-confirm"
             style="margin-right: 20px"
-            @click="datatreatingDel"
+            @click="datatreatingmenuDel"
             >删除</div>
             <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
         </div>
@@ -433,6 +433,7 @@ export default {
     },
     data(){
         return{
+            delID:'',
             delModal:false,//删除弹框
             datatreatingEdit_modal:false,
             datatreatingEditname:'',//目录节点名称
@@ -1278,10 +1279,7 @@ export default {
                 this.treeClick(evt, treeId, treeNode);
             }
         },
-        //删除弹框
-        datatreatingDel(){
-
-        },
+        
         treeClick: function (evt, treeId, treeNode) {
             // 点击事件
             // console.log(treeNode.open,'onClick');
@@ -1346,7 +1344,8 @@ export default {
                 delbtn.innerText = '   删除';
                 delbtn.addEventListener('click', (e) => {
                     e.stopPropagation()
-                    that.DelDatatreatinNode(treeNode)
+                    that.delModal=true
+                    that.nodeitem=treeNode
                 })
                 item.appendChild(delbtn);
                 const renamebtn = document.createElement('sapn');
@@ -1372,6 +1371,7 @@ export default {
                     e.stopPropagation()
                     that.datatreatingtype='new'
                     that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = ''
                     that.nodeitem=treeNode
                     // this.clickaddbtn(treeNode)
                 })
@@ -1393,7 +1393,7 @@ export default {
             }
             
         },
-         addDatatreatinNode(nodeid,nodename) {
+        addDatatreatinNode(nodeid,nodename) {
             var that = this;
             var query = {
                 action: "Service",
@@ -1437,12 +1437,14 @@ export default {
                 }
             );
         },
-        DelDatatreatinNode(treeNode) {
+        //删除弹框
+        datatreatingmenuDel(){
             var that = this;
+            let treeNodeinfo=that.nodeitem
             var query = {
                 action: "Service",
                 method: "delete",
-                data: [treeNode.id]
+                data: [treeNodeinfo.id]
             };
             that.$Spin.show()
             that.$http.post(that.PATH.GETCHILDRENBYSOURCEDEL, JSON.stringify(query)).then(
@@ -1450,6 +1452,7 @@ export default {
                     that.$Spin.hide()
                     console.log(success.data);
                     that.getdatatreatingdata()
+                    that.delModal=false
                 },
                 (error) => {
                     that.$Spin.hide()
@@ -1458,6 +1461,7 @@ export default {
                 }
             );
         },
+        
         //切换算法的分页
         changearithmetictablePage(page){
             this.arithmetictable.page = page;

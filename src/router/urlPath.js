@@ -32,9 +32,9 @@ export default {
     GETCHILDRENBYSOURCEDEL: '/v3/sys/catalog/sys.catalog.direct', //标准目录 删除
 
     EXPLORERGETEXCELINFO: '/v3/sys/explorer/dfi.excel.direct', //导入10
-    EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',
-    EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',
-    EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',
+    EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',//提交sheet
+    EXPLORERGETCHILDRENBYSOURCELIST: '/v3/sys/explorer/sys.catalog.direct', //导入保存的左边树父节点
+    EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',//导入保存的左边树子节点
     EXPLORERsearchNoPage: '/v3/sys/explorer/sys.explorer.direct',
     EXPLORERisNameExit: '/v3/sys/explorer/dfi.direct',
     EXPLORERGETDEFAULTemplet: '/v3/sys/explorer/dfi.excel.direct',

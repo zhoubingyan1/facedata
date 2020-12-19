@@ -166,11 +166,11 @@
           :setting="setting"
           :nodes="nodes3"
           @onClick="onClickLeadinSheet"
-          @onCreated="handleCreated" 
+          @onCreated="handleCreatedLeadinSheet" 
         ></ztree>
       </div>
       <div class="datamodal_footer">
-        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="datatreatingsheetfail">退出</button>
         <button class="btn" @click="sheetsavebutton">保存</button>
       </div>
     </Modal>
@@ -186,7 +186,9 @@
             @onCreated="handleCreated" 
           ></ztree>
         </Col>
-        <Col span="18">
+        <Col span="1">
+        </col>
+        <Col span="17">
           <Table
           class="facedata-table account-table"
           stripe
@@ -196,7 +198,7 @@
         </Col>
       </Row>
       <div class="datamodal_footer">
-        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="datatreatingsheetsavefail">退出</button>
         <button class="btn" @click="lendinginsheetsave">保存</button>
       </div>
     </Modal>
@@ -208,8 +210,8 @@
           <Form ref="formCustom" :model="formCustom" :label-width="80">
             <FormItem label="是否标题" prop="passwd">
               <RadioGroup v-model="formCustom.gender">
-                <Radio label="male">Male</Radio>
-                <Radio label="female">Female</Radio>
+                <Radio label="1">是</Radio>
+                <Radio label="0">否</Radio>
               </RadioGroup>
             </FormItem>
             <FormItem label="列区间" prop="passwdCheck">
@@ -247,7 +249,7 @@
         </Col>
       </Row>
       <div class="datamodal_footer">
-        <Button @click="lendinginleavefail" style="margin-left: 8px">退出</Button>
+        <Button @click="firstsheetsavefail" style="margin-left: 8px">退出</Button>
         <Button @click="lendinginsavefirst('formCustom')">保存</Button>
       </div>
     </Modal>
@@ -275,7 +277,7 @@
         </Col>
       </Row>
       <div class="datamodal_footer">
-        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="sencdsheetsavefail">退出</button>
         <button class="btn" @click="secondlendinginsave">保存</button>
       </div>
     </Modal>
@@ -438,17 +440,19 @@ export default {
       treenodeID: null, //记录树的id
 
       nodes3: [],
-      nodes3:simpleData,
+      // nodes3:simpleData,
       nodes4: [],
-      nodes4:simpleData,
+      // nodes4:simpleData,
 
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 
       datatreating_modal: false, //导入弹窗
       datatreatingsheet_modal:false,//导入sheet页
+      ztreeUploadingObj: null,
       leadinUploadingid:'1607823864000000',//上传文件后的文件id
       leadinUploadingsheets:{},//上传文件后的文件sheets
+      isClickSheets:false, //是否确定过sheet
       datatreatingsheetsave_modal:false,//保存sheet页
       firstsheetsave_modal:false,//配置第一步弹框
       sencdsheetsave_modal:false,//配置第二步弹框
@@ -779,6 +783,8 @@ export default {
       // this.systemtips_modal = true;
       let that=this
       that.datatreatingsheet_modal=true
+      that.datatreating_modal=false
+      that.isClickSheets=false
       //获取树的列表
       that.getLeadInLIST(that.leadinUploadingid)
     },
@@ -797,6 +803,7 @@ export default {
             console.log(success.data.result);
             let res =success.data.result
             // {"fileName":"附件1-经营&资产质量类指标.xlsx","sheets":[{"index":1,"name":"Sheet1"}],"type":"XLSX"}
+            res.open=true
             res.name=res.fileName
             res.children=res.sheets
             that.leadinUploadingsheets=res.sheets//上传文件后的文件sheets
@@ -814,24 +821,32 @@ export default {
     },
     //导入sheet项
     sheetsavebutton(){
-      this.datatreatingsheetsave_modal=true
-      this.RequestcheckSheets(this.leadinUploadingid,this.leadinUploadingsheets)
+      if(!this.isClickSheets){
+        this.$Message.error({
+          content: "请选择sheet",
+          duration: 1,
+        });
+      }else{
+        this.datatreatingsheetsave_modal=true
+        this.datatreatingsheet_modal=false
+        this.RequestcheckSheets(this.leadinUploadingid,this.leadinUploadingsheets)
+        this.RequestGetSaveTreeList()
+      }
+      
     },
     RequestcheckSheets(fileId,sheets){
       var that = this;
       var query = {
         action: "Service",
         method: "checkSheets",
-        data: [fileId,[sheets]],
+        data: [fileId,sheets],
       };
-      // [1607823864000000,[{"index":1,"name":"\u5206\u884c\u539f\u59cb\u8868"}]]
       let newResult = new Array();
       that.$http
         .post(that.PATH.EXPLORERCHECKSHEETS, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data.result);
-            let res =success.data.result
+            
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -839,18 +854,69 @@ export default {
           }
         );
     },
+    RequestGetSaveTreeList(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildrenBySource",
+        data: ["EXPLORER",0],
+      };
+      that.$http
+        .post(that.PATH.EXPLORERGETCHILDRENBYSOURCELIST, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data.result);
+            let res =success.data.result
+
+            if (res.length > 0) {
+              res.forEach((v, i) => {
+                res[i].open = false;
+                if (res[i].right - res[i].left != 1) {
+                  res[i].isParent = true;
+                  res[i].children = [];
+                }
+                if (res[i].right - res[i].left == 1) {
+                  res[i].isParent = false;
+                }
+              });
+            }
+            that.nodes4=res
+
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
     //sheet保存
     lendinginsheetsave(){
       this.firstsheetsave_modal=true
+      this.datatreatingsheetsave_modal=false
     },
     //配置第二步确认
     secondlendinginsave(){
       // this.firstsheetsave_modal=true
       this.systemtips_modal=true
+      this.sencdsheetsave_modal=false //配置第一步弹框消失
     },
     //导入推出
     lendinginleavefail() {
       this.leadingInFail_modal = true;
+    },
+    datatreatingsheetfail(){
+      this.datatreatingsheet_modal = true;
+      this.isClickSheets =false
+    },
+    datatreatingsheetsavefail(){
+      this.datatreatingsheetsave_modal=false
+    },
+    firstsheetsavefail(){
+       this.firstsheetsave_modal=false
+    },
+    sencdsheetsavefail(){
+      this.sencdsheetsave_modal=false
     },
     //下载数据
     downloaddata() {
@@ -959,28 +1025,8 @@ export default {
     //导入的sheet页
     onClickLeadinSheet: function (evt, treeId, treeNode) {
       // 点击事件
-      if (!treeNode.open) {
-        var that = this;
-        var query = {
-          action: "Service",
-          method: "checkSheets",
-          data: [fileId,[sheets]],
-        };
-        // [1607823864000000,[{"index":1,"name":"\u5206\u884c\u539f\u59cb\u8868"}]]
-        let newResult = new Array();
-        that.$http
-          .post(that.PATH.EXPLORERCHECKSHEETS, JSON.stringify(query))
-          .then(
-            (success) => {
-              console.log(success.data.result);
-              let res =success.data.result
-            },
-            (error) => {
-              that.err_list = ["登录异常", "请联系管理员"];
-              that.errorTips_modal = true;
-            }
-          );
-        }
+      this.isClickSheets=true
+
     },
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
@@ -991,12 +1037,70 @@ export default {
     onClick4: function (evt, treeId, treeNode) {
       // 点击事件
       if (!treeNode.open) {
-        this.treeClick(evt, treeId, treeNode);
+        this.SheetSavetreeClick(evt, treeId, treeNode);
+      }
+    },
+    SheetSavetreeClick: function (evt, treeId, treeNode) {
+      // 点击事件
+      // console.log(treeNode.open,'onClick');
+      // this.treenodeID = treeNode.id;
+      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildrenBySource",
+        data: [treeNode.id],
+      };
+      if (treeNode.right - treeNode.left == 1) {
+        //文件,获取右边的表格
+        // this.gettable(treeNode.id)
+        this.table.page = 1;
+        this.currenttableid = treeNode.id;
+        // this.gettable(treeNode.id, this.table.page, this.table.pagesize);
+      } else {
+        //文件夹
+        treeNode.children = [];
+        // that.gettable(treeNode.id, that.table.page, that.table.pagesize);
+        if (treeNode.isParent) {
+          that.$http
+            .post(that.PATH.EXPLORERGETCHILDRENBYSOURCE, JSON.stringify(query))
+            .then(
+              (success) => {
+                // console.log(success.data.result);
+                const childrenData = eval(success.data.result);
+                //判断子节点是否包含子元素
+                // for(var i in childrenData){
+                //     if(childrenData[i].isContainSon === 1){
+                //         childrenData[i].isParent = true;
+                //     }
+                // };
+                childrenData.forEach((v, i) => {
+                  childrenData[i].open = false;
+                  if (childrenData[i].right - childrenData[i].left != 1) {
+                    childrenData[i].isParent = true;
+                    childrenData[i].children = [];
+                  }
+                  if (childrenData[i].right - childrenData[i].left == 1) {
+                    childrenData[i].isParent = false;
+                  }
+                });
+                // console.log(childrenData)
+                this.ztreeUploadingObj.refresh();
+                this.ztreeUploadingObj.addNodes(parentZNode, childrenData, false); //添加节点
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+              }
+            );
+        }
       }
     },
     //
     lendinginsavefirst(name){
       this.sencdsheetsave_modal=true
+      this.firstsheetsave_modal=false
       this.$refs[name].validate(valid => {
           if (valid) {
             let path = "";
@@ -1018,7 +1122,13 @@ export default {
       // onCreated 中操作ztreeObj对象展开第一个节点
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
-
+    handleCreatedLeadinSheet:function(newztreeObj){
+      console.log(newztreeObj,'newztreeObj')
+      let that=this
+      that.ztreeUploadingObj = newztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      newztreeObj.expandNode(newztreeObj.getNodes()[0], true);
+    },
     tabclick(item) {
       console.log(item, "item");
       // this.tabsvalue = item.toString();
@@ -1215,6 +1325,7 @@ export default {
         }
       );
     },
+    //关闭tab的x
     closeicon(index) {
       // console.log(item)
       this.TabList.splice(index, 1);
@@ -1224,6 +1335,7 @@ export default {
         this.tabsvalue = newname.toString();
       }
     },
+    //上传excel
     UploadMore(e) {
       console.log(e)
       let files = e.target.files || e.dataTransfer.files;
@@ -1250,6 +1362,7 @@ export default {
       
 
     },
+    //下载excel
     downloadEXCEL(){
       let that=this
       let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(encodeURI(that.downloadtemplatetype)).replace(/\+/g,'%2B')
@@ -1680,6 +1793,7 @@ export default {
     .datatreting-sheet-content{
       height: 500px;
       overflow: scroll;
+      padding-top: 30px;
     }
     .datamodal_content {
       padding: 30px 20px;
@@ -1861,7 +1975,9 @@ export default {
     }
   }
   .Systemicselection_head_content{
-    padding:50px 0px;
+    padding:30px 0px;
+    height: 500px;
+    overflow: scroll;
   }
   .ivu-form-item .ivu-form-item .ivu-form-item-content{
     margin-left: 80Px !important;
