@@ -31,5 +31,14 @@ export default {
     GETCHILDRENBYSOURCERENAME: '/v3/sys/catalog/sys.catalog.direct', //标准目录 重命名
     GETCHILDRENBYSOURCEDEL: '/v3/sys/catalog/sys.catalog.direct', //标准目录 删除
 
+    EXPLORERGETEXCELINFO: '/v3/sys/explorer/dfi.excel.direct', //导入10
+    EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',
+    EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',
+    EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',
+    EXPLORERsearchNoPage: '/v3/sys/explorer/sys.explorer.direct',
+    EXPLORERisNameExit: '/v3/sys/explorer/dfi.direct',
+    EXPLORERGETDEFAULTemplet: '/v3/sys/explorer/dfi.excel.direct',
+    EXPLORERFETCHDATA: '/v3/sys/explorer/dfi.excel.direct',
+    EXPLORERDOAUTOIMPORT: '/v3/sys/explorer/dfi.excel.direct',
 
 }

@@ -126,8 +126,7 @@
       </TabPane>
     </Tabs>
     <!-- 导入弹窗 -->
-    <Modal v-model="datatreating_modal" class-name="vertical-center-modal">
-      <!-- 导入 -->
+    <Modal v-model="datatreating_modal" width="600" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">导入</div>
       <div class="datamodal_content">
         <div class="datamodal_item">
@@ -159,57 +158,158 @@
       </div>
     </Modal>
     <!-- 导入的sheet项 -->
-    <Modal v-model="datatreatingsheet_modal" class-name="vertical-center-modal">
-      <!-- 导入 -->
+    <Modal v-model="datatreatingsheet_modal" width="600" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">请选择需要导入的sheet页</div>
-      <ztree
-        :setting="setting"
-        :nodes="nodes3"
-        @onClick="onClick3"
-        @onCreated="handleCreated" 
-      ></ztree>
+      <div class="datatreting-sheet-content">
+        <ztree
+          :setting="setting"
+          :nodes="nodes3"
+          @onClick="onClick3"
+          @onCreated="handleCreated" 
+        ></ztree>
+      </div>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
         <button class="btn" @click="lendinginsave1">保存</button>
       </div>
     </Modal>
     <!-- sheet保存 -->
-    <Modal v-model="datatreatingsheetsave_modal" class-name="vertical-center-modal">
-      <!-- 导入 -->
+    <Modal v-model="datatreatingsheetsave_modal" width="1000" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">保存</div>
-      <div>
-        <ztree
-          :setting="setting"
-          :nodes="nodes4"
-          @onClick="onClick4"
-          @onCreated="handleCreated" 
-        ></ztree>
-        <Table
+      <Row class="Systemicselection_head_content">
+        <Col span="6">
+          <ztree
+            :setting="setting"
+            :nodes="nodes4"
+            @onClick="onClick4"
+            @onCreated="handleCreated" 
+          ></ztree>
+        </Col>
+        <Col span="18">
+          <Table
           class="facedata-table account-table"
           stripe
-          :columns="othertable.columns"
-          :data="othertable.data"
+          :columns="sheettable.columns"
+          :data="sheettable.data"
         ></Table>
-      </div>
+        </Col>
+      </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
         <button class="btn" @click="lendinginsave2">保存</button>
       </div>
     </Modal>
-    <!-- 系统提示弹窗 -->
-    <Modal v-model="systemtips_modal" class-name="vertical-center-modal" :closable="false">
-      <!-- 导入失败 -->
+    <!-- 配置第一步 -->
+    <Modal v-model="firstsheetsave_modal" width="1000" class-name="vertical-center-modal">
+      <div class="layer_header" style="cursor: move;">配置第一步</div>
+      <Row class="Systemicselection_head_content">
+        <Col span="24">
+          <Form ref="formCustom" :model="formCustom" :label-width="80">
+            <FormItem label="是否标题" prop="passwd">
+              <RadioGroup v-model="formCustom.gender">
+                <Radio label="male">Male</Radio>
+                <Radio label="female">Female</Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label="列区间" prop="passwdCheck">
+              <Row>
+                <Col span="12">
+                    <FormItem label="开始" :label-width="80">
+                        <Input type="number" v-model="formCustom.passwd"></Input>
+                    </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem label="结束" :label-width="80">
+                      <Input type="number" v-model="formCustom.passwd"></Input>
+                    </FormItem>
+                </Col>
+              </Row>
+            </FormItem>
+            <FormItem label="行区间" prop="age">
+              <Row>
+                <Col span="12">
+                    <FormItem label="开始">
+                        <Input type="number" v-model="formCustom.passwd"></Input>
+                    </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem label="结束">
+                      <Input type="number" v-model="formCustom.passwd"></Input>
+                    </FormItem>
+                </Col>
+              </Row>
+            </FormItem>
+            <FormItem>
+                
+            </FormItem>
+          </Form>
+        </Col>
+      </Row>
+      <div class="datamodal_footer">
+        <Button @click="lendinginleavefail" style="margin-left: 8px">退出</Button>
+        <Button @click="lendinginsavefirst('formCustom')">保存</Button>
+      </div>
+    </Modal>
+    <!-- 配置第二步 -->
+    <Modal v-model="sencdsheetsave_modal" width="1000" class-name="vertical-center-modal">
+      <div class="layer_header" style="cursor: move;">配置第二步</div>
+      <Row class="sencdsheetsave-modal-content1">
+        <Col span="24">
+          <Table
+          class="facedata-table account-table"
+          stripe
+          :columns="sheetseetingtable1.columns"
+          :data="sheetseetingtable1.data"
+        ></Table>
+        </Col>
+      </Row>
+      <Row class="sencdsheetsave-modal-content2">
+        <Col span="24">
+          <Table
+          class="facedata-table account-table"
+          stripe
+          :columns="sheetseetingtable2.columns"
+          :data="sheetseetingtable2.data"
+        ></Table>
+        </Col>
+      </Row>
+      <div class="datamodal_footer">
+        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="lendinginsave3">保存</button>
+      </div>
+    </Modal>
+    <!-- 导入成功系统提示弹窗 -->
+    <Modal v-model="systemtips_modal" width="600" class-name="vertical-center-modal" :closable="false">
       <div class="layer_header" style="cursor: move;">系统提示</div>
       <div class="systemtips_content">
         <img class="icon" src="../../assets/images/wrong.png" />
         <div class="successtips">导入成功</div>
+      </div>
+      <div class="datamodal_content">
+        <div class="datamodal_item">
+          <div class="datamodal_item-title">是否创建模版:</div>
+          <div class="datamodal_item_flex" style="position: relative;">
+            <div class="choose_biao">
+               <RadioGroup v-model="disabledGroup">
+                  <Radio label="1">是</Radio>
+                  <Radio label="0">否</Radio>
+              </RadioGroup>
+            </div>
+          </div>
+        </div>
+        <div class="datamodal_item">
+          <div class="datamodal_item-title">本次操作说明:</div>
+          <div class="datamodal_item_flex">
+            <textarea v-model="leadingindescribe" class="textarea-control" placeholder="非必填"></textarea>
+          </div>
+        </div>
       </div>
       <div class="datamodal_footer1">
         <button class="btn" @click="systemtips_modal=false">确定</button>
       </div>
     </Modal>
     <!-- 导入失败弹窗 -->
-    <Modal v-model="leadingInFail_modal" class-name="vertical-center-modal">
+    <Modal v-model="leadingInFail_modal" width="600" class-name="vertical-center-modal">
       <!-- 导入失败 -->
       <div class="layer_header" style="cursor: move;">导入失败</div>
       <div class="leadingInFail_content">
@@ -224,7 +324,7 @@
       </div>
     </Modal>
     <!-- 下载模版 -->
-    <Modal v-model="downloadTemplate_modal" class-name="vertical-center-modal">
+    <Modal v-model="downloadTemplate_modal" width="600" class-name="vertical-center-modal">
       <!-- 下载模版 -->
       <div class="layer_header" style="cursor: move;">下载模版</div>
       <div class="datamodal_content">
@@ -252,7 +352,8 @@
         <button class="btn" @click="downloadEXCEL">保存</button>
       </div>
     </Modal>
-    <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+    <!-- 报错弹框 -->
+    <Modal v-model="errorTips_modal" width="600" class-name="vertical-center-modal">
       <div class="errorTips_modal">
         <img class="errorTips_modal_tips" src="../../assets/images/wrong@3x.png" alt />
 
@@ -346,6 +447,12 @@ export default {
       datatreating_modal: false, //导入弹窗
       datatreatingsheet_modal:false,//导入sheet页
       datatreatingsheetsave_modal:false,//保存sheet页
+      firstsheetsave_modal:false,//配置第一步弹框
+      sencdsheetsave_modal:false,//配置第二步弹框
+      formCustom:{
+
+      },
+      disabledGroup:'',//导入
 
       choosename: "", //导入选择表
       leadingindescribe: "", //导入描述
@@ -447,11 +554,23 @@ export default {
         ],
         data: [],
       },
-      othertablelistdata: null, //除数据处理、
+      othertablelistdata: null, //除数据处理
       othertable: {
         page: 1,
         pagesize: 10,
         total: 0,
+        columns: [],
+        data: [],
+      },
+      sheettable:{
+        columns: [],
+        data: [],
+      },
+      sheetseetingtable1:{
+        columns: [],
+        data: [],
+      },
+      sheetseetingtable2:{
         columns: [],
         data: [],
       },
@@ -658,11 +777,19 @@ export default {
       this.datatreatingsheet_modal=true
 
     },
+    //导入sheet项
     lendinginsave1(){
       this.datatreatingsheetsave_modal=true
     },
-    lendinginsave2(){
 
+    //sheet保存
+    lendinginsave2(){
+      this.firstsheetsave_modal=true
+    },
+    //配置第二步确认
+    lendinginsave3(){
+      // this.firstsheetsave_modal=true
+      this.systemtips_modal=true
     },
     //导入推出
     lendinginleavefail() {
@@ -790,7 +917,24 @@ export default {
         this.treeClick(evt, treeId, treeNode);
       }
     },
+    //
+    lendinginsavefirst(name){
+      this.sencdsheetsave_modal=true
+      this.$refs[name].validate(valid => {
+          if (valid) {
+            let path = "";
+            let params = new Object();
+            path = this.PATH.POSTSOLICITADD;
+            params = {
+              
+            }
 
+            
+          } else {
+            this.$Message.error("Fail!");
+          }
+        });
+    },
 
     handleCreated: function (ztreeObj) {
       this.ztreeObj = ztreeObj;
@@ -1003,7 +1147,60 @@ export default {
         this.tabsvalue = newname.toString();
       }
     },
-    UploadMore(e) {},
+    UploadMore(e) {
+      // 
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      let type = e.target.files[0].type;
+      let typeArr = ["png", "jpg", "jpeg", "gif", "bmp"];
+      if(type == "" || typeArr.indexOf(type.split("/")[1])<0 || e.target.files[0].size >8*1024*1024) {
+          this.h5Imgauthor = '';
+          this.$refs.formValidate.validateField("validateImgauthor")
+          return;
+      }
+      var reads = new FileReader();
+      reads.readAsDataURL(files[0]);
+      let that = this;
+      // console.log(reads)
+      reads.onload = function(e) {
+        var fd = new FormData();
+        fd.append("data", this.result);
+        let config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
+        console.log(this.result);
+        that.$http
+          .post("http://192.168.1.236:8081/miner/v3/sys/explorer/dfi.upload", {
+            upload_file: this.result,
+            file_type:'banner'
+          })
+          .then(
+            success => {
+              if (success.data.code == 200) {
+                that.isShowauthor = true;
+                that.h5Imgauthor = success.data.data;
+                // console.log(that.h5Img)
+                that.$refs.formValidate.validateField("validateImgauthor");
+              } else {
+                that.$Modal.error({
+                  title: "提示",
+                  // content:'上传失败，请重试'
+                  content: success.data.message
+                });
+              }
+            },
+            error => {
+              // console.log(error)
+              this.$Modal.error({
+                title: "提示",
+                content: error.data.message
+              });
+            }
+          );
+      };
+    },
     // downloadEXCEL(){
     //   let that = this;
     //   var params = {// 参数
@@ -1425,8 +1622,8 @@ export default {
   }
 }
 .ivu-modal {
-  min-width: 600px;
-  width: 600px !important;
+  // min-width: 600px;
+  // width: 600px !important;
   height: 334px;
   top: 300px;
   .ivu-modal-content {
@@ -1457,6 +1654,10 @@ export default {
       font-size: 20px;
       color: rgba(0, 0, 0, 0.8);
       letter-spacing: 0;
+    }
+    .datatreting-sheet-content{
+      height: 500px;
+      overflow: scroll;
     }
     .datamodal_content {
       padding: 30px 20px;
@@ -1637,6 +1838,18 @@ export default {
       outline: none;
     }
   }
+  .Systemicselection_head_content{
+    padding:50px 0px;
+  }
+  .ivu-form-item .ivu-form-item .ivu-form-item-content{
+    margin-left: 80Px !important;
+  }
+  .sencdsheetsave-modal-content1{
+    padding:50px 0px 20px 0px;
+  }
+  .sencdsheetsave-modal-content2{
+    padding:0px 0px 50px 0px;
+  }
 }
 //全局的报错弹框
 .vertical-center-modal {
@@ -1646,8 +1859,8 @@ export default {
   min-width: 1400px;
 
   .ivu-modal {
-    width: 300px !important;
-    height: 300px;
+    // width: 300px !important;
+    // height: 300px;
 
     text-align: center;
     top: 0;

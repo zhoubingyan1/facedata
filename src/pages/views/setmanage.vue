@@ -397,6 +397,18 @@
                 >{{node}}</div>
             </div>
         </Modal>
+        <!-- 删除确认弹框 -->
+        <Modal :mask-closable="true" v-model="delModal" width="360" class-name="mr-del-modal">
+        <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
+        <div class="facedata-btn-box">
+            <div
+            class="facedata-btn-confirm"
+            style="margin-right: 20px"
+            @click="datatreatingDel"
+            >删除</div>
+            <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
+        </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -421,6 +433,7 @@ export default {
     },
     data(){
         return{
+            delModal:false,//删除弹框
             datatreatingEdit_modal:false,
             datatreatingEditname:'',//目录节点名称
             nodeitem:null,//暂存node节点信息
@@ -1263,7 +1276,11 @@ export default {
             // 点击事件
             if (!treeNode.open) {
                 this.treeClick(evt, treeId, treeNode);
-        }
+            }
+        },
+        //删除弹框
+        datatreatingDel(){
+
         },
         treeClick: function (evt, treeId, treeNode) {
             // 点击事件
