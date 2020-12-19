@@ -138,8 +138,9 @@
             </div>
             <input
               type="file"
-              id="editorupload"
-              accept="image/gif, image/jpeg, image/png, image/jpg"
+              id="resource"
+              name="resource" ref="resource"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
               style="width:100%;height:32px;position:absolute;left:0;top:0;opacity:0;"
               @change="UploadMore"
             />
@@ -164,13 +165,13 @@
         <ztree
           :setting="setting"
           :nodes="nodes3"
-          @onClick="onClick3"
+          @onClick="onClickLeadinSheet"
           @onCreated="handleCreated" 
         ></ztree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
-        <button class="btn" @click="lendinginsave1">保存</button>
+        <button class="btn" @click="sheetsavebutton">保存</button>
       </div>
     </Modal>
     <!-- sheet保存 -->
@@ -196,7 +197,7 @@
       </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
-        <button class="btn" @click="lendinginsave2">保存</button>
+        <button class="btn" @click="lendinginsheetsave">保存</button>
       </div>
     </Modal>
     <!-- 配置第一步 -->
@@ -275,7 +276,7 @@
       </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
-        <button class="btn" @click="lendinginsave3">保存</button>
+        <button class="btn" @click="secondlendinginsave">保存</button>
       </div>
     </Modal>
     <!-- 导入成功系统提示弹窗 -->
@@ -446,6 +447,8 @@ export default {
 
       datatreating_modal: false, //导入弹窗
       datatreatingsheet_modal:false,//导入sheet页
+      leadinUploadingid:'1607823864000000',//上传文件后的文件id
+      leadinUploadingsheets:{},//上传文件后的文件sheets
       datatreatingsheetsave_modal:false,//保存sheet页
       firstsheetsave_modal:false,//配置第一步弹框
       sencdsheetsave_modal:false,//配置第二步弹框
@@ -774,20 +777,74 @@ export default {
     //导入保存
     lendinginsave() {
       // this.systemtips_modal = true;
-      this.datatreatingsheet_modal=true
-
+      let that=this
+      that.datatreatingsheet_modal=true
+      //获取树的列表
+      that.getLeadInLIST(that.leadinUploadingid)
+    },
+    getLeadInLIST(fileId){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getExcelInfo",
+        data: [fileId],
+      };
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.EXPLORERGETEXCELINFO, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data.result);
+            let res =success.data.result
+            // {"fileName":"附件1-经营&资产质量类指标.xlsx","sheets":[{"index":1,"name":"Sheet1"}],"type":"XLSX"}
+            res.name=res.fileName
+            res.children=res.sheets
+            that.leadinUploadingsheets=res.sheets//上传文件后的文件sheets
+            newResult.push(res)
+            that.nodes3 = newResult
+            console.log(newResult,'newResult')
+            // this.nodes = newResult;
+            // console.log(this.nodes,'this.nodes')
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
     },
     //导入sheet项
-    lendinginsave1(){
+    sheetsavebutton(){
       this.datatreatingsheetsave_modal=true
+      this.RequestcheckSheets(this.leadinUploadingid,this.leadinUploadingsheets)
     },
-
+    RequestcheckSheets(fileId,sheets){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "checkSheets",
+        data: [fileId,[sheets]],
+      };
+      // [1607823864000000,[{"index":1,"name":"\u5206\u884c\u539f\u59cb\u8868"}]]
+      let newResult = new Array();
+      that.$http
+        .post(that.PATH.EXPLORERCHECKSHEETS, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data.result);
+            let res =success.data.result
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
     //sheet保存
-    lendinginsave2(){
+    lendinginsheetsave(){
       this.firstsheetsave_modal=true
     },
     //配置第二步确认
-    lendinginsave3(){
+    secondlendinginsave(){
       // this.firstsheetsave_modal=true
       this.systemtips_modal=true
     },
@@ -899,11 +956,31 @@ export default {
         this.treeClick(evt, treeId, treeNode);
       }
     },
-    onClick3: function (evt, treeId, treeNode) {
+    //导入的sheet页
+    onClickLeadinSheet: function (evt, treeId, treeNode) {
       // 点击事件
       if (!treeNode.open) {
-        this.treeClick(evt, treeId, treeNode);
-      }
+        var that = this;
+        var query = {
+          action: "Service",
+          method: "checkSheets",
+          data: [fileId,[sheets]],
+        };
+        // [1607823864000000,[{"index":1,"name":"\u5206\u884c\u539f\u59cb\u8868"}]]
+        let newResult = new Array();
+        that.$http
+          .post(that.PATH.EXPLORERCHECKSHEETS, JSON.stringify(query))
+          .then(
+            (success) => {
+              console.log(success.data.result);
+              let res =success.data.result
+            },
+            (error) => {
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+        }
     },
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1148,86 +1225,31 @@ export default {
       }
     },
     UploadMore(e) {
-      // 
+      console.log(e)
       let files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      let type = e.target.files[0].type;
-      let typeArr = ["png", "jpg", "jpeg", "gif", "bmp"];
-      if(type == "" || typeArr.indexOf(type.split("/")[1])<0 || e.target.files[0].size >8*1024*1024) {
-          this.h5Imgauthor = '';
-          this.$refs.formValidate.validateField("validateImgauthor")
-          return;
-      }
-      var reads = new FileReader();
-      reads.readAsDataURL(files[0]);
       let that = this;
-      // console.log(reads)
-      reads.onload = function(e) {
-        var fd = new FormData();
-        fd.append("data", this.result);
-        let config = {
+      var formData = new FormData() // FormData 对象
+      formData.append('file', files[0],files[0].name) 
+      this.$http.post('http://192.168.1.236:8081/miner/v3/sys/explorer/dfi.upload', formData, {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        };
-        console.log(this.result);
-        that.$http
-          .post("http://192.168.1.236:8081/miner/v3/sys/explorer/dfi.upload", {
-            upload_file: this.result,
-            file_type:'banner'
-          })
-          .then(
-            success => {
-              if (success.data.code == 200) {
-                that.isShowauthor = true;
-                that.h5Imgauthor = success.data.data;
-                // console.log(that.h5Img)
-                that.$refs.formValidate.validateField("validateImgauthor");
-              } else {
-                that.$Modal.error({
-                  title: "提示",
-                  // content:'上传失败，请重试'
-                  content: success.data.message
-                });
-              }
-            },
-            error => {
-              // console.log(error)
-              this.$Modal.error({
-                title: "提示",
-                content: error.data.message
-              });
-            }
-          );
-      };
-    },
-    // downloadEXCEL(){
-    //   let that = this;
-    //   var params = {// 参数
-    //     path:Base64.encode(that.downloadtemplatetype).replace(/\+/g,'%2B'),
-    //     delete:'n'
-    //   };
-    //   console.log(that.downloadtemplatetype,'that.downloadtemplatetype')
-    //   console.log(Base64.encode(that.downloadtemplatetype),'Base64.encode')
-    //   var form = document.createElement('form');
-    //   form.id = 'form'
-    //   form.name = 'form'
-    //   document.body.appendChild(form);
-    //   for(var obj in params) {
-    //     if(params.hasOwnProperty(obj)) {
-    //       var input = document.createElement('input');
-    //       input.tpye='hidden';
-    //       input.name = obj;
-    //       input.value = params[obj];
-    //       form.appendChild(input)
-    //     }
-    //   }
-    //   form.method = "Get";//请求方式
-    //   form.action=encodeURI('http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload');
-    //   form.submit();
-    //   document.body.removeChild(form);
+              'Content-Type': 'multipart/form-data'
+          },
+      }).then((success) => {
+        console.log(success,'success')
 
-    // },
+        // leadinUploadingid:'',//上传文件后的文件id
+          // if (response.data.status) {} else {
+          //     this.$Notice.error({
+          //         title: '错误',
+          //         message: response.data.imgId
+          //     })
+          // }
+      }).catch(function (error) {
+          console.log(error)
+      })
+      
+
+    },
     downloadEXCEL(){
       let that=this
       let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(encodeURI(that.downloadtemplatetype)).replace(/\+/g,'%2B')

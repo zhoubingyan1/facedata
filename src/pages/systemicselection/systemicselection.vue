@@ -38,7 +38,7 @@
         </slider-item>
       </slider>
     </div>
-    <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+    <Modal v-model="errorTips_modal" width="300" class-name="vertical-center-modal">
       <div class="errorTips_modal">
           <img
           class="errorTips_modal_tips"
@@ -261,8 +261,8 @@ export default {
   min-width: 1400px;
 
   .ivu-modal {
-    width: 300px !important;
-    height: 300px;
+    // width: 300px !important;
+    // height: 300px;
 
     text-align: center;
     top: 0;
