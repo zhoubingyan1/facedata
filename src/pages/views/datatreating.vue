@@ -132,7 +132,7 @@
       <div class="datamodal_content">
         <div class="datamodal_item">
           <div class="datamodal_item-title">选择表:</div>
-          <div class="datamodal_item_flex">
+          <div class="datamodal_item_flex" style="position: relative;">
             <div class="choose_biao">
               <div>{{choosename}}</div>
               <img class="icon" src="../../assets/images/add@2x.png" />
@@ -141,21 +141,59 @@
               type="file"
               id="editorupload"
               accept="image/gif, image/jpeg, image/png, image/jpg"
-              style="width:100px;height:32px;position:absolute;left:0;top:0;opacity:0;"
+              style="width:100%;height:32px;position:absolute;left:0;top:0;opacity:0;"
               @change="UploadMore"
             />
           </div>
         </div>
-        <div class="datamodal_item">
+        <!-- <div class="datamodal_item">
           <div class="datamodal_item-title">描述:</div>
           <div class="datamodal_item_flex">
             <textarea v-model="leadingindescribe" class="textarea-control" placeholder="非必填"></textarea>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
         <button class="btn" @click="lendinginsave">保存</button>
+      </div>
+    </Modal>
+    <!-- 导入的sheet项 -->
+    <Modal v-model="datatreatingsheet_modal" class-name="vertical-center-modal">
+      <!-- 导入 -->
+      <div class="layer_header" style="cursor: move;">请选择需要导入的sheet页</div>
+      <ztree
+        :setting="setting"
+        :nodes="nodes3"
+        @onClick="onClick3"
+        @onCreated="handleCreated" 
+      ></ztree>
+      <div class="datamodal_footer">
+        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="lendinginsave1">保存</button>
+      </div>
+    </Modal>
+    <!-- sheet保存 -->
+    <Modal v-model="datatreatingsheetsave_modal" class-name="vertical-center-modal">
+      <!-- 导入 -->
+      <div class="layer_header" style="cursor: move;">保存</div>
+      <div>
+        <ztree
+          :setting="setting"
+          :nodes="nodes4"
+          @onClick="onClick4"
+          @onCreated="handleCreated" 
+        ></ztree>
+        <Table
+          class="facedata-table account-table"
+          stripe
+          :columns="othertable.columns"
+          :data="othertable.data"
+        ></Table>
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="lendinginleavefail">退出</button>
+        <button class="btn" @click="lendinginsave2">保存</button>
       </div>
     </Modal>
     <!-- 系统提示弹窗 -->
@@ -297,10 +335,18 @@ export default {
       nodes2: [],
       treenodeID: null, //记录树的id
 
+      nodes3: [],
+      nodes3:simpleData,
+      nodes4: [],
+      nodes4:simpleData,
+
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 
       datatreating_modal: false, //导入弹窗
+      datatreatingsheet_modal:false,//导入sheet页
+      datatreatingsheetsave_modal:false,//保存sheet页
+
       choosename: "", //导入选择表
       leadingindescribe: "", //导入描述
 
@@ -608,7 +654,15 @@ export default {
     },
     //导入保存
     lendinginsave() {
-      this.systemtips_modal = true;
+      // this.systemtips_modal = true;
+      this.datatreatingsheet_modal=true
+
+    },
+    lendinginsave1(){
+      this.datatreatingsheetsave_modal=true
+    },
+    lendinginsave2(){
+
     },
     //导入推出
     lendinginleavefail() {
@@ -711,6 +765,33 @@ export default {
         }
       }
     },
+    //
+    onExpand3: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+    onClick3: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (!treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+    onExpand4: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+    onClick4: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (!treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+
+
     handleCreated: function (ztreeObj) {
       this.ztreeObj = ztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
@@ -1049,6 +1130,7 @@ export default {
         }
         .tabs_left_bottom {
           width: 10px;
+          
           height: 10px;
           // background: #e8e8e8;
           background: #fff;

@@ -406,7 +406,7 @@ import ztree from "../components/ztree/ztree";
 function addDiyDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+    var addStr = "<span style='margin-left:300px;' class='button add' id='addBtn_" + treeNode.tId
         + "' title='add node' onfocus='this.blur();'></span>";
     sObj.after(addStr);
 
@@ -1231,7 +1231,19 @@ export default {
                 (success) => {
                     that.$Spin.hide()
                     console.log(success.data);
-                    let res=success.data.result
+                    let newResult=success.data.result
+                    if (newResult.length > 0) {
+                        newResult.forEach((v, i) => {
+                            newResult[i].open = false;
+                            if (newResult[i].right - newResult[i].left != 1) {
+                            newResult[i].isParent = true;
+                            newResult[i].children = [];
+                            }
+                            if (newResult[i].right - newResult[i].left == 1) {
+                            newResult[i].isParent = false;
+                            }
+                        });
+                    }
                     that.datatreatingnodes = success.data.result;
                 },
                 (error) => {
@@ -1241,27 +1253,89 @@ export default {
                 }
             );
         },
-        //
+        onExpand: function (evt, treeId, treeNode) {
+            // 点击事件
+            if (treeNode.open) {
+                this.treeClick(evt, treeId, treeNode);
+            }
+        },
+        onClick: function (evt, treeId, treeNode) {
+            // 点击事件
+            if (!treeNode.open) {
+                this.treeClick(evt, treeId, treeNode);
+        }
+        },
+        treeClick: function (evt, treeId, treeNode) {
+            // 点击事件
+            // console.log(treeNode.open,'onClick');
+            this.treenodeID = treeNode.id;
+            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+            const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getChildrenBySource",
+                data: ["DAPAPP",treeNode.id],
+            };
+            if (treeNode.right - treeNode.left == 1) {
+                //文件,获取右边的表格
+                this.table.page = 1;
+                this.currenttableid = treeNode.id;
+            } else {
+                //文件夹
+                treeNode.children = [];
+                if (treeNode.isParent) {
+                that.$http
+                    .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
+                    .then(
+                    (success) => {
+                        // console.log(success.data.result);
+                        const childrenData = eval(success.data.result);
+                        //判断子节点是否包含子元素
+                        // for(var i in childrenData){
+                        //     if(childrenData[i].isContainSon === 1){
+                        //         childrenData[i].isParent = true;
+                        //     }
+                        // };
+                        childrenData.forEach((v, i) => {
+                        childrenData[i].open = false;
+                        if (childrenData[i].right - childrenData[i].left != 1) {
+                            childrenData[i].isParent = true;
+                            childrenData[i].children = [];
+                        }
+                        if (childrenData[i].right - childrenData[i].left == 1) {
+                            childrenData[i].isParent = false;
+                        }
+                        });
+                        // console.log(childrenData)
+                        this.ztreeObj.refresh();
+                        this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                    },
+                    (error) => {
+                        that.err_list = ["登录异常", "请联系管理员"];
+                        that.errorTips_modal = true;
+                    }
+                    );
+                }
+            }
+        },
         addDiyDom(treeid, treeNode){
             const item = document.getElementById(`${treeNode.tId}_a`);
             let that =this
-            if(item && !item.querySelector('.tree_extra_btn')){
-                const addbtn = document.createElement('sapn');
-                addbtn.id = `${treeid}_${treeNode.id}_addbtn`;
-                addbtn.classList.add('tree_extra_addbtn');
-                addbtn.innerText = '增加';
-                addbtn.addEventListener('click', (e) => {
+            if(item && !item.querySelector('.tree_extra_btn')){  
+                const delbtn = document.createElement('sapn');
+                delbtn.id = `${treeid}_${treeNode.id}_delbtn`;
+                delbtn.classList.add('tree_extra_delbtn');
+                delbtn.innerText = '   删除';
+                delbtn.addEventListener('click', (e) => {
                     e.stopPropagation()
-                    that.datatreatingtype='new'
-                    that.datatreatingEdit_modal = true
-                    that.nodeitem=treeNode
-                    // this.clickaddbtn(treeNode)
+                    that.DelDatatreatinNode(treeNode)
                 })
-                item.appendChild(addbtn);
+                item.appendChild(delbtn);
                 const renamebtn = document.createElement('sapn');
                 renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
                 renamebtn.classList.add('tree_extra_renamebtn');
-                renamebtn.innerText = '重命名';
+                renamebtn.innerText = '   重命名   ';
                 renamebtn.addEventListener('click', (e) => {
                     e.stopPropagation()
                     that.datatreatingtype='edit'
@@ -1271,15 +1345,20 @@ export default {
                     // this.clickRename(treeNode)
                 })
                 item.appendChild(renamebtn);
-                const delbtn = document.createElement('sapn');
-                delbtn.id = `${treeid}_${treeNode.id}_delbtn`;
-                delbtn.classList.add('tree_extra_delbtn');
-                delbtn.innerText = '删除';
-                delbtn.addEventListener('click', (e) => {
+                const addbtn = document.createElement('sapn');
+                addbtn.id = `${treeid}_${treeNode.id}_addbtn`;
+                addbtn.classList.add('tree_extra_addbtn');
+                // <i class="ivu-icon ivu-icon-ios-checkmark"></i>
+                // <Icon type="ios-add" />
+                addbtn.innerText = '   增加   ';
+                addbtn.addEventListener('click', (e) => {
                     e.stopPropagation()
-                    that.DelDatatreatinNode(treeNode)
+                    that.datatreatingtype='new'
+                    that.datatreatingEdit_modal = true
+                    that.nodeitem=treeNode
+                    // this.clickaddbtn(treeNode)
                 })
-                item.appendChild(delbtn);
+                item.appendChild(addbtn);
             }
         },
         //弹框取消
@@ -1324,14 +1403,15 @@ export default {
             var query = {
                 action: "Service",
                 method: "rename",
-                data: [nodeid,nodename,"DAPAPP"]
+                data: [nodeid,nodename]
             };
             that.$Spin.show()
             that.$http.post(that.PATH.GETCHILDRENBYSOURCERENAME, JSON.stringify(query)).then(
                 (success) => {
                     that.$Spin.hide()
                     console.log(success.data);
-                    that.getdatatreatingdata
+                    that.datatreatingEdit_modal = false
+                    that.getdatatreatingdata()
                 },
                 (error) => {
                     that.$Spin.hide()
@@ -1340,7 +1420,7 @@ export default {
                 }
             );
         },
-        DelDatatreatinNode(nodeid,nodename) {
+        DelDatatreatinNode(treeNode) {
             var that = this;
             var query = {
                 action: "Service",
@@ -1409,65 +1489,6 @@ export default {
         downloaddata(){
             this.downloadTemplate_modal=true
         },
-        //树节点展开图标点击
-        onExpand: function(evt, treeId, treeNode) {
-        // 点击事件
-            // treeNode.id
-            this.treeClick(evt, treeId, treeNode)
-        },
-        onClick: function(evt, treeId, treeNode) {
-            // 点击事件
-            // this.treeClick(evt, treeId, treeNode)
-        },
-        treeClick:function(evt, treeId, treeNode) {
-            // 点击事件
-            console.log(treeNode.open,'onClick');
-            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
-            const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
-            var that = this;
-            var query = {
-                action: "Service",
-                method: "getExplorerChildren",
-                data: [treeNode.id],
-            };
-            if(!treeNode.open){
-                if (treeNode.right - treeNode.left == 1) {
-                //文件,获取右边的表格
-                // this.gettable(treeNode.id)
-                this.table.page=1
-                this.currenttableid =treeNode.id
-                this.gettable(treeNode.id,this.table.page,this.table.pagesize);
-                } else {
-                //文件夹
-                treeNode.children = [];
-                that.gettable(treeNode.id,that.table.page,that.table.pagesize);
-                if(treeNode.isParent){
-                    that.$http
-                    .post(that.PATH.getExplorerChildren, JSON.stringify(query))
-                    .then(
-                        (success) => {
-                        console.log(success.data.result);
-                        const childrenData=eval(success.data.result)
-                            //判断子节点是否包含子元素
-                            for(var i in childrenData){
-                                if(childrenData[i].isContainSon === 1){
-                                    childrenData[i].isParent = true;
-                                }
-                            };
-                            console.log(childrenData)
-                            this.ztreeObj.refresh();
-                            this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
-                        },
-                        (error) => {
-                        that.err_list = ["登录异常", "请联系管理员"];
-                        that.errorTips_modal = true;
-                        }
-                    );
-                } 
-                }
-                
-            }
-        },
         handleCreated: function(ztreeObj) {
             this.ztreeObj = ztreeObj;
             // onCreated 中操作ztreeObj对象展开第一个节点
@@ -1476,30 +1497,6 @@ export default {
         tabclick(item){
             // console.log(item,'item')
             this.tabsvalue = item.toString();
-        },
-        addtabs(){
-            let tabIndex =this.tabIndex
-            this.tabIndex= tabIndex+1;
-            let ishasdata =true
-            if(this.setmanageTabList.length>0){
-                this.setmanageTabList.filter(function(item){
-                     if(item.name == "2"){
-                         ishasdata = false
-                     }
-                })
-                if(ishasdata){
-                    this.setmanageTabList.push({
-                        name: 2,
-                        label:'生成数据',
-                        index:tabIndex
-                    });
-                    this.tabsvalue='2'
-                }
-                if(!ishasdata){
-                    this.tabsvalue='2'
-                }
-                
-            }
         },
         //增加tab
         addTab(params) {
@@ -1981,12 +1978,46 @@ export default {
         
         padding:30px 50px;
     }
+    .tree_extra_addbtn{
+        // margin-left: 200px;
+        // display: inline-block;
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
+    .tree_extra_renamebtn{
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
+    .tree_extra_renamebtn:hover,.tree_extra_delbtn:hover,.tree_extra_addbtn:hover{
+        border-color: #000;
+        color: #000;
+    }
+    .tree_extra_delbtn{
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
 }
 .ivu-modal {
     min-width: 600Px;
     width: 600px !important;
     height: 334px;
     top:300px;
+
     .ivu-modal-content{
         background: #FFFFFF;
         box-shadow: 0 1px 0 0 rgba(0,0,0,0.10);
@@ -1997,7 +2028,7 @@ export default {
             top: 14px;
         }
         .layer_header{
-            height: 60px;
+            // height: 60px;
             line-height: 60px;
             overflow: hidden;
             padding-left: 30px;
