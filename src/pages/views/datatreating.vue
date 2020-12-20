@@ -1883,7 +1883,7 @@ export default {
           conditions: [],
           entityId: id,
           fields: list_data,
-          orderBy: [{ name: "SUM", asc: false }],
+          orderBy: [],
         },
         that.othertable.page,
         that.othertable.pagesize,
