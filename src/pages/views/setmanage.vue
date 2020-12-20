@@ -2088,7 +2088,7 @@ export default {
         line-height: 24px;
     }
     .setmanagetree{
-        
+        height: 500px;
         padding:30px 50px;
     }
     .tree_extra_addbtn{
