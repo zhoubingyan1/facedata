@@ -201,7 +201,11 @@
         <Col span="24">
           <div class="sheetsaveserchtit-content">
             <span>名称：</span>
+<<<<<<< HEAD
             <Input v-model="sheetsavesearchtit"></Input>
+=======
+            <Input  v-model="sheetsavesearchtit"></Input>
+>>>>>>> 8192158f955ad37a56487cb57087b8e82cabfb53
           </div>
         </col>
       </Row>
@@ -1172,7 +1176,11 @@ export default {
       var query = {
         action: "Service",
         method: "searchNoPage",
+<<<<<<< HEAD
         data: ["",["table"],['导入表'],id],
+=======
+        data: ["",["table"],["导入表"],id],
+>>>>>>> 8192158f955ad37a56487cb57087b8e82cabfb53
       };
       // {"action":"Service","method":"searchNoPage","data":["EXPLORER",["table"],["\u5bfc\u5165\u8868"],13]}
       let newtabledata = [];
