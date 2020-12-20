@@ -201,7 +201,7 @@
         <Col span="24">
           <div class="sheetsaveserchtit-content">
             <span>名称：</span>
-            <Input type="number" v-model="sheetsavesearchtit"></Input>
+            <Input  v-model="sheetsavesearchtit"></Input>
           </div>
         </col>
       </Row>
@@ -1151,7 +1151,7 @@ export default {
       var query = {
         action: "Service",
         method: "searchNoPage",
-        data: ["EXPLORER",["table"],[title],id],
+        data: ["",["table"],["导入表"],id],
       };
       // {"action":"Service","method":"searchNoPage","data":["EXPLORER",["table"],["\u5bfc\u5165\u8868"],13]}
       let newtabledata = [];
