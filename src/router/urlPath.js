@@ -35,7 +35,7 @@ export default {
     EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',//提交sheet
     EXPLORERGETCHILDRENBYSOURCELIST: '/v3/sys/explorer/sys.catalog.direct', //导入保存的左边树父节点
     EXPLORERGETCHILDRENBYSOURCE: '/v3/sys/explorer/sys.catalog.direct',//导入保存的左边树子节点
-    EXPLORERsearchNoPage: '/v3/sys/explorer/sys.explorer.direct',
+    EXPLORERSEARCHNoPage: '/v3/sys/explorer/sys.explorer.direct',
     EXPLORERisNameExit: '/v3/sys/explorer/dfi.direct',
     EXPLORERGETDEFAULTemplet: '/v3/sys/explorer/dfi.excel.direct',
     EXPLORERFETCHDATA: '/v3/sys/explorer/dfi.excel.direct',

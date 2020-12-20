@@ -183,7 +183,7 @@
             :setting="setting"
             :nodes="nodes4"
             @onClick="onClick4"
-            @onCreated="handleCreated" 
+            @onCreated="handleCreated4" 
           ></ztree>
         </Col>
         <Col span="1">
@@ -196,6 +196,14 @@
           :data="sheettable.data"
         ></Table>
         </Col>
+      </Row>
+      <Row>
+        <Col span="24">
+          <div class="sheetsaveserchtit-content">
+            <span>名称：</span>
+            <Input type="number" v-model="sheetsavesearchtit"></Input>
+          </div>
+        </col>
       </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="datatreatingsheetsavefail">退出</button>
@@ -416,6 +424,7 @@ export default {
 
       showIndex: 1,
       ztreeObj: null,
+      ztreeObj4:null,//导入保存左边的树
       setting: {
         async: {
           autoParam: [],
@@ -450,9 +459,11 @@ export default {
       datatreating_modal: false, //导入弹窗
       datatreatingsheet_modal:false,//导入sheet页
       ztreeUploadingObj: null,
-      leadinUploadingid:'1607823864000000',//上传文件后的文件id
+      leadinUploadingid:'',//上传文件后的文件id
+      unloadFile:null,//上传的文件
       leadinUploadingsheets:{},//上传文件后的文件sheets
       isClickSheets:false, //是否确定过sheet
+      sheetsavesearchtit:'',//保存 搜索名称
       datatreatingsheetsave_modal:false,//保存sheet页
       firstsheetsave_modal:false,//配置第一步弹框
       sencdsheetsave_modal:false,//配置第二步弹框
@@ -777,16 +788,52 @@ export default {
     // 选择导入
     choseleadingin() {
       this.datatreating_modal = true;
+      this.unloadFile = null
+      this.choosename =''
     },
     //导入保存
     lendinginsave() {
       // this.systemtips_modal = true;
       let that=this
-      that.datatreatingsheet_modal=true
-      that.datatreating_modal=false
-      that.isClickSheets=false
-      //获取树的列表
-      that.getLeadInLIST(that.leadinUploadingid)
+      if (that.choosename!=''){
+        var formData = new FormData() // FormData 对象
+        formData.append('file', that.unloadFile[0],that.unloadFile[0].name) 
+        that.$http.post('/miner/v3/sys/explorer/dfi.upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        }).then((success) => {
+          console.log(success,'success')
+          let res=success.data
+          that.leadinUploadingid=res.fileId
+          that.datatreatingsheet_modal=true
+          that.datatreating_modal=false
+          that.isClickSheets=false
+          that.unloadFile = null
+          that.choosename =''
+            //获取树的列表
+          that.getLeadInLIST(that.leadinUploadingid)
+        }).catch(function (error) {
+            console.log(error)
+        })
+        
+      }else{
+        this.$Message.error({
+          content: "请上传文件",
+          duration: 1,
+        });
+      }
+      
+    },
+     //上传excel
+    UploadMore(e) {
+      // console.log(e)
+      let files = e.target.files || e.dataTransfer.files;
+      this.unloadFile = files
+      this.choosename =files[0].name
+      // console.log(typeof files,this.unloadFile )
+      
+
     },
     getLeadInLIST(fileId){
       var that = this;
@@ -890,6 +937,7 @@ export default {
         );
     
     },
+    
     //sheet保存
     lendinginsheetsave(){
       this.firstsheetsave_modal=true
@@ -1044,24 +1092,24 @@ export default {
       // 点击事件
       // console.log(treeNode.open,'onClick');
       // this.treenodeID = treeNode.id;
-      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-      const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
+      const parentZNode = this.ztreeObj4.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const childNodes = this.ztreeObj4.transformToArray(treeNode); //获取子节点集合
       var that = this;
       var query = {
         action: "Service",
         method: "getChildrenBySource",
-        data: [treeNode.id],
+        data: ["EXPLORER",treeNode.id],
       };
       if (treeNode.right - treeNode.left == 1) {
         //文件,获取右边的表格
         // this.gettable(treeNode.id)
-        this.table.page = 1;
-        this.currenttableid = treeNode.id;
-        // this.gettable(treeNode.id, this.table.page, this.table.pagesize);
+        that.table.page = 1;
+        that.currenttableid = treeNode.id;
+        that.getsearchnoPageTable(treeNode.id,treeNode.name)
       } else {
         //文件夹
         treeNode.children = [];
-        // that.gettable(treeNode.id, that.table.page, that.table.pagesize);
+        that.getsearchnoPageTable(treeNode.id,treeNode.name)
         if (treeNode.isParent) {
           that.$http
             .post(that.PATH.EXPLORERGETCHILDRENBYSOURCE, JSON.stringify(query))
@@ -1085,9 +1133,10 @@ export default {
                     childrenData[i].isParent = false;
                   }
                 });
+                // ztreeObj4
                 // console.log(childrenData)
-                this.ztreeUploadingObj.refresh();
-                this.ztreeUploadingObj.addNodes(parentZNode, childrenData, false); //添加节点
+                this.ztreeObj4.refresh();
+                this.ztreeObj4.addNodes(parentZNode, childrenData, false); //添加节点
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -1096,6 +1145,42 @@ export default {
             );
         }
       }
+    },
+    getsearchnoPageTable(id, title) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "searchNoPage",
+        data: ["EXPLORER",["table"],[title],id],
+      };
+      // {"action":"Service","method":"searchNoPage","data":["EXPLORER",["table"],["\u5bfc\u5165\u8868"],13]}
+      let newtabledata = [];
+      let modaltype = new Object();
+
+      that.$Spin.show();
+      that.$http.post(that.PATH.EXPLORERSEARCHNoPage, JSON.stringify(query)).then(
+        (success) => {
+          console.log(success.data);
+          //   createTime
+          that.$Spin.hide();
+          // newtabledata = success.data.result.data;
+          // if (newtabledata.length > 0) {
+          //   newtabledata.forEach((v, i) => {
+          //     newtabledata[i].createTime = that.getNweDate(
+          //       v.createTime,
+          //       "year"
+          //     );
+          //   });
+          // }
+          // console.log(success.data.result.data, "success.data.result.data");
+          // that.table.data = newtabledata;
+        },
+        (error) => {
+          that.$Spin.hide();
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
     },
     //
     lendinginsavefirst(name){
@@ -1128,6 +1213,12 @@ export default {
       that.ztreeUploadingObj = newztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
       newztreeObj.expandNode(newztreeObj.getNodes()[0], true);
+    },
+    handleCreated4: function (ztreeObj) {
+      let that=this
+      that.ztreeObj4 = ztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      that.ztreeObj4.expandNode(that.ztreeObj.getNodes()[0], false);
     },
     tabclick(item) {
       console.log(item, "item");
@@ -1335,33 +1426,7 @@ export default {
         this.tabsvalue = newname.toString();
       }
     },
-    //上传excel
-    UploadMore(e) {
-      console.log(e)
-      let files = e.target.files || e.dataTransfer.files;
-      let that = this;
-      var formData = new FormData() // FormData 对象
-      formData.append('file', files[0],files[0].name) 
-      this.$http.post('http://192.168.1.236:8081/miner/v3/sys/explorer/dfi.upload', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          },
-      }).then((success) => {
-        console.log(success,'success')
-
-        // leadinUploadingid:'',//上传文件后的文件id
-          // if (response.data.status) {} else {
-          //     this.$Notice.error({
-          //         title: '错误',
-          //         message: response.data.imgId
-          //     })
-          // }
-      }).catch(function (error) {
-          console.log(error)
-      })
-      
-
-    },
+   
     //下载excel
     downloadEXCEL(){
       let that=this
@@ -1759,7 +1824,7 @@ export default {
 .ivu-modal {
   // min-width: 600px;
   // width: 600px !important;
-  height: 334px;
+  // height: 334px;
   top: 300px;
   .ivu-modal-content {
     background: #ffffff;
@@ -1922,6 +1987,13 @@ export default {
           background: rgba(0, 0, 0, 0.05);
           outline: none;
         }
+      }
+    }
+    .sheetsaveserchtit-content{
+      display: flex;
+      padding:30px 0px;
+      span{
+        width: 100px;
       }
     }
     .datamodal_footer {
