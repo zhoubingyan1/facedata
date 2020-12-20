@@ -136,11 +136,14 @@
               <div>{{choosename}}</div>
               <img class="icon" src="../../assets/images/add@2x.png" />
             </div>
+            <!-- accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"-->
+            <!-- application/vnd.ms-excel -->
             <input
               type="file"
               id="resource"
               name="resource" ref="resource"
-              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              
+              accept="application/vnd.ms-excel" 
               style="width:100%;height:32px;position:absolute;left:0;top:0;opacity:0;"
               @change="UploadMore"
             />
@@ -215,23 +218,24 @@
       <div class="layer_header" style="cursor: move;">配置第一步</div>
       <Row class="Systemicselection_head_content">
         <Col span="24">
+        
           <Form ref="formCustom" :model="formCustom" :label-width="80">
             <FormItem label="是否标题" prop="passwd">
-              <RadioGroup v-model="formCustom.gender">
+              <RadioGroup v-model="formCustom.hasHeader">
                 <Radio label="1">是</Radio>
                 <Radio label="0">否</Radio>
               </RadioGroup>
             </FormItem>
-            <FormItem label="列区间" prop="passwdCheck">
+            <FormItem label="列区间">
               <Row>
                 <Col span="12">
                     <FormItem label="开始" :label-width="80">
-                        <Input type="number" v-model="formCustom.passwd"></Input>
+                        <Input type="number" v-model="formCustom.startRow"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="结束" :label-width="80">
-                      <Input type="number" v-model="formCustom.passwd"></Input>
+                      <Input type="number" v-model="formCustom.endRow"></Input>
                     </FormItem>
                 </Col>
               </Row>
@@ -240,18 +244,15 @@
               <Row>
                 <Col span="12">
                     <FormItem label="开始">
-                        <Input type="number" v-model="formCustom.passwd"></Input>
+                        <Input type="number" v-model="formCustom.startCol"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="结束">
-                      <Input type="number" v-model="formCustom.passwd"></Input>
+                      <Input type="number" v-model="formCustom.endCol"></Input>
                     </FormItem>
                 </Col>
               </Row>
-            </FormItem>
-            <FormItem>
-                
             </FormItem>
           </Form>
         </Col>
@@ -271,7 +272,12 @@
           stripe
           :columns="sheetseetingtable1.columns"
           :data="sheetseetingtable1.data"
-        ></Table>
+        >
+        <!-- <template slot-scope="{ row, index }" slot="name">
+          <Input type="text" v-model="editName" v-if="editIndex === index" />
+          <span v-else>{{ row.name }}</span>
+        </template> -->
+        </Table>
         </Col>
       </Row>
       <Row class="sencdsheetsave-modal-content2">
@@ -459,15 +465,52 @@ export default {
       datatreating_modal: false, //导入弹窗
       datatreatingsheet_modal: false, //导入sheet页
       ztreeUploadingObj: null,
-      leadinUploadingid: "", //上传文件后的文件id
+      leadinUploadingid: "", //上传文件后返回的文件id
+      leadinUploadingname:'',//上传文件后返回的文件名称
       unloadFile: null, //上传的文件
-      leadinUploadingsheets: {}, //上传文件后的文件sheets
+      leadinUploadingsheets: [], //上传文件后的文件sheets
       isClickSheets: false, //是否确定过sheet
-      sheetsavesearchtit: "", //保存 搜索名称
+      sheetsavesearchtit: "", //保存 搜索框名称
+      currentsheettreeId:'',//保存弹框左边树id
+      currentsheetindex:'',//
+      choosesheetTreeNode:{},//请选择需要导入的sheet节点
       datatreatingsheetsave_modal: false, //保存sheet页
       firstsheetsave_modal: false, //配置第一步弹框
       sencdsheetsave_modal: false, //配置第二步弹框
-      formCustom: {},
+      formCustom: {
+        hasHeader: "1",
+        startCol: "",
+        startRow: "",
+        endCol:"",
+        endRow: "",
+      },
+      currentfetchData:{
+        "dir":3, //3保存弹框左边目录树目录ID
+        "tableId":null, //4写死
+        "tableDesc":"", //5input值名称
+        "override":null, //6写死
+        "fileColumns":[], //7文件列信息
+        "hasHeader":true,//8是否表头
+        "sheetIndexes":[1],//9Sheet页索引
+        "startRow":"",//10行区间开始
+        "endRow":"",//11行区间结束
+        "startCol":"",//12列区间开始
+        "endCol":"",//13列区间结束
+        "curSheetIndex":0,//14固定0
+        "type":"excel", //15类型excel(默认)
+        "fileId":0, //16上传文件返回的fileID
+        "fileName":"", //17文件名称
+        "templateName":"",  //18模板名称，默认空
+        "hasTemplate":false,  //19是否模板，默认false
+        "templateId":null,  //20模板ID
+        "fileInfo":{
+          "fileName":"", //21文件名称
+          "sheets":[], //22文件Sheet信息
+          "type":"XLSX" //23文件类型
+        },
+        "logIds":null, //26null
+        "id":0//27写死
+      },
       disabledGroup: "", //导入
 
       choosename: "", //导入选择表
@@ -685,8 +728,53 @@ export default {
         ],
         data: [],
       },
+    // define: false
+    // desc: "ä¸»ä½“è´£ä»»ç»è¥å•ä½"
+    // fieldDesc: "A"
+    // fieldId: 1
+    // length: 0
+    // name: "A1"
+    // orderBy: 0
+    // scale: 0
+    // type: "VARCHAR"
       sheetseetingtable1: {
-        columns: [],
+        columns: [
+          {
+            title: "字段索引",
+            key: "fieldDesc",
+            align: "center",
+          },
+          {
+            title: "字段名",
+            key: "name",
+            align: "center",
+          },
+          {
+            title: "字段描述",
+            key: "desc",
+            align: "center",
+          },
+          {
+            title: "字段类型",
+            key: "type",
+            align: "center",
+          },
+          {
+            title: "字段长度",
+            // key: "length",
+            align: "center",
+          },
+          {
+            title: "字段精度",
+            // key: "desc",
+            align: "center",
+          },
+          {
+            title: "固定值",
+            // key: "desc",
+            align: "center",
+          },
+        ],
         data: [],
       },
       sheetseetingtable2: {
@@ -708,6 +796,7 @@ export default {
   },
   mounted() {},
   methods: {
+    //获取数据处理左边的树
     getdata(id) {
       var that = this;
       var query = {
@@ -843,39 +932,7 @@ export default {
         }
       );
     },
-    getNweDate(timeStamp, startType) {
-      var d = null;
-      if (timeStamp.toString().length == 10) {
-        d = new Date(timeStamp * 1000);
-      } else if (timeStamp.toString().length >= 13) {
-        d = new Date(timeStamp);
-      }
-      const year = d.getFullYear();
-      const month = this.getHandledValue(d.getMonth() + 1);
-      const date = this.getHandledValue(d.getDate());
-      const hours = this.getHandledValue(d.getHours());
-      const minutes = this.getHandledValue(d.getMinutes());
-      const second = this.getHandledValue(d.getSeconds());
-      let resStr = "";
-      if (startType === "year")
-        resStr =
-          year +
-          "-" +
-          month +
-          "-" +
-          date +
-          " " +
-          hours +
-          ":" +
-          minutes +
-          ":" +
-          second;
-      else resStr = month + "-" + date + " " + hours + ":" + minutes;
-      return resStr;
-    },
-    getHandledValue(num) {
-      return num < 10 ? "0" + num : num;
-    },
+
     //分页切换
     changePage(page) {
       this.table.page = page;
@@ -907,8 +964,16 @@ export default {
           })
           .then((success) => {
             console.log(success, "success");
+            // bytesRead: 20187
+            // currentFileName: "监管检查发现 - 正确.xls"
+            // fileId: 1608449985000002
+            // fileIndex: 1
+            // percent: 0
+            // success: true
+            // totalSize: 20187
             let res = success.data;
             that.leadinUploadingid = res.fileId;
+            that.leadinUploadingname = res.currentFileName;
             that.datatreatingsheet_modal = true;
             that.datatreating_modal = false;
             that.isClickSheets = false;
@@ -916,6 +981,11 @@ export default {
             that.choosename = "";
             //获取树的列表
             that.getLeadInLIST(that.leadinUploadingid);
+
+
+            that.currentfetchData.fileId=res.fileId
+            
+            
           })
           .catch(function (error) {
             console.log(error);
@@ -959,6 +1029,11 @@ export default {
             console.log(newResult, "newResult");
             // this.nodes = newResult;
             // console.log(this.nodes,'this.nodes')
+            that.currentfetchData.fileName=res.fileName
+            that.currentfetchData.fileInfo.fileName = res.fileName
+            that.currentfetchData.fileInfo.sheets = res.sheets
+            that.currentfetchData.fileInfo.fileName = res.fileName
+            
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1041,11 +1116,118 @@ export default {
        //alert(this.sheetsavesearchtit);
       //Anne周
       //调用isNameExit 接口  data：[this.sheetsavesearchtit,所属目录id]
-      //调用recommend 接口  data：["监管检查发现 - 正确.xls"] //上传文件名
-      //调用 getDefaultTemplet 接口  data:[1608437202000019, 1]   //160开头的是 上传时返回的文件id ，1 固定
+    
+      var that = this;
+      that.currentfetchData.tableDesc= that.sheetsavesearchtit
+      var query = {
+        action: "Service",
+        method: "isNameExit",
+        data: [that.sheetsavesearchtit, that.currentsheettreeId],
+      };
+      that.$http
+        .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
 
-      this.firstsheetsave_modal = true;
-      this.datatreatingsheetsave_modal = false;
+            
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+      that.firstsheetsave_modal = true;
+      that.datatreatingsheetsave_modal = false;
+      // that.RequestRecommend()
+      that.RequestgetDefaultTemplet()
+    },
+    //调用recommend 接口   data：["监管检查发现 - 正确.xls"] //上传文件名
+    RequestRecommend(){
+      
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "EXPLORERRECOMMEND",
+        data: [that.leadinUploadingname],
+      };
+      that.$http
+        .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+
+            
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+      
+    },
+    // //调用 getDefaultTemplet 接口  data:[1608437202000019, 1]   //160开头的是 上传时返回的文件id ，1 固定
+    RequestgetDefaultTemplet(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getDefaultTemplet",
+        data: [that.leadinUploadingid, that.choosesheetTreeNode.index],
+      };
+      that.$http
+        .post(that.PATH.EXPLORERGETDEFAULTemplet, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            let res=success.data.result
+            if(res.hasHeader==true){
+              that.formCustom.hasHeader ="1"
+            }else{
+              that.formCustom.hasHeader ="0"
+            }
+            that.formCustom.startCol=res.startCol
+            
+            that.formCustom.endCol =res.endCol
+            that.formCustom.startRow =res.startRow
+            that.formCustom.endRow =res.endRow
+            that.sheetseetingtable1.data=res.fileColumns
+
+            that.currentfetchData.fileColumns = res.fileColumns
+            that.currentfetchData.startRow = res.startRow
+            that.currentfetchData.endRow = res.endRow
+            that.currentfetchData.startCol = res.startCol
+            that.currentfetchData.endCol = res.endCol
+            
+// desc: "ä¸»ä½“è´£ä»»ç»è¥å•ä½"
+// fieldDesc: "A"
+// fieldId: 1
+// length: 0
+// name: "A1"
+// orderBy: 0
+// scale: 0
+// type: "VARCHAR"
+            // curSheetIndex: 0
+            // id: 0
+            // fileColumns: [{define: false, desc: "åºå·", fieldDesc: "A", fieldId: 1, length: 0, name: "A1", orderBy: 0,…},…]
+            // 0: {define: false, desc: "åºå·", fieldDesc: "A", fieldId: 1, length: 0, name: "A1", orderBy: 0,…}
+            // 1: {define: false, desc: "æŽ¥å£åç§°", fieldDesc: "B", fieldId: 2, length: 0, name: "B1", orderBy: 0,…}
+            // 2: {define: false, desc: "æŽ¥å£åœ°å€", fieldDesc: "C", fieldId: 3, length: 0, name: "C1", orderBy: 0,…}
+            // 3: {define: false, desc: "queryå‚æ•°", fieldDesc: "D", fieldId: 4, length: 0, name: "D1", orderBy: 0,…}
+            // 4: {define: false, desc: "å¤‡æ³¨", fieldDesc: "E", fieldId: 5, length: 0, name: "E1", orderBy: 0,…}
+            // 5: {define: false, desc: "è¿”å›žå€¼", fieldDesc: "F", fieldId: 6, length: 0, name: "F1", orderBy: 0,…}
+            // 6: {define: false, desc: "jsonå‚æ•°åç§°1", fieldDesc: "G", fieldId: 7, length: 0, name: "G1",…}
+            // hasHeader: true
+            // startCol: 1
+            // startRow: 1
+            // endCol: 7
+            // endRow: 32
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
     },
     //配置第二步确认
     secondlendinginsave() {
@@ -1177,7 +1359,13 @@ export default {
     //导入的sheet页
     onClickLeadinSheet: function (evt, treeId, treeNode) {
       // 点击事件
+      this.choosesheetTreeNode={}
       this.isClickSheets = true;
+      this.choosesheetTreeNode=treeNode
+      this.currentsheetindex = treeNode.index
+
+      this.currentfetchData.sheetIndexes=[treeNode.index]
+      // console.log(treeNode)
     },
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1207,11 +1395,12 @@ export default {
         method: "getChildrenBySource",
         data: ["EXPLORER", treeNode.id],
       };
+      that.currentsheettreeId = treeNode.id;
+      that.currentfetchData.dir = treeNode.id
+      
       if (treeNode.right - treeNode.left == 1) {
         //文件,获取右边的表格
-        // this.gettable(treeNode.id)
         that.table.page = 1;
-        that.currenttableid = treeNode.id;
         that.getsearchnoPageTable(treeNode.id, treeNode.name);
       } else {
         //文件夹
@@ -1289,20 +1478,66 @@ export default {
           }
         );
     },
-    //
+    //配置第一步保存按钮
     lendinginsavefirst(name) {
       this.sencdsheetsave_modal = true;
       this.firstsheetsave_modal = false;
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          let path = "";
-          let params = new Object();
-          path = this.PATH.POSTSOLICITADD;
-          params = {};
-        } else {
-          this.$Message.error("Fail!");
-        }
-      });
+
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "fetchData",
+        data: [that.leadinUploadingid,that.currentfetchData],
+      };
+      let newtabledata = [];
+      let modaltype = new Object();
+
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.EXPLORERFETCHDATA, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            //   createTime
+            that.$Spin.hide();
+            let res = success.data.result;
+            let newkey = []
+            if(res.length>0){
+              for(let key in res){
+                  console.log(key);
+                  newkey.push(key)
+              }
+              console.log(newkey,'newkey')
+
+            }
+            for(let i=0;i<newkey.length;i++){
+              that.sheetseetingtable2.columns.push({
+                title:newkey[i],
+                key:newkey[i],
+                align: "center",
+              })
+            }
+            that.sheetseetingtable2.data=res
+            // A1: "A"
+            // B1: "è´·åŽç®¡ç†"
+            // C1: "è´·æ¬¾èµ„é‡‘æµå‘ç›‘æŽ§"
+            // D1: "ä¸­
+            
+            // title: "固定值",
+            // // key: "desc",
+            // align: "center",
+
+            // sheetseetingtable2: {
+            //   columns: [],
+            //   data: [],
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
     },
 
     handleCreated: function (ztreeObj) {
@@ -1547,6 +1782,41 @@ export default {
       });
       a.click();
       document.body.removeChild(a);
+    },
+    
+    //时间戳转日期
+    getNweDate(timeStamp, startType) {
+      var d = null;
+      if (timeStamp.toString().length == 10) {
+        d = new Date(timeStamp * 1000);
+      } else if (timeStamp.toString().length >= 13) {
+        d = new Date(timeStamp);
+      }
+      const year = d.getFullYear();
+      const month = this.getHandledValue(d.getMonth() + 1);
+      const date = this.getHandledValue(d.getDate());
+      const hours = this.getHandledValue(d.getHours());
+      const minutes = this.getHandledValue(d.getMinutes());
+      const second = this.getHandledValue(d.getSeconds());
+      let resStr = "";
+      if (startType === "year")
+        resStr =
+          year +
+          "-" +
+          month +
+          "-" +
+          date +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          second;
+      else resStr = month + "-" + date + " " + hours + ":" + minutes;
+      return resStr;
+    },
+    getHandledValue(num) {
+      return num < 10 ? "0" + num : num;
     },
   },
 };

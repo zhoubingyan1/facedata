@@ -40,5 +40,6 @@ export default {
     EXPLORERGETDEFAULTemplet: '/v3/sys/explorer/dfi.excel.direct',
     EXPLORERFETCHDATA: '/v3/sys/explorer/dfi.excel.direct',
     EXPLORERDOAUTOIMPORT: '/v3/sys/explorer/dfi.excel.direct',
+    EXPLORERRECOMMEND: '/v3/sys/explorer/dfi.templet.direct',
 
 }
