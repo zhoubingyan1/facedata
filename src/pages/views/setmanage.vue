@@ -272,6 +272,9 @@
                         <div class="datatreating_fr_table" style="background:#fff;">
                             <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
                             <div class="setmanagetree-tit">目录名称</div>
+                            <div>
+                                <div></div>
+                            </div>
                             <div class="setmanagetree">
                             <ztree :setting="datatreatingsetting" :nodes="datatreatingnodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
                             </div>
@@ -1273,22 +1276,21 @@ export default {
         onExpand: function (evt, treeId, treeNode) {
             // 点击事件
             if (treeNode.open) {
-                this.treeClick(evt, treeId, treeNode);
+                this.treeClick(treeId, treeNode);
             }
         },
         onClick: function (evt, treeId, treeNode) {
             // 点击事件
             if (!treeNode.open) {
-                this.treeClick(evt, treeId, treeNode);
+                this.treeClick(treeId, treeNode);
             }
         },
         
-        treeClick: function (evt, treeId, treeNode) {
+        treeClick: function (treeId, treeNode) {
             // 点击事件
             // console.log(treeNode.open,'onClick');
             this.treenodeID = treeNode.id;
             const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-            const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
             var that = this;
             var query = {
                 action: "Service",
@@ -1297,9 +1299,6 @@ export default {
             };
             if (treeNode.right - treeNode.left == 1) {
                 //文件,获取右边的表格
-                this.table.page = 1;
-                this.currenttableid = treeNode.id;
-                this.refreshNode()
             } else {
                 //文件夹
                 treeNode.children = [];
@@ -1336,26 +1335,53 @@ export default {
                 }
             }
         },
-        //刷新当前节点 
-        refreshNode() {  
-            /*根据 treeId 获取 zTree 对象*/  
-            type = "refresh",  
-            silent = false,  
-            /*获取 zTree 当前被选中的节点数据集合*/  
-            nodes = this.ztreeObj.getSelectedNodes();  
-            /*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/  
-            this.ztreeObj.reAsyncChildNodes(nodes[0], type, silent);  
-        },
         //刷新当前选择节点的父节点
-        refreshParentNode() {  
-            type = "refresh",  
-            silent = false,  
-            nodes = this.ztreeObj.getSelectedNodes();  
-            /*根据 this.ztreeObj 的唯一标识 tId 快速获取节点 JSON 数据对象*/  
-            var parentNode = this.ztreeObj.getNodeByTId(nodes[0].parentTId);  
-            /*选中指定节点*/  
-            this.ztreeObj.selectNode(parentNode);  
-            this.ztreeObj.reAsyncChildNodes(parentNode, type, silent);  
+        refreshParentNode(treeNode) {  
+            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+            
+            let parentNode=treeNode.getParentNode()
+            console.log(treeNode.getParentNode(),'treeNode')
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getChildrenBySource",
+                data: ["DAPAPP",parentNode.id],
+            };
+            if (parentNode.right - parentNode.left != 1) {
+                //文件夹
+                parentNode.children = [];
+                if (parentNode.isParent) {
+                that.$http
+                    .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
+                    .then(
+                    (success) => {
+                        // console.log(success.data.result);
+                        const childrenData = eval(success.data.result);
+                        //判断子节点是否包含子元素
+                        childrenData.forEach((v, i) => {
+                            childrenData[i].open = false;
+
+                            childrenData[i].isParent = true;
+                            childrenData[i].children = [];
+                        // if (childrenData[i].right - childrenData[i].left != 1) {
+                        //     childrenData[i].isParent = true;
+                        //     childrenData[i].children = [];
+                        // }
+                        // if (childrenData[i].right - childrenData[i].left == 1) {
+                        //     childrenData[i].isParent = false;
+                        // }
+                        });
+                        // console.log(childrenData)
+                        this.ztreeObj.refresh();
+                        this.ztreeObj.addNodes(parentNode, childrenData, false); //添加节点
+                    },
+                    (error) => {
+                        that.err_list = ["登录异常", "请联系管理员"];
+                        that.errorTips_modal = true;
+                    }
+                    );
+                }
+            }
         },
         addDiyDom(treeid, treeNode){
             const item = document.getElementById(`${treeNode.tId}_a`);
@@ -1428,8 +1454,10 @@ export default {
                 (success) => {
                     that.$Spin.hide()
                     console.log(success.data);
-                    that.getdatatreatingdata()
+                    // that.getdatatreatingdata()
                     that.datatreatingEdit_modal = false
+                    that.treeClick('',that.nodeitem)
+
                 },
                 (error) => {
                     that.$Spin.hide()
@@ -1451,7 +1479,9 @@ export default {
                     that.$Spin.hide()
                     console.log(success.data);
                     that.datatreatingEdit_modal = false
-                    that.getdatatreatingdata()
+                    // that.getdatatreatingdata()
+                    that.refreshParentNode(that.nodeitem)
+                    
                 },
                 (error) => {
                     that.$Spin.hide()
@@ -1460,6 +1490,7 @@ export default {
                 }
             );
         },
+        
         //删除弹框
         datatreatingmenuDel(){
             var that = this;
@@ -1474,8 +1505,9 @@ export default {
                 (success) => {
                     that.$Spin.hide()
                     console.log(success.data);
-                    that.getdatatreatingdata()
+                    // that.getdatatreatingdata()
                     that.delModal=false
+                    that.refreshParentNode(that.nodeitem)
                 },
                 (error) => {
                     that.$Spin.hide()
