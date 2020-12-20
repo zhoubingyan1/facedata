@@ -201,7 +201,7 @@
         <Col span="24">
           <div class="sheetsaveserchtit-content">
             <span>名称：</span>
-            <Input type="number" v-model="sheetsavesearchtit"></Input>
+            <Input v-model="sheetsavesearchtit"></Input>
           </div>
         </col>
       </Row>
@@ -581,7 +581,28 @@ export default {
         data: [],
       },
       sheettable:{
-        columns: [],
+        columns: [
+          {
+            title: " ",
+            type: 'index',
+            align: "center",
+          },
+          {
+            title: "名称",
+            key: "name",
+            align: "center",
+          },
+          {
+            title: "拥有者",
+            key: "ownerName",
+            align: "center",
+          },
+          {
+            title: "修改日期",
+            key: "createTime",
+            align: "center",
+          },
+        ],
         data: [],
       },
       sheetseetingtable1:{
@@ -1151,7 +1172,7 @@ export default {
       var query = {
         action: "Service",
         method: "searchNoPage",
-        data: ["EXPLORER",["table"],[title],id],
+        data: ["",["table"],['导入表'],id],
       };
       // {"action":"Service","method":"searchNoPage","data":["EXPLORER",["table"],["\u5bfc\u5165\u8868"],13]}
       let newtabledata = [];
@@ -1163,17 +1184,18 @@ export default {
           console.log(success.data);
           //   createTime
           that.$Spin.hide();
-          // newtabledata = success.data.result.data;
-          // if (newtabledata.length > 0) {
-          //   newtabledata.forEach((v, i) => {
-          //     newtabledata[i].createTime = that.getNweDate(
-          //       v.createTime,
-          //       "year"
-          //     );
-          //   });
-          // }
+          let res = success.data.result;
+          if(res.length>0){
+            res.forEach((v,i)=>{
+              res[i].createTime = that.getNweDate(
+                v.createTime,
+                "year"
+              );
+            })
+          }
           // console.log(success.data.result.data, "success.data.result.data");
           // that.table.data = newtabledata;
+          that.sheettable.data = res
         },
         (error) => {
           that.$Spin.hide();
