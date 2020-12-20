@@ -586,21 +586,106 @@ export default {
             title: " ",
             type: 'index',
             align: "center",
+            render: (h, params) => {
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    attrs: {
+                      class: "cursor",
+                    },
+                    on: {
+                      click: () => {
+                        this.sheetsavesearchtit =''
+                        this.sheetsavesearchtit = params.row.name
+                      },
+                    },
+                  },
+                ),
+              ]);
+              // return h('span',result)
+            },
           },
           {
             title: "名称",
             key: "name",
             align: "center",
+            render: (h, params) => {
+              let result = "";
+              result = params.row.name;
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    attrs: {
+                      class: "cursor",
+                    },
+                    on: {
+                      click: () => {
+                         this.sheetsavesearchtit =''
+                        this.sheetsavesearchtit = params.row.name
+                      },
+                    },
+                  },
+                  result
+                ),
+              ]);
+              // return h('span',result)
+            },
           },
           {
             title: "拥有者",
             key: "ownerName",
             align: "center",
+            render: (h, params) => {
+              let result = "";
+              result = params.row.ownerName;
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    attrs: {
+                      class: "cursor",
+                    },
+                    on: {
+                      click: () => {
+                         this.sheetsavesearchtit =''
+                        this.sheetsavesearchtit = params.row.name
+                      },
+                    },
+                  },
+                  result
+                ),
+              ]);
+              // return h('span',result)
+            },
           },
           {
             title: "修改日期",
             key: "createTime",
             align: "center",
+            render: (h, params) => {
+              let result = "";
+              result = params.row.createTime;
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    attrs: {
+                      class: "cursor",
+                    },
+                    on: {
+                      click: () => {
+                        this.sheetsavesearchtit =''
+                        this.sheetsavesearchtit = params.row.name
+                      },
+                    },
+                  },
+                  result
+                ),
+              ]);
+              // return h('span',result)
+            },
           },
         ],
         data: [],
