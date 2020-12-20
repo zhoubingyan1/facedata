@@ -46,7 +46,7 @@
         FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.
       </div>
       <!-- 错误弹框 -->
-      <Modal
+      <Modal width="300"
         v-model="errorTips_modal"
         class-name="vertical-center-modal"
       >
@@ -400,8 +400,8 @@ export default {
   min-width: 1400px;
 
   .ivu-modal {
-    width: 300px !important;
-    height: 300px;
+    // width: 300px !important;
+    // height: 300px;
 
     text-align: center;
     top: 0;

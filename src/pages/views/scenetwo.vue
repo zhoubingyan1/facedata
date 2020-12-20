@@ -412,7 +412,7 @@
             </div>
         </div>
         <!-- 错误弹框 -->
-        <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+        <Modal width="300" v-model="errorTips_modal" class-name="vertical-center-modal">
             <div class="errorTips_modal">
                 <img
                 class="errorTips_modal_tips"

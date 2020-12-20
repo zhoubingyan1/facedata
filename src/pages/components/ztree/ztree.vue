@@ -192,7 +192,7 @@ export default {
   transition: none;
   vertical-align: middle;
   color: #555555; 
-  width: 100%;
+  /* width: 100%; */
 }
 .ztree >>> .node_name {
   display: inline-block;

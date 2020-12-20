@@ -273,10 +273,42 @@
           :columns="sheetseetingtable1.columns"
           :data="sheetseetingtable1.data"
         >
-        <!-- <template slot-scope="{ row, index }" slot="name">
-          <Input type="text" v-model="editName" v-if="editIndex === index" />
-          <span v-else>{{ row.name }}</span>
-        </template> -->
+          <!-- <template slot-scope="{ row, index }" slot="fieldDesc">
+           
+            <span >{{ row.fieldDesc }}</span>
+          </template>
+          <template slot-scope="{ row, index }" slot="name">
+           
+            <Input type="text" v-model="row.name" v-if="row.isclick==false" />
+            <span v-if="row.isclick==true">{{ row.name }}</span>
+          </template>
+           <template slot-scope="{ row, index }" slot="desc">
+            
+            <Input v-if="row.isclick==false" type="text" v-model="row.desc " />
+            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.desc }}</span>
+          </template>
+          <template slot-scope="{ row, index }" slot="type">
+            
+            <Input type="text" v-model="row.type " v-if="row.isclick==false" />
+            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.type }}</span>
+          </template>
+
+          <template slot-scope="{ row, index }" slot="length">
+            
+            <Input type="text" v-model="row.length" v-if="row.isclick==false" />
+            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.length}}</span>
+          </template>
+
+          <template slot-scope="{ row, index }" slot="scale">
+            
+            <Input type="text" v-model="row.scale" v-if="row.isclick==false" />
+            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.scale }}</span>
+          </template>
+          <template slot-scope="{ row, index }" slot="value">
+            
+            <Input type="text" v-model="row.value" v-if="row.isclick==false" />
+            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.value }}</span>
+          </template> -->
         </Table>
         </Col>
       </Row>
@@ -512,6 +544,16 @@ export default {
         "id":0//27写死
       },
       disabledGroup: "", //导入
+      borrowloadlist:[
+        {value:"INT",},
+        {value:"NUMERIC"},
+        {value:"DOUBLE"},
+        {value:"DATE"},
+        {value:"TIME"},
+        {value:"TIMESTAMP"},
+        {value:"VARCHAR"},
+        {value:"NVARCHAR"},
+],
 
       choosename: "", //导入选择表
       leadingindescribe: "", //导入描述
@@ -728,51 +770,284 @@ export default {
         ],
         data: [],
       },
-    // define: false
-    // desc: "ä¸»ä½“è´£ä»»ç»è¥å•ä½"
-    // fieldDesc: "A"
-    // fieldId: 1
-    // length: 0
-    // name: "A1"
-    // orderBy: 0
-    // scale: 0
-    // type: "VARCHAR"
       sheetseetingtable1: {
         columns: [
           {
-            title: "字段索引",
-            key: "fieldDesc",
+            title: '字段索引',
+            key: 'fieldDesc',
             align: "center",
           },
           {
-            title: "字段名",
-            key: "name",
+            title: '字段名',
+            key: 'name',
             align: "center",
+            render: (h, params) => {
+              console.log(params.row)
+                // isclickname
+              if (params.row.isclickname) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      props: {
+                          value: params.row.name,//默认值
+                      },
+                      on: {
+                          'on-change': (event) => {
+                              this.sheetseetingtable1[params.index].name = event.target.value
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            console.log(params,'params')
+                            this.sheetseetingtable1[params.row._index].isclickname=true
+                          },
+                        },
+                      },
+                      params.row.name
+                    ),
+                  ]);
+              }
+            }
           },
           {
-            title: "字段描述",
-            key: "desc",
+            title: '字段描述',
+            key: 'desc',
             align: "center",
+            render: (h, params) => {
+              // isclickdesc
+              if (params.row.isclickdesc) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      props: {
+                          value: params.row.desc,//默认值
+                      },
+                      on: {
+                          'on-change': (event) => {
+                              this.sheetseetingtable1[params.index].desc = event.target.value
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            console.log(params,'params')
+                            this.sheetseetingtable1[params.row._index].isclickdesc=true
+                          },
+                        },
+                      },
+                      params.row.desc
+                    ),
+                  ]);
+              }
+                
+            }
           },
           {
-            title: "字段类型",
-            key: "type",
+            title: '字段类型',
+            key: 'type',
             align: "center",
+            render: (h, params) => {
+              var vm = this;
+              // isclicktype
+              
+              if (params.row.isclicktype) {      
+                return h("div", [
+                  h(
+                      "Select", {
+                          props: {
+                              value: params.row.type,//默认值
+                          },
+                          on: {
+                              'on-change': (event) => {
+                                  vm.datalist[params.index].type = event;//datalist为table中的数据集
+                              }
+                          },
+                      },
+                      vm.borrowloadlist.map(function (type) {//borrowloadlist为select数据源
+                          return h('Option', {
+                              props: {
+                                  value: type.value//绑定的值
+                              }
+                          }, type.value);//显示的值
+                      })
+
+                  )
+
+                ]);
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            this.sheetseetingtable1[params.index].isclicktype=true
+                          },
+                        },
+                      },
+                      params.row.type
+                    ),
+                  ]);
+              }
+            }
           },
           {
-            title: "字段长度",
-            // key: "length",
+            title: '字段长度',
+            key: 'length',
             align: "center",
+            render: (h, params) => {
+              // isclicklength
+              console.log(params.row.isclicklength,'isclicklength')
+              if (params.row.isclicklength) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      props: {
+                          value: params.row.length,//默认值
+                      },
+                      on: {
+                          click: (event) => {
+                              this.sheetseetingtable1[params.row._index].length = event.target.value
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            console.log(params,'params')
+                            this.sheetseetingtable1[params.row._index].isclicklength=true
+                          },
+                        },
+                      },
+                      params.row.length
+                    ),
+                  ]);
+              }
+            }
           },
           {
-            title: "字段精度",
-            // key: "desc",
+            title: '字段精度',
+            key: 'scale',
             align: "center",
+            render: (h, params) => {
+              // isclickscale
+              if (params.row.isclickscale) {      
+                  return h('div', [
+                    h('Input', {
+                        style: {
+                            padding: '8px'
+                        },
+                        props: {
+                            value: params.row.scale,//默认值
+                        },
+                        on: {
+                            'on-change': (event) => {
+                                this.sheetseetingtable1[params.index].scale = event.target.value
+                            }
+                        }
+                    }),
+                ])
+                } else  {
+                    return h("div", [
+                      h(
+                        "span",
+                        {
+                          attrs: {
+                            class: "cursor",
+                          },
+                          on: {
+                            click: () => {
+                              this.sheetseetingtable1[params.index].isclickscale=true
+                            },
+                          },
+                        },
+                        params.row.scale
+                      ),
+                    ]);
+                }
+
+                
+            }
           },
           {
-            title: "固定值",
-            // key: "desc",
+            title: '固定值',
+            key: 'value',
             align: "center",
+            render: (h, params) => {
+              // isclickvalue
+              let that =this
+              if (params.row.isclickvalue) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      props: {
+                          value: params.row.value,//默认值
+                      },
+                      on: {
+                          'on-change': (event) => {
+                              that.sheetseetingtable1[params.index].value = event.target.value
+                          }
+                      }
+                  }),
+              ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            that.sheetseetingtable1[params.index].isclickvalue=true
+                          },
+                        },
+                      },
+                      params.row.value
+                    ),
+                  ]);
+              }
+            }
+          
           },
         ],
         data: [],
@@ -963,14 +1238,7 @@ export default {
             },
           })
           .then((success) => {
-            console.log(success, "success");
-            // bytesRead: 20187
-            // currentFileName: "监管检查发现 - 正确.xls"
-            // fileId: 1608449985000002
-            // fileIndex: 1
-            // percent: 0
-            // success: true
-            // totalSize: 20187
+            // console.log(success, "success");
             let res = success.data;
             that.leadinUploadingid = res.fileId;
             that.leadinUploadingname = res.currentFileName;
@@ -1001,8 +1269,11 @@ export default {
     UploadMore(e) {
       // console.log(e)
       let files = e.target.files || e.dataTransfer.files;
+      var editorupload = document.getElementById("resource"); //根据id选择器选中对象
+      editorupload.type = "text";
       this.unloadFile = files;
       this.choosename = files[0].name;
+      editorupload.type = "file";
       // console.log(typeof files,this.unloadFile )
     },
     getLeadInLIST(fileId) {
@@ -1191,37 +1462,26 @@ export default {
             that.formCustom.endCol =res.endCol
             that.formCustom.startRow =res.startRow
             that.formCustom.endRow =res.endRow
-            that.sheetseetingtable1.data=res.fileColumns
+            let newfileColums = res.fileColumns
+            if(newfileColums.length>0){
+              newfileColums.forEach((v,i)=>{
+                newfileColums[i].isclickdesc=true
+                newfileColums[i].isclicklength=true
+                newfileColums[i].isclickscale=true
+                newfileColums[i].isclicktype=true
+                newfileColums[i].isclickname=true
+                newfileColums[i].isclickvalue=true
+              })
+            }
+            that.sheetseetingtable1.data=newfileColums
 
             that.currentfetchData.fileColumns = res.fileColumns
             that.currentfetchData.startRow = res.startRow
             that.currentfetchData.endRow = res.endRow
             that.currentfetchData.startCol = res.startCol
             that.currentfetchData.endCol = res.endCol
-            
-// desc: "ä¸»ä½“è´£ä»»ç»è¥å•ä½"
-// fieldDesc: "A"
-// fieldId: 1
-// length: 0
-// name: "A1"
-// orderBy: 0
-// scale: 0
-// type: "VARCHAR"
-            // curSheetIndex: 0
-            // id: 0
-            // fileColumns: [{define: false, desc: "åºå·", fieldDesc: "A", fieldId: 1, length: 0, name: "A1", orderBy: 0,…},…]
-            // 0: {define: false, desc: "åºå·", fieldDesc: "A", fieldId: 1, length: 0, name: "A1", orderBy: 0,…}
-            // 1: {define: false, desc: "æŽ¥å£åç§°", fieldDesc: "B", fieldId: 2, length: 0, name: "B1", orderBy: 0,…}
-            // 2: {define: false, desc: "æŽ¥å£åœ°å€", fieldDesc: "C", fieldId: 3, length: 0, name: "C1", orderBy: 0,…}
-            // 3: {define: false, desc: "queryå‚æ•°", fieldDesc: "D", fieldId: 4, length: 0, name: "D1", orderBy: 0,…}
-            // 4: {define: false, desc: "å¤‡æ³¨", fieldDesc: "E", fieldId: 5, length: 0, name: "E1", orderBy: 0,…}
-            // 5: {define: false, desc: "è¿”å›žå€¼", fieldDesc: "F", fieldId: 6, length: 0, name: "F1", orderBy: 0,…}
-            // 6: {define: false, desc: "jsonå‚æ•°åç§°1", fieldDesc: "G", fieldId: 7, length: 0, name: "G1",…}
-            // hasHeader: true
-            // startCol: 1
-            // startRow: 1
-            // endCol: 7
-            // endRow: 32
+            that.currentfetchData.hasHeader = res.hasHeader
+          
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1234,6 +1494,28 @@ export default {
       // this.firstsheetsave_modal=true
       this.systemtips_modal = true;
       this.sencdsheetsave_modal = false; //配置第一步弹框消失
+      var that = this;
+      console.log(that.leadinUploadingid,that.currentfetchData)
+      
+      var query = {
+        action: "Service",
+        method: "doImport",
+        data: [that.leadinUploadingid,that.currentfetchData],
+      };
+      that.$http
+        .post(that.PATH.EXPLORERDOAUTOIMPORT, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            let res=success.data.result
+          
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
     },
     //导入推出
     lendinginleavefail() {
@@ -1480,34 +1762,44 @@ export default {
     },
     //配置第一步保存按钮
     lendinginsavefirst(name) {
-      this.sencdsheetsave_modal = true;
-      this.firstsheetsave_modal = false;
-
       var that = this;
+      that.sencdsheetsave_modal = true;
+      that.firstsheetsave_modal = false;
+      if(that.formCustom.hasHeader=='1'){
+        that.currentfetchData.hasHeader =true
+      }else{
+        that.currentfetchData.hasHeader =false
+      }
+
+      that.currentfetchData.startRow = that.formCustom.startRow
+      that.currentfetchData.endRow = that.formCustom.endRow
+      that.currentfetchData.startCol = that.formCustom.startCol
+      that.currentfetchData.endCol = that.formCustom.endCol
+
+
+      
       var query = {
         action: "Service",
         method: "fetchData",
         data: [that.leadinUploadingid,that.currentfetchData],
       };
-      let newtabledata = [];
-      let modaltype = new Object();
-
+      that.sheetseetingtable2.columns=[]
+      that.sheetseetingtable2.data=[]
       that.$Spin.show();
       that.$http
         .post(that.PATH.EXPLORERFETCHDATA, JSON.stringify(query))
         .then(
           (success) => {
             console.log(success.data);
-            //   createTime
             that.$Spin.hide();
             let res = success.data.result;
             let newkey = []
             if(res.length>0){
-              for(let key in res){
-                  console.log(key);
+              for(let key in res[0]){
+                  // console.log(key);
                   newkey.push(key)
               }
-              console.log(newkey,'newkey')
+              // console.log(newkey,'newkey')
 
             }
             for(let i=0;i<newkey.length;i++){
@@ -1517,19 +1809,9 @@ export default {
                 align: "center",
               })
             }
-            that.sheetseetingtable2.data=res
-            // A1: "A"
-            // B1: "è´·åŽç®¡ç†"
-            // C1: "è´·æ¬¾èµ„é‡‘æµå‘ç›‘æŽ§"
-            // D1: "ä¸­
             
-            // title: "固定值",
-            // // key: "desc",
-            // align: "center",
-
-            // sheetseetingtable2: {
-            //   columns: [],
-            //   data: [],
+            that.sheetseetingtable2.columns[0].fixed = 'left'
+            that.sheetseetingtable2.data=res
           },
           (error) => {
             that.$Spin.hide();
@@ -1546,7 +1828,7 @@ export default {
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
     handleCreatedLeadinSheet: function (newztreeObj) {
-      console.log(newztreeObj, "newztreeObj");
+      // console.log(newztreeObj, "newztreeObj");
       let that = this;
       that.ztreeUploadingObj = newztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
@@ -2235,7 +2517,7 @@ export default {
     }
     .datatreting-sheet-content {
       height: 500px;
-      overflow: scroll;
+      // overflow: scroll;
       padding-top: 30px;
     }
     .datamodal_content {
@@ -2427,7 +2709,7 @@ export default {
   .Systemicselection_head_content {
     padding: 30px 0px;
     height: 500px;
-    overflow: scroll;
+    // overflow: scroll;
   }
   .ivu-form-item .ivu-form-item .ivu-form-item-content {
     margin-left: 80px !important;

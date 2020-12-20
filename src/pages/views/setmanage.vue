@@ -288,7 +288,7 @@
             </NewTabPane>
         </NewTabs>
         <!-- 导入弹窗 -->
-        <Modal v-model="datatreating_modal" class-name="vertical-center-modal">
+        <Modal width="600" v-model="datatreating_modal" class-name="vertical-center-modal">
             <!-- 导入 -->
             <div class="layer_header" style="cursor: move;">
                 导入
@@ -314,7 +314,7 @@
             </div>
         </Modal>
         <!-- 系统提示弹窗 -->
-        <Modal v-model="systemtips_modal" class-name="vertical-center-modal" :closable="false">
+        <Modal width="600" v-model="systemtips_modal" class-name="vertical-center-modal" :closable="false">
             <!-- 导入失败 -->
             <div class="layer_header" style="cursor: move;">
                 系统提示
@@ -328,7 +328,7 @@
             </div>
         </Modal>
         <!-- 导入失败弹窗 -->
-        <Modal v-model="leadingInFail_modal" class-name="vertical-center-modal">
+        <Modal width="600" v-model="leadingInFail_modal" class-name="vertical-center-modal">
             <!-- 导入失败 -->
             <div class="layer_header" style="cursor: move;">
                 导入失败
@@ -345,7 +345,7 @@
             </div>
         </Modal>
          <!-- 下载模版 -->
-        <Modal v-model="downloadTemplate_modal" class-name="vertical-center-modal">
+        <Modal width="600" v-model="downloadTemplate_modal" class-name="vertical-center-modal">
             <!-- 下载模版 -->
             <div class="layer_header" style="cursor: move;">
                 下载模版
@@ -372,7 +372,7 @@
             </div>
         </Modal>
         <!-- 目录 增加目录名称 -->
-        <Modal v-model="datatreatingEdit_modal" class-name="vertical-center-modal">
+        <Modal width="300" v-model="datatreatingEdit_modal" class-name="vertical-center-modal">
             <div class="datamodal_content">
                  <Input v-model="datatreatingEditname" placeholder="请输入节点名称"  />
             </div>
@@ -382,7 +382,7 @@
             </div>
         </Modal>
          <!-- 错误提示 -->
-        <Modal v-model="errorTips_modal" class-name="vertical-center-modal">
+        <Modal width="300" v-model="errorTips_modal" class-name="vertical-center-modal">
             <div class="errorTips_modal">
                 <img
                 class="errorTips_modal_tips"
@@ -398,7 +398,7 @@
             </div>
         </Modal>
         <!-- 删除确认弹框 -->
-        <Modal :mask-closable="true" v-model="delModal" width="360" class-name="mr-del-modal">
+        <Modal width="360" :mask-closable="true" v-model="delModal" class-name="mr-del-modal">
         <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
         <div class="facedata-btn-box">
             <div
@@ -414,7 +414,7 @@
 <script>
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
-import ztree from "../components/ztree/ztree";
+import ztree from "../components/ztree/ztree1";
 function addDiyDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
@@ -2034,8 +2034,8 @@ export default {
     }
 }
 .ivu-modal {
-    min-width: 600Px;
-    width: 600px !important;
+    // min-width: 600Px;
+    // width: 600px !important;
     height: 334px;
     top:300px;
 
@@ -2250,8 +2250,8 @@ export default {
   min-width: 1400px;
 
   .ivu-modal {
-    width: 300px !important;
-    height: 300px;
+    // width: 300px !important;
+    // height: 300px;
 
     text-align: center;
     top: 0;
