@@ -186,6 +186,7 @@
             :setting="setting"
             :nodes="nodes4"
             @onClick="onClick4"
+            @onExpand="onExpand4"
             @onCreated="handleCreated4" 
           ></ztree>
         </Col>
@@ -197,6 +198,7 @@
           stripe
           :columns="sheettable.columns"
           :data="sheettable.data"
+          @on-row-click="clickRow"
         ></Table>
         </Col>
       </Row>
@@ -273,42 +275,6 @@
           :columns="sheetseetingtable1.columns"
           :data="sheetseetingtable1.data"
         >
-          <!-- <template slot-scope="{ row, index }" slot="fieldDesc">
-           
-            <span >{{ row.fieldDesc }}</span>
-          </template>
-          <template slot-scope="{ row, index }" slot="name">
-           
-            <Input type="text" v-model="row.name" v-if="row.isclick==false" />
-            <span v-if="row.isclick==true">{{ row.name }}</span>
-          </template>
-           <template slot-scope="{ row, index }" slot="desc">
-            
-            <Input v-if="row.isclick==false" type="text" v-model="row.desc " />
-            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.desc }}</span>
-          </template>
-          <template slot-scope="{ row, index }" slot="type">
-            
-            <Input type="text" v-model="row.type " v-if="row.isclick==false" />
-            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.type }}</span>
-          </template>
-
-          <template slot-scope="{ row, index }" slot="length">
-            
-            <Input type="text" v-model="row.length" v-if="row.isclick==false" />
-            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.length}}</span>
-          </template>
-
-          <template slot-scope="{ row, index }" slot="scale">
-            
-            <Input type="text" v-model="row.scale" v-if="row.isclick==false" />
-            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.scale }}</span>
-          </template>
-          <template slot-scope="{ row, index }" slot="value">
-            
-            <Input type="text" v-model="row.value" v-if="row.isclick==false" />
-            <span v-if="row.isclick==true" @click="row.isclick=false">{{ row.value }}</span>
-          </template> -->
         </Table>
         </Col>
       </Row>
@@ -335,17 +301,6 @@
         <div class="successtips">导入成功</div>
       </div>
       <div class="datamodal_content">
-        <div class="datamodal_item">
-          <div class="datamodal_item-title">是否创建模版:</div>
-          <div class="datamodal_item_flex" style="position: relative;">
-            <div class="choose_biao">
-               <RadioGroup v-model="disabledGroup">
-                  <Radio label="1">是</Radio>
-                  <Radio label="0">否</Radio>
-              </RadioGroup>
-            </div>
-          </div>
-        </div>
         <div class="datamodal_item">
           <div class="datamodal_item-title">本次操作说明:</div>
           <div class="datamodal_item_flex">
@@ -553,7 +508,8 @@ export default {
         {value:"TIMESTAMP"},
         {value:"VARCHAR"},
         {value:"NVARCHAR"},
-],
+      ],
+      doImportresult:'',//
 
       choosename: "", //导入选择表
       leadingindescribe: "", //导入描述
@@ -669,103 +625,22 @@ export default {
             title: " ",
             type: "index",
             align: "center",
-            render: (h, params) => {
-              return h("div", [
-                h("span", {
-                  attrs: {
-                    class: "cursor",
-                  },
-                  on: {
-                    click: () => {
-                      this.sheetsavesearchtit = "";
-                      this.sheetsavesearchtit = params.row.name;
-                    },
-                  },
-                }),
-              ]);
-              // return h('span',result)
-            },
+            
           },
           {
             title: "名称",
             key: "name",
             align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.sheetsavesearchtit = "";
-                        this.sheetsavesearchtit = params.row.name;
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
           },
           {
             title: "拥有者",
             key: "ownerName",
             align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.ownerName;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.sheetsavesearchtit = "";
-                        this.sheetsavesearchtit = params.row.name;
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
           },
           {
             title: "修改日期",
             key: "createTime",
             align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.createTime;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.sheetsavesearchtit = "";
-                        this.sheetsavesearchtit = params.row.name;
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
           },
         ],
         data: [],
@@ -794,8 +669,7 @@ export default {
                           value: params.row.name,//默认值
                       },
                       on: {
-                          'on-change': (event) => {
-                            isclickname=false
+                          'on-blur': (event) => {
                               this.sheetseetingtable1.data[params.row._index].name = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickname=false
                           }
@@ -838,7 +712,7 @@ export default {
                           value: params.row.desc,//默认值
                       },
                       on: {
-                          'on-change': (event) => {
+                          'on-blur': (event) => {
                               this.sheetseetingtable1.data[params.row._index].desc = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickdesc=false
                           }
@@ -933,7 +807,7 @@ export default {
                           value: params.row.length,//默认值
                       },
                       on: {
-                          'on-change': (event) => {
+                          'on-blur': (event) => {
                               this.sheetseetingtable1.data[params.row._index].length = event.target.value
                               this.sheetseetingtable1.data[params.row._index].isclicklength=false
                           }
@@ -976,7 +850,7 @@ export default {
                             value: params.row.scale,//默认值
                         },
                         on: {
-                            'on-change': (event) => {
+                            'on-blur': (event) => {
                                 this.sheetseetingtable1.data[params.row._index].scale = event.target.value
                                 this.sheetseetingtable1.data[params.row._index].isclickscale=false
                             }
@@ -1022,7 +896,7 @@ export default {
                           value: params.row.value,//默认值
                       },
                       on: {
-                          'on-change': (event) => {
+                          'on-blur': (event) => {
                               that.sheetseetingtable1.data[params.row._index].value = event.target.value
                               that.sheetseetingtable1.data[params.row._index].isclickvalue=false
                           }
@@ -1382,7 +1256,10 @@ export default {
           }
         );
     },
-
+    clickRow(row,index){
+      console.log(row,'rowrow')
+      this.sheetsavesearchtit=row.name
+    },
     //sheet保存
     lendinginsheetsave() {
        //alert(this.sheetsavesearchtit);
@@ -1459,7 +1336,11 @@ export default {
               that.formCustom.hasHeader ="0"
             }
             that.formCustom.startCol=res.startCol
-            
+            if(res.fileColumns.length>0){
+              res.fileColumns.forEach((v,i)=>{
+                v.value='  '
+              })
+            }
             that.formCustom.endCol =res.endCol
             that.formCustom.startRow =res.startRow
             that.formCustom.endRow =res.endRow
@@ -1510,7 +1391,7 @@ export default {
           (success) => {
             console.log(success.data);
             let res=success.data.result
-          
+            that.doImportresult=res
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1522,7 +1403,7 @@ export default {
     //系统提示确定
     systemtipsmodalconfirm(){
       let that =this
-      that.ReupdateRemark(88)
+      that.ReupdateRemark(that.doImportresult)
     },
     
     ReupdateRemark(id){
@@ -1533,7 +1414,7 @@ export default {
       var query = {
         action: "Service",
         method: "updateRemark",
-        data: [[id],that.leadingindescribe],
+        data: [id,that.leadingindescribe],
       };
       that.$http
         .post(that.PATH.LEADINIMPORTLOG, JSON.stringify(query))
@@ -1541,7 +1422,7 @@ export default {
           (success) => {
             console.log(success.data);
             let res=success.data.result
-          
+            that.systemtips_modal=false
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1684,7 +1565,7 @@ export default {
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
       if (treeNode.open) {
-        this.treeClick(evt, treeId, treeNode);
+        this.SheetSavetreeClick(evt, treeId, treeNode);
       }
     },
     onClick4: function (evt, treeId, treeNode) {
@@ -2518,6 +2399,11 @@ export default {
   // width: 600px !important;
   // height: 334px;
   top: 300px;
+  .cursor{
+    display: inline-block;
+    width: 100%;
+    min-height: 18px;
+  }
   .ivu-modal-content {
     background: #ffffff;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);

@@ -280,13 +280,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="datatreating_fr_page">
-                        <div class="facedata-pagination">
-                            <div class="facedata-pagination">
-                            <Page :total="standardtable.total" :current="standardtable.page" size="small" @on-change="changestandardtablePage" :pageSize="standardtable.pagesize"></Page>
-                            </div>
-                        </div>
-                    </div>
                 </div> 
             </NewTabPane>
         </NewTabs>
@@ -1427,6 +1420,50 @@ export default {
                 item.appendChild(addbtn);
             }
         },
+        refreshcurrentNode: function (treeId, treeNode) {
+            // 点击事件
+            // console.log(treeNode.open,'onClick');
+            this.treenodeID = treeNode.id;
+            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getChildrenBySource",
+                data: ["DAPAPP",treeNode.id],
+            };
+            treeNode.children = [];
+            that.$http
+                .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
+                .then(
+                (success) => {
+                    // console.log(success.data.result);
+                    const childrenData = eval(success.data.result);
+                    //判断子节点是否包含子元素
+                    childrenData.forEach((v, i) => {
+                        childrenData[i].open = false;
+
+                        childrenData[i].isParent = true;
+                        childrenData[i].children = [];
+                    // if (childrenData[i].right - childrenData[i].left != 1) {
+                    //     childrenData[i].isParent = true;
+                    //     childrenData[i].children = [];
+                    // }
+                    // if (childrenData[i].right - childrenData[i].left == 1) {
+                    //     childrenData[i].isParent = false;
+                    // }
+                    });
+                    // console.log(childrenData)
+                    this.ztreeObj.refresh();
+                    this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                },
+                (error) => {
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+                );
+            
+            
+        },
         //弹框取消
         canceldatatreatingEditmodal(){
             this.datatreatingEdit_modal =false
@@ -1456,7 +1493,7 @@ export default {
                     console.log(success.data);
                     // that.getdatatreatingdata()
                     that.datatreatingEdit_modal = false
-                    that.treeClick('',that.nodeitem)
+                    that.refreshcurrentNode('',that.nodeitem)
 
                 },
                 (error) => {
