@@ -1249,13 +1249,16 @@ export default {
                     if (newResult.length > 0) {
                         newResult.forEach((v, i) => {
                             newResult[i].open = false;
-                            if (newResult[i].right - newResult[i].left != 1) {
+
                             newResult[i].isParent = true;
                             newResult[i].children = [];
-                            }
-                            if (newResult[i].right - newResult[i].left == 1) {
-                            newResult[i].isParent = false;
-                            }
+                            // if (newResult[i].right - newResult[i].left != 1) {
+                            // newResult[i].isParent = true;
+                            // newResult[i].children = [];
+                            // }
+                            // if (newResult[i].right - newResult[i].left == 1) {
+                            // newResult[i].isParent = false;
+                            // }
                         });
                     }
                     that.datatreatingnodes = success.data.result;
@@ -1296,6 +1299,7 @@ export default {
                 //文件,获取右边的表格
                 this.table.page = 1;
                 this.currenttableid = treeNode.id;
+                this.refreshNode()
             } else {
                 //文件夹
                 treeNode.children = [];
@@ -1307,20 +1311,18 @@ export default {
                         // console.log(success.data.result);
                         const childrenData = eval(success.data.result);
                         //判断子节点是否包含子元素
-                        // for(var i in childrenData){
-                        //     if(childrenData[i].isContainSon === 1){
-                        //         childrenData[i].isParent = true;
-                        //     }
-                        // };
                         childrenData.forEach((v, i) => {
-                        childrenData[i].open = false;
-                        if (childrenData[i].right - childrenData[i].left != 1) {
+                            childrenData[i].open = false;
+
                             childrenData[i].isParent = true;
                             childrenData[i].children = [];
-                        }
-                        if (childrenData[i].right - childrenData[i].left == 1) {
-                            childrenData[i].isParent = false;
-                        }
+                        // if (childrenData[i].right - childrenData[i].left != 1) {
+                        //     childrenData[i].isParent = true;
+                        //     childrenData[i].children = [];
+                        // }
+                        // if (childrenData[i].right - childrenData[i].left == 1) {
+                        //     childrenData[i].isParent = false;
+                        // }
                         });
                         // console.log(childrenData)
                         this.ztreeObj.refresh();
@@ -1333,6 +1335,27 @@ export default {
                     );
                 }
             }
+        },
+        //刷新当前节点 
+        refreshNode() {  
+            /*根据 treeId 获取 zTree 对象*/  
+            type = "refresh",  
+            silent = false,  
+            /*获取 zTree 当前被选中的节点数据集合*/  
+            nodes = this.ztreeObj.getSelectedNodes();  
+            /*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/  
+            this.ztreeObj.reAsyncChildNodes(nodes[0], type, silent);  
+        },
+        //刷新当前选择节点的父节点
+        refreshParentNode() {  
+            type = "refresh",  
+            silent = false,  
+            nodes = this.ztreeObj.getSelectedNodes();  
+            /*根据 this.ztreeObj 的唯一标识 tId 快速获取节点 JSON 数据对象*/  
+            var parentNode = this.ztreeObj.getNodeByTId(nodes[0].parentTId);  
+            /*选中指定节点*/  
+            this.ztreeObj.selectNode(parentNode);  
+            this.ztreeObj.reAsyncChildNodes(parentNode, type, silent);  
         },
         addDiyDom(treeid, treeNode){
             const item = document.getElementById(`${treeNode.tId}_a`);

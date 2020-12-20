@@ -42,4 +42,5 @@ export default {
     EXPLORERDOAUTOIMPORT: '/v3/sys/explorer/dfi.excel.direct',
     EXPLORERRECOMMEND: '/v3/sys/explorer/dfi.templet.direct',
 
+    LEADINIMPORTLOG: '/v3/sys/explorer/dfi.importlog.direct',
 }

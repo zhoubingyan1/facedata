@@ -131,8 +131,8 @@ export default {
   position: absolute;
   top: 0;
   left: 10px;
-  height: 130%;
-  /* height: 100%; */
+  /* height: 130%; */
+  height: 100%;
   content: "";
   border-right: 1px solid #dbdbdb;
 }

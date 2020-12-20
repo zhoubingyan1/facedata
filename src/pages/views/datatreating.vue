@@ -354,7 +354,7 @@
         </div>
       </div>
       <div class="datamodal_footer1">
-        <button class="btn" @click="systemtips_modal=false">确定</button>
+        <button class="btn" @click="systemtipsmodalconfirm">确定</button>
       </div>
     </Modal>
     <!-- 导入失败弹窗 -->
@@ -782,8 +782,8 @@ export default {
             key: 'name',
             align: "center",
             render: (h, params) => {
-              console.log(params.row)
                 // isclickname
+                let isclickname =true
               if (params.row.isclickname) {      
                 return h('div', [
                   h('Input', {
@@ -795,7 +795,9 @@ export default {
                       },
                       on: {
                           'on-change': (event) => {
-                              this.sheetseetingtable1[params.index].name = event.target.value
+                            isclickname=false
+                              this.sheetseetingtable1.data[params.row._index].name = event.target.value
+                               this.sheetseetingtable1.data[params.row._index].isclickname=false
                           }
                       }
                   }),
@@ -810,8 +812,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            console.log(params,'params')
-                            this.sheetseetingtable1[params.row._index].isclickname=true
+                           this.sheetseetingtable1.data[params.row._index].isclickname=true
                           },
                         },
                       },
@@ -838,7 +839,8 @@ export default {
                       },
                       on: {
                           'on-change': (event) => {
-                              this.sheetseetingtable1[params.index].desc = event.target.value
+                              this.sheetseetingtable1.data[params.row._index].desc = event.target.value
+                               this.sheetseetingtable1.data[params.row._index].isclickdesc=false
                           }
                       }
                   }),
@@ -853,8 +855,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            console.log(params,'params')
-                            this.sheetseetingtable1[params.row._index].isclickdesc=true
+                            this.sheetseetingtable1.data[params.row._index].isclickdesc=true
                           },
                         },
                       },
@@ -870,9 +871,7 @@ export default {
             key: 'type',
             align: "center",
             render: (h, params) => {
-              var vm = this;
-              // isclicktype
-              
+              var that = this;
               if (params.row.isclicktype) {      
                 return h("div", [
                   h(
@@ -882,11 +881,12 @@ export default {
                           },
                           on: {
                               'on-change': (event) => {
-                                  vm.datalist[params.index].type = event;//datalist为table中的数据集
+                                  that.sheetseetingtable1.data[params.row._index].type = event;//datalist为table中的数据集
+                                  that.sheetseetingtable1.data[params.row._index].isclicktype=false
                               }
                           },
                       },
-                      vm.borrowloadlist.map(function (type) {//borrowloadlist为select数据源
+                      that.borrowloadlist.map(function (type) {//borrowloadlist为select数据源
                           return h('Option', {
                               props: {
                                   value: type.value//绑定的值
@@ -907,7 +907,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            this.sheetseetingtable1[params.index].isclicktype=true
+                            that.sheetseetingtable1.data[params.row._index].isclicktype=true
                           },
                         },
                       },
@@ -923,7 +923,6 @@ export default {
             align: "center",
             render: (h, params) => {
               // isclicklength
-              console.log(params.row.isclicklength,'isclicklength')
               if (params.row.isclicklength) {      
                 return h('div', [
                   h('Input', {
@@ -934,8 +933,9 @@ export default {
                           value: params.row.length,//默认值
                       },
                       on: {
-                          click: (event) => {
-                              this.sheetseetingtable1[params.row._index].length = event.target.value
+                          'on-change': (event) => {
+                              this.sheetseetingtable1.data[params.row._index].length = event.target.value
+                              this.sheetseetingtable1.data[params.row._index].isclicklength=false
                           }
                       }
                   }),
@@ -950,8 +950,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            console.log(params,'params')
-                            this.sheetseetingtable1[params.row._index].isclicklength=true
+                            this.sheetseetingtable1.data[params.row._index].isclicklength=true
                           },
                         },
                       },
@@ -978,7 +977,8 @@ export default {
                         },
                         on: {
                             'on-change': (event) => {
-                                this.sheetseetingtable1[params.index].scale = event.target.value
+                                this.sheetseetingtable1.data[params.row._index].scale = event.target.value
+                                this.sheetseetingtable1.data[params.row._index].isclickscale=false
                             }
                         }
                     }),
@@ -993,7 +993,7 @@ export default {
                           },
                           on: {
                             click: () => {
-                              this.sheetseetingtable1[params.index].isclickscale=true
+                              this.sheetseetingtable1.data[params.row._index].isclickscale=true
                             },
                           },
                         },
@@ -1023,7 +1023,8 @@ export default {
                       },
                       on: {
                           'on-change': (event) => {
-                              that.sheetseetingtable1[params.index].value = event.target.value
+                              that.sheetseetingtable1.data[params.row._index].value = event.target.value
+                              that.sheetseetingtable1.data[params.row._index].isclickvalue=false
                           }
                       }
                   }),
@@ -1038,7 +1039,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            that.sheetseetingtable1[params.index].isclickvalue=true
+                           that.sheetseetingtable1.data[params.row._index].isclickvalue=true
                           },
                         },
                       },
@@ -1465,12 +1466,13 @@ export default {
             let newfileColums = res.fileColumns
             if(newfileColums.length>0){
               newfileColums.forEach((v,i)=>{
-                newfileColums[i].isclickdesc=true
-                newfileColums[i].isclicklength=true
-                newfileColums[i].isclickscale=true
-                newfileColums[i].isclicktype=true
-                newfileColums[i].isclickname=true
-                newfileColums[i].isclickvalue=true
+                
+                newfileColums[i].isclickvalue= false
+                newfileColums[i].isclickscale= false
+                newfileColums[i].isclicklength= false
+                newfileColums[i].isclicktype= false
+                newfileColums[i].isclickdesc= false
+                newfileColums[i].isclickname= false
               })
             }
             that.sheetseetingtable1.data=newfileColums
@@ -1515,7 +1517,37 @@ export default {
             that.errorTips_modal = true;
           }
         );
+        // that.ReupdateRemark()
+    },
+    //系统提示确定
+    systemtipsmodalconfirm(){
+      let that =this
+      that.ReupdateRemark(88)
+    },
     
+    ReupdateRemark(id){
+      this.systemtips_modal = true;
+      this.sencdsheetsave_modal = false; //配置第一步弹框消失
+      var that = this;
+      
+      var query = {
+        action: "Service",
+        method: "updateRemark",
+        data: [[id],that.leadingindescribe],
+      };
+      that.$http
+        .post(that.PATH.LEADINIMPORTLOG, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            let res=success.data.result
+          
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
     },
     //导入推出
     lendinginleavefail() {
