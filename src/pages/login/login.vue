@@ -14,7 +14,7 @@
       >
       <div class="logindate">
         {{currentdate}}
-        <SUP>th</SUP>
+        <SUP>{{currentdateinfo}}</SUP>
         . {{currentmonth}}. {{currentyear}}
       </div>
       </Col>
@@ -195,9 +195,26 @@ export default {
       if (month >= 1 && month <= 9) {
         month = "0" + month;
       }
+      let currentdateinfo=""
+      switch (strDate) {
+        case 1:
+          currentdateinfo='st'
+          break;
+        case 2:
+          currentdateinfo='nd'
+          break;
+        case 3:
+          currentdateinfo='rd'
+          break;
+         default:
+          currentdateinfo='th'
+      }
+      this.currentdateinfo=currentdateinfo
+      
       if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
       }
+      
       this.currentyear = year;
       this.currentmonth = newmonth;
       this.currentdate = strDate;
@@ -231,13 +248,14 @@ export default {
         method: "login",
         data: [this.username, this.password],
       };
-      console.log(that.PATH.LOGIN);
+      // console.log(that.PATH.LOGIN);
       // {responseType: 'json',}
+      that.$Spin.show()
       that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
         (success) => {
           console.log(success.data);
+          that.$Spin.hide()
           var res = success.data;
-
           if (res.result != null) {
             localStorage.removeItem("modaltype");//清空模型
             sessionStorage.removeItem("UserName");
@@ -255,6 +273,7 @@ export default {
           }
         },
         (error) => {
+          that.$Spin.hide()
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
@@ -452,8 +471,6 @@ export default {
       }
     }
 
-    ::v-deep {
-    }
   }
   .logincheckbox {
     // transform: translate(-50%, -50%);

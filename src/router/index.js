@@ -36,6 +36,24 @@ export default new Router({
           }
         },
         {
+          //Publicindex
+          path: '/publicindex',
+          name: 'publicindex',
+          component: path.Publicindex,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          //场景1
+          path: '/sceneone',
+          name: 'sceneone',
+          component: path.Sceneone,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
           //场景2
           path: '/scenetwo',
           name: 'scenetwo',

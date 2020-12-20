@@ -106,22 +106,22 @@ arg.interceptors.request.use(config => {
         config.url = config.url + "?timestamp=" + guid()
     }
     LoadingBar.start()
-    Spin.show()
+    // Spin.show()
     return config
 }, error => {
-    Spin.hide()
+    // Spin.hide()
     LoadingBar.error()
     Message.error('请求失败')
     return Promise.reject(error)
 })
 arg.interceptors.response.use(config => {
     LoadingBar.finish()
-    Spin.hide()
+    // Spin.hide()
     removePending(config.config)
     return config
 }, error => {
     LoadingBar.error()
-    Spin.hide()
+    // Spin.hide()
     if (!navigator.onLine) {
         Notice.destroy()
         Notice.error({

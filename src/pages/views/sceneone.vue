@@ -1,5 +1,5 @@
 <template>
-  <div id="index">
+  <div id="sceneone">
     
     <Row :gutter="52">
       <Col span="8">
@@ -480,7 +480,7 @@ import { on, off } from "@/utils/tools";
 // import { Tabs, TabPane } from "../components/tabs/index";
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
 export default {
-  name: "index",
+  name: "sceneone",
   // components: { Tabs, TabPane },
   components: { NewTabs, NewTabPane },
   data() {
@@ -1490,7 +1490,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#index {
+#sceneone {
   min-width: 1200px;
   height: 100%;
   padding: 50px 70px;

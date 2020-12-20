@@ -1,35 +1,7 @@
 <template>
-  <Table :columns="columns" :data="data">
-    <template slot-scope="{ row, index }" slot="name">
-      <Input type="text" v-model="editName" v-if="editIndex === index" />
-      <span v-else>{{ row.name }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="age">
-      <Input type="text" v-model="editAge" v-if="editIndex === index" />
-      <span v-else>{{ row.age }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="birthday">
-      <Input type="text" v-model="editBirthday" v-if="editIndex === index" />
-      <span v-else>{{ getBirthday(row.birthday) }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="address">
-      <Input type="text" v-model="editAddress" v-if="editIndex === index" />
-      <span v-else>{{ row.address }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="action">
-      <div v-if="editIndex === index">
-        <Button @click="handleSave(index)">保存</Button>
-        <Button @click="editIndex = -1">取消</Button>
-      </div>
-      <div v-else>
-        <Button @click="handleEdit(row, index)">操作</Button>
-      </div>
-    </template>
-  </Table>
+  <div>
+      。。。
+  </div>
 </template>
 <script>
   export default {

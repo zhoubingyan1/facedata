@@ -14,13 +14,16 @@
     "echarts": "^4.9.0",
     "element-ui": "^2.14.1",
     "iview": "^3.0.0",
-    "view-design": "^4.0.0",
+    "js-base64": "^3.6.0",
+    "js-md5": "^0.7.3",
     "moment": "^2.22.2",
     "node-sass": "^4.14.1",
     "postcss-px-to-viewport": "^1.1.1",
+    "view-design": "^4.0.0",
     "vue": "^2.5.2",
     "vue-calendar-component": "^2.8.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuetify": "^2.3.21"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

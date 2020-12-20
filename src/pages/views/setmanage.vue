@@ -269,9 +269,12 @@
                 <!-- 标准目录 -->
                 <div v-else>
                     <div class="datatreating_fr_table">
-                        <div class="datatreating_fr_table">
+                        <div class="datatreating_fr_table" style="background:#fff;">
                             <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
+                            <div class="setmanagetree-tit">目录名称</div>
+                            <div class="setmanagetree">
                             <ztree :setting="datatreatingsetting" :nodes="datatreatingnodes" @onClick="onClick"  @onCreated="handleCreated" @onExpand="onExpand"></ztree>
+                            </div>
                         </div>
                     </div>
                     <div class="datatreating_fr_page">
@@ -306,7 +309,7 @@
                 </div>
             </div>
             <div class="datamodal_footer">
-                <button class="btn" @click="lendinginleavefail">推出</button>
+                <button class="btn" @click="lendinginleavefail">退出</button>
                 <button class="btn" @click="lendinginsave">保存</button>
             </div>
         </Modal>
@@ -354,13 +357,6 @@
                         <Select v-model="model8" clearable class="downloadtemplate_content">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <!-- <div class="select-head">
-                            <span class="select-head-cont">{{cont}}</span>
-                            <span class="select-icon">▼</span>
-                        </div>
-                        <ul class="option">
-                            <li class="option-item" v-for="item in cityList" @click="optionClick(v-1)">「「</li>
-                        </ul> -->
                     </div>
                 </div>
                 <div class="datamodal_item">
@@ -371,8 +367,18 @@
                 </div>
             </div>
             <div class="datamodal_footer">
-                <button class="btn">推出</button>
+                <button class="btn">退出</button>
                 <button class="btn">保存</button>
+            </div>
+        </Modal>
+        <!-- 目录 增加目录名称 -->
+        <Modal v-model="datatreatingEdit_modal" class-name="vertical-center-modal">
+            <div class="datamodal_content">
+                 <Input v-model="datatreatingEditname" placeholder="请输入节点名称"  />
+            </div>
+            <div class="datamodal_footer">
+                <button class="btn" @click="canceldatatreatingEditmodal">取消</button>
+                <button class="btn" @click="confirmdatatreatingEditmodal">确定</button>
             </div>
         </Modal>
          <!-- 错误提示 -->
@@ -391,31 +397,28 @@
                 >{{node}}</div>
             </div>
         </Modal>
+        <!-- 删除确认弹框 -->
+        <Modal :mask-closable="true" v-model="delModal" width="360" class-name="mr-del-modal">
+        <div style="text-align:center;margin-bottom: 30px;font-size: 14px">确认删除该条数据</div>
+        <div class="facedata-btn-box">
+            <div
+            class="facedata-btn-confirm"
+            style="margin-right: 20px"
+            @click="datatreatingmenuDel"
+            >删除</div>
+            <div class="facedata-btn-cancel" @click="delModal=false">取消</div>
+        </div>
+        </Modal>
     </div>
 </template>
 <script>
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
 import ztree from "../components/ztree/ztree";
-const simpleData = [
-  { id: 1, pid: 0, name: "随意勾选 1", open: false, },
-  { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
-  { id: 111, pid: 11, name: "随意勾选 1-1-1" , open: false },
-  { id: 112, pid: 11,open: false, name: "随意勾选 1-1-2",},
-  { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
-  { id: 121, pid: 12, name: "随意勾选 1-2-1" , open: false },
-  { id: 122, pid: 12, name: "随意勾选 1-2-2" , open: false },
-  { id: 2, pid: 0,name: "随意勾选 2-1" ,open: false, },
-  { id: 21, pid: 2, name: "随意勾选 2-1" , open: false },
-  { id: 22, pid: 2, name: "随意勾选 2-2", open: false, },
-  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true , open: false,},
-  { id: 222, pid: 22, name: "随意勾选 2-2-2" , open: false },
-  { id: 23, pid: 2, name: "随意勾选 2-3" , open: false }
-];
 function addDiyDom(treeId, treeNode) {
     var sObj = $("#" + treeNode.tId + "_span");
     if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-    var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+    var addStr = "<span style='margin-left:300px;' class='button add' id='addBtn_" + treeNode.tId
         + "' title='add node' onfocus='this.blur();'></span>";
     sObj.after(addStr);
 
@@ -430,7 +433,12 @@ export default {
     },
     data(){
         return{
-
+            delID:'',
+            delModal:false,//删除弹框
+            datatreatingEdit_modal:false,
+            datatreatingEditname:'',//目录节点名称
+            nodeitem:null,//暂存node节点信息
+            datatreatingtype:'new',
             ztreeObj: null,
             setting: {
                 async:{
@@ -449,9 +457,7 @@ export default {
                 }
             }, //树节点设置
             nodes:[],
-            nodes:simpleData,
             departmentnodes:[],
-            departmentnodes:simpleData,
 
             datatreatingsetting: {
                 async:{
@@ -471,7 +477,6 @@ export default {
                 }
             }, //树节点设置
             datatreatingnodes:[],
-            datatreatingnodes:simpleData,
             // addDiyDom
 
             allAlign: null,
@@ -1219,51 +1224,244 @@ export default {
         }
     },
     created(){
-        // this.getdata()
+        this.getdatatreatingdata() //获取目录的列表
     },
     mounted(){
 
     },
     methods: {
-        //获取列表
-        getdata() {
+        //获取标准目录的列表
+        getdatatreatingdata() {
             var that = this;
             var query = {
                 action: "Service",
-                method: "getCurUserMarts",
-                data: [],
+                method: "getChildrenBySource",
+                data: ["DAPAPP",-4],
+                type:"rpc",
+                tid:5
             };
-            that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query)).then(
                 (success) => {
-                // console.log(success.data.result);
-                if(success.data.result.length==0){
-                    //弹窗 内容  你没有使用本系统的权限!
-                    that.err_list = ["你没有使用本系统的权限!"];
-                    that.errorTips_modal = true;
-                    return;
-                }
-                that.list = success.data.result;
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    let newResult=success.data.result
+                    if (newResult.length > 0) {
+                        newResult.forEach((v, i) => {
+                            newResult[i].open = false;
+                            if (newResult[i].right - newResult[i].left != 1) {
+                            newResult[i].isParent = true;
+                            newResult[i].children = [];
+                            }
+                            if (newResult[i].right - newResult[i].left == 1) {
+                            newResult[i].isParent = false;
+                            }
+                        });
+                    }
+                    that.datatreatingnodes = success.data.result;
                 },
                 (error) => {
-                that.err_list = ["登录异常", "请联系管理员"];
-                that.errorTips_modal = true;
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
                 }
             );
         },
-        addDiyDom(treeid, treeNode){
-            const item = document.getElementById(`${treeNode.tId}_a`);
-            if(item && !item.querySelector('.tree_extra_btn')){
-                const btn = document.createElement('sapn');
-                btn.id = `${treeid}_${treeNode.id}_btn`;
-                btn.classList.add('tree_extra_btn');
-                btn.innerText = '删除';
-                btn.addEventListener('click', (e) => {
-                e.stopPropagation()
-                this.clickRemove(treeNode)
-                })
-                item.appendChild(btn);
+        onExpand: function (evt, treeId, treeNode) {
+            // 点击事件
+            if (treeNode.open) {
+                this.treeClick(evt, treeId, treeNode);
             }
         },
+        onClick: function (evt, treeId, treeNode) {
+            // 点击事件
+            if (!treeNode.open) {
+                this.treeClick(evt, treeId, treeNode);
+            }
+        },
+        
+        treeClick: function (evt, treeId, treeNode) {
+            // 点击事件
+            // console.log(treeNode.open,'onClick');
+            this.treenodeID = treeNode.id;
+            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+            const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "getChildrenBySource",
+                data: ["DAPAPP",treeNode.id],
+            };
+            if (treeNode.right - treeNode.left == 1) {
+                //文件,获取右边的表格
+                this.table.page = 1;
+                this.currenttableid = treeNode.id;
+            } else {
+                //文件夹
+                treeNode.children = [];
+                if (treeNode.isParent) {
+                that.$http
+                    .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
+                    .then(
+                    (success) => {
+                        // console.log(success.data.result);
+                        const childrenData = eval(success.data.result);
+                        //判断子节点是否包含子元素
+                        // for(var i in childrenData){
+                        //     if(childrenData[i].isContainSon === 1){
+                        //         childrenData[i].isParent = true;
+                        //     }
+                        // };
+                        childrenData.forEach((v, i) => {
+                        childrenData[i].open = false;
+                        if (childrenData[i].right - childrenData[i].left != 1) {
+                            childrenData[i].isParent = true;
+                            childrenData[i].children = [];
+                        }
+                        if (childrenData[i].right - childrenData[i].left == 1) {
+                            childrenData[i].isParent = false;
+                        }
+                        });
+                        // console.log(childrenData)
+                        this.ztreeObj.refresh();
+                        this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                    },
+                    (error) => {
+                        that.err_list = ["登录异常", "请联系管理员"];
+                        that.errorTips_modal = true;
+                    }
+                    );
+                }
+            }
+        },
+        addDiyDom(treeid, treeNode){
+            const item = document.getElementById(`${treeNode.tId}_a`);
+            let that =this
+            if(item && !item.querySelector('.tree_extra_btn')){  
+                const delbtn = document.createElement('sapn');
+                delbtn.id = `${treeid}_${treeNode.id}_delbtn`;
+                delbtn.classList.add('tree_extra_delbtn');
+                delbtn.innerText = '   删除';
+                delbtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.delModal=true
+                    that.nodeitem=treeNode
+                })
+                item.appendChild(delbtn);
+                const renamebtn = document.createElement('sapn');
+                renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
+                renamebtn.classList.add('tree_extra_renamebtn');
+                renamebtn.innerText = '   重命名   ';
+                renamebtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='edit'
+                    that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = treeNode.name
+                    that.nodeitem=treeNode
+                    // this.clickRename(treeNode)
+                })
+                item.appendChild(renamebtn);
+                const addbtn = document.createElement('sapn');
+                addbtn.id = `${treeid}_${treeNode.id}_addbtn`;
+                addbtn.classList.add('tree_extra_addbtn');
+                // <i class="ivu-icon ivu-icon-ios-checkmark"></i>
+                // <Icon type="ios-add" />
+                addbtn.innerText = '   增加   ';
+                addbtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='new'
+                    that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = ''
+                    that.nodeitem=treeNode
+                    // this.clickaddbtn(treeNode)
+                })
+                item.appendChild(addbtn);
+            }
+        },
+        //弹框取消
+        canceldatatreatingEditmodal(){
+            this.datatreatingEdit_modal =false
+        },
+        //弹框确定
+        confirmdatatreatingEditmodal(){
+            let that =this
+            let nodeinfo= that.nodeitem
+            if(that.datatreatingtype=='edit'){
+                that.RenameDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+            }else{
+                that.addDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+            }
+            
+        },
+        addDatatreatinNode(nodeid,nodename) {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "add",
+                data: [nodeid,nodename,"DAPAPP"]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCEADD, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.getdatatreatingdata()
+                    that.datatreatingEdit_modal = false
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
+        },
+        RenameDatatreatinNode(nodeid,nodename) {
+            var that = this;
+            var query = {
+                action: "Service",
+                method: "rename",
+                data: [nodeid,nodename]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCERENAME, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.datatreatingEdit_modal = false
+                    that.getdatatreatingdata()
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
+        },
+        //删除弹框
+        datatreatingmenuDel(){
+            var that = this;
+            let treeNodeinfo=that.nodeitem
+            var query = {
+                action: "Service",
+                method: "delete",
+                data: [treeNodeinfo.id]
+            };
+            that.$Spin.show()
+            that.$http.post(that.PATH.GETCHILDRENBYSOURCEDEL, JSON.stringify(query)).then(
+                (success) => {
+                    that.$Spin.hide()
+                    console.log(success.data);
+                    that.getdatatreatingdata()
+                    that.delModal=false
+                },
+                (error) => {
+                    that.$Spin.hide()
+                    that.err_list = ["登录异常", "请联系管理员"];
+                    that.errorTips_modal = true;
+                }
+            );
+        },
+        
         //切换算法的分页
         changearithmetictablePage(page){
             this.arithmetictable.page = page;
@@ -1312,65 +1510,6 @@ export default {
         downloaddata(){
             this.downloadTemplate_modal=true
         },
-        //树节点展开图标点击
-        onExpand: function(evt, treeId, treeNode) {
-        // 点击事件
-            // treeNode.id
-            this.treeClick(evt, treeId, treeNode)
-        },
-        onClick: function(evt, treeId, treeNode) {
-            // 点击事件
-            // this.treeClick(evt, treeId, treeNode)
-        },
-        treeClick:function(evt, treeId, treeNode) {
-            // 点击事件
-            console.log(treeNode.open,'onClick');
-            const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null);//获取指定父节点
-            const childNodes = this.ztreeObj.transformToArray(treeNode);//获取子节点集合
-            var that = this;
-            var query = {
-                action: "Service",
-                method: "getExplorerChildren",
-                data: [treeNode.id],
-            };
-            if(!treeNode.open){
-                if (treeNode.right - treeNode.left == 1) {
-                //文件,获取右边的表格
-                // this.gettable(treeNode.id)
-                this.table.page=1
-                this.currenttableid =treeNode.id
-                this.gettable(treeNode.id,this.table.page,this.table.pagesize);
-                } else {
-                //文件夹
-                treeNode.children = [];
-                that.gettable(treeNode.id,that.table.page,that.table.pagesize);
-                if(treeNode.isParent){
-                    that.$http
-                    .post(that.PATH.getExplorerChildren, JSON.stringify(query))
-                    .then(
-                        (success) => {
-                        console.log(success.data.result);
-                        const childrenData=eval(success.data.result)
-                            //判断子节点是否包含子元素
-                            for(var i in childrenData){
-                                if(childrenData[i].isContainSon === 1){
-                                    childrenData[i].isParent = true;
-                                }
-                            };
-                            console.log(childrenData)
-                            this.ztreeObj.refresh();
-                            this.ztreeObj.addNodes(parentZNode,childrenData, false);    //添加节点
-                        },
-                        (error) => {
-                        that.err_list = ["登录异常", "请联系管理员"];
-                        that.errorTips_modal = true;
-                        }
-                    );
-                } 
-                }
-                
-            }
-        },
         handleCreated: function(ztreeObj) {
             this.ztreeObj = ztreeObj;
             // onCreated 中操作ztreeObj对象展开第一个节点
@@ -1379,30 +1518,6 @@ export default {
         tabclick(item){
             // console.log(item,'item')
             this.tabsvalue = item.toString();
-        },
-        addtabs(){
-            let tabIndex =this.tabIndex
-            this.tabIndex= tabIndex+1;
-            let ishasdata =true
-            if(this.setmanageTabList.length>0){
-                this.setmanageTabList.filter(function(item){
-                     if(item.name == "2"){
-                         ishasdata = false
-                     }
-                })
-                if(ishasdata){
-                    this.setmanageTabList.push({
-                        name: 2,
-                        label:'生成数据',
-                        index:tabIndex
-                    });
-                    this.tabsvalue='2'
-                }
-                if(!ishasdata){
-                    this.tabsvalue='2'
-                }
-                
-            }
         },
         //增加tab
         addTab(params) {
@@ -1872,12 +1987,58 @@ export default {
     .datatreating_fr_page{
         margin-top: 30px;
     }
+    .setmanagetree-tit{
+        padding:50px 0px 0px 110px ;
+        font-family: PingFangSC-Semibold;
+        font-size: 16px;
+        color: rgba(0,0,0,0.80);
+        letter-spacing: 0;
+        line-height: 24px;
+    }
+    .setmanagetree{
+        
+        padding:30px 50px;
+    }
+    .tree_extra_addbtn{
+        // margin-left: 200px;
+        // display: inline-block;
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
+    .tree_extra_renamebtn{
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
+    .tree_extra_renamebtn:hover,.tree_extra_delbtn:hover,.tree_extra_addbtn:hover{
+        border-color: #000;
+        color: #000;
+    }
+    .tree_extra_delbtn{
+        float:right;
+        margin-left: 10px;
+        border:1px solid rgba(0,0,0,0.40);
+        padding: 6px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 14px !important;
+    }
 }
 .ivu-modal {
     min-width: 600Px;
     width: 600px !important;
     height: 334px;
     top:300px;
+
     .ivu-modal-content{
         background: #FFFFFF;
         box-shadow: 0 1px 0 0 rgba(0,0,0,0.10);
@@ -1888,7 +2049,7 @@ export default {
             top: 14px;
         }
         .layer_header{
-            height: 60px;
+            // height: 60px;
             line-height: 60px;
             overflow: hidden;
             padding-left: 30px;

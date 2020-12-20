@@ -131,7 +131,8 @@ export default {
   position: absolute;
   top: 0;
   left: 10px;
-  height: 100%;
+  height: 120%;
+  /* height: 100%; */
   content: "";
   border-right: 1px solid #dbdbdb;
 }
@@ -147,7 +148,8 @@ export default {
 }
 .ztree >>> .roots_docu:before {
   left: 10px;
-  height: 50%;
+  height: 60%;
+  /* height: 50%; */
   top: 50%;
   border-left-width: 1Px;
 }
@@ -159,7 +161,8 @@ export default {
 }
 .ztree >>> .center_docu:before {
   left: 10px;
-  height: 100%;
+  height: 120%;
+  /* height: 100%; */
   border-left-width: 1Px;
 }
 .ztree >>> .center_docu:after {
@@ -170,7 +173,8 @@ export default {
 }
 .ztree >>> .bottom_docu:before {
   left: 10px;
-  height: 50%;
+  height: 60%;
+   /* height: 50%; */
   border-left-width: 1Px;
 }
 .ztree >>> .bottom_docu:after {
@@ -187,7 +191,8 @@ export default {
   cursor: pointer;
   transition: none;
   vertical-align: middle;
-  color: #555555;
+  color: #555555; 
+  width: 100%;
 }
 .ztree >>> .node_name {
   display: inline-block;
