@@ -424,7 +424,7 @@ export default {
 
       showIndex: 1,
       ztreeObj: null,
-      ztreeObj4:null,//导入保存左边的树
+      ztreeObj4: null, //导入保存左边的树
       setting: {
         async: {
           autoParam: [],
@@ -457,20 +457,18 @@ export default {
       err_list: [], //错误信息列表
 
       datatreating_modal: false, //导入弹窗
-      datatreatingsheet_modal:false,//导入sheet页
+      datatreatingsheet_modal: false, //导入sheet页
       ztreeUploadingObj: null,
-      leadinUploadingid:'',//上传文件后的文件id
-      unloadFile:null,//上传的文件
-      leadinUploadingsheets:{},//上传文件后的文件sheets
-      isClickSheets:false, //是否确定过sheet
-      sheetsavesearchtit:'',//保存 搜索名称
-      datatreatingsheetsave_modal:false,//保存sheet页
-      firstsheetsave_modal:false,//配置第一步弹框
-      sencdsheetsave_modal:false,//配置第二步弹框
-      formCustom:{
-
-      },
-      disabledGroup:'',//导入
+      leadinUploadingid: "", //上传文件后的文件id
+      unloadFile: null, //上传的文件
+      leadinUploadingsheets: {}, //上传文件后的文件sheets
+      isClickSheets: false, //是否确定过sheet
+      sheetsavesearchtit: "", //保存 搜索名称
+      datatreatingsheetsave_modal: false, //保存sheet页
+      firstsheetsave_modal: false, //配置第一步弹框
+      sencdsheetsave_modal: false, //配置第二步弹框
+      formCustom: {},
+      disabledGroup: "", //导入
 
       choosename: "", //导入选择表
       leadingindescribe: "", //导入描述
@@ -580,28 +578,25 @@ export default {
         columns: [],
         data: [],
       },
-      sheettable:{
+      sheettable: {
         columns: [
           {
             title: " ",
-            type: 'index',
+            type: "index",
             align: "center",
             render: (h, params) => {
               return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.sheetsavesearchtit =''
-                        this.sheetsavesearchtit = params.row.name
-                      },
+                h("span", {
+                  attrs: {
+                    class: "cursor",
+                  },
+                  on: {
+                    click: () => {
+                      this.sheetsavesearchtit = "";
+                      this.sheetsavesearchtit = params.row.name;
                     },
                   },
-                ),
+                }),
               ]);
               // return h('span',result)
             },
@@ -622,8 +617,8 @@ export default {
                     },
                     on: {
                       click: () => {
-                         this.sheetsavesearchtit =''
-                        this.sheetsavesearchtit = params.row.name
+                        this.sheetsavesearchtit = "";
+                        this.sheetsavesearchtit = params.row.name;
                       },
                     },
                   },
@@ -649,8 +644,8 @@ export default {
                     },
                     on: {
                       click: () => {
-                         this.sheetsavesearchtit =''
-                        this.sheetsavesearchtit = params.row.name
+                        this.sheetsavesearchtit = "";
+                        this.sheetsavesearchtit = params.row.name;
                       },
                     },
                   },
@@ -676,8 +671,8 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.sheetsavesearchtit =''
-                        this.sheetsavesearchtit = params.row.name
+                        this.sheetsavesearchtit = "";
+                        this.sheetsavesearchtit = params.row.name;
                       },
                     },
                   },
@@ -690,11 +685,11 @@ export default {
         ],
         data: [],
       },
-      sheetseetingtable1:{
+      sheetseetingtable1: {
         columns: [],
         data: [],
       },
-      sheetseetingtable2:{
+      sheetseetingtable2: {
         columns: [],
         data: [],
       },
@@ -894,54 +889,53 @@ export default {
     // 选择导入
     choseleadingin() {
       this.datatreating_modal = true;
-      this.unloadFile = null
-      this.choosename =''
+      this.unloadFile = null;
+      this.choosename = "";
     },
     //导入保存
     lendinginsave() {
       // this.systemtips_modal = true;
-      let that=this
-      if (that.choosename!=''){
-        var formData = new FormData() // FormData 对象
-        formData.append('file', that.unloadFile[0],that.unloadFile[0].name) 
-        that.$http.post('/miner/v3/sys/explorer/dfi.upload', formData, {
+      let that = this;
+      if (that.choosename != "") {
+        var formData = new FormData(); // FormData 对象
+        formData.append("file", that.unloadFile[0], that.unloadFile[0].name);
+        that.$http
+          .post("/miner/v3/sys/explorer/dfi.upload", formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+              "Content-Type": "multipart/form-data",
             },
-        }).then((success) => {
-          console.log(success,'success')
-          let res=success.data
-          that.leadinUploadingid=res.fileId
-          that.datatreatingsheet_modal=true
-          that.datatreating_modal=false
-          that.isClickSheets=false
-          that.unloadFile = null
-          that.choosename =''
+          })
+          .then((success) => {
+            console.log(success, "success");
+            let res = success.data;
+            that.leadinUploadingid = res.fileId;
+            that.datatreatingsheet_modal = true;
+            that.datatreating_modal = false;
+            that.isClickSheets = false;
+            that.unloadFile = null;
+            that.choosename = "";
             //获取树的列表
-          that.getLeadInLIST(that.leadinUploadingid)
-        }).catch(function (error) {
-            console.log(error)
-        })
-        
-      }else{
+            that.getLeadInLIST(that.leadinUploadingid);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
         this.$Message.error({
           content: "请上传文件",
           duration: 1,
         });
       }
-      
     },
-     //上传excel
+    //上传excel
     UploadMore(e) {
       // console.log(e)
       let files = e.target.files || e.dataTransfer.files;
-      this.unloadFile = files
-      this.choosename =files[0].name
+      this.unloadFile = files;
+      this.choosename = files[0].name;
       // console.log(typeof files,this.unloadFile )
-      
-
     },
-    getLeadInLIST(fileId){
+    getLeadInLIST(fileId) {
       var that = this;
       var query = {
         action: "Service",
@@ -954,15 +948,15 @@ export default {
         .then(
           (success) => {
             console.log(success.data.result);
-            let res =success.data.result
+            let res = success.data.result;
             // {"fileName":"附件1-经营&资产质量类指标.xlsx","sheets":[{"index":1,"name":"Sheet1"}],"type":"XLSX"}
-            res.open=true
-            res.name=res.fileName
-            res.children=res.sheets
-            that.leadinUploadingsheets=res.sheets//上传文件后的文件sheets
-            newResult.push(res)
-            that.nodes3 = newResult
-            console.log(newResult,'newResult')
+            res.open = true;
+            res.name = res.fileName;
+            res.children = res.sheets;
+            that.leadinUploadingsheets = res.sheets; //上传文件后的文件sheets
+            newResult.push(res);
+            that.nodes3 = newResult;
+            console.log(newResult, "newResult");
             // this.nodes = newResult;
             // console.log(this.nodes,'this.nodes')
           },
@@ -973,53 +967,53 @@ export default {
         );
     },
     //导入sheet项
-    sheetsavebutton(){
-      if(!this.isClickSheets){
+    sheetsavebutton() {
+      if (!this.isClickSheets) {
         this.$Message.error({
           content: "请选择sheet",
           duration: 1,
         });
-      }else{
-        this.datatreatingsheetsave_modal=true
-        this.datatreatingsheet_modal=false
-        this.RequestcheckSheets(this.leadinUploadingid,this.leadinUploadingsheets)
-        this.RequestGetSaveTreeList()
+      } else {
+        this.datatreatingsheetsave_modal = true;
+        this.datatreatingsheet_modal = false;
+        this.RequestcheckSheets(
+          this.leadinUploadingid,
+          this.leadinUploadingsheets
+        );
+        this.RequestGetSaveTreeList();
       }
-      
     },
-    RequestcheckSheets(fileId,sheets){
+    RequestcheckSheets(fileId, sheets) {
       var that = this;
       var query = {
         action: "Service",
         method: "checkSheets",
-        data: [fileId,sheets],
+        data: [fileId, sheets],
       };
       let newResult = new Array();
       that.$http
         .post(that.PATH.EXPLORERCHECKSHEETS, JSON.stringify(query))
         .then(
-          (success) => {
-            
-          },
+          (success) => {},
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
             that.errorTips_modal = true;
           }
         );
     },
-    RequestGetSaveTreeList(){
+    RequestGetSaveTreeList() {
       var that = this;
       var query = {
         action: "Service",
         method: "getChildrenBySource",
-        data: ["EXPLORER",0],
+        data: ["EXPLORER", 0],
       };
       that.$http
         .post(that.PATH.EXPLORERGETCHILDRENBYSOURCELIST, JSON.stringify(query))
         .then(
           (success) => {
             console.log(success.data.result);
-            let res =success.data.result
+            let res = success.data.result;
 
             if (res.length > 0) {
               res.forEach((v, i) => {
@@ -1033,44 +1027,48 @@ export default {
                 }
               });
             }
-            that.nodes4=res
-
+            that.nodes4 = res;
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
             that.errorTips_modal = true;
           }
         );
-    
     },
-    
+
     //sheet保存
-    lendinginsheetsave(){
-      this.firstsheetsave_modal=true
-      this.datatreatingsheetsave_modal=false
+    lendinginsheetsave() {
+       //alert(this.sheetsavesearchtit);
+      //Anne周
+      //调用isNameExit 接口  data：[this.sheetsavesearchtit,所属目录id]
+      //调用recommend 接口  data：["监管检查发现 - 正确.xls"] //上传文件名
+      //调用 getDefaultTemplet 接口  data:[1608437202000019, 1]   //160开头的是 上传时返回的文件id ，1 固定
+
+      this.firstsheetsave_modal = true;
+      this.datatreatingsheetsave_modal = false;
     },
     //配置第二步确认
-    secondlendinginsave(){
+    secondlendinginsave() {
       // this.firstsheetsave_modal=true
-      this.systemtips_modal=true
-      this.sencdsheetsave_modal=false //配置第一步弹框消失
+      this.systemtips_modal = true;
+      this.sencdsheetsave_modal = false; //配置第一步弹框消失
     },
     //导入推出
     lendinginleavefail() {
       this.leadingInFail_modal = true;
     },
-    datatreatingsheetfail(){
+    datatreatingsheetfail() {
       this.datatreatingsheet_modal = true;
-      this.isClickSheets =false
+      this.isClickSheets = false;
     },
-    datatreatingsheetsavefail(){
-      this.datatreatingsheetsave_modal=false
+    datatreatingsheetsavefail() {
+      this.datatreatingsheetsave_modal = false;
     },
-    firstsheetsavefail(){
-       this.firstsheetsave_modal=false
+    firstsheetsavefail() {
+      this.firstsheetsave_modal = false;
     },
-    sencdsheetsavefail(){
-      this.sencdsheetsave_modal=false
+    sencdsheetsavefail() {
+      this.sencdsheetsave_modal = false;
     },
     //下载数据
     downloaddata() {
@@ -1179,8 +1177,7 @@ export default {
     //导入的sheet页
     onClickLeadinSheet: function (evt, treeId, treeNode) {
       // 点击事件
-      this.isClickSheets=true
-
+      this.isClickSheets = true;
     },
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1198,24 +1195,28 @@ export default {
       // 点击事件
       // console.log(treeNode.open,'onClick');
       // this.treenodeID = treeNode.id;
-      const parentZNode = this.ztreeObj4.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const parentZNode = this.ztreeObj4.getNodeByParam(
+        "id",
+        treeNode.id,
+        null
+      ); //获取指定父节点
       const childNodes = this.ztreeObj4.transformToArray(treeNode); //获取子节点集合
       var that = this;
       var query = {
         action: "Service",
         method: "getChildrenBySource",
-        data: ["EXPLORER",treeNode.id],
+        data: ["EXPLORER", treeNode.id],
       };
       if (treeNode.right - treeNode.left == 1) {
         //文件,获取右边的表格
         // this.gettable(treeNode.id)
         that.table.page = 1;
         that.currenttableid = treeNode.id;
-        that.getsearchnoPageTable(treeNode.id,treeNode.name)
+        that.getsearchnoPageTable(treeNode.id, treeNode.name);
       } else {
         //文件夹
         treeNode.children = [];
-        that.getsearchnoPageTable(treeNode.id,treeNode.name)
+        that.getsearchnoPageTable(treeNode.id, treeNode.name);
         if (treeNode.isParent) {
           that.$http
             .post(that.PATH.EXPLORERGETCHILDRENBYSOURCE, JSON.stringify(query))
@@ -1257,56 +1258,51 @@ export default {
       var query = {
         action: "Service",
         method: "searchNoPage",
-        data: ["",["table"],['导入表'],id],
+        data: ["", ["table"], ["导入表"], id],
       };
       // {"action":"Service","method":"searchNoPage","data":["EXPLORER",["table"],["\u5bfc\u5165\u8868"],13]}
       let newtabledata = [];
       let modaltype = new Object();
 
       that.$Spin.show();
-      that.$http.post(that.PATH.EXPLORERSEARCHNoPage, JSON.stringify(query)).then(
-        (success) => {
-          console.log(success.data);
-          //   createTime
-          that.$Spin.hide();
-          let res = success.data.result;
-          if(res.length>0){
-            res.forEach((v,i)=>{
-              res[i].createTime = that.getNweDate(
-                v.createTime,
-                "year"
-              );
-            })
+      that.$http
+        .post(that.PATH.EXPLORERSEARCHNoPage, JSON.stringify(query))
+        .then(
+          (success) => {
+            console.log(success.data);
+            //   createTime
+            that.$Spin.hide();
+            let res = success.data.result;
+            if (res.length > 0) {
+              res.forEach((v, i) => {
+                res[i].createTime = that.getNweDate(v.createTime, "year");
+              });
+            }
+            // console.log(success.data.result.data, "success.data.result.data");
+            // that.table.data = newtabledata;
+            that.sheettable.data = res;
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
           }
-          // console.log(success.data.result.data, "success.data.result.data");
-          // that.table.data = newtabledata;
-          that.sheettable.data = res
-        },
-        (error) => {
-          that.$Spin.hide();
-          that.err_list = ["登录异常", "请联系管理员"];
-          that.errorTips_modal = true;
-        }
-      );
+        );
     },
     //
-    lendinginsavefirst(name){
-      this.sencdsheetsave_modal=true
-      this.firstsheetsave_modal=false
-      this.$refs[name].validate(valid => {
-          if (valid) {
-            let path = "";
-            let params = new Object();
-            path = this.PATH.POSTSOLICITADD;
-            params = {
-              
-            }
-
-            
-          } else {
-            this.$Message.error("Fail!");
-          }
-        });
+    lendinginsavefirst(name) {
+      this.sencdsheetsave_modal = true;
+      this.firstsheetsave_modal = false;
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          let path = "";
+          let params = new Object();
+          path = this.PATH.POSTSOLICITADD;
+          params = {};
+        } else {
+          this.$Message.error("Fail!");
+        }
+      });
     },
 
     handleCreated: function (ztreeObj) {
@@ -1314,15 +1310,15 @@ export default {
       // onCreated 中操作ztreeObj对象展开第一个节点
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
-    handleCreatedLeadinSheet:function(newztreeObj){
-      console.log(newztreeObj,'newztreeObj')
-      let that=this
+    handleCreatedLeadinSheet: function (newztreeObj) {
+      console.log(newztreeObj, "newztreeObj");
+      let that = this;
       that.ztreeUploadingObj = newztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
       newztreeObj.expandNode(newztreeObj.getNodes()[0], true);
     },
     handleCreated4: function (ztreeObj) {
-      let that=this
+      let that = this;
       that.ztreeObj4 = ztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
       that.ztreeObj4.expandNode(that.ztreeObj.getNodes()[0], false);
@@ -1533,16 +1529,21 @@ export default {
         this.tabsvalue = newname.toString();
       }
     },
-   
+
     //下载excel
-    downloadEXCEL(){
-      let that=this
-      let url='http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path='+Base64.encode(encodeURI(that.downloadtemplatetype)).replace(/\+/g,'%2B')
-      let a = document.createElement('a');
-      a.id = 'temp';
+    downloadEXCEL() {
+      let that = this;
+      let url =
+        "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?delete=n&path=" +
+        Base64.encode(encodeURI(that.downloadtemplatetype)).replace(
+          /\+/g,
+          "%2B"
+        );
+      let a = document.createElement("a");
+      a.id = "temp";
       document.body.appendChild(a);
-      a.addEventListener('click', function(){
-        window.open(encodeURI(url),'_blank');
+      a.addEventListener("click", function () {
+        window.open(encodeURI(url), "_blank");
       });
       a.click();
       document.body.removeChild(a);
@@ -1634,7 +1635,7 @@ export default {
         }
         .tabs_left_bottom {
           width: 10px;
-          
+
           height: 10px;
           // background: #e8e8e8;
           background: #fff;
@@ -1962,7 +1963,7 @@ export default {
       color: rgba(0, 0, 0, 0.8);
       letter-spacing: 0;
     }
-    .datatreting-sheet-content{
+    .datatreting-sheet-content {
       height: 500px;
       overflow: scroll;
       padding-top: 30px;
@@ -2050,7 +2051,7 @@ export default {
           padding: 0px 10px;
           box-sizing: border-box;
           border: none;
-          .ivu-select-dropdown-list{
+          .ivu-select-dropdown-list {
             height: 100px;
             overflow: scroll;
           }
@@ -2096,10 +2097,10 @@ export default {
         }
       }
     }
-    .sheetsaveserchtit-content{
+    .sheetsaveserchtit-content {
       display: flex;
-      padding:30px 0px;
-      span{
+      padding: 30px 0px;
+      span {
         width: 100px;
       }
     }
@@ -2107,7 +2108,7 @@ export default {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      padding:0px 20px 14px 20px;
+      padding: 0px 20px 14px 20px;
     }
     .systemtips_content {
       text-align: center;
@@ -2153,19 +2154,19 @@ export default {
       outline: none;
     }
   }
-  .Systemicselection_head_content{
-    padding:30px 0px;
+  .Systemicselection_head_content {
+    padding: 30px 0px;
     height: 500px;
     overflow: scroll;
   }
-  .ivu-form-item .ivu-form-item .ivu-form-item-content{
-    margin-left: 80Px !important;
+  .ivu-form-item .ivu-form-item .ivu-form-item-content {
+    margin-left: 80px !important;
   }
-  .sencdsheetsave-modal-content1{
-    padding:50px 0px 20px 0px;
+  .sencdsheetsave-modal-content1 {
+    padding: 50px 0px 20px 0px;
   }
-  .sencdsheetsave-modal-content2{
-    padding:0px 0px 50px 0px;
+  .sencdsheetsave-modal-content2 {
+    padding: 0px 0px 50px 0px;
   }
 }
 //全局的报错弹框
