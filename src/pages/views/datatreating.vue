@@ -271,23 +271,27 @@
       <div class="layer_header" style="cursor: move;">配置第二步</div>
       <Row class="sencdsheetsave-modal-content1">
         <Col span="24">
-          <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="sheetseetingtable1.columns"
-          :data="sheetseetingtable1.data"
-        >
-        </Table>
+          <div class="secondtable-content">
+              <Table
+              class="facedata-table account-table"
+              stripe
+              :columns="sheetseetingtable1.columns"
+              :data="sheetseetingtable1.data"
+            >
+            </Table>
+          </div>
         </Col>
       </Row>
       <Row class="sencdsheetsave-modal-content2">
         <Col span="24">
-          <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="sheetseetingtable2.columns"
-          :data="sheetseetingtable2.data"
-        ></Table>
+        <div class="secondtable-content">
+            <Table
+            class="facedata-table account-table"
+            stripe
+            :columns="sheetseetingtable2.columns"
+            :data="sheetseetingtable2.data"
+          ></Table>
+        </div>
         </Col>
       </Row>
       <div class="datamodal_footer">
@@ -1191,6 +1195,7 @@ export default {
     },
     // 选择导入
     choseleadingin() {
+      this.resetLeadinData()
       this.datatreating_modal = true;
       this.unloadFile = null;
       this.choosename = "";
@@ -1568,7 +1573,7 @@ export default {
       that.systemtips_modal=false //系统提示弹窗
       that.leadingindescribe="" //导入描述
       that.sheetseetingtable2.data=[] //配置第二步的下面表格
-      sheetseetingtable2.columns=[]//配置第二步的下面表格
+      that.sheetseetingtable2.columns=[]//配置第二步的下面表格
       that.sheetseetingtable1.data=[] //配置第二步的上面表格
       that.sheettable.data=[] //sheet保存右边的表格
       that.datatreating_modal=false  //导入弹窗
@@ -2402,9 +2407,8 @@ export default {
     }
   }
   .datatreating_fr_table {
-    overflow: auto;
     height: 787px;
-    overflow: scroll;
+    overflow-y: scroll;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
     padding: 20px;
@@ -2515,7 +2519,7 @@ export default {
   }
   .sheetsavetable-content{
     height: 500px;
-    overflow: scroll;
+    overflow-y: scroll;
   }
   .ivu-modal-content {
     background: #ffffff;
@@ -2549,6 +2553,7 @@ export default {
     .datatreting-sheet-content {
       height: 500px;
       // overflow: scroll;
+      overflow-y: scroll;
       padding-top: 30px;
     }
     .datamodal_content {
@@ -2750,6 +2755,10 @@ export default {
   }
   .sencdsheetsave-modal-content2 {
     padding: 0px 0px 50px 0px;
+  }
+  .secondtable-content{
+    height: 300px;
+    overflow-y: scroll;
   }
 }
 //全局的报错弹框

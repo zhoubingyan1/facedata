@@ -2193,7 +2193,8 @@ export default {
     }
     .setmanagetree{
         height: 600px;
-        overflow: scroll;
+        // overflow: scroll;
+        overflow-y: scroll;
         margin:30px 50px 0px 50px;
     }
     .tree_extra_addbtn{
