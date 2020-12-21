@@ -469,12 +469,14 @@ export default {
                 view: {
                     
                     showIcon: true,
-                    addDiyDom:this.addDiyDom
+                    // addDiyDom:this.addDiyDom,
+                    addHoverDom: this.addHoverDom,
+                    removeHoverDom: this.removeHoverDom,
+				    
                 }
             }, //树节点设置
             datatreatingnodes:[],
-            // addDiyDom
-
+            
             allAlign: null,
 
             errorTips_modal:false,//错误弹框
@@ -1265,11 +1267,11 @@ export default {
                             newResult[i].isParent = true;
                             newResult[i].children = [];
                             // if (newResult[i].right - newResult[i].left != 1) {
-                            // newResult[i].isParent = true;
-                            // newResult[i].children = [];
+                            //     newResult[i].isParent = true;
+                            //     newResult[i].children = [];
                             // }
                             // if (newResult[i].right - newResult[i].left == 1) {
-                            // newResult[i].isParent = false;
+                            //     newResult[i].isParent = false;
                             // }
                             that.datatreatingnodes.push(newResult[i])
                         });
@@ -1326,15 +1328,15 @@ export default {
                         childrenData.forEach((v, i) => {
                             childrenData[i].open = false;
 
-                            childrenData[i].isParent = true;
-                            childrenData[i].children = [];
-                        // if (childrenData[i].right - childrenData[i].left != 1) {
-                        //     childrenData[i].isParent = true;
-                        //     childrenData[i].children = [];
-                        // }
-                        // if (childrenData[i].right - childrenData[i].left == 1) {
-                        //     childrenData[i].isParent = false;
-                        // }
+                            // childrenData[i].isParent = true;
+                            // childrenData[i].children = [];
+                            if (childrenData[i].right - childrenData[i].left != 1) {
+                                childrenData[i].isParent = true;
+                                childrenData[i].children = [];
+                            }
+                            if (childrenData[i].right - childrenData[i].left == 1) {
+                                childrenData[i].isParent = false;
+                            }
                         });
                         // console.log(childrenData)
                         this.ztreeObj.refresh();
@@ -1447,6 +1449,82 @@ export default {
                 item.appendChild(addbtn);
             }
         },
+        onRename(treeid, treeNode){
+            const item = document.getElementById(`${treeNode.tId}_a`);
+            if(item){
+                const btn = item.querySelector('.tree_extra_addbtn');
+                if(btn){
+                item.removeChild(btn)
+                }
+            }
+        },
+        addHoverDom(treeid, treeNode) {
+            const item = document.getElementById(`${treeNode.tId}_a`);
+            let that=this
+            if(item && !item.querySelector('.tree_extra_delbtn')){
+                const btn = document.createElement('sapn');
+                btn.id = `${treeid}_${treeNode.id}_btn`;
+                btn.classList.add('tree_extra_delbtn');
+                btn.innerText = '删除';
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.delModal=true
+                    that.nodeitem=treeNode
+                })
+                item.appendChild(btn);
+            }
+            if(item && !item.querySelector('.tree_extra_renamebtn')){  
+                const renamebtn = document.createElement('sapn');
+                renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
+                renamebtn.classList.add('tree_extra_renamebtn');
+                renamebtn.innerText = '   重命名   ';
+                renamebtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='edit'
+                    that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = treeNode.name
+                    that.nodeitem=treeNode
+                    // this.clickRename(treeNode)
+                })
+                item.appendChild(renamebtn);
+                
+            }
+            if(item && !item.querySelector('.tree_extra_addbtn')){
+                const addbtn = document.createElement('sapn');
+                addbtn.id = `${treeid}_${treeNode.id}_addbtn`;
+                addbtn.classList.add('tree_extra_addbtn');
+                // <i class="ivu-icon ivu-icon-ios-checkmark"></i>
+                // <Icon type="ios-add" />
+                addbtn.innerText = '   增加   ';
+                addbtn.addEventListener('click', (e) => {
+                    e.stopPropagation()
+                    that.datatreatingtype='new'
+                    that.datatreatingEdit_modal = true
+                    that.datatreatingEditname = ''
+                    that.nodeitem=treeNode
+                    // this.clickaddbtn(treeNode)
+                })
+                item.appendChild(addbtn);
+            }
+
+        },
+        removeHoverDom(treeid, treeNode) {
+            const item = document.getElementById(`${treeNode.tId}_a`);
+            if(item){
+                const btn = item.querySelector('.tree_extra_delbtn');
+                if(btn){
+                item.removeChild(btn)
+                }
+                const addbtn = item.querySelector('.tree_extra_addbtn');
+                if(addbtn){
+                item.removeChild(addbtn)
+                }
+                const renamebtn = item.querySelector('.tree_extra_renamebtn');
+                if(renamebtn){
+                item.removeChild(renamebtn)
+                }
+            }
+        },
         refreshcurrentNode: function (treeId, treeNode) {
             // 点击事件
             // console.log(treeNode.open,'onClick');
@@ -1517,7 +1595,7 @@ export default {
             that.$http.post(that.PATH.GETCHILDRENBYSOURCEADD, JSON.stringify(query)).then(
                 (success) => {
                     that.$Spin.hide()
-                    console.log(success.data);
+                    // console.log(success.data);
                     // that.getdatatreatingdata()
                     that.datatreatingEdit_modal = false
                     that.refreshcurrentNode('',that.nodeitem)
@@ -2114,8 +2192,9 @@ export default {
         line-height: 24px;
     }
     .setmanagetree{
-        height: 500px;
-        padding:30px 50px;
+        height: 600px;
+        overflow: scroll;
+        margin:30px 50px 0px 50px;
     }
     .tree_extra_addbtn{
         // margin-left: 200px;

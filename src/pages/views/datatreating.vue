@@ -651,7 +651,6 @@ export default {
                       },
                       attrs: {
                         id:"tableInput"+params.row._index,
-                        class:'replyBox',
                       },
                       props: {
                           value: params.row.name,//默认值
@@ -678,9 +677,7 @@ export default {
                           click: () => {
                             setTimeout( ()=> {
                               this.$nextTick(()=>{
-                                // document.getElementsByClassName('replyBox')[0].childNodes[6].focus()
-                                console.log('tableInput'+params.row._index,document.getElementById('tableInput'+params.row._index))
-                                document.getElementById('tableInput'+params.row._index).focus()
+                                document.getElementById('tableInput'+params.row._index).children[0].children[1].focus();
                               })
                             },300)
                            this.sheetseetingtable1.data[params.row._index].isclickname=true
@@ -704,6 +701,9 @@ export default {
                   h('Input', {
                       style: {
                           padding: '8px'
+                      },
+                      attrs: {
+                        id:"onetableInput"+params.row._index,
                       },
                       props: {
                           value: params.row.desc,//默认值
@@ -729,7 +729,7 @@ export default {
                           click: () => {
                             setTimeout( ()=> {
                               this.$nextTick(()=>{
-                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                                document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
                               })
                             },300)
                             this.sheetseetingtable1.data[params.row._index].isclickdesc=true
@@ -806,6 +806,9 @@ export default {
                       style: {
                           padding: '8px'
                       },
+                      attrs: {
+                        id:"twotableInput"+params.row._index,
+                      },
                       props: {
                           value: params.row.length,//默认值
                           autofocus: true,
@@ -830,7 +833,7 @@ export default {
                           click: () => {
                             setTimeout( ()=> {
                               this.$nextTick(()=>{
-                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                                document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
                               })
                             },300)
                             this.sheetseetingtable1.data[params.row._index].isclicklength=true
@@ -855,6 +858,9 @@ export default {
                         style: {
                             padding: '8px'
                         },
+                        attrs: {
+                          id:"threetableInput"+params.row._index,
+                        },
                         props: {
                             value: params.row.scale,//默认值
                             autofocus: true,
@@ -878,10 +884,10 @@ export default {
                           on: {
                             click: () => {
                               setTimeout( ()=> {
-                                this.$nextTick(()=>{
-                                  document.getElementsByClassName('cursor')[0].childNodes[6].focus()
-                                })
-                              },300)
+                                  this.$nextTick(()=>{
+                                document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
+                              })
+                            },300)
                               this.sheetseetingtable1.data[params.row._index].isclickscale=true
                             },
                           },
@@ -907,6 +913,9 @@ export default {
                       style: {
                           padding: '8px'
                       },
+                      attrs: {
+                          id:"fourtableInput"+params.row._index,
+                        },
                       props: {
                           value: params.row.value,//默认值
                           autofocus: true,
@@ -930,8 +939,8 @@ export default {
                         on: {
                           click: () => {
                             setTimeout( ()=> {
-                              this.$nextTick(()=>{
-                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                                  this.$nextTick(()=>{
+                                document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
                               })
                             },300)
                            that.sheetseetingtable1.data[params.row._index].isclickvalue=true

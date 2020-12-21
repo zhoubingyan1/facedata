@@ -857,7 +857,7 @@ export default {
             top: 14px;
         }
         .layer_header{
-            height: 60px;
+            // height: 60px;
             line-height: 60px;
             overflow: hidden;
             padding-left: 30px;

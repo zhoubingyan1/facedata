@@ -242,11 +242,13 @@ export default {
 }
 
 .ztree >>> .button.ico_docu{
-  margin-right:2px; background:url('../../../assets/images/5.png') no-repeat;
+  margin-right:2px; background:url('../../../assets/images/6.png') no-repeat;
+  /* margin-right:2px; background:url('../../../assets/images/5.png') no-repeat; */
   background-size: 20px 20px !important;
 }
 .ztree >>> .button.ico_open{
-  margin-right:2px; background:url('../../../assets/images/4.png') no-repeat;
+  margin-right:2px; background:url('../../../assets/images/6.png') no-repeat;
+  /* margin-right:2px; background:url('../../../assets/images/4.png') no-repeat; */
   background-size: 20px 20px !important;
 }
 .ztree >>> .button.ico_close{
