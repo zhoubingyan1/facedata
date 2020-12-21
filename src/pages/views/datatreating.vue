@@ -647,6 +647,9 @@ export default {
                       style: {
                           padding: '8px'
                       },
+                      attrs: {
+                        id:"tableInput"+params.row._index,
+                      },
                       props: {
                           value: params.row.name,//默认值
                           autofocus: true,
@@ -666,7 +669,6 @@ export default {
                       {
                         attrs: {
                           class: "cursor",
-                          id:"tableInput"+params.row._index,
                         },
                         on: {
                           click: () => {
