@@ -125,7 +125,7 @@
         </div>
       </TabPane>
     </Tabs>
-    <!-- 导入弹窗 -->
+    <!-- 导入弹窗 start -->
     <Modal v-model="datatreating_modal" width="600" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">导入</div>
       <div class="datamodal_content">
@@ -314,7 +314,6 @@
     </Modal>
     <!-- 导入失败弹窗 -->
     <Modal v-model="leadingInFail_modal" width="600" class-name="vertical-center-modal">
-      <!-- 导入失败 -->
       <div class="layer_header" style="cursor: move;">导入失败</div>
       <div class="leadingInFail_content">
         <div class="datamodal_item-title1">以下字段为空或与模板样式不符:</div>
@@ -327,6 +326,7 @@
         <button class="btn">修改数据字典</button>
       </div>
     </Modal>
+    <!-- 导入弹窗 end -->
     <!-- 下载模版 -->
     <Modal v-model="downloadTemplate_modal" width="600" class-name="vertical-center-modal">
       <!-- 下载模版 -->
@@ -352,7 +352,7 @@
         </div>-->
       </div>
       <div class="datamodal_footer">
-        <button class="btn">退出</button>
+        <button class="btn" @click="downloadTemplate_modal=false">退出</button>
         <button class="btn" @click="downloadEXCEL">保存</button>
       </div>
     </Modal>
@@ -415,7 +415,6 @@ export default {
 
       currenttableid: "",
 
-      showIndex: 1,
       ztreeObj: null,
       ztreeObj4: null, //导入保存左边的树
       setting: {
@@ -435,16 +434,13 @@ export default {
         },
       },
 
-      nodes: [],
-      // nodes:simpleData,
-      nodes1: [],
-      nodes2: [],
-      treenodeID: null, //记录树的id
+      nodes: [], //数据表 树
+      nodes1: [], //数据包 树
+      nodes2: [], //模型库 树
+      treenodeID: null, //记录数据表树的id
 
-      nodes3: [],
-      // nodes3:simpleData,
-      nodes4: [],
-      // nodes4:simpleData,
+      nodes3: [],//导入的sheet项
+      nodes4: [],//sheet保存的树
 
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
@@ -478,7 +474,7 @@ export default {
         "override":null, //6写死
         "fileColumns":[], //7文件列信息
         "hasHeader":true,//8是否表头
-        "sheetIndexes":[1],//9Sheet页索引
+        "sheetIndexes":[],//9Sheet页索引
         "startRow":"",//10行区间开始
         "endRow":"",//11行区间结束
         "startCol":"",//12列区间开始
@@ -498,7 +494,6 @@ export default {
         "logIds":null, //26null
         "id":0//27写死
       },
-      disabledGroup: "", //导入
       borrowloadlist:[
         {value:"INT",},
         {value:"NUMERIC"},
@@ -509,9 +504,9 @@ export default {
         {value:"VARCHAR"},
         {value:"NVARCHAR"},
       ],
-      doImportresult:'',//
+      doImportresult:'',//配置第二部确定接口返回的值
 
-      choosename: "", //导入选择表
+      choosename: "", //导入上传文件
       leadingindescribe: "", //导入描述
 
       leadingInFail_modal: false, //导入失败弹窗
@@ -519,8 +514,9 @@ export default {
         "以下字段为空或与模板样式不符，以下字段为空或与模板样式不", //导入失败的文本框
 
       downloadTemplate_modal: false, //下载模版弹窗
-      templatename: "2020914KPI2101", //模版名称
-      downloadtemplatetype: "",
+      // templatename: "2020914KPI2101", //模版名称
+      DownloadtemplateList: [],//下载模版列表
+      downloadtemplatetype: "", //下载模版类型选择的id
 
       systemtips_modal: false, //系统提示弹窗
 
@@ -533,21 +529,7 @@ export default {
           index: "1",
           paramId: "",
         },
-      ],
-      leftTreeList: [
-        {
-          name: "数据表",
-          linetreelist: [],
-        },
-        {
-          name: "数据包",
-        },
-        {
-          name: "模型库",
-          linetreelist: [],
-        },
-      ],
-
+      ],//数据处理
       table: {
         page: 1,
         pagesize: 400,
@@ -644,7 +626,7 @@ export default {
           },
         ],
         data: [],
-      },
+      },//sheet保存右边的表格
       sheetseetingtable1: {
         columns: [
           {
@@ -667,6 +649,7 @@ export default {
                       },
                       props: {
                           value: params.row.name,//默认值
+                          autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
@@ -683,9 +666,16 @@ export default {
                       {
                         attrs: {
                           class: "cursor",
+                          id:"tableInput"+params.row._index,
                         },
                         on: {
                           click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                console.log('tableInput'+params.row._index,document.getElementById('tableInput'+params.row._index))
+                                document.getElementById('tableInput'+params.row._index).focus()
+                              })
+                            },300)
                            this.sheetseetingtable1.data[params.row._index].isclickname=true
                           },
                         },
@@ -710,6 +700,7 @@ export default {
                       },
                       props: {
                           value: params.row.desc,//默认值
+                          autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
@@ -729,6 +720,11 @@ export default {
                         },
                         on: {
                           click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                              })
+                            },300)
                             this.sheetseetingtable1.data[params.row._index].isclickdesc=true
                           },
                         },
@@ -805,6 +801,7 @@ export default {
                       },
                       props: {
                           value: params.row.length,//默认值
+                          autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
@@ -824,6 +821,11 @@ export default {
                         },
                         on: {
                           click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                              })
+                            },300)
                             this.sheetseetingtable1.data[params.row._index].isclicklength=true
                           },
                         },
@@ -848,6 +850,7 @@ export default {
                         },
                         props: {
                             value: params.row.scale,//默认值
+                            autofocus: true,
                         },
                         on: {
                             'on-blur': (event) => {
@@ -867,6 +870,11 @@ export default {
                           },
                           on: {
                             click: () => {
+                              setTimeout( ()=> {
+                                this.$nextTick(()=>{
+                                  document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                                })
+                              },300)
                               this.sheetseetingtable1.data[params.row._index].isclickscale=true
                             },
                           },
@@ -894,6 +902,7 @@ export default {
                       },
                       props: {
                           value: params.row.value,//默认值
+                          autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
@@ -913,6 +922,11 @@ export default {
                         },
                         on: {
                           click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementsByClassName('cursor')[0].childNodes[6].focus()
+                              })
+                            },300)
                            that.sheetseetingtable1.data[params.row._index].isclickvalue=true
                           },
                         },
@@ -926,18 +940,16 @@ export default {
           },
         ],
         data: [],
-      },
+      },//配置第二步的上面表格
       sheetseetingtable2: {
         columns: [],
         data: [],
-      },
-      DownloadtemplateList: [],
+      },//配置第二步的下面表格
+      
     };
   },
   computed: {
-    // nodes: function() {
-    //   return dataQueue[this.showIndex];
-    // }
+
   },
   created() {
     //获取根目录
@@ -1082,7 +1094,75 @@ export default {
         }
       );
     },
-
+    onExpand: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+    onClick: function (evt, treeId, treeNode) {
+      // 点击事件
+      if (!treeNode.open) {
+        this.treeClick(evt, treeId, treeNode);
+      }
+    },
+    treeClick: function (evt, treeId, treeNode) {
+      // 点击事件
+      // console.log(treeNode.open,'onClick');
+      this.treenodeID = treeNode.id;
+      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getExplorerChildren",
+        data: [treeNode.id],
+      };
+      if (treeNode.right - treeNode.left == 1) {
+        //文件,获取右边的表格
+        // this.gettable(treeNode.id)
+        this.table.page = 1;
+        this.currenttableid = treeNode.id;
+        this.gettable(treeNode.id, this.table.page, this.table.pagesize);
+      } else {
+        //文件夹
+        treeNode.children = [];
+        that.gettable(treeNode.id, that.table.page, that.table.pagesize);
+        if (treeNode.isParent) {
+          that.$http
+            .post(that.PATH.getExplorerChildren, JSON.stringify(query))
+            .then(
+              (success) => {
+                // console.log(success.data.result);
+                const childrenData = eval(success.data.result);
+                //判断子节点是否包含子元素
+                // for(var i in childrenData){
+                //     if(childrenData[i].isContainSon === 1){
+                //         childrenData[i].isParent = true;
+                //     }
+                // };
+                childrenData.forEach((v, i) => {
+                  childrenData[i].open = false;
+                  if (childrenData[i].right - childrenData[i].left != 1) {
+                    childrenData[i].isParent = true;
+                    childrenData[i].children = [];
+                  }
+                  if (childrenData[i].right - childrenData[i].left == 1) {
+                    childrenData[i].isParent = false;
+                  }
+                });
+                // console.log(childrenData)
+                this.ztreeObj.refresh();
+                this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+              }
+            );
+        }
+      }
+    },
     //分页切换
     changePage(page) {
       this.table.page = page;
@@ -1405,7 +1485,6 @@ export default {
       let that =this
       that.ReupdateRemark(that.doImportresult)
     },
-    
     ReupdateRemark(id){
       this.systemtips_modal = true;
       this.sencdsheetsave_modal = false; //配置第一步弹框消失
@@ -1433,19 +1512,94 @@ export default {
     //导入推出
     lendinginleavefail() {
       this.leadingInFail_modal = true;
+      this.resetLeadinData()
     },
+    //导入sheet项退出
     datatreatingsheetfail() {
       this.datatreatingsheet_modal = true;
       this.isClickSheets = false;
+      this.resetLeadinData()
     },
+    //sheet保存弹框退出
     datatreatingsheetsavefail() {
       this.datatreatingsheetsave_modal = false;
+      this.resetLeadinData()
     },
+    //配置第一步退出
     firstsheetsavefail() {
       this.firstsheetsave_modal = false;
+      this.resetLeadinData()
     },
+    //配置第二步退出
     sencdsheetsavefail() {
       this.sencdsheetsave_modal = false;
+      this.resetLeadinData()
+    },
+
+    //重置掉导入弹框的数据
+    resetLeadinData(){
+      let that=this
+      that.nodes3=[]//导入的sheet项
+      that.nodes4=[]//sheet保存的树
+      that.systemtips_modal=false //系统提示弹窗
+      that.leadingindescribe="" //导入描述
+      that.sheetseetingtable2.data=[] //配置第二步的下面表格
+      sheetseetingtable2.columns=[]//配置第二步的下面表格
+      that.sheetseetingtable1.data=[] //配置第二步的上面表格
+      that.sheettable.data=[] //sheet保存右边的表格
+      that.datatreating_modal=false  //导入弹窗
+      that.datatreatingsheet_modal=false  //导入sheet页
+      that.ztreeUploadingObj=null 
+      that.leadinUploadingid=""  //上传文件后返回的文件id
+      that.leadinUploadingname='' //上传文件后返回的文件名称
+      that.unloadFile=null  //上传的文件
+      that.leadinUploadingsheets=[]  //上传文件后的文件sheets
+      that.isClickSheets=false  //是否确定过sheet
+      that.sheetsavesearchtit=""  //保存 搜索框名称
+      that.currentsheettreeId='' //保存弹框左边树id
+      that.currentsheetindex='' //
+      that.choosesheetTreeNode={} //请选择需要导入的sheet节点
+      that.datatreatingsheetsave_modal=false  //保存sheet页
+      that.firstsheetsave_modal=false  //配置第一步弹框
+      that.sencdsheetsave_modal= false  //配置第二步弹框
+      that.formCustom= {
+        hasHeader: "1",
+        startCol: "",
+        startRow: "",
+        endCol:"",
+        endRow: "",
+      }
+      that.currentfetchData={
+        "dir":3, //3保存弹框左边目录树目录ID
+        "tableId":null, //4写死
+        "tableDesc":"", //5input值名称
+        "override":null, //6写死
+        "fileColumns":[], //7文件列信息
+        "hasHeader":true,//8是否表头
+        "sheetIndexes":[],//9Sheet页索引
+        "startRow":"",//10行区间开始
+        "endRow":"",//11行区间结束
+        "startCol":"",//12列区间开始
+        "endCol":"",//13列区间结束
+        "curSheetIndex":0,//14固定0
+        "type":"excel", //15类型excel(默认)
+        "fileId":0, //16上传文件返回的fileID
+        "fileName":"", //17文件名称
+        "templateName":"",  //18模板名称，默认空
+        "hasTemplate":false,  //19是否模板，默认false
+        "templateId":null,  //20模板ID
+        "fileInfo":{
+          "fileName":"", //21文件名称
+          "sheets":[], //22文件Sheet信息
+          "type":"XLSX" //23文件类型
+        },
+        "logIds":null, //26null
+        "id":0//27写死
+      }
+      that.doImportresult='' //配置第二部确定接口返回的值
+      that.choosename= ""  //导入上传文件
+      that.leadingindescribe= ""  //导入描述
+
     },
     //下载数据
     downloaddata() {
@@ -1474,75 +1628,6 @@ export default {
           // that.errorTips_modal = true;
         }
       );
-    },
-    onExpand: function (evt, treeId, treeNode) {
-      // 点击事件
-      if (treeNode.open) {
-        this.treeClick(evt, treeId, treeNode);
-      }
-    },
-    onClick: function (evt, treeId, treeNode) {
-      // 点击事件
-      if (!treeNode.open) {
-        this.treeClick(evt, treeId, treeNode);
-      }
-    },
-    treeClick: function (evt, treeId, treeNode) {
-      // 点击事件
-      // console.log(treeNode.open,'onClick');
-      this.treenodeID = treeNode.id;
-      const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-      const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
-      var that = this;
-      var query = {
-        action: "Service",
-        method: "getExplorerChildren",
-        data: [treeNode.id],
-      };
-      if (treeNode.right - treeNode.left == 1) {
-        //文件,获取右边的表格
-        // this.gettable(treeNode.id)
-        this.table.page = 1;
-        this.currenttableid = treeNode.id;
-        this.gettable(treeNode.id, this.table.page, this.table.pagesize);
-      } else {
-        //文件夹
-        treeNode.children = [];
-        that.gettable(treeNode.id, that.table.page, that.table.pagesize);
-        if (treeNode.isParent) {
-          that.$http
-            .post(that.PATH.getExplorerChildren, JSON.stringify(query))
-            .then(
-              (success) => {
-                // console.log(success.data.result);
-                const childrenData = eval(success.data.result);
-                //判断子节点是否包含子元素
-                // for(var i in childrenData){
-                //     if(childrenData[i].isContainSon === 1){
-                //         childrenData[i].isParent = true;
-                //     }
-                // };
-                childrenData.forEach((v, i) => {
-                  childrenData[i].open = false;
-                  if (childrenData[i].right - childrenData[i].left != 1) {
-                    childrenData[i].isParent = true;
-                    childrenData[i].children = [];
-                  }
-                  if (childrenData[i].right - childrenData[i].left == 1) {
-                    childrenData[i].isParent = false;
-                  }
-                });
-                // console.log(childrenData)
-                this.ztreeObj.refresh();
-                this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
-              },
-              (error) => {
-                that.err_list = ["登录异常", "请联系管理员"];
-                that.errorTips_modal = true;
-              }
-            );
-        }
-      }
     },
     //
     onExpand3: function (evt, treeId, treeNode) {
