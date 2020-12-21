@@ -193,13 +193,15 @@
         <Col span="1">
         </col>
         <Col span="17">
-          <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="sheettable.columns"
-          :data="sheettable.data"
-          @on-row-click="clickRow"
-        ></Table>
+        <div class="sheetsavetable-content">
+            <Table
+            class="facedata-table account-table"
+            stripe
+            :columns="sheettable.columns"
+            :data="sheettable.data"
+            @on-row-click="clickRow"
+          ></Table>
+        </div>
         </Col>
       </Row>
       <Row>
@@ -223,7 +225,7 @@
         
           <Form ref="formCustom" :model="formCustom" :label-width="80">
             <FormItem label="是否标题" prop="passwd">
-              <RadioGroup v-model="formCustom.hasHeader">
+              <RadioGroup v-model="formCustom.hasHeader" style="text-align:left;width:100%;padding-left:20px">
                 <Radio label="1">是</Radio>
                 <Radio label="0">否</Radio>
               </RadioGroup>
@@ -231,12 +233,12 @@
             <FormItem label="列区间">
               <Row>
                 <Col span="12">
-                    <FormItem label="开始" :label-width="80">
+                    <FormItem label="开始" :label-width="40">
                         <Input type="number" v-model="formCustom.startRow"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
-                    <FormItem label="结束" :label-width="80">
+                    <FormItem label="结束" :label-width="40">
                       <Input type="number" v-model="formCustom.endRow"></Input>
                     </FormItem>
                 </Col>
@@ -245,12 +247,12 @@
             <FormItem label="行区间" prop="age">
               <Row>
                 <Col span="12">
-                    <FormItem label="开始">
+                    <FormItem label="开始" :label-width="40">
                         <Input type="number" v-model="formCustom.startCol"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
-                    <FormItem label="结束">
+                    <FormItem label="结束" :label-width="40">
                       <Input type="number" v-model="formCustom.endCol"></Input>
                     </FormItem>
                 </Col>
@@ -649,6 +651,7 @@ export default {
                       },
                       attrs: {
                         id:"tableInput"+params.row._index,
+                        class:'replyBox',
                       },
                       props: {
                           value: params.row.name,//默认值
@@ -656,6 +659,7 @@ export default {
                       },
                       on: {
                           'on-blur': (event) => {
+                            
                               this.sheetseetingtable1.data[params.row._index].name = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickname=false
                           }
@@ -674,6 +678,7 @@ export default {
                           click: () => {
                             setTimeout( ()=> {
                               this.$nextTick(()=>{
+                                // document.getElementsByClassName('replyBox')[0].childNodes[6].focus()
                                 console.log('tableInput'+params.row._index,document.getElementById('tableInput'+params.row._index))
                                 document.getElementById('tableInput'+params.row._index).focus()
                               })
@@ -1347,32 +1352,40 @@ export default {
        //alert(this.sheetsavesearchtit);
       //Anne周
       //调用isNameExit 接口  data：[this.sheetsavesearchtit,所属目录id]
-    
-      var that = this;
-      that.currentfetchData.tableDesc= that.sheetsavesearchtit
-      var query = {
-        action: "Service",
-        method: "isNameExit",
-        data: [that.sheetsavesearchtit, that.currentsheettreeId],
-      };
-      that.$http
-        .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
-        .then(
-          (success) => {
-            console.log(success.data);
+      if(this.sheetsavesearchtit==''){
+        this.$Message.error({
+          content: "名称必填",
+          duration: 1,
+        });
+        return
+      }else{
+        var that = this;
+        that.currentfetchData.tableDesc= that.sheetsavesearchtit
+        var query = {
+          action: "Service",
+          method: "isNameExit",
+          data: [that.sheetsavesearchtit, that.currentsheettreeId],
+        };
+        that.$http
+          .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
+          .then(
+            (success) => {
+              console.log(success.data);
 
-            
-          },
-          (error) => {
-            that.err_list = ["登录异常", "请联系管理员"];
-            that.errorTips_modal = true;
-          }
-        );
-    
-      that.firstsheetsave_modal = true;
-      that.datatreatingsheetsave_modal = false;
-      // that.RequestRecommend()
-      that.RequestgetDefaultTemplet()
+              
+            },
+            (error) => {
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+        that.firstsheetsave_modal = true;
+        that.datatreatingsheetsave_modal = false;
+        // that.RequestRecommend()
+        that.RequestgetDefaultTemplet()
+      }
+      
     },
     //调用recommend 接口   data：["监管检查发现 - 正确.xls"] //上传文件名
     RequestRecommend(){
@@ -2490,6 +2503,10 @@ export default {
     display: inline-block;
     width: 100%;
     min-height: 18px;
+  }
+  .sheetsavetable-content{
+    height: 500px;
+    overflow: scroll;
   }
   .ivu-modal-content {
     background: #ffffff;
