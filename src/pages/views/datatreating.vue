@@ -205,7 +205,7 @@
         </Col>
       </Row>
       <Row>
-        <Col span="24">
+        <Col span="23">
           <div class="sheetsaveserchtit-content">
             <span>名称：</span>
             <Input v-model="sheetsavesearchtit"></Input>
@@ -2408,7 +2408,7 @@ export default {
   }
   .datatreating_fr_table {
     height: 787px;
-    overflow-y: scroll;
+    overflow-y: auto;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
     padding: 20px;
@@ -2519,7 +2519,7 @@ export default {
   }
   .sheetsavetable-content{
     height: 500px;
-    overflow-y: scroll;
+   overflow-y: auto;
   }
   .ivu-modal-content {
     background: #ffffff;
@@ -2553,7 +2553,7 @@ export default {
     .datatreting-sheet-content {
       height: 500px;
       // overflow: scroll;
-      overflow-y: scroll;
+     overflow-y: auto;
       padding-top: 30px;
     }
     .datamodal_content {
@@ -2758,7 +2758,7 @@ export default {
   }
   .secondtable-content{
     height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 //全局的报错弹框

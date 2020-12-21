@@ -151,19 +151,19 @@ export default {
   height: 65%;
   /* height: 50%; */
   top: 50%;
-  border-left-width: 1Px;
+  border-left-width: 1px;
 }
 .ztree >>> .roots_docu:after {
   top: 50%;
   left: 11px;
   width: 50%;
-  border-top-width: 1Px;
+  border-top-width: 1px;
 }
 .ztree >>> .center_docu:before {
   left: 10px;
   height: 130%;
   /* height: 100%; */
-  border-left-width: 1Px;
+  border-left-width: 1px;
 }
 .ztree >>> .center_docu:after {
   top: 50%;
@@ -174,14 +174,14 @@ export default {
 .ztree >>> .bottom_docu:before {
   left: 10px;
   height: 65%;
-   /* height: 50%; */
-  border-left-width: 1Px;
+  /* height: 50%; */
+  border-left-width: 1px;
 }
 .ztree >>> .bottom_docu:after {
   top: 50%;
   left: 11px;
   width: 50%;
-  border-top-width: 1Px;
+  border-top-width: 1px;
 }
 .ztree >>> li a {
   display: inline-block;
@@ -191,7 +191,7 @@ export default {
   cursor: pointer;
   transition: none;
   vertical-align: middle;
-  color: #555555; 
+  color: #555555;
   width: 98%;
 }
 .ztree >>> .node_name {
@@ -199,12 +199,28 @@ export default {
   padding: 0 3px;
   border-radius: 4px;
 }
-.ztree >>> .curSelectedNode{
-  background: rgba(36,111,234,.1);
+.ztree >>> .curSelectedNode {
   border-radius: 5px;
   font-family: PingFangSC-Regular;
-  color: #246FEA !important;
   letter-spacing: 0;
+   z-index: 2;
+    position: relative;
+}
+.ztree {
+  position: relative;
+  z-index: 1;
+}
+.ztree >>> .curSelectedNode:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  margin-top: -4px;
+  background: rgba(255, 255, 255, 1);
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 .ztree >>> .curSelectedNode_Edit {
   height: 20px;
@@ -241,18 +257,21 @@ export default {
   vertical-align: middle;
 }
 
-.ztree >>> .button.ico_docu{
-  margin-right:2px; background:url('../../../assets/images/6.png') no-repeat;
+.ztree >>> .button.ico_docu {
+  margin-right: 2px;
+  background: url("../../../assets/images/6.png") no-repeat;
   /* margin-right:2px; background:url('../../../assets/images/5.png') no-repeat; */
   background-size: 20px 20px !important;
 }
-.ztree >>> .button.ico_open{
-  margin-right:2px; background:url('../../../assets/images/6.png') no-repeat;
+.ztree >>> .button.ico_open {
+  margin-right: 2px;
+  background: url("../../../assets/images/6.png") no-repeat;
   /* margin-right:2px; background:url('../../../assets/images/4.png') no-repeat; */
   background-size: 20px 20px !important;
 }
-.ztree >>> .button.ico_close{
-  margin-right:2px; background:url('../../../assets/images/6.png') no-repeat;
+.ztree >>> .button.ico_close {
+  margin-right: 2px;
+  background: url("../../../assets/images/6.png") no-repeat;
   background-size: 20px 20px !important;
 }
 
