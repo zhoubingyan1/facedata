@@ -1220,19 +1220,35 @@ export default {
         }
     },
     created(){
-        this.getdatatreatingdata() //获取目录的列表
+        this.getDataTreeList()
     },
     mounted(){
 
     },
     methods: {
         //获取标准目录的列表
-        getdatatreatingdata() {
+        getDataTreeList(){
+            this.datatreatingnodes=[]
+            this.getdatatreatingdata('ICE',-1) //获取目录的列表
+            this.getdatatreatingdata('DAP',-2) //获取目录的列表
+            this.getdatatreatingdata('EXPLORER',-3) //获取目录的列表
+            this.getdatatreatingdata('DAPAPP',-4) //获取目录的列表
+            this.getdatatreatingdata('RISK',-5) //获取目录的列表
+            
+        },
+        sortByKey(array, key) {
+            return array.sort(function (a, b) {
+                var value1 = a[key];
+                var value2 = b[key];
+                return value1 - value2;
+            });
+        },
+        getdatatreatingdata(source,id) {
             var that = this;
             var query = {
                 action: "Service",
                 method: "getChildrenBySource",
-                data: ["DAPAPP",-4],
+                data: [source,id],
                 type:"rpc",
                 tid:5
             };
@@ -1240,7 +1256,7 @@ export default {
             that.$http.post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query)).then(
                 (success) => {
                     that.$Spin.hide()
-                    console.log(success.data);
+                    // console.log(success.data);
                     let newResult=success.data.result
                     if (newResult.length > 0) {
                         newResult.forEach((v, i) => {
@@ -1255,9 +1271,12 @@ export default {
                             // if (newResult[i].right - newResult[i].left == 1) {
                             // newResult[i].isParent = false;
                             // }
+                            that.datatreatingnodes.push(newResult[i])
                         });
                     }
-                    that.datatreatingnodes = success.data.result;
+                    that.sortByKey(that.datatreatingnodes,'id')
+                    // that.datatreatingnodes.push(newResult)
+                    // console.log(that.datatreatingnodes)
                 },
                 (error) => {
                     that.$Spin.hide()
@@ -1284,11 +1303,12 @@ export default {
             // console.log(treeNode.open,'onClick');
             this.treenodeID = treeNode.id;
             const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+            console.log(treeNode,'treeNode')
             var that = this;
             var query = {
                 action: "Service",
                 method: "getChildrenBySource",
-                data: ["DAPAPP",treeNode.id],
+                data: [treeNode.source,treeNode.id],
             };
             if (treeNode.right - treeNode.left == 1) {
                 //文件,获取右边的表格
@@ -1331,54 +1351,61 @@ export default {
         //刷新当前选择节点的父节点
         refreshParentNode(treeNode) {  
             const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-            
+            // console.log(parentZNode,'parentZNode')
             let parentNode=treeNode.getParentNode()
-            console.log(treeNode.getParentNode(),'treeNode')
+            // console.log(treeNode.getParentNode(),'treeNode')
             var that = this;
-            var query = {
-                action: "Service",
-                method: "getChildrenBySource",
-                data: ["DAPAPP",parentNode.id],
-            };
-            if (parentNode.right - parentNode.left != 1) {
-                //文件夹
-                parentNode.children = [];
-                if (parentNode.isParent) {
-                that.$http
-                    .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
-                    .then(
-                    (success) => {
-                        // console.log(success.data.result);
-                        const childrenData = eval(success.data.result);
-                        //判断子节点是否包含子元素
-                        childrenData.forEach((v, i) => {
-                            childrenData[i].open = false;
+            if(parentNode){
+                var query = {
+                    action: "Service",
+                    method: "getChildrenBySource",
+                    data: [parentNode.source,parentNode.id],
+                };
+                if (parentNode.right - parentNode.left != 1) {
+                    //文件夹
+                    parentNode.children = [];
+                    if (parentNode.isParent) {
+                    that.$http
+                        .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
+                        .then(
+                        (success) => {
+                            // console.log(success.data.result);
+                            const childrenData = eval(success.data.result);
+                            //判断子节点是否包含子元素
+                            childrenData.forEach((v, i) => {
+                                childrenData[i].open = false;
 
-                            childrenData[i].isParent = true;
-                            childrenData[i].children = [];
-                        // if (childrenData[i].right - childrenData[i].left != 1) {
-                        //     childrenData[i].isParent = true;
-                        //     childrenData[i].children = [];
-                        // }
-                        // if (childrenData[i].right - childrenData[i].left == 1) {
-                        //     childrenData[i].isParent = false;
-                        // }
-                        });
-                        // console.log(childrenData)
-                        this.ztreeObj.refresh();
-                        this.ztreeObj.addNodes(parentNode, childrenData, false); //添加节点
-                    },
-                    (error) => {
-                        that.err_list = ["登录异常", "请联系管理员"];
-                        that.errorTips_modal = true;
+                                childrenData[i].isParent = true;
+                                childrenData[i].children = [];
+                            // if (childrenData[i].right - childrenData[i].left != 1) {
+                            //     childrenData[i].isParent = true;
+                            //     childrenData[i].children = [];
+                            // }
+                            // if (childrenData[i].right - childrenData[i].left == 1) {
+                            //     childrenData[i].isParent = false;
+                            // }
+                            });
+                            // console.log(childrenData)
+                            this.ztreeObj.refresh();
+                            this.ztreeObj.addNodes(parentNode, childrenData, false); //添加节点
+                        },
+                        (error) => {
+                            that.err_list = ["登录异常", "请联系管理员"];
+                            that.errorTips_modal = true;
+                        }
+                        );
                     }
-                    );
                 }
+            }else{
+                that.getDataTreeList()
             }
+            
         },
         addDiyDom(treeid, treeNode){
             const item = document.getElementById(`${treeNode.tId}_a`);
+            // var itemnode = document.getElementById(`${treeNode.tId}_a`);
             let that =this
+            // console.log(item,'item')
             if(item && !item.querySelector('.tree_extra_btn')){  
                 const delbtn = document.createElement('sapn');
                 delbtn.id = `${treeid}_${treeNode.id}_delbtn`;
@@ -1429,7 +1456,7 @@ export default {
             var query = {
                 action: "Service",
                 method: "getChildrenBySource",
-                data: ["DAPAPP",treeNode.id],
+                data: [treeNode.source,treeNode.id],
             };
             treeNode.children = [];
             that.$http
@@ -1473,18 +1500,18 @@ export default {
             let that =this
             let nodeinfo= that.nodeitem
             if(that.datatreatingtype=='edit'){
-                that.RenameDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+                that.RenameDatatreatinNode(nodeinfo.id,that.datatreatingEditname,nodeinfo.source)
             }else{
-                that.addDatatreatinNode(nodeinfo.id,that.datatreatingEditname)
+                that.addDatatreatinNode(nodeinfo.id,that.datatreatingEditname,nodeinfo.source)
             }
             
         },
-        addDatatreatinNode(nodeid,nodename) {
+        addDatatreatinNode(nodeid,nodename,source) {
             var that = this;
             var query = {
                 action: "Service",
                 method: "add",
-                data: [nodeid,nodename,"DAPAPP"]
+                data: [nodeid,nodename,source]
             };
             that.$Spin.show()
             that.$http.post(that.PATH.GETCHILDRENBYSOURCEADD, JSON.stringify(query)).then(
@@ -1527,7 +1554,6 @@ export default {
                 }
             );
         },
-        
         //删除弹框
         datatreatingmenuDel(){
             var that = this;
