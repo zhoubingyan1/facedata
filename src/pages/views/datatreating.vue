@@ -762,12 +762,15 @@ export default {
                       "Select", {
                           props: {
                               value: params.row.type,//默认值
+                                transfer:true,
                           },
                           on: {
                               'on-change': (event) => {
+                                console.log(event,"onchange");
+                               
                                   that.sheetseetingtable1.data[params.row._index].type = event;//datalist为table中的数据集
                                   that.sheetseetingtable1.data[params.row._index].isclicktype=false
-                                  that.currentfetchData.fileColumns[params.row._index]=that.sheetseetingtable1.data
+                                //  that.currentfetchData.fileColumns[params.row._index]=that.sheetseetingtable1.data
                               }
                           },
                       },

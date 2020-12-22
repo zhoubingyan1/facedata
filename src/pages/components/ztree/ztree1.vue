@@ -209,12 +209,13 @@ export default {
 .ztree {
   position: relative;
   z-index: 1;
+  overflow-x:hidden ;
 }
 .ztree >>> .curSelectedNode:before {
   content: "";
   position: absolute;
-  left: 0;
-  width: 100%;
+  left: -100%;
+  width: 300%;
   height: 44px;
   margin-top: -4px;
   background: rgba(255, 255, 255, 1);
