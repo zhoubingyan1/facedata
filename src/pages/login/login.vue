@@ -97,11 +97,11 @@
       </div>
     </div>
     <div class="logincheckbox">
-      <Checkbox v-model="single"></Checkbox>
+      <!-- <Checkbox v-model="single"></Checkbox>
       <span
         class="logincheckboxtext"
         @click="single=!single"
-      >我同意并遵守相关法律协议</span>
+      >我同意并遵守相关法律协议</span> -->
     </div>
     <div class="loginbottom">FACEDATA Version 6.0 Rodian Corporation All Rights Reserved.</div>
     <!-- 错误弹框 -->
@@ -238,11 +238,11 @@ export default {
         that.errorTips_modal = true;
         return;
       }
-      if (that.single === false) {
-        that.err_list = ["请阅读并同意协议"];
-        that.errorTips_modal = true;
-        return;
-      }
+      // if (that.single === false) {
+      //   that.err_list = ["请阅读并同意协议"];
+      //   that.errorTips_modal = true;
+      //   return;
+      // }
       var query = {
         action: "Service",
         method: "login",

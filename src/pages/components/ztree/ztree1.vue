@@ -185,8 +185,8 @@ export default {
 }
 .ztree >>> li a {
   display: inline-block;
-  line-height: 32px;
-  height: 32px;
+  line-height: 44px;
+  height: 44px;
   margin: 0;
   cursor: pointer;
   transition: none;
@@ -203,8 +203,8 @@ export default {
   border-radius: 5px;
   font-family: PingFangSC-Regular;
   letter-spacing: 0;
-   z-index: 2;
-    position: relative;
+  z-index: 2;
+  position: relative;
 }
 .ztree {
   position: relative;
@@ -215,12 +215,12 @@ export default {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 44px;
   margin-top: -4px;
   background: rgba(255, 255, 255, 1);
   pointer-events: none;
   z-index: -1;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 30px 0 rgba(0,0,0,0.10);
 }
 .ztree >>> .curSelectedNode_Edit {
   height: 20px;
@@ -259,19 +259,19 @@ export default {
 
 .ztree >>> .button.ico_docu {
   margin-right: 2px;
-  background: url("../../../assets/images/6.png") no-repeat;
+  background: url("../../../assets/images/file-open@2x.png") no-repeat;
   /* margin-right:2px; background:url('../../../assets/images/5.png') no-repeat; */
   background-size: 20px 20px !important;
 }
 .ztree >>> .button.ico_open {
   margin-right: 2px;
-  background: url("../../../assets/images/6.png") no-repeat;
+  background: url("../../../assets/images/file-open@2x.png") no-repeat;
   /* margin-right:2px; background:url('../../../assets/images/4.png') no-repeat; */
   background-size: 20px 20px !important;
 }
 .ztree >>> .button.ico_close {
   margin-right: 2px;
-  background: url("../../../assets/images/6.png") no-repeat;
+  background: url("../../../assets/images/file-open@2x.png") no-repeat;
   background-size: 20px 20px !important;
 }
 

@@ -40,7 +40,7 @@
                 <div class="progress-content">
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#FD5056"
+                    color="#008000"
                     :value="item.scoreleft"
                     height="10"
                     stream
@@ -48,7 +48,7 @@
                   ></v-progress-linear>
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#246FEA"
+                    color="#f00"
                     :value="item.scoreright"
                     height="10"
                   ></v-progress-linear>
@@ -106,7 +106,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -114,7 +114,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -162,7 +162,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -170,7 +170,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -217,7 +217,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -225,7 +225,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -272,7 +272,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -280,7 +280,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -337,7 +337,7 @@
                 <div class="progress-content">
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#FD5056"
+                    color="#008000"
                     :value="item.scoreleft"
                     height="10"
                     stream
@@ -345,7 +345,7 @@
                   ></v-progress-linear>
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#246FEA"
+                    color="#f00"
                     :value="item.scoreright"
                     height="10"
                   ></v-progress-linear>

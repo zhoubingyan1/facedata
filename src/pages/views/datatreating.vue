@@ -60,7 +60,7 @@
                   <div class="lf">
                     <div class="header_iconconent cursorpointer" @click="choseleadingin">
                       <img class="icon" src="../../assets/images/leadingin.png" />
-                      <span class="span">导入</span>
+                      <span class="span">外部数据导入</span>
                     </div>
                     <div class="header_iconconent cursorpointer" @click="addtabs">
                       <img class="icon" src="../../assets/images/createdata.png" />
@@ -127,7 +127,7 @@
     </Tabs>
     <!-- 导入弹窗 start -->
     <Modal v-model="datatreating_modal" width="600" class-name="vertical-center-modal">
-      <div class="layer_header" style="cursor: move;">导入</div>
+      <div class="layer_header" style="cursor: move;">外部数据导入</div>
       <div class="datamodal_content">
         <div class="datamodal_item">
           <div class="datamodal_item-title">选择表:</div>
@@ -158,7 +158,7 @@
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="lendinginleavefail">退出</button>
-        <button class="btn" @click="lendinginsave">保存</button>
+        <button class="btn" @click="lendinginsave">下一步</button>
       </div>
     </Modal>
     <!-- 导入的sheet项 -->
@@ -174,7 +174,7 @@
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="datatreatingsheetfail">退出</button>
-        <button class="btn" @click="sheetsavebutton">保存</button>
+        <button class="btn" @click="sheetsavebutton">下一步</button>
       </div>
     </Modal>
     <!-- sheet保存 -->
@@ -214,7 +214,7 @@
       </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="datatreatingsheetsavefail">退出</button>
-        <button class="btn" @click="lendinginsheetsave">保存</button>
+        <button class="btn" @click="lendinginsheetsave">下一步</button>
       </div>
     </Modal>
     <!-- 配置第一步 -->
@@ -234,12 +234,12 @@
               <Row>
                 <Col span="12">
                     <FormItem label="开始" :label-width="40">
-                        <Input type="number" v-model="formCustom.startRow"></Input>
+                        <Input type="number" v-model="formCustom.startRow" :max="formCustom.startRow"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="结束" :label-width="40">
-                      <Input type="number" v-model="formCustom.endRow"></Input>
+                      <Input type="number" v-model="formCustom.endRow" :max="formCustom.endRow"></Input>
                     </FormItem>
                 </Col>
               </Row>
@@ -248,12 +248,12 @@
               <Row>
                 <Col span="12">
                     <FormItem label="开始" :label-width="40">
-                        <Input type="number" v-model="formCustom.startCol"></Input>
+                        <Input type="number" v-model="formCustom.startCol" :max="formCustom.startCol"></Input>
                     </FormItem>
                 </Col>
                 <Col span="12">
                     <FormItem label="结束" :label-width="40">
-                      <Input type="number" v-model="formCustom.endCol"></Input>
+                      <Input type="number" v-model="formCustom.endCol" :max="formCustom.endCol"></Input>
                     </FormItem>
                 </Col>
               </Row>
@@ -262,8 +262,8 @@
         </Col>
       </Row>
       <div class="datamodal_footer">
-        <Button @click="firstsheetsavefail" style="margin-left: 8px">退出</Button>
-        <Button @click="lendinginsavefirst('formCustom')">保存</Button>
+        <Button @click="firstsheetsavefail" style="margin-left: 8px;margin-right:10px">退出</Button>
+        <Button @click="lendinginsavefirst('formCustom')">下一步</Button>
       </div>
     </Modal>
     <!-- 配置第二步 -->
@@ -296,7 +296,7 @@
       </Row>
       <div class="datamodal_footer">
         <button class="btn" @click="sencdsheetsavefail">退出</button>
-        <button class="btn" @click="secondlendinginsave">保存</button>
+        <button class="btn" @click="secondlendinginsave">下一步</button>
       </div>
     </Modal>
     <!-- 导入成功系统提示弹窗 -->
@@ -315,6 +315,7 @@
         </div>
       </div>
       <div class="datamodal_footer1">
+        <button class="btn" @click="systemtipsmodalfail">退出</button>
         <button class="btn" @click="systemtipsmodalconfirm">确定</button>
       </div>
     </Modal>
@@ -359,7 +360,7 @@
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="downloadTemplate_modal=false">退出</button>
-        <button class="btn" @click="downloadEXCEL">保存</button>
+        <button class="btn" @click="downloadEXCEL">下载</button>
       </div>
     </Modal>
     <!-- 报错弹框 -->
@@ -530,7 +531,7 @@ export default {
       tabIndex: 1,
       TabList: [
         {
-          label: "数据处理",
+          label: "数据预处理",
           name: "1",
           index: "1",
           paramId: "",
@@ -662,9 +663,10 @@ export default {
                       },
                       on: {
                           'on-blur': (event) => {
-                            
+                              console.log(event,'event')
                               this.sheetseetingtable1.data[params.row._index].name = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickname=false
+                              //  this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
                           }
                       }
                   }),
@@ -717,6 +719,7 @@ export default {
                           'on-blur': (event) => {
                               this.sheetseetingtable1.data[params.row._index].desc = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickdesc=false
+                              //  this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
                           }
                       }
                   }),
@@ -764,6 +767,7 @@ export default {
                               'on-change': (event) => {
                                   that.sheetseetingtable1.data[params.row._index].type = event;//datalist为table中的数据集
                                   that.sheetseetingtable1.data[params.row._index].isclicktype=false
+                                  that.currentfetchData.fileColumns[params.row._index]=that.sheetseetingtable1.data
                               }
                           },
                       },
@@ -821,6 +825,7 @@ export default {
                           'on-blur': (event) => {
                               this.sheetseetingtable1.data[params.row._index].length = event.target.value
                               this.sheetseetingtable1.data[params.row._index].isclicklength=false
+                              // this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
                           }
                       }
                   }),
@@ -873,6 +878,7 @@ export default {
                             'on-blur': (event) => {
                                 this.sheetseetingtable1.data[params.row._index].scale = event.target.value
                                 this.sheetseetingtable1.data[params.row._index].isclickscale=false
+                                // this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
                             }
                         }
                     }),
@@ -893,6 +899,7 @@ export default {
                               })
                             },300)
                               this.sheetseetingtable1.data[params.row._index].isclickscale=true
+                              // this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
                             },
                           },
                         },
@@ -1488,7 +1495,7 @@ export default {
       this.sencdsheetsave_modal = false; //配置第一步弹框消失
       var that = this;
       console.log(that.leadinUploadingid,that.currentfetchData)
-      
+      that.currentfetchData.fileColumns=that.sheetseetingtable1.data
       var query = {
         action: "Service",
         method: "doImport",
@@ -1540,18 +1547,18 @@ export default {
     },
     //导入推出
     lendinginleavefail() {
-      this.leadingInFail_modal = true;
+      // this.leadingInFail_modal = true;
       this.resetLeadinData()
     },
     //导入sheet项退出
     datatreatingsheetfail() {
-      this.datatreatingsheet_modal = true;
-      this.isClickSheets = false;
+      // this.datatreatingsheet_modal = true;
+      // this.isClickSheets = false;
       this.resetLeadinData()
     },
     //sheet保存弹框退出
     datatreatingsheetsavefail() {
-      this.datatreatingsheetsave_modal = false;
+      // this.datatreatingsheetsave_modal = false;
       this.resetLeadinData()
     },
     //配置第一步退出
@@ -1564,7 +1571,11 @@ export default {
       this.sencdsheetsave_modal = false;
       this.resetLeadinData()
     },
-
+    //系统提示
+    systemtipsmodalfail(){
+      this.systemtips_modal = false;
+      this.resetLeadinData()
+    },
     //重置掉导入弹框的数据
     resetLeadinData(){
       let that=this
@@ -1668,12 +1679,20 @@ export default {
     //导入的sheet页
     onClickLeadinSheet: function (evt, treeId, treeNode) {
       // 点击事件
-      this.choosesheetTreeNode={}
-      this.isClickSheets = true;
-      this.choosesheetTreeNode=treeNode
-      this.currentsheetindex = treeNode.index
+      if(treeNode.index){
+        this.choosesheetTreeNode={}
+        this.isClickSheets = true;
+        this.choosesheetTreeNode=treeNode
+        this.currentsheetindex = treeNode.index
 
-      this.currentfetchData.sheetIndexes=[treeNode.index]
+        this.currentfetchData.sheetIndexes=[treeNode.index]
+      }else{
+        this.$Message.error({
+          content: "当前不能选择，请选择其他sheet",
+          duration: 1,
+        });
+      }
+      
       // console.log(treeNode)
     },
     onExpand4: function (evt, treeId, treeNode) {
