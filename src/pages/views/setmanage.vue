@@ -2536,11 +2536,11 @@ export default {
     content: "重命名";
     position: absolute;
     left: -14px;
-    top:-22px;
+    top:-26px;
     pointer-events: none;
     z-index: -1;
     color: #fff;
-    padding:2px 4px;
+    padding:4px 8px;
     background: rgba(0,0,0,0.70);
     border-radius: 2px 2px 2px 0 0 0 2px;
   }
@@ -2569,11 +2569,11 @@ export default {
     content: "删除";
     position: absolute;
     left: -10px;
-    top:-22px;
+    top:-26px;
     pointer-events: none;
     z-index: -1;
     color: #fff;
-    padding:2px 4px;
+    padding:4px 8px;
     background: rgba(0,0,0,0.70);
     border-radius: 2px 2px 2px 0 0 0 2px;
   }
