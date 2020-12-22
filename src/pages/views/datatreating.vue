@@ -68,7 +68,7 @@
                     </div>
                     <div class="header_iconconent cursorpointer" @click="downloaddata">
                       <img class="icon" src="../../assets/images/download.png" />
-                      <span class="span">下载数据</span>
+                      <span class="span">下载模板</span>
                     </div>
                   </div>
                   <div class="rg">
@@ -337,7 +337,7 @@
     <!-- 下载模版 -->
     <Modal v-model="downloadTemplate_modal" width="600" class-name="vertical-center-modal">
       <!-- 下载模版 -->
-      <div class="layer_header" style="cursor: move;">下载模版</div>
+      <div class="layer_header" style="cursor: move;">下载模板</div>
       <div class="datamodal_content">
         <div class="datamodal_item">
           <div class="datamodal_item-title">模板类型:</div>

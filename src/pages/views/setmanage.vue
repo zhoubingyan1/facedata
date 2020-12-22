@@ -1693,7 +1693,7 @@ export default {
                     //     childrenData[i].isParent = false;
                     // }
                   });
-                  that.nodeitem=null
+                  
                   // console.log(childrenData)
                   that.ztreeObj.refresh();
                   that.ztreeObj.addNodes(parentNode, childrenData, false); //添加节点
@@ -1708,6 +1708,7 @@ export default {
       } else {
         that.getDataTreeList();
       }
+      that.nodeitem=null
     },
     addHoverDom(treeid, treeNode) {
       const item = document.getElementById(`${treeNode.tId}_a`);
@@ -1818,6 +1819,7 @@ export default {
             // console.log(childrenData)
             this.ztreeObj.refresh();
             this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+            this.nodeitem=null
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1853,26 +1855,34 @@ export default {
     canceldatatreatingEditmodal() {
       this.datatreatingEdit_modal = false;
       this.delModal=false
-      this.nodeitem=null
-      this.ztreeObj.checkAllNodes(false)
+      // this.nodeitem=null
+      // this.ztreeObj.checkAllNodes(false)
     },
     //弹框确定
     confirmdatatreatingEditmodal() {
       let that = this;
       let nodeinfo = that.nodeitem;
-      if (that.datatreatingtype == "edit") {
-        that.RenameDatatreatinNode(
-          nodeinfo.id,
-          that.datatreatingEditname,
-          nodeinfo.source
-        );
-      } else {
-        that.addDatatreatinNode(
-          nodeinfo.id,
-          that.datatreatingEditname,
-          nodeinfo.source
-        );
+      if(that.datatreatingEditname!=''){
+        if (that.datatreatingtype == "edit") {
+          that.RenameDatatreatinNode(
+            nodeinfo.id,
+            that.datatreatingEditname,
+            nodeinfo.source
+          );
+        } else {
+          that.addDatatreatinNode(
+            nodeinfo.id,
+            that.datatreatingEditname,
+            nodeinfo.source
+          );
+        }
+      }else{
+        that.$Message.error({
+          content: "文字不能为空",
+          duration: 1,
+        });
       }
+      
       
     },
     addDatatreatinNode(nodeid, nodename, source) {
@@ -1892,6 +1902,7 @@ export default {
             // that.getdatatreatingdata()
             that.datatreatingEdit_modal = false;
             console.log(that.nodeitem)
+            
             that.refreshcurrentNode("", that.nodeitem);
           },
           (error) => {
@@ -1944,7 +1955,6 @@ export default {
             console.log(success.data);
             // that.getdatatreatingdata()
             that.delModal = false;
-            that.nodeitem=null
             that.refreshParentNode(that.nodeitem);
           },
           (error) => {

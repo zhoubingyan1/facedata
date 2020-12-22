@@ -50,7 +50,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="5-1">
-                  <span>数据处理</span>
+                  <span>数据预处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -126,7 +126,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="15-1">
-                  <span>数据处理</span>
+                  <span>数据预处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -202,7 +202,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="25-1">
-                  <span>数据处理</span>
+                  <span>数据预处理</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -253,6 +253,11 @@
             <Header>
               <div class="container_head">
                 <div class="container_head_left">
+                  <div class="header-select-content">
+                    <Select v-model="yearmodel" class="header-selects">
+                        <Option v-for="item in yearList" :value="item" :key="item">{{ item}}</Option>
+                    </Select>
+                  </div>
                   <div class="header-switch-container">
                       <div class="header-switch-content">
                         <div class="header-switch-tab" :class="{'active':businessactive==item.type}" v-for="(item,index) in businesstypelist" :key="index" @click="headerTab(item)">{{item.name}}</div>
@@ -260,6 +265,11 @@
                   </div>
                 </div>
                 <div  class="container_head_right">
+                  <div class="header-select-content1">
+                    <Select v-model="citymodel" class="header-selects1">
+                        <Option v-for="item in cityList" :value="item" :key="item">{{ item}}</Option>
+                    </Select>
+                  </div>
                   <div class="header_search">
                       <img class="header_search_img" src="@/assets/images/search@2x.png" alt="LOGO">
                       <input class="header_search_input" placeholder="搜索" >
@@ -300,6 +310,10 @@ export default {
     },
     data(){
         return{
+          yearmodel:'2018',
+          yearList:['2020','2019','2018','2017','2016','2015'],
+          citymodel:'上海',
+          cityList:['上海','北京'],
           businessactive:'1',
           businesstypelist:[{name:'对公',type:'1'},{name:'对私',type:'2'},{name:'同业',type:'3'}],
           arr2: [],
@@ -400,7 +414,7 @@ export default {
             }
             break  
           case "5-1":
-            //数据处理
+            //数据预处理
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'datatreating'})
@@ -475,7 +489,7 @@ export default {
             }
             break  
           case "15-1":
-            //数据处理
+            //数据预处理
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'datatreating'})
@@ -551,7 +565,7 @@ export default {
             }
             break  
           case "25-1":
-            //数据处理
+            //数据预处理
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'datatreating'})
@@ -606,7 +620,7 @@ export default {
             this.$router.push({ name:'scenethree'})
             break  
           case "5-1":
-            //数据处理
+            //数据预处理
             this.$router.push({ name:'datatreating'})
             break 
           case "6-1":
@@ -739,6 +753,65 @@ export default {
 .ivu-layout-header{
   padding: 0px !important;
   height: 80px;
+  .header-select-content{
+    width: 78px;
+    margin-right: 30px;
+  }
+  .header-select-content1{
+    width: 91px;
+    margin-right: 30px;
+  }
+  
+}
+.header-select-content .header-selects{
+  width: 100%;
+  background: #E8E8E8;
+  border-radius: 10px;
+  border:none;
+  height: 30px;
+  line-height: 30px;
+  .ivu-select-placeholder,.ivu-select-selection{
+    background: #E8E8E8;
+    border-radius: 10px;
+    border:none;
+    height: 30px;
+    line-height: 30px;
+  }
+  .ivu-select-visible .ivu-select-selection{
+    box-shadow:none;
+  }
+  .ivu-select-selected-value{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: rgba(0,0,0,0.40);
+    letter-spacing: 0;
+    line-height: 30px;
+  }
+}
+.header-select-content1 .header-selects1{
+  width: 100%;
+  background: #E8E8E8;
+  border-radius: 10px;
+  border:none;
+  height: 40px;
+  line-height: 40px;
+  .ivu-select-placeholder,.ivu-select-selection{
+    background: #E8E8E8;
+    border-radius: 10px;
+    border:none;
+    height: 40px;
+    line-height: 40px;
+  }
+  .ivu-select-visible .ivu-select-selection{
+    box-shadow:none;
+  }
+  .ivu-select-selected-value{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: rgba(0,0,0,0.40);
+    letter-spacing: 0;
+    line-height: 40px;
+  }
 }
 
 .container_head{
