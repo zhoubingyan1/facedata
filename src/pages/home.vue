@@ -770,6 +770,9 @@ export default {
   border:none;
   height: 30px;
   line-height: 30px;
+   .ivu-icon-ios-arrow-down:before{
+    content:"\F33D";
+  }
   .ivu-select-placeholder,.ivu-select-selection{
     background: #E8E8E8;
     border-radius: 10px;
@@ -795,6 +798,9 @@ export default {
   border:none;
   height: 40px;
   line-height: 40px;
+  .ivu-icon-ios-arrow-down:before{
+    content:"\F33D";
+  }
   .ivu-select-placeholder,.ivu-select-selection{
     background: #E8E8E8;
     border-radius: 10px;
