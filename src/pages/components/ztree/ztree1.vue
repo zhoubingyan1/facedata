@@ -272,7 +272,7 @@ export default {
 }
 .ztree >>> .button.ico_close {
   margin-right: 2px;
-  background: url("../../../assets/images/file-open@2x.png") no-repeat;
+  background: url("../../../assets/images/file@2x.png") no-repeat;
   background-size: 20px 20px !important;
 }
 

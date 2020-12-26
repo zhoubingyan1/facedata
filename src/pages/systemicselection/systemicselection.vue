@@ -124,7 +124,6 @@ export default {
       that.$http.post(that.PATH.SetMenu, JSON.stringify(query)).then(
         (success) => {
           // that.$Spin.hide()
-          // console.log(1111);
           // console.log(success.data.result);
           //周  和上面一样
           if(success.data.result.length==0){
@@ -133,6 +132,7 @@ export default {
             that.errorTips_modal = true;
             return;
           }
+          sessionStorage.setItem("martId", id);
           this.login(id, success.data.result[0].id);
         },
         (error) => {

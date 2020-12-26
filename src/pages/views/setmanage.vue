@@ -75,13 +75,13 @@
       <!-- 角色权限右侧 -->
       <div v-if="tabsvalue == '5'" slot="right_button">
         <div class="displayflex">
-          <div class="header-right-button" @click="choseleadingin">
+          <div class="header-right-button" @click="openrolepopup">
             <img class="icon" src="../../assets/images/new.png" />
             <span class="span">新建</span>
           </div>
           <div
             class="header-right-button marginright50"
-            @click="choseleadingin"
+            @click="distributionResource"
           >
             <img class="icon" src="../../assets/images/resources.png" />
             <span class="span">分配资源</span>
@@ -261,6 +261,9 @@
                 stripe
                 :columns="roletable.columns"
                 :data="roletable.data"
+                highlight-row
+                ref="currentRowTable"
+                @on-current-change="rolecurrentchange"
               ></Table>
             </div>
           </div>
@@ -291,7 +294,7 @@
                       @onCreated="handleCreated"
                       @onExpand="onExpand"
                     ></ztree>
-                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                    
                   </div>
                 </div>
                 <div class="margintop200">
@@ -350,7 +353,7 @@
                       @onCreated="handleCreated"
                       @onExpand="onExpand"
                     ></ztree>
-                    <!-- <linetree :pd="tagtree.linetreelist" @itemClick="itemClick"></linetree> -->
+                    
                   </div>
                 </div>
               </div>
@@ -408,138 +411,57 @@
         </div>
       </NewTabPane>
     </NewTabs>
-    <!-- 导入弹窗 -->
-    <Modal
-      width="600"
-      v-model="datatreating_modal"
-      class-name="vertical-center-modal"
-    >
-      <!-- 导入 -->
-      <div class="layer_header" style="cursor: move">导入</div>
+    <!-- 错误提示 -->
+    <Modal width="300" v-model="errorTips_modal" class-name="vertical-center-modal">
+      <div class="errorTips_modal">
+        <img class="errorTips_modal_tips" src="../../assets/images/wrong@3x.png" alt />
+        <div class="forget_tips_text" v-for="(node, index) in err_list" :key="index">
+          {{ node }}
+        </div>
+      </div>
+    </Modal>
+    <!-- 角色 分配资源 -->
+    <Modal width="300" v-model="roleDistribution_modal" class-name="vertical-center-modal">
+      <div class="layer_header" style="cursor: move;">分配资源</div>
+      <div class="roleDistribution_content">
+        <Tree :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
+        <!-- <ztree
+          :setting="roleDistributionsetting"
+          :nodes="roleDistributionList"
+          @onClick="onClick"
+          @onCreated="handleCreated"
+          @onExpand="onExpand"
+        ></ztree> -->
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="cancelroleDistributionmodal">取消</button>
+        <button class="btn" @click="confirmroleDistributionmodal">确定</button>
+      </div>
+    </Modal>
+    <!-- 角色 增加、修改 -->
+    <Modal width="300" v-model="roleEdit_modal" class-name="vertical-center-modal">
       <div class="datamodal_content">
-        <div class="datamodal_item">
-          <div class="datamodal_item-title">选择表:</div>
-          <div class="datamodal_item_flex">
-            <div class="choose_biao">
-              <div>{{ choosename }}</div>
-              <img class="icon" src="../../assets/images/add@2x.png" />
-            </div>
-            <input
-              type="file"
-              id="editorupload"
-              accept="image/gif, image/jpeg, image/png, image/jpg"
-              style="
-                width: 100px;
-                height: 32px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                opacity: 0;
-              "
-              @change="UploadMore"
-            />
-          </div>
-        </div>
-        <div class="datamodal_item">
-          <div class="datamodal_item-title">描述:</div>
-          <div class="datamodal_item_flex">
-            <textarea
-              v-model="leadingindescribe"
-              class="textarea-control"
-              placeholder="非必填"
-            ></textarea>
-          </div>
-        </div>
+        <Input v-model="roleEditname" placeholder="请输入角色名称" />
       </div>
       <div class="datamodal_footer">
-        <button class="btn" @click="lendinginleavefail">退出</button>
-        <button class="btn" @click="lendinginsave">保存</button>
+        <button class="btn" @click="cancelroleEditmodal">取消</button>
+        <button class="btn" @click="confirmroleEditmodal">确定</button>
       </div>
     </Modal>
-    <!-- 系统提示弹窗 -->
-    <Modal
-      width="600"
-      v-model="systemtips_modal"
-      class-name="vertical-center-modal"
-      :closable="false"
-    >
-      <!-- 导入失败 -->
-      <div class="layer_header" style="cursor: move">系统提示</div>
-      <div class="systemtips_content">
-        <img class="icon" src="../../assets/images/wrong.png" />
-        <div class="successtips">导入成功</div>
+    <!-- 角色删除弹框 -->
+    <Modal width="360" :mask-closable="true" v-model="delRoleModal" class-name="mr-del-modal">
+      <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
+        确认删除该条数据
       </div>
-      <div class="datamodal_footer1">
-        <button class="btn" @click="systemtips_modal = false">确定</button>
-      </div>
-    </Modal>
-    <!-- 导入失败弹窗 -->
-    <Modal
-      width="600"
-      v-model="leadingInFail_modal"
-      class-name="vertical-center-modal"
-    >
-      <!-- 导入失败 -->
-      <div class="layer_header" style="cursor: move">导入失败</div>
-      <div class="leadingInFail_content">
-        <div class="datamodal_item-title1">以下字段为空或与模板样式不符:</div>
-        <div class="datamodal_item_textarea">
-          <textarea
-            class="textarea-control1"
-            v-model="leadinginfailinfo"
-            placeholder="非必填"
-          ></textarea>
+      <div class="facedata-btn-box">
+        <div class="facedata-btn-confirm" style="margin-right: 20px" @click="rolemenuDel">
+          删除
         </div>
-      </div>
-      <div class="datamodal_footer">
-        <button class="btn">导出错误日志</button>
-        <button class="btn">修改数据字典</button>
-      </div>
-    </Modal>
-    <!-- 下载模版 -->
-    <Modal
-      width="600"
-      v-model="downloadTemplate_modal"
-      class-name="vertical-center-modal"
-    >
-      <!-- 下载模版 -->
-      <div class="layer_header" style="cursor: move">下载模版</div>
-      <div class="datamodal_content">
-        <div class="datamodal_item">
-          <div class="datamodal_item-title">模板类型:</div>
-          <div class="datamodal_item_flex">
-            <Select v-model="model8" clearable class="downloadtemplate_content">
-              <Option
-                v-for="item in cityList"
-                :value="item.value"
-                :key="item.value"
-                >{{ item.label }}</Option
-              >
-            </Select>
-          </div>
-        </div>
-        <div class="datamodal_item">
-          <div class="datamodal_item-title">模板名称:</div>
-          <div class="datamodal_item_flex">
-            <textarea
-              v-model="templatename"
-              class="textarea-control"
-              placeholder="非必填"
-            ></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="datamodal_footer">
-        <button class="btn">退出</button>
-        <button class="btn">保存</button>
+        <div class="facedata-btn-cancel" @click="cancelroleEditmodal">取消</div>
       </div>
     </Modal>
     <!-- 目录 增加目录名称 -->
-    <Modal
-      width="300"
-      v-model="datatreatingEdit_modal"
-      class-name="vertical-center-modal"
-    >
+    <Modal width="300" v-model="datatreatingEdit_modal" class-name="vertical-center-modal">
       <div class="datamodal_content">
         <Input v-model="datatreatingEditname" placeholder="请输入节点名称" />
       </div>
@@ -548,35 +470,8 @@
         <button class="btn" @click="confirmdatatreatingEditmodal">确定</button>
       </div>
     </Modal>
-    <!-- 错误提示 -->
-    <Modal
-      width="300"
-      v-model="errorTips_modal"
-      class-name="vertical-center-modal"
-    >
-      <div class="errorTips_modal">
-        <img
-          class="errorTips_modal_tips"
-          src="../../assets/images/wrong@3x.png"
-          alt
-        />
-
-        <div
-          class="forget_tips_text"
-          v-for="(node, index) in err_list"
-          :key="index"
-        >
-          {{ node }}
-        </div>
-      </div>
-    </Modal>
-    <!-- 删除确认弹框 -->
-    <Modal
-      width="360"
-      :mask-closable="true"
-      v-model="delModal"
-      class-name="mr-del-modal"
-    >
+    <!-- 目录删除确认弹框 -->
+    <Modal width="360" :mask-closable="true" v-model="delModal" class-name="mr-del-modal">
       <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
         确认删除该条数据
       </div>
@@ -594,9 +489,10 @@
   </div>
 </template>
 <script>
-import linetree from "../components/linetree/linetree";
 import { NewTabs, NewTabPane } from "../components/newtabs/index";
 import ztree from "../components/ztree/ztree1";
+import Vue from 'vue';
+import { Tree} from 'view-design';
 function addDiyDom(treeId, treeNode) {
   var sObj = $("#" + treeNode.tId + "_span");
   if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
@@ -609,13 +505,15 @@ function addDiyDom(treeId, treeNode) {
 export default {
   name: "Setmanage",
   components: {
-    linetree,
     NewTabs,
     NewTabPane,
     ztree,
+    Tree
   },
   data() {
     return {
+      roleindex:0,
+      martId:sessionStorage.getItem("martId"),
       delID: "",
       delModal: false, //删除弹框
       datatreatingEdit_modal: false,
@@ -640,7 +538,7 @@ export default {
         },
       }, //树节点设置
       nodes: [],
-      departmentnodes: [],
+      
 
       datatreatingsetting: {
         async: {
@@ -724,20 +622,6 @@ export default {
       errorTips_modal: false, //错误弹框
       err_list: [], //错误信息列表
 
-      datatreating_modal: false, //导入弹窗
-      choosename: "", //导入选择表
-      leadingindescribe: "", //导入描述
-
-      leadingInFail_modal: false, //导入失败弹窗
-      leadinginfailinfo:
-        "以下字段为空或与模板样式不符，以下字段为空或与模板样式不", //导入失败的文本框
-
-      downloadTemplate_modal: false, //下载模版弹窗
-      templatename: "2020914KPI2101", //模版名称
-      model8: "",
-
-      systemtips_modal: false, //系统提示弹窗
-
       tabsvalue: "1", //tab选项卡的选定
       tabIndex: 1,
       setmanageTabList: [
@@ -819,7 +703,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -897,7 +781,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -1043,7 +927,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -1101,6 +985,24 @@ export default {
           },
         ],
       }, //用户表格
+      roleDistribution_modal:false,//分配资源弹框
+      roleTypes:'new',
+      roleEditname:'',//角色编辑名称
+      roleEdit_modal:false,//角色编辑
+      delRoleModal:false,
+      roleItemData:{},//暂存的角色一行数据
+      roleDistributionList:[],//分配资源的列表
+      submitrolelist:[],//角色提交数据
+      roleDistributionsetting:{
+        check: {
+          enable: true
+        },
+        data: {
+          simpleData: {
+            enable: true
+          }
+        }
+      },
       roletable: {
         page: 1,
         pagesize: 15,
@@ -1125,7 +1027,10 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      this.roleItemData = params.row
+                      this.roleTypes='edit'
+                      this.roleEditname=params.row.name
+                      this.roleEdit_modal=true
                     },
                   },
                 }),
@@ -1137,8 +1042,8 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
+                      this.roleItemData = params.row
+                      this.delRoleModal = true;
                     },
                   },
                 }),
@@ -1146,17 +1051,7 @@ export default {
             },
           },
         ],
-        data: [
-          {
-            name: "FData",
-          },
-          {
-            name: "agate",
-          },
-          {
-            name: "审计员",
-          },
-        ],
+        data: [],
       }, //角色权限表格
       departmentlefttable: {
         page: 1,
@@ -1222,7 +1117,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -1296,6 +1191,7 @@ export default {
           },
         ],
       }, //部门右边表格
+      departmentnodes: [],
       organizationtable: {
         page: 1,
         pagesize: 15,
@@ -1326,7 +1222,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -1394,7 +1290,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.addTab(params.row);
+                      
                     },
                   },
                 }),
@@ -1459,19 +1355,21 @@ export default {
         ],
       }, //标准目录表格
 
-      cityList: [
-        {
-          label: "123",
-          value: "111",
-        },
-      ],
+
     };
   },
   created() {
     // this.getDataTreeList();
+    this.getroletabledata() //获取角色列表
+    this.getDistributionList() //获取分配资源列表
   },
-  mounted() {},
+  mounted() {
+     
+  },
   methods: {
+    resettabcut(){
+
+    },
     //获取标准目录的列表
     getDataTreeList() {
       this.datatreatingnodes = [
@@ -1937,7 +1835,7 @@ export default {
           }
         );
     },
-    //删除弹框
+    //目录删除弹框
     datatreatingmenuDel() {
       var that = this;
       let treeNodeinfo = that.nodeitem;
@@ -1964,7 +1862,348 @@ export default {
           }
         );
     },
+    //获取角色列表
+    getroletabledata() {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getAllRole",
+        data: null,
+      };
+      
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLEGETALLROLE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            that.roletable.data = res
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //角色编辑确认
+    confirmroleEditmodal(){
+      if(this.roleEditname!=""){
+        if(this.roleTypes=='new'){
+          this.AddRole()
+        }else{
+          this.EditRole()
+        }
+      }else{
+        this.$Message.error({
+          content: "请填写角色名称",
+          duration: 1,
+        });
+      }
+      
+    },
+    //修改角色
+    EditRole(){
+      var that = this;
+      let treeNodeinfo = that.nodeitem;
+      var query = {
+        action: "Service",
+        method: "update",
+        data: [{id:that.roleItemData.id,name:that.roleEditname,martId:that.roleItemData.martId}],
+      };
+      // {"action":"Service","method":"update","data":[{"id":6,"name":"\u975e\u73b0\u573a\u56e2\u961f","martId":1}],"type":"rpc","tid":3}
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLEUPDATE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            let res =success.data.data
+            if(success.data.state=='0'){
+              that.roleEdit_modal=false
+              that.roleItemData={}
+              that.getroletabledata()
+              that.roleEditname=""
+            }
 
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    
+    
+    },
+    //增加角色
+    AddRole(){
+      // roleEditname
+      var that = this;
+      let treeNodeinfo = that.nodeitem;
+      var query = {
+        action: "Service",
+        method: "add",
+        data: [{"id":0,"name":that.roleEditname,"martId":that.martId}],
+      };
+      // {"action":"Service","method":"add","data":[{"id":0,"name":"saddsa","martId":0}],"type":"rpc","tid":4}
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROKEADD, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            let res =success.data.data
+            if(success.data.state=='0'){
+              that.roleEdit_modal=false
+              that.roleEditname=""
+              that.getroletabledata()
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    
+    },
+    //角色删除弹框确定
+    rolemenuDel(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "checkDelete",
+        data: [that.roleItemData.id],
+      };
+      // {"action":"Service","method":"checkDelete","data":[8],"type":"rpc","tid":5}
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLECHECKDELETE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            let res =success.data.result
+            if(res){
+              
+              that.reallyDelRole()
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
+    //真正角色 删除
+    reallyDelRole(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "delete",
+        data: [{id:that.roleItemData.id,name:that.roleItemData.name,martId:that.roleItemData.martId}],
+      };
+      // {"action":"Service","method":"delete","data":[{"id":8,"name":"saddsa","martId":1}],"type":"rpc","tid":6}
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLEDELETE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            let res =success.data.data
+            if(success.data.state==0){
+              that.delRoleModal=false
+              that.roleItemData={}
+              that.getroletabledata()
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //角色删除弹框、编辑弹框取消
+    cancelroleEditmodal(){
+      this.roleEdit_modal=false
+      this.delRoleModal=false
+      this.roleEditname=''
+      this.roleItemData={}
+    },
+    //打开新建弹框
+    openrolepopup(){
+      //新增角色
+      this.roleEdit_modal=true
+      this.roleTypes='new'
+    },
+    //打开分配资源列表
+    distributionResource(){
+      this.roleDistribution_modal=true
+      },
+    //获取分配资源列表
+    getDistributionList(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getResourceTree",
+        data: null,
+      };
+      let newResouceList=new Array()
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLEGETRESOURCETREELIST, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data,'success');
+            let res=success.data.result
+            // that.toTree(res)
+              // console.log(that.toTree(res),'123')
+            if(res.length>0){
+              res.forEach((v,i)=>{
+                res[i].children=[]
+                res[i].title=v.name
+                if(v.id=='00'){
+                  newResouceList.push(v)
+                }
+              })
+
+              // newResouceList.map(arg=>{
+              //   // console.log(arg)
+              //   res.forEach(args=>{
+              //     if(arg.module){
+              //       if (arg.module == args.module&&res.id!='00') {
+              //         arg.children.push(args)
+              //       }
+              //     }
+                    
+              //   })
+              // })
+              // for(let i=0;i<newResouceList.length;i++){
+              //   if(res.find((n) => res[i].module==n.module )===-1){
+              //     //没有
+              //     console.log(111)
+              //   }else{
+              //     console.log(123)
+                  
+              //   }
+              // }
+              for(var i=0;i<res.length;i++){
+                var n_index=newResouceList.find(n=>{return n.module==res[i].module;})
+                console.log(n_index,'n_index')
+                if(n_index<0){
+                  continue;
+                }
+                if(newResouceList[n_index].children){
+                  newResouceList[n_index].children.push(res[i])
+                }
+                
+              }
+              
+            }
+            // console.log(newResouceList,'newResouceList')
+            that.roleDistributionList=newResouceList
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    
+    },
+    //获取该角色的资源
+    distributionResourceData(id){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getRoleResource",
+        data: [id],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLEGETRESOURCE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
+    //分配资源取消
+    cancelroleDistributionmodal(){
+      this.roleDistribution_modal=false
+      this.roleItemData={}
+    },
+    //分配资源 确认
+    confirmroleDistributionmodal(id,roledata){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "setRoleResource",
+        data: [id,roledata],
+      };
+      // {"action":"Service","method":"setRoleResource","data":[8,["sys.org,00","sys.org,01","sys.org,02","sys.org,03","sys.org,04","sys.org,05","sys.org,06","dap.editor,00","dap.editor,01","dap.editor,03","dap.editor,04","dap.editor,06","dap.editor,08"]],"type":"rpc","tid":10}
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ROLESETRESOURCE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            console.log(success.data);
+            // that.getdatatreatingdata()
+            that.roleDistribution_modal=false
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+
+    
+    
+    },
+    roletreechange(item,data){
+      console.log(item,data,123)
+      if(that.submitrolelist){
+        
+      }
+      // this.submitrolelist= this.submitrolelist.reduce((item,next)=>{
+      //           if (!newisarray[next.ID]) {
+      //                 newisarray[next.ID] = true
+      //                 item.push(next)
+      //             }
+      //             return item
+      //         },[])
+    },
+    rolecurrentchange(currentRow,oldCurrentRow){
+      // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
+      this.roleItemData=currentRow
+    },
     //切换算法的分页
     changearithmetictablePage(page) {
       this.arithmetictable.page = page;
@@ -1999,19 +2238,7 @@ export default {
     },
     // 选择导入
     choseleadingin() {
-      this.datatreating_modal = true;
-    },
-    //导入保存
-    lendinginsave() {
-      this.systemtips_modal = true;
-    },
-    //导入推出
-    lendinginleavefail() {
-      this.leadingInFail_modal = true;
-    },
-    //下载数据
-    downloaddata() {
-      this.downloadTemplate_modal = true;
+
     },
     handleCreated: function (ztreeObj) {
       this.ztreeObj = ztreeObj;
@@ -2022,34 +2249,6 @@ export default {
       // console.log(item,'item')
       this.tabsvalue = item.toString();
     },
-    //增加tab
-    addTab(params) {
-      let tabIndex = this.tabIndex;
-      if (tabIndex == 1) {
-        this.tabIndex = tabIndex + 2;
-      } else {
-        this.tabIndex = tabIndex + 1;
-      }
-      this.setmanageTabList.push({
-        name: this.tabIndex,
-        label: "xxx-xx",
-        index: this.tabIndex,
-      });
-      this.tabsvalue = this.tabIndex.toString();
-      // console.log(this.setmanageTabList)
-      // this.isTip = false;
-    },
-    closeicon(index) {
-      // console.log(item)
-      this.setmanageTabList.splice(index, 1);
-      if (this.setmanageTabList.length > 0) {
-        // console.log(this.setmanageTabList[this.setmanageTabList.length-1].name.toString(),'1234')
-        let newname = this.setmanageTabList[this.setmanageTabList.length - 1]
-          .name;
-        this.tabsvalue = newname.toString();
-      }
-    },
-    UploadMore(e) {},
   },
 };
 </script>
@@ -2255,6 +2454,9 @@ export default {
       &:after {
         background-color: transparent;
       }
+    }
+    .ivu-table-row-highlight td, .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td, tr.ivu-table-row-highlight.ivu-table-row-hover td {
+        background-color: #ebf7ff !important;
     }
     .ivu-table-header {
       height: 80px;
@@ -2536,11 +2738,11 @@ export default {
     content: "重命名";
     position: absolute;
     left: -14px;
-    top:-22px;
+    top:-26px;
     pointer-events: none;
     z-index: -1;
     color: #fff;
-    padding:2px 4px;
+    padding:4px 8px;
     background: rgba(0,0,0,0.70);
     border-radius: 2px 2px 2px 0 0 0 2px;
   }
@@ -2569,11 +2771,11 @@ export default {
     content: "删除";
     position: absolute;
     left: -10px;
-    top:-22px;
+    top:-26px;
     pointer-events: none;
     z-index: -1;
     color: #fff;
-    padding:2px 4px;
+    padding:4px 8px;
     background: rgba(0,0,0,0.70);
     border-radius: 2px 2px 2px 0 0 0 2px;
   }
@@ -2584,7 +2786,7 @@ export default {
 .ivu-modal {
   // min-width: 600Px;
   // width: 600px !important;
-  height: 334px;
+  // height: 334px;
   top: 300px;
 
   .ivu-modal-content {
@@ -2613,6 +2815,13 @@ export default {
       font-size: 20px;
       color: rgba(0, 0, 0, 0.8);
       letter-spacing: 0;
+    }
+    .roleDistribution_content{
+      // padding: 30px 20px;
+      height: 500px;
+      overflow: auto;
+      margin:30px 30px;
+      text-align: left;
     }
     .datamodal_content {
       padding: 30px 20px;
