@@ -237,7 +237,37 @@
                 stripe
                 :columns="userdatatable.columns"
                 :data="userdatatable.data"
-              ></Table>
+              >
+              <template slot-scope="{ row, index }" slot="name">
+                <Input type="text" v-model="editName" v-if="editIndex === index" />
+                <span v-else>{{ row.name }}</span>
+              </template>
+
+              <template slot-scope="{ row, index }" slot="age">
+                <Input type="text" v-model="editAge" v-if="editIndex === index" />
+                <span v-else>{{ row.age }}</span>
+              </template>
+
+              <template slot-scope="{ row, index }" slot="birthday">
+                <Input type="text" v-model="editBirthday" v-if="editIndex === index" />
+                <span v-else>{{ row.birthday }}</span>
+              </template>
+
+              <template slot-scope="{ row, index }" slot="address">
+                <Input type="text" v-model="editAddress" v-if="editIndex === index" />
+                <span v-else>{{ row.address }}</span>
+              </template>
+
+              <template slot-scope="{ row, index }" slot="action">
+                <div v-if="editIndex === index">
+                  <Button @click="handleSave(index)">保存</Button>
+                  <Button @click="editIndex = -1">取消</Button>
+                </div>
+                <div v-else>
+                  <Button @click="handleEdit(row, index)">操作</Button>
+                </div>
+              </template>
+              </Table>
             </div>
           </div>
           <div class="datatreating_fr_page">
@@ -424,7 +454,7 @@
     <Modal width="300" v-model="roleDistribution_modal" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">分配资源</div>
       <div class="roleDistribution_content">
-        <Tree :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
+        <Tree ref="roletree" check-strictly :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
         <!-- <ztree
           :setting="roleDistributionsetting"
           :nodes="roleDistributionList"
@@ -884,6 +914,11 @@ export default {
           },
         ],
       }, //系统日志表格
+      editIndex: -1,  // 当前聚焦的输入框的行数
+      editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
+      editAge: '',  // 第二列输入框
+      editBirthday: '',  // 第三列输入框
+      editAddress: '',  // 第四列输入框
       userdatatable: {
         page: 1,
         pagesize: 15,
@@ -1361,7 +1396,6 @@ export default {
   created() {
     // this.getDataTreeList();
     this.getroletabledata() //获取角色列表
-    this.getDistributionList() //获取分配资源列表
   },
   mounted() {
      
@@ -2052,8 +2086,18 @@ export default {
     },
     //打开分配资源列表
     distributionResource(){
-      this.roleDistribution_modal=true
-      },
+      
+      if(Object.keys(this.roleItemData).length>0){
+        this.roleDistribution_modal=true
+        this.getDistributionList()
+      }else{
+        this.$Message.error({
+          content: "请选中角色",
+          duration: 1,
+        });
+      }
+      
+    },
     //获取分配资源列表
     getDistributionList(){
       var that = this;
@@ -2069,54 +2113,47 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data,'success');
-            let res=success.data.result
+            let res = success.data.result;
             // that.toTree(res)
-              // console.log(that.toTree(res),'123')
-            if(res.length>0){
-              res.forEach((v,i)=>{
-                res[i].children=[]
-                res[i].title=v.name
-                if(v.id=='00'){
-                  newResouceList.push(v)
+            // console.log(that.toTree(res),'123')
+            if (res.length > 0) {
+              newResouceList = [];
+              res.forEach((v, i) => {
+                if (v.id == "00") {
+                  var node = {};
+                  node.id = v.id;
+                  node.module = v.module;
+                  node.title = v.name;
+                  node.checked = false
+                  node.children = [];
+                  newResouceList.push(node);
                 }
-              })
-
-              // newResouceList.map(arg=>{
-              //   // console.log(arg)
-              //   res.forEach(args=>{
-              //     if(arg.module){
-              //       if (arg.module == args.module&&res.id!='00') {
-              //         arg.children.push(args)
-              //       }
-              //     }
-                    
-              //   })
-              // })
-              // for(let i=0;i<newResouceList.length;i++){
-              //   if(res.find((n) => res[i].module==n.module )===-1){
-              //     //没有
-              //     console.log(111)
-              //   }else{
-              //     console.log(123)
-                  
-              //   }
-              // }
-              for(var i=0;i<res.length;i++){
-                var n_index=newResouceList.find(n=>{return n.module==res[i].module;})
-                console.log(n_index,'n_index')
-                if(n_index<0){
+              });
+              // console.log(newResouceList, "newResouceList1");
+              for (var i = 0; i < res.length; i++) {
+                var n_index = newResouceList.findIndex((n) => {
+                  return n.module == res[i].module;
+                });
+                // console.log(n_index, "n_index");
+                if (n_index < 0) {
                   continue;
                 }
-                if(newResouceList[n_index].children){
-                  newResouceList[n_index].children.push(res[i])
+                // console.log(n_index);
+                if (newResouceList[n_index].children) {
+                  if(res[i].id!=='00'){
+                    var nodes = {};
+                    nodes.id = res[i].id;
+                    nodes.module = res[i].module;
+                    nodes.title = res[i].name;
+                    nodes.checked = false
+                    newResouceList[n_index].children.push(nodes);
+                  }
                 }
-                
               }
-              
             }
-            // console.log(newResouceList,'newResouceList')
-            that.roleDistributionList=newResouceList
+            // console.log(newResouceList, "newResouceList2");
+            that.roleDistributionList = newResouceList;
+            that.distributionResourceData(that.roleItemData.id)
           },
           (error) => {
             that.$Spin.hide();
@@ -2141,9 +2178,58 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
-            // that.getdatatreatingdata()
-            
+            // console.log(success.data.result);
+            let res =success.data.result
+            let roledatalist=new Array()
+            let newroleDistributionList=that.roleDistributionList
+            if(res.length>0){
+              res.forEach((v,i)=>{
+                var nodes={}
+                let newnode=[]
+                newnode=res[i].split(",")
+                nodes.module=newnode[0]
+                nodes.id=newnode[1]
+                roledatalist.push(nodes)
+              })
+              
+              // console.log(roledatalist,'roledatalist')
+              if(newroleDistributionList.length>0){
+                for (var i = 0; i < newroleDistributionList.length; i++) {
+                  var n_index = roledatalist.findIndex((n) => {
+                    return n.module == newroleDistributionList[i].module;
+                  });
+                  // console.log(n_index, "n_index");
+                  if (n_index < 0) {
+                    continue;
+                  }
+                  // console.log(n_index);
+                  if(newroleDistributionList[i].id=='00'){
+                    newroleDistributionList[i].checked=true
+                  }
+                  
+                  if(newroleDistributionList[i].children.length>0){
+                    for (var j = 0; j < newroleDistributionList[i].children.length; j++) {
+                      var n_index1 = roledatalist.findIndex((n) => {
+                        return n.module == newroleDistributionList[i].children[j].module;
+                      });
+                      // console.log(n_index1, "n_index");
+                      if (n_index1 < 0) {
+                        continue;
+                      }
+                      // console.log(n_index);
+                      if(newroleDistributionList[i].children[j].id!='00'){
+                        newroleDistributionList[i].children[j].checked=true
+                      }
+                    }
+                  }
+                }
+              }
+              
+            }
+            // console.log(newroleDistributionList,'newroleDistributionList')
+            that.roleDistributionList = newroleDistributionList;
+            // console.log(that.roleDistributionList,'that.roleDistributionList')
+
           },
           (error) => {
             that.$Spin.hide();
@@ -2159,12 +2245,23 @@ export default {
       this.roleItemData={}
     },
     //分配资源 确认
-    confirmroleDistributionmodal(id,roledata){
+    confirmroleDistributionmodal(){
+      // console.log(this.$refs.roletree.getCheckedNodes())
+      let rolecurrenttdata=this.$refs.roletree.getCheckedNodes()
+      let roledata=new Array()
+      if(rolecurrenttdata.length>0){
+        rolecurrenttdata.forEach((v,i)=>{
+          var nodes=''
+          nodes=v.module+','+v.id
+          // rolecurrenttdata
+          roledata.push(nodes)
+        })
+      }
       var that = this;
       var query = {
         action: "Service",
         method: "setRoleResource",
-        data: [id,roledata],
+        data: [that.roleItemData.id,roledata],
       };
       // {"action":"Service","method":"setRoleResource","data":[8,["sys.org,00","sys.org,01","sys.org,02","sys.org,03","sys.org,04","sys.org,05","sys.org,06","dap.editor,00","dap.editor,01","dap.editor,03","dap.editor,04","dap.editor,06","dap.editor,08"]],"type":"rpc","tid":10}
       that.$Spin.show();
@@ -2176,6 +2273,7 @@ export default {
             console.log(success.data);
             // that.getdatatreatingdata()
             that.roleDistribution_modal=false
+            that.$refs.currentRowTable[0].clearCurrentRow()
           },
           (error) => {
             that.$Spin.hide();
@@ -2188,21 +2286,18 @@ export default {
     
     },
     roletreechange(item,data){
-      console.log(item,data,123)
-      if(that.submitrolelist){
+      if(this.submitrolelist){
         
       }
-      // this.submitrolelist= this.submitrolelist.reduce((item,next)=>{
-      //           if (!newisarray[next.ID]) {
-      //                 newisarray[next.ID] = true
-      //                 item.push(next)
-      //             }
-      //             return item
-      //         },[])
+      // console.log(this.$refs.roletree.getCheckedNodes())
     },
     rolecurrentchange(currentRow,oldCurrentRow){
       // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.roleItemData=currentRow
+    },
+    //获取用户列表
+    getAllRichUserList(){
+
     },
     //切换算法的分页
     changearithmetictablePage(page) {
@@ -2456,7 +2551,8 @@ export default {
       }
     }
     .ivu-table-row-highlight td, .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td, tr.ivu-table-row-highlight.ivu-table-row-hover td {
-        background-color: #ebf7ff !important;
+        background-color: #fff !important;
+        box-shadow: 0 10px 0px 0px rgba(0,0,0,0.10);
     }
     .ivu-table-header {
       height: 80px;
