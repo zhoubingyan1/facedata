@@ -31,6 +31,7 @@ export default {
     GETCHILDRENBYSOURCERENAME: '/v3/sys/catalog/sys.catalog.direct', //标准目录 重命名
     GETCHILDRENBYSOURCEDEL: '/v3/sys/catalog/sys.catalog.direct', //标准目录 删除
 
+    //设置目录
     EXPLORERGETEXCELINFO: '/v3/sys/explorer/dfi.excel.direct', //导入10
     EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',//提交sheet
     EXPLORERGETCHILDRENBYSOURCELIST: '/v3/sys/explorer/sys.catalog.direct', //导入保存的左边树父节点
@@ -43,4 +44,29 @@ export default {
     EXPLORERRECOMMEND: '/v3/sys/explorer/dfi.templet.direct',
 
     LEADINIMPORTLOG: '/v3/sys/explorer/dfi.importlog.direct',
+
+    //角色
+    ROLEGETALLROLE: '/v3/sys/role/sys.role.direct',
+    ROLEUPDATE: '/v3/sys/role/sys.role.direct',
+    ROKEADD: '/v3/sys/role/sys.role.direct',
+    ROLECHECKDELETE: '/v3/sys/role/sys.role.direct',
+    ROLEDELETE: '/v3/sys/role/sys.role.direct',
+    ROLEGETRESOURCE: '/v3/sys/role/sys.role.direct',
+    ROLEGETRESOURCETREELIST: '/v3/sys/role/sys.resource.direct',
+    ROLESETRESOURCE: '/v3/sys/role/sys.role.direct',
+
+    //用户
+    getAllRichUser:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',	
+    // {"action":"Service","method":"getAllRichUser","data":[1,25,false],"type":"rpc","tid":2}
+    add:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    // {"action":"Service","method":"add","data":[{"id":0,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":false,"email":"","tel":""}],"type":"rpc","tid":3}
+    update:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    getAllRole:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.role.direct',	
+    // {"action":"Service","method":"getAllRole","data":null,"type":"rpc","tid":5}
+    setUserRoles:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.role.direct',	
+    // {"action":"Service","method":"setUserRoles","data":[53,[4,7]]}
+    stopUser:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',	
+    // {"action":"Service","method":"stopUser","data":[53,true]}
+    stopUser:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    // {"action":"Service","method":"stopUser","data":[53,false]}
 }

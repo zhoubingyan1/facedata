@@ -260,6 +260,7 @@ export default {
             localStorage.removeItem("modaltype");//清空模型
             sessionStorage.removeItem("UserName");
             sessionStorage.removeItem("UserId");
+            sessionStorage.removeItem("martId");
             var name = res.result.name;
             var user_id = res.result.user_id;
             sessionStorage.setItem("UserName", res.result.name);
