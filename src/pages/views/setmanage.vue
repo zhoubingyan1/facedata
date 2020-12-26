@@ -237,36 +237,11 @@
                 stripe
                 :columns="userdatatable.columns"
                 :data="userdatatable.data"
+                highlight-row
+                ref="usercurrentRowTable"
+                @on-current-change="userCurrentChange"
+                @on-row-click="userRowClick"
               >
-              <template slot-scope="{ row, index }" slot="name">
-                <Input type="text" v-model="editName" v-if="editIndex === index" />
-                <span v-else>{{ row.name }}</span>
-              </template>
-
-              <template slot-scope="{ row, index }" slot="age">
-                <Input type="text" v-model="editAge" v-if="editIndex === index" />
-                <span v-else>{{ row.age }}</span>
-              </template>
-
-              <template slot-scope="{ row, index }" slot="birthday">
-                <Input type="text" v-model="editBirthday" v-if="editIndex === index" />
-                <span v-else>{{ row.birthday }}</span>
-              </template>
-
-              <template slot-scope="{ row, index }" slot="address">
-                <Input type="text" v-model="editAddress" v-if="editIndex === index" />
-                <span v-else>{{ row.address }}</span>
-              </template>
-
-              <template slot-scope="{ row, index }" slot="action">
-                <div v-if="editIndex === index">
-                  <Button @click="handleSave(index)">保存</Button>
-                  <Button @click="editIndex = -1">取消</Button>
-                </div>
-                <div v-else>
-                  <Button @click="handleEdit(row, index)">操作</Button>
-                </div>
-              </template>
               </Table>
             </div>
           </div>
@@ -292,20 +267,21 @@
                 :columns="roletable.columns"
                 :data="roletable.data"
                 highlight-row
-                ref="currentRowTable"
-                @on-current-change="rolecurrentchange"
+                ref="rolecurrentRowTable"
+                @on-current-change="roleCurrentChange"
+                @on-row-click="roleRowClick"
               ></Table>
             </div>
           </div>
           <div class="datatreating_fr_page">
             <div class="facedata-pagination">
-              <Page
+              <!-- <Page
                 :total="roletable.total"
                 :current="roletable.page"
                 size="small"
                 @on-change="changeroletablePage"
                 :pageSize="roletable.pagesize"
-              ></Page>
+              ></Page> -->
             </div>
           </div>
         </div>
@@ -455,13 +431,6 @@
       <div class="layer_header" style="cursor: move;">分配资源</div>
       <div class="roleDistribution_content">
         <Tree ref="roletree" check-strictly :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
-        <!-- <ztree
-          :setting="roleDistributionsetting"
-          :nodes="roleDistributionList"
-          @onClick="onClick"
-          @onCreated="handleCreated"
-          @onExpand="onExpand"
-        ></ztree> -->
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="cancelroleDistributionmodal">取消</button>
@@ -926,28 +895,227 @@ export default {
         columns: [
           {
             title: "账号",
-            key: "name",
+            // key: "code",
             align: "center",
+            render: (h, params) => {
+              if (params.row.isclick) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      attrs: {
+                        id:"onetableInput"+params.row._index,
+                      },
+                      props: {
+                          value: params.row.code,//默认值
+                          autofocus: true,
+                      },
+                      on: {
+                          'on-blur': (event) => {
+                              this.userdatatable.data[params.row._index].code = event.target.value
+                              // this.userdatatable.data[params.row._index].isclick=false
+                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
+                              })
+                            },300)
+                            // this.userdatatable.data[params.row._index].isclick=true
+                          },
+                        },
+                      },
+                      params.row.code
+                    ),
+                  ]);
+              }
+            }
           },
           {
             title: "名称",
-            key: "name1",
+            // key: "name",
             align: "center",
+            render: (h, params) => {
+              if (params.row.isclick) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      attrs: {
+                        id:"twotableInput"+params.row._index,
+                      },
+                      props: {
+                          value: params.row.name,//默认值
+                          autofocus: true,
+                      },
+                      on: {
+                          'on-blur': (event) => {
+                              this.userdatatable.data[params.row._index].name = event.target.value
+                              // this.userdatatable.data[params.row._index].isclick=false
+                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
+                              })
+                            },300)
+                            // this.userdatatable.data[params.row._index].isclick=true
+                          },
+                        },
+                      },
+                      params.row.name
+                    ),
+                  ]);
+              }
+            }
           },
           {
             title: "邮箱",
-            key: "name2",
+            // key: "email",
             align: "center",
+            render: (h, params) => {
+              if (params.row.isclick) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      attrs: {
+                        id:"threetableInput"+params.row._index,
+                      },
+                      props: {
+                          value: params.row.email,//默认值
+                          autofocus: true,
+                      },
+                      on: {
+                          'on-blur': (event) => {
+                              this.userdatatable.data[params.row._index].email = event.target.value
+                              // this.userdatatable.data[params.row._index].isclick=false
+                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
+                              })
+                            },300)
+                            // this.userdatatable.data[params.row._index].isclick=true
+                          },
+                        },
+                      },
+                      params.row.email
+                    ),
+                  ]);
+              }
+            }
           },
           {
             title: "电话",
-            key: "name3",
+            // key: "tel",
             align: "center",
+            render: (h, params) => {
+              if (params.row.isclick) {      
+                return h('div', [
+                  h('Input', {
+                      style: {
+                          padding: '8px'
+                      },
+                      attrs: {
+                        id:"fourtableInput"+params.row._index,
+                      },
+                      props: {
+                          value: params.row.tel,//默认值
+                          autofocus: true,
+                      },
+                      on: {
+                          'on-blur': (event) => {
+                              this.userdatatable.data[params.row._index].tel = event.target.value
+                              
+                          }
+                      }
+                  }),
+                ])
+              } else  {
+                  return h("div", [
+                    h(
+                      "span",
+                      {
+                        attrs: {
+                          class: "cursor",
+                        },
+                        on: {
+                          click: () => {
+                            setTimeout( ()=> {
+                              this.$nextTick(()=>{
+                                document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
+                              })
+                            },300)
+                            // this.userdatatable.data[params.row._index].isclick=true
+                          },
+                        },
+                      },
+                      params.row.tel
+                    ),
+                  ]);
+              }
+            }
           },
           {
             title: "角色",
-            key: "name4",
             align: "center",
+            render: (h, params) => {
+              let result = "";
+              let newresult=[]
+              if(params.row.roles.length>0){
+                params.row.roles.forEach((v,i)=>{
+                  newresult.push(v.name)
+                })
+                result = newresult.toString();
+              }else{
+                result = ''
+              }
+              return h("div",result)
+            }
           },
           {
             title: " ",
@@ -955,14 +1123,53 @@ export default {
             render: (h, params) => {
               let result = "0";
               return h("div", [
+                h("button", {
+                  
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true&&params.row.isclick==true
+                          ? "inline-block"
+                          : "none"
+                  },
+                  on: {
+                    click: () => {
+                       this.userdatatable.data[params.row._index].isclick=false
+                    },
+                  },
+                },"保存"),
+                h("button", {
+                  
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true&&params.row.isclick==true
+                          ? "inline-block"
+                          : "none"
+                  },
+                  on: {
+                    click: () => {
+                       this.userdatatable.data[params.row._index].isclick=false
+                    },
+                  },
+                },"取消"),
                 h("i", {
                   attrs: {
                     class: "iconfont icon-edit",
                   },
-                  style: {},
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true
+                          ? "inline-block"
+                          : "none"
+                  },
                   on: {
                     click: () => {
-                      
+                      this.userdatatable.data[params.row._index].isclick=true
+                      this.$nextTick(()=>{
+                        document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
+                        document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
+                        document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
+                        document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
+                      })
                     },
                   },
                 }),
@@ -972,6 +1179,10 @@ export default {
                   },
                   style: {
                     marginRight: "30",
+                      display:
+                        params.row.usershowRightIcon==true
+                          ? "inline-block"
+                          : "none"
                   },
                   on: {
                     click: () => {
@@ -984,7 +1195,12 @@ export default {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-lock-outline",
                   },
-                  style: {},
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true
+                          ? "inline-block"
+                          : "none"
+                  },
                   on: {
                     click: () => {
                       this.delID = params.row.id;
@@ -997,27 +1213,6 @@ export default {
           },
         ],
         data: [
-          {
-            name: "00311983",
-            name1: "李四",
-            name2: "",
-            name3: "",
-            name4: "审计员审计员",
-          },
-          {
-            name: "00311983",
-            name1: "张三",
-            name2: "",
-            name3: "",
-            name4: "审计员审计员",
-          },
-          {
-            name: "00311983",
-            name1: "刘丽",
-            name2: "",
-            name3: "",
-            name4: "审计员审计员",
-          },
         ],
       }, //用户表格
       roleDistribution_modal:false,//分配资源弹框
@@ -1028,16 +1223,6 @@ export default {
       roleItemData:{},//暂存的角色一行数据
       roleDistributionList:[],//分配资源的列表
       submitrolelist:[],//角色提交数据
-      roleDistributionsetting:{
-        check: {
-          enable: true
-        },
-        data: {
-          simpleData: {
-            enable: true
-          }
-        }
-      },
       roletable: {
         page: 1,
         pagesize: 15,
@@ -1053,13 +1238,17 @@ export default {
             title: " ",
             align: "right",
             render: (h, params) => {
-              let result = "0";
               return h("div", [
                 h("i", {
                   attrs: {
                     class: "iconfont icon-edit",
                   },
-                  style: {},
+                  style: {
+                      display:
+                        params.row.roleshowRightIcon==true
+                          ? "inline-block"
+                          : "none"
+                  },
                   on: {
                     click: () => {
                       this.roleItemData = params.row
@@ -1074,7 +1263,12 @@ export default {
                   attrs: {
                     class: "iconfont icon-delete",
                   },
-                  style: {},
+                  style: {
+                      display:
+                        params.row.roleshowRightIcon==true
+                          ? "inline-block"
+                          : "none"
+                    },
                   on: {
                     click: () => {
                       this.roleItemData = params.row
@@ -1396,11 +1590,17 @@ export default {
   created() {
     // this.getDataTreeList();
     this.getroletabledata() //获取角色列表
+    this.getAllRichUserList() //获取用户列表
   },
   mounted() {
      
   },
   methods: {
+    //最上面的tab切换
+    tabclick(item) {
+      // console.log(item,'item')
+      this.tabsvalue = item.toString();
+    },
     resettabcut(){
 
     },
@@ -1912,6 +2112,11 @@ export default {
           (success) => {
             that.$Spin.hide();
             let res = success.data.result;
+            if(res.length>0){
+              res.forEach((v,i)=>{
+                res[i].roleshowRightIcon=false
+              })
+            }
             that.roletable.data = res
           },
           (error) => {
@@ -2114,8 +2319,6 @@ export default {
           (success) => {
             that.$Spin.hide();
             let res = success.data.result;
-            // that.toTree(res)
-            // console.log(that.toTree(res),'123')
             if (res.length > 0) {
               newResouceList = [];
               res.forEach((v, i) => {
@@ -2273,7 +2476,7 @@ export default {
             console.log(success.data);
             // that.getdatatreatingdata()
             that.roleDistribution_modal=false
-            that.$refs.currentRowTable[0].clearCurrentRow()
+            that.$refs.rolecurrentRowTable[0].clearCurrentRow()
           },
           (error) => {
             that.$Spin.hide();
@@ -2285,20 +2488,81 @@ export default {
     
     
     },
+    //角色树点击
     roletreechange(item,data){
       if(this.submitrolelist){
         
       }
       // console.log(this.$refs.roletree.getCheckedNodes())
     },
-    rolecurrentchange(currentRow,oldCurrentRow){
+    //角色选中高亮
+    roleCurrentChange(currentRow,oldCurrentRow){
       // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.roleItemData=currentRow
     },
+    //角色单行点击
+    roleRowClick(row,index){
+      // console.log(row,'row')
+      this.roletable.data[index].roleshowRightIcon=true
+      this.roletable.data.forEach((v,i)=>{
+        if(row.id!=v.id){
+          this.roletable.data[i].roleshowRightIcon=false
+        }
+      })
+    },
     //获取用户列表
     getAllRichUserList(){
-
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getAllRichUser",
+        data: [that.userdatatable.page,that.userdatatable.pagesize,false],
+      };
+      let newResouceList=new Array()
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.GETALLRICHUSELIST, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            if(res.data.length>0){
+              res.data.forEach((v,i)=>{
+                res.data[i].isclick = false
+                res.data[i].usershowRightIcon = false
+              })
+            }
+            that.userdatatable.total = res.count
+            that.userdatatable.data=res.data
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
     },
+    //切换用户列表的分页
+    changeuserdatatablePage(page) {
+      this.userdatatable.page = page;
+      this.getAllRichUserList()
+    },
+    //用户选中高亮
+    userCurrentChange(currentRow,oldCurrentRow){
+      // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
+      this.roleItemData=currentRow
+    },
+    //角色单行点击
+    userRowClick(row,index){
+      console.log(row,'row')
+      this.userdatatable.data[index].usershowRightIcon=true
+      this.userdatatable.data.forEach((v,i)=>{
+        if(row.id!=v.id){
+          this.userdatatable.data[i].usershowRightIcon=false
+        }
+      })
+    },
+
     //切换算法的分页
     changearithmetictablePage(page) {
       this.arithmetictable.page = page;
@@ -2311,10 +2575,7 @@ export default {
     changesystemtablePage(page) {
       this.systemtable.page = page;
     },
-    //切换用户的分页
-    changeuserdatatablePage(page) {
-      this.userdatatable.page = page;
-    },
+    
     //切换角色权限的分页
     changeroletablePage(page) {
       this.roletable.page = page;
@@ -2335,15 +2596,13 @@ export default {
     choseleadingin() {
 
     },
+    //标准目录生成的树
     handleCreated: function (ztreeObj) {
       this.ztreeObj = ztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
-    tabclick(item) {
-      // console.log(item,'item')
-      this.tabsvalue = item.toString();
-    },
+    
   },
 };
 </script>
@@ -2531,7 +2790,7 @@ export default {
     height: 787px;
     background: rgba(0, 0, 0, 0.03);
     border-radius: 5px;
-    overflow: hidden;
+    overflow: auto;
     // padding: 20px;
   }
   //表格
