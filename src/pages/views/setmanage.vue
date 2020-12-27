@@ -436,7 +436,7 @@
         </div>
       </div>
       <div class="userauthtreelist_content">
-        <Tree ref="userroletree" check-strictly :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
+        <Tree ref="userroletree"  :check-strictly="true" :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="canceluserauthorizationmodal">取消</button>
@@ -462,7 +462,7 @@
     <Modal width="300" v-model="roleDistribution_modal" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">分配资源</div>
       <div class="roleDistribution_content">
-        <Tree ref="roletree" check-strictly :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
+        <Tree ref="roletree" :check-strictly="true" :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="cancelroleDistributionmodal">取消</button>
@@ -2343,33 +2343,37 @@ export default {
                 roledatalist.push(nodes)
               })
               
-              // console.log(roledatalist,'roledatalist')
+              console.log(roledatalist,'roledatalist')
               if(newroleDistributionList.length>0){
                 for (var i = 0; i < newroleDistributionList.length; i++) {
                   var n_index = roledatalist.findIndex((n) => {
-                    return n.module == newroleDistributionList[i].module;
+                    return n.id == newroleDistributionList[i].id&&n.module == newroleDistributionList[i].module;
                   });
                   // console.log(n_index, "n_index");
                   if (n_index < 0) {
                     continue;
                   }
-                  // console.log(n_index);
-                  if(newroleDistributionList[i].id=='00'){
-                    newroleDistributionList[i].checked=true
+                  if (newroleDistributionList[n_index]) {
+                    if(newroleDistributionList[i].id=='00'){
+                      newroleDistributionList[i].checked=true
+                    }
                   }
+                  // console.log(n_index);
                   
                   if(newroleDistributionList[i].children.length>0){
                     for (var j = 0; j < newroleDistributionList[i].children.length; j++) {
                       var n_index1 = roledatalist.findIndex((n) => {
-                        return n.module == newroleDistributionList[i].children[j].module;
+                        return n.id == newroleDistributionList[i].id&&n.module == newroleDistributionList[i].children[j].module;
                       });
                       // console.log(n_index1, "n_index");
                       if (n_index1 < 0) {
                         continue;
                       }
                       // console.log(n_index);
-                      if(newroleDistributionList[i].children[j].id!='00'){
-                        newroleDistributionList[i].children[j].checked=true
+                      if (newroleDistributionList[i].children[n_index1]) {
+                        if(newroleDistributionList[i].children[j].id!=='00'){
+                         newroleDistributionList[i].children[j].checked=true
+                        }
                       }
                     }
                   }
@@ -2397,7 +2401,7 @@ export default {
     },
     //分配资源 确认
     confirmroleDistributionmodal(){
-      // console.log(this.$refs.roletree.getCheckedNodes())
+      console.log(this.$refs.roletree.getCheckedNodes())
       let rolecurrenttdata=this.$refs.roletree.getCheckedNodes()
       let roledata=new Array()
       if(rolecurrenttdata.length>0){
@@ -2429,7 +2433,7 @@ export default {
               that.getauthorizationList()
             }else{
               //角色下的表格取消高亮
-              that.$refs.rolecurrentRowTable[0].clearCurrentRow()
+              // that.$refs.rolecurrentRowTable[0].clearCurrentRow()
             }
             
           },
@@ -2699,7 +2703,7 @@ export default {
       this.userauthorizationModal=false
     },
     confirmuserauthorizationmodal(){
-      // console.log(this.chooseauthrole,'chooseauthrole')
+      console.log(this.chooseauthrole,'chooseauthrole')
       let rolecurrenttdata=this.$refs.userroletree.getCheckedNodes()
       if(rolecurrenttdata.length>0){
         rolecurrenttdata.forEach((v,i)=>{
@@ -3374,7 +3378,7 @@ export default {
   // min-width: 600Px;
   // width: 600px !important;
   // height: 334px;
-  top: 300px;
+  // top: 300px;
 
   .ivu-modal-content {
     background: #ffffff;
@@ -3397,7 +3401,7 @@ export default {
       -webkit-user-select: none;
       margin-left: -30px;
       margin-right: -30px;
-      margin-top: -30px;
+      // margin-top: -30px;
       font-family: PingFangSC-Semibold;
       font-size: 20px;
       color: rgba(0, 0, 0, 0.8);
@@ -3663,7 +3667,7 @@ export default {
     // width: 300px !important;
     // height: 300px;
 
-    text-align: center;
+    // text-align: center;
     top: 0;
 
     .ivu-modal-content {

@@ -845,8 +845,8 @@ export default {
 .ivu-modal {
     // min-width: 600Px;
     // width: 600px !important;
-    height: 334px;
-    top:300px;
+    // height: 334px;
+    // top:300px;
     .ivu-modal-content{
         background: #FFFFFF;
         box-shadow: 0 1px 0 0 rgba(0,0,0,0.10);

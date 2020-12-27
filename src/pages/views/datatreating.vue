@@ -2533,7 +2533,7 @@ export default {
   // min-width: 600px;
   // width: 600px !important;
   // height: 334px;
-  top: 300px;
+  // top: 300px;
   .cursor{
     display: inline-block;
     width: 100%;
