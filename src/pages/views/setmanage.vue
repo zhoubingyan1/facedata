@@ -1144,12 +1144,13 @@ export default {
             align: "right",
             render: (h, params) => {
               let result = "0";
-              return h("div",{
+              let arr = [];
+              if(params.row.isclick==true){
+                return h("div",{
                 style: {
-                       position: 'relative',
-                       display: 'inline-block',
-                  
-                    }
+                      position: 'relative',
+                      display: 'inline-block',
+                  }
                 }, [
                 h("button", {
                   
@@ -1197,42 +1198,50 @@ export default {
                     },
                   },
                 },"取消"),
-                h('Poptip', {
-                    props: {
-                        trigger: 'hover',
-                        content: '修改',
-                        placement: 'top'
-                    }
-                }, [
-                  h("i", {
-                    attrs: {
-                      class: "iconfont icon-edit",
-                    },
-                    style: {
-                        display:
-                          params.row.usershowRightIcon==true&&params.row.isclick==false
-                            ? "inline-block"
-                            : "none"
-                    },
-                    on: {
-                      click: () => {
-                        this.userdatatable.data.forEach((v,i)=>{
-                          this.userdatatable.data[i].isclick=false
-                        })
-                        this.newuserdatatabledata=params.row
-                        this.userdatatable.data[params.row._index].isclick=true
-                        this.userTypes='edit'
-                      },
-                    },
-                  }),
-                  h('div', {
-                        slot: 'content'
-                    }, [
-                        h('span', '修改')
-                    ])
-                ]),
-                
+              ]);
+              }else{
+                arr.push(
+                    h('Tooltip', {
+                        props: {
+                            placement: 'top',
+                            transfer: true
+                        }
+                    }, [ 
                 h("i", {
+                  attrs: {
+                    class: "iconfont icon-edit",
+                  },
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true&&params.row.isclick==false
+                          ? "inline-block"
+                          : "none"
+                  },
+                  on: {
+                    click: () => {
+                      this.userdatatable.data.forEach((v,i)=>{
+                        this.userdatatable.data[i].isclick=false
+                      })
+                      this.newuserdatatabledata=params.row
+                      this.userdatatable.data[params.row._index].isclick=true
+                      this.userTypes='edit'
+                    },
+                  },
+                }), h('span', {
+                        slot: 'content',
+                        style: {
+                            whiteSpace: 'normal'
+                        }
+                    }, '修改')
+                    ])
+                )
+                arr.push(
+                    h('Tooltip', {
+                        props: {
+                            placement: 'top',
+                            transfer: true
+                        }
+                    }, [ h("i", {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-remove-circle-outline",
                   },
@@ -1251,8 +1260,21 @@ export default {
                       this.userforbiddenTypes="startusing"
                     },
                   },
-                }),
-                h("i", {
+                }), h('span', {
+                        slot: 'content',
+                        style: {
+                            whiteSpace: 'normal'
+                        }
+                    }, '启用')
+                    ])
+                )
+                arr.push(
+                    h('Tooltip', {
+                        props: {
+                            placement: 'top',
+                            transfer: true
+                        }
+                    }, [ h("i", {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-lock-outline",
                   },
@@ -1269,8 +1291,17 @@ export default {
                       this.userforbiddenTypes="notstartusing"
                     },
                   },
-                }),
-              ]);
+                }), h('span', {
+                        slot: 'content',
+                        style: {
+                            whiteSpace: 'normal'
+                        }
+                    }, '禁用')
+                    ])
+                )
+                return h('div', arr);
+              }
+              
           },
           },
         ],
@@ -1301,8 +1332,15 @@ export default {
             title: " ",
             align: "right",
             render: (h, params) => {
-              return h("div", [
-                h("i", {
+
+              let arr = [];
+              arr.push(
+                  h('Tooltip', {
+                      props: {
+                          placement: 'top',
+                          transfer: true
+                      }
+                  }, [ h("i", {
                   attrs: {
                     class: "iconfont icon-edit",
                   },
@@ -1320,9 +1358,21 @@ export default {
                       this.roleEdit_modal=true
                     },
                   },
-                }),
-
-                h("i", {
+                }), h('span', {
+                      slot: 'content',
+                      style: {
+                          whiteSpace: 'normal'
+                      }
+                  }, '修改')
+                  ])
+              )
+                  arr.push(
+                      h('Tooltip', {
+                          props: {
+                              placement: 'top',
+                              transfer: true
+                          }
+                      }, [ h("i", {
                   attrs: {
                     class: "iconfont icon-delete",
                   },
@@ -1338,8 +1388,15 @@ export default {
                       this.delRoleModal = true;
                     },
                   },
-                }),
-              ]);
+                }), h('span', {
+                          slot: 'content',
+                          style: {
+                              whiteSpace: 'normal'
+                          }
+                      }, '删除')
+                      ])
+                  )
+              return h('div', arr);
             },
           },
         ],
