@@ -148,12 +148,7 @@
           </div>
         </div>
       </div>
-      <NewTabPane
-        :name="item.name"
-        v-for="(item, index) in setmanageTabList"
-        :key="index"
-        :label="item.label"
-      >
+      <NewTabPane :name="item.name" v-for="(item, index) in setmanageTabList" :key="index" :label="item.label">
         <!-- 算法表格 -->
         <NewTabPane v-if="item.name == '1'">
           <div class="datatreating_fr_table">
@@ -428,14 +423,23 @@
     </Modal>
     <!-- 用户 授权 -->
     <Modal width="360" :mask-closable="true" v-model="userauthorizationModal" class-name="mr-del-modal">
+      <div>
+        <span @click="openrolepopup">新增</span>
+        <span @click="userdistributionResource">分配</span>
+      </div>
       <div class="datamodal_content">
-        <CheckboxGroup v-model="chooseauthrole" @on-change="selectAuth">
+        <!-- <CheckboxGroup v-model="chooseauthrole" @on-change="selectAuth">
           <div class="mr-check-group" v-for="(itm, idx) in useroleList" :key="idx">
             <div class="mr-check-title">
-              <Checkbox :label="itm.id">{{itm.name}}</Checkbox>
+              <Checkbox :label="itm.id">
+                <span @click.prevent="authRowClick(itm)">{{itm.name}}</span>
+                <span @click.prevent="authAddRole(itm)">修改</span>
+                <span @click.prevent="authDeleteRole(itm)">删除</span>
+              </Checkbox>
             </div>
           </div>
-        </CheckboxGroup>
+        </CheckboxGroup> -->
+        <Tree ref="userroletree" check-strictly :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="canceluserauthorizationmodal">取消</button>
@@ -2088,7 +2092,7 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
+            // console.log(success.data);
             // that.getdatatreatingdata()
             let res =success.data.data
             if(success.data.state=='0'){
@@ -2096,6 +2100,10 @@ export default {
               that.roleItemData={}
               that.getroletabledata()
               that.roleEditname=""
+              //用户下的角色编辑
+              if(that.userauthorizationModal==true){
+                that.getauthorizationList()
+              }
             }
 
           },
@@ -2133,6 +2141,10 @@ export default {
               that.roleEdit_modal=false
               that.roleEditname=""
               that.getroletabledata()
+              //用户下的角色新增
+              if(that.userauthorizationModal==true){
+                that.getauthorizationList()
+              }
             }
           },
           (error) => {
@@ -2197,6 +2209,10 @@ export default {
               that.delRoleModal=false
               that.roleItemData={}
               that.getroletabledata()
+              //用户下的角色删除
+              if(that.userauthorizationModal==true){
+                that.getauthorizationList()
+              }
             }
           },
           (error) => {
@@ -2406,7 +2422,14 @@ export default {
             console.log(success.data);
             // that.getdatatreatingdata()
             that.roleDistribution_modal=false
-            that.$refs.rolecurrentRowTable[0].clearCurrentRow()
+            //用户下授权 分配资源确认
+            if(that.userauthorizationModal==true){
+              that.getauthorizationList()
+            }else{
+              //角色下的表格取消高亮
+              that.$refs.rolecurrentRowTable[0].clearCurrentRow()
+            }
+            
           },
           (error) => {
             that.$Spin.hide();
@@ -2486,12 +2509,15 @@ export default {
     userCurrentChange(currentRow,oldCurrentRow){
       // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.userItemData=currentRow
-      this.userdatatable.data[currentRow.index]._highlight=true
-      this.userdatatable.data.forEach((v,i)=>{
-        if(currentRow.id!=v.id){
-          this.userdatatable.data[i]._highlight=false
-        }
-      })
+      if(!currentRow.isclick){
+        this.userdatatable.data[currentRow.index]._highlight=true
+        this.userdatatable.data.forEach((v,i)=>{
+          if(currentRow.id!=v.id){
+            this.userdatatable.data[i]._highlight=false
+          }
+        })
+      }
+      
       
     },
     //用户单行点击
@@ -2623,9 +2649,20 @@ export default {
     },
     //角色授权打开弹框
     userauthorization(){
+      this.roleItemData={}
       if(Object.keys(this.userItemData).length>0){
         this.userauthorizationModal=true
-        var that = this;
+        this.getauthorizationList()
+        }else{
+        this.$Message.error({
+          content: "请选中某个用户",
+          duration: 1,
+        });
+      }
+    },
+    //获取授权下面的角色列表
+    getauthorizationList(){
+      var that = this;
         var query = {
           action: "Service",
           method: "getAllRole",
@@ -2640,6 +2677,9 @@ export default {
             (success) => {
               that.$Spin.hide();
               let res = success.data.result;
+              res.forEach((v,i)=>{
+                v.title=v.name
+              })
               that.useroleList=res
               
             },
@@ -2649,26 +2689,21 @@ export default {
               that.errorTips_modal = true;
             }
           );
-      
-      
-      
-      
-      
-        }else{
-        this.$Message.error({
-          content: "请选中某个用户",
-          duration: 1,
-        });
-      }
     },
-    selectAuth(){
+    userroletreechange(){
 
     },
     canceluserauthorizationmodal(){
       this.userauthorizationModal=false
     },
     confirmuserauthorizationmodal(){
-      console.log(this.chooseauthrole,'chooseauthrole')
+      // console.log(this.chooseauthrole,'chooseauthrole')
+      let rolecurrenttdata=this.$refs.userroletree.getCheckedNodes()
+      if(rolecurrenttdata.length>0){
+        rolecurrenttdata.forEach((v,i)=>{
+          this.chooseauthrole.push(v.id)
+        })
+      }
       var that = this;
       var query = {
         action: "Service",
@@ -2683,7 +2718,6 @@ export default {
           (success) => {
             that.$Spin.hide();
             let res = success.data.result;
-            that.useroleList=res
             that.userauthorizationModal=false
             that.getAllRichUserList()
           },
@@ -2696,6 +2730,70 @@ export default {
     
     },  
 
+    renderContent (h, { root, node, data }) {
+        return h('span', {
+            style: {
+                display: 'inline-block',
+                width: '100%'
+            }
+        }, [
+            h('span', [
+                h('span', data.title)
+            ]),
+            h('span', {
+                style: {
+                    display: 'inline-block',
+                    float: 'right',
+                }
+            }, [
+                h('i', {
+                  
+                    attrs: {
+                      class: "iconfont icon-edit",
+                    },
+                    on: {
+                        click: () => { 
+                          // console.log(root, node, data)
+                          this.roleItemData = data
+                          this.roleTypes='edit'
+                          this.roleEditname=data.name
+                          this.roleEdit_modal=true
+                        }
+                    }
+                }),
+                h('i', {
+                    attrs: {
+                      class: "iconfont icon-delete",
+                    },
+                    on: {
+                        click: () => { 
+                          this.roleItemData = data
+                          this.delRoleModal = true;
+                        }
+                    }
+                })
+            ])
+        ]);
+    },
+    //打开用户情况下 分配资源列表
+    userdistributionResource(){
+      
+      if(Object.keys(this.roleItemData).length>0){
+        this.roleDistribution_modal=true
+        this.getDistributionList()
+      }else{
+        this.$Message.error({
+          content: "请选中角色",
+          duration: 1,
+        });
+      }
+      
+    },
+    //授权分配 下的树点击
+    userRoleSelectChange(treeitem,item){
+      // console.log(treeitem,item)
+      this.roleItemData=item
+    },
 
     //切换算法的分页
     changearithmetictablePage(page) {
