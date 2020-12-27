@@ -628,8 +628,7 @@ export default {
             this.$router.push({ name:'applicationmodel'})
             break   
           case "7-1":
-            //系统管理
-            console.log(11)
+            //系统管理           
             this.$router.push({ name:'setmanage'})
           default:
             

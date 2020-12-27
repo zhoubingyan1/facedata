@@ -422,7 +422,7 @@
       </div>
     </Modal>
     <!-- 用户 授权 -->
-    <Modal width="360" :mask-closable="true" v-model="userauthorizationModal" class-name="mr-del-modal">
+    <Modal width="600" :mask-closable="true" v-model="userauthorizationModal" class-name="mr-del-modal">
       <div class="userauthtree-content">
         <div class="displayflex">
           <div class="header-right-button" @click="openrolepopup">
@@ -437,7 +437,7 @@
       </div>
       <div class="userauthtreelist_content">
         <!-- :check-strictly="true"  -->
-        <Tree ref="userroletree"  :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
+        <Tree ref="userroletree" :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="canceluserauthorizationmodal">取消</button>
@@ -460,7 +460,7 @@
       </div>
     </Modal>
     <!-- 角色 分配资源 -->
-    <Modal width="300" v-model="roleDistribution_modal" class-name="vertical-center-modal">
+    <Modal width="600" v-model="roleDistribution_modal" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">分配资源</div>
       <div class="roleDistribution_content">
         <!-- :check-strictly="true" -->
@@ -924,7 +924,8 @@ export default {
       useroleList:[],//用户角色列表
       chooseauthrole:[],
       userauthorizationModal:false,//用户授权弹框
-      newuserdatatabledata:{},//暂存的用户列表
+      newuserdatatabledata:{
+      },//暂存的用户列表
       userdatatable: {
         page: 1,
         pagesize: 15,
@@ -941,16 +942,13 @@ export default {
                       style: {
                           padding: '8px'
                       },
-                      attrs: {
-                        id:"onetableInput"+params.row._index,
-                      },
                       props: {
-                          value: params.row.code,//默认值
+                          value: this.newuserdatatabledata.code,//默认值
                           autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
-                              this.userdatatable.data[params.row._index].code = event.target.value
+                              this.newuserdatatabledata.code = event.target.value
                               
                           }
                       }
@@ -987,16 +985,13 @@ export default {
                       style: {
                           padding: '8px'
                       },
-                      attrs: {
-                        id:"twotableInput"+params.row._index,
-                      },
                       props: {
-                          value: params.row.name,//默认值
+                          value: this.newuserdatatabledata.name,//默认值
                           autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
-                              this.userdatatable.data[params.row._index].name = event.target.value
+                              this.newuserdatatabledata.name = event.target.value
                               
                           }
                       }
@@ -1032,16 +1027,13 @@ export default {
                       style: {
                           padding: '8px'
                       },
-                      attrs: {
-                        id:"threetableInput"+params.row._index,
-                      },
                       props: {
-                          value: params.row.email,//默认值
+                          value: this.newuserdatatabledata.email,//默认值
                           autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
-                              this.userdatatable.data[params.row._index].email = event.target.value
+                              this.newuserdatatabledata.email = event.target.value
                               
                           }
                       }
@@ -1078,16 +1070,13 @@ export default {
                       style: {
                           padding: '8px'
                       },
-                      attrs: {
-                        id:"fourtableInput"+params.row._index,
-                      },
                       props: {
-                          value: params.row.tel,//默认值
+                          value: this.newuserdatatabledata.tel,//默认值
                           autofocus: true,
                       },
                       on: {
                           'on-blur': (event) => {
-                              this.userdatatable.data[params.row._index].tel = event.target.value
+                              this.newuserdatatabledata.tel = event.target.value
                               
                           }
                       }
@@ -1116,6 +1105,8 @@ export default {
           {
             title: "角色",
             align: "center",
+            width:200,
+            ellipsis:true,
             render: (h, params) => {
               let result = "";
               let newresult=[]
@@ -1127,7 +1118,25 @@ export default {
               }else{
                 result = ''
               }
-              return h("div",result)
+              let tableTxt = null
+              if(result){
+                  if(result.length > 10){
+                      tableTxt = result.substring(0, 10) + '.....'
+                  }else{
+                      tableTxt = result
+                  }
+              }
+              return h('Tooltip', {
+                  props: {
+                    trigger:"hover",
+                    placement: "bottom",
+                    wordWrap:true,
+                    width:200
+                  },
+                  attrs:{
+                    class:'tooltipscontent'
+                  }
+              },[tableTxt,h('p', { slot: 'content',style: {whiteSpace: 'normal', wordBreak: 'break-all'}}, result) ])
             }
           },
           {
@@ -1135,7 +1144,13 @@ export default {
             align: "right",
             render: (h, params) => {
               let result = "0";
-              return h("div", [
+              return h("div",{
+                style: {
+                       position: 'relative',
+                       display: 'inline-block',
+                  
+                    }
+                }, [
                 h("button", {
                   
                   style: {
@@ -1148,6 +1163,11 @@ export default {
                   on: {
                     click: () => {
                        this.userdatatable.data[params.row._index].isclick=false
+                       this.userdatatable.data[params.row._index].tel=this.newuserdatatabledata.tel
+                       this.userdatatable.data[params.row._index].email=this.newuserdatatabledata.email
+                       this.userdatatable.data[params.row._index].name=this.newuserdatatabledata.name
+                       this.userdatatable.data[params.row._index].code=this.newuserdatatabledata.code 
+
                        if(this.userTypes=='new'){
                          this.userAddData(params)
                        }else{
@@ -1177,27 +1197,41 @@ export default {
                     },
                   },
                 },"取消"),
-                h("i", {
-                  attrs: {
-                    class: "iconfont icon-edit iconedit",
-                  },
-                  style: {
-                      display:
-                        params.row.usershowRightIcon==true&&params.row.isclick==false
-                          ? "inline-block"
-                          : "none"
-                  },
-                  on: {
-                    click: () => {
-                      this.userdatatable.data.forEach((v,i)=>{
-                        this.userdatatable.data[i].isclick=false
-                      })
-                      this.newuserdatatabledata=params.row
-                      this.userdatatable.data[params.row._index].isclick=true
-                      this.userTypes='edit'
+                h('Poptip', {
+                    props: {
+                        trigger: 'hover',
+                        content: '修改',
+                        placement: 'top'
+                    }
+                }, [
+                  h("i", {
+                    attrs: {
+                      class: "iconfont icon-edit",
                     },
-                  },
-                }),
+                    style: {
+                        display:
+                          params.row.usershowRightIcon==true&&params.row.isclick==false
+                            ? "inline-block"
+                            : "none"
+                    },
+                    on: {
+                      click: () => {
+                        this.userdatatable.data.forEach((v,i)=>{
+                          this.userdatatable.data[i].isclick=false
+                        })
+                        this.newuserdatatabledata=params.row
+                        this.userdatatable.data[params.row._index].isclick=true
+                        this.userTypes='edit'
+                      },
+                    },
+                  }),
+                  h('div', {
+                        slot: 'content'
+                    }, [
+                        h('span', '修改')
+                    ])
+                ]),
+                
                 h("i", {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-remove-circle-outline",
@@ -1237,7 +1271,28 @@ export default {
                   },
                 }),
               ]);
-            },
+              // return h('Poptip', {
+              //                 props: {
+              //                     trigger: 'hover',
+              //                     title: params.row.people.length + 'customers',
+              //                     placement: 'bottom'
+              //                 }
+              //             }, [
+              //                 h('Tag', params.row.people.length),
+              //                 h('div', {
+              //                     slot: 'content'
+              //                 }, [
+              //                     h('ul', this.tableData1[params.index].people.map(item => {
+              //                         return h('li', {
+              //                             style: {
+              //                                 textAlign: 'center',
+              //                                 padding: '4px'
+              //                             }
+              //                         }, item.n + '：' + item.c + 'People')
+              //                     }))
+              //                 ])
+              //             ]);
+          },
           },
         ],
         data: [
@@ -2347,14 +2402,14 @@ export default {
                 roledatalist.push(nodes)
               })
               
-              console.log(roledatalist,'roledatalist')
+              // console.log(roledatalist,'roledatalist')
               if (newroleDistributionList.length > 0) {
               roledatalist.forEach((Highlight) => {
                 if (Highlight.id == "00") {
                   //不勾选父节点
                   return true;
                 }
-                   console.log(Highlight,1);
+                  //  console.log(Highlight,1);
                 //父节点序号
                 var n_index = newroleDistributionList.findIndex((n) => {
                   return n.module == Highlight.module;
@@ -2363,13 +2418,13 @@ export default {
                   //没找到父节点
                   return true;
                 }
-                console.log(Highlight,2);
+                // console.log(Highlight,2);
                 if (newroleDistributionList[n_index].children.length <= 0) {
                   //子节点不存在
                   return true;
                 }
                 //子节点序号
-                   console.log(3);
+                  //  console.log(3);
                 var n_index_child = newroleDistributionList[
                   n_index
                 ].children.findIndex((n) => {
@@ -2379,7 +2434,7 @@ export default {
                   //没找到子节点
                   return true;
                 }
-   console.log(4);
+                // console.log(4);
                 newroleDistributionList[n_index].children[
                   n_index_child
                 ].checked = true;
@@ -2548,7 +2603,7 @@ export default {
       var query = {
         action: "Service",
         method: "add",
-        data: [{"id":0,"code":params.row.code,"name":params.row.name,"stopped":params.row.stopped,"change":params.row.change,"email":params.row.email,"tel":params.row.tel}],
+        data: [{"id":0,"code":that.newuserdatatabledata.code,"name":that.newuserdatatabledata.name,"stopped":that.newuserdatatabledata.stopped,"change":that.newuserdatatabledata.change,"email":that.newuserdatatabledata.email,"tel":that.newuserdatatabledata.tel}],
       };
       // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
       
@@ -2577,7 +2632,7 @@ export default {
       var query = {
         action: "Service",
         method: "update",
-        data: [{"id":params.row.id,"code":params.row.code,"name":params.row.name,"stopped":params.row.stopped,"change":params.row.change,"email":params.row.email,"tel":params.row.tel}],
+        data: [{"id":that.newuserdatatabledata.id,"code":that.newuserdatatabledata.code,"name":that.newuserdatatabledata.name,"stopped":that.newuserdatatabledata.stopped,"change":that.newuserdatatabledata.change,"email":that.newuserdatatabledata.email,"tel":params.row.tel}],
       };
       // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
       
@@ -2601,6 +2656,7 @@ export default {
     //用户右侧点击新建
     userAddUser(){
       this.userTypes='new'
+      this.newuserdatatabledata={}
       this.userdatatable.data.unshift({
         change: false,
         code: "",
@@ -3035,6 +3091,11 @@ export default {
     overflow: auto;
     // padding: 20px;
   }
+  .tooltipscontent{
+    word-break:break-all; 
+
+word-wrap:break-word;
+  }
   //表格
   .facedata-table.ivu-table-wrapper {
     margin: 0 auto;
@@ -3119,18 +3180,6 @@ export default {
         &:hover {
           color: #246fea;
         }
-        &:hover::before{
-          content: "重命名";
-          position: absolute;
-          left: -14px;
-          top:-26px;
-          pointer-events: none;
-          z-index: -1;
-          color: #fff;
-          padding:4px 8px;
-          background: rgba(0,0,0,0.70);
-          border-radius: 2px 2px 2px 0 0 0 2px;
-        }
       }
       &.icon-delete {
         font-size: 20px;
@@ -3177,6 +3226,8 @@ export default {
     &:hover {
       // box-shadow: 0px 2px 10px 2px #ece6e6;
     }
+
+
     .ivu-table {
       background: none;
       &:before,
@@ -3256,6 +3307,7 @@ export default {
         }
       }
     }
+
     .ivu-icon {
       cursor: pointer;
       font-size: 24px;
@@ -3716,16 +3768,5 @@ export default {
   width: 100%;
   height: 900px;
 }
-.icon-iconedit:hover::before{
-    content: "重命名";
-    position: absolute;
-    left: -14px;
-    top:-26px;
-    pointer-events: none;
-    z-index: -1;
-    color: #fff;
-    padding:4px 8px;
-    background: rgba(0,0,0,0.70);
-    border-radius: 2px 2px 2px 0 0 0 2px;
-  }
+
 </style>
