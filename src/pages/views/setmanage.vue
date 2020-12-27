@@ -1192,7 +1192,7 @@ export default {
                       if(this.userTypes='new'){
                         // this.userdatatable.data.splice(0, 1)
                       }
-                       this.getAllRichUserList() //获取用户列表
+                      //  this.getAllRichUserList() //获取用户列表
                       
                     },
                   },
@@ -1271,27 +1271,6 @@ export default {
                   },
                 }),
               ]);
-              // return h('Poptip', {
-              //                 props: {
-              //                     trigger: 'hover',
-              //                     title: params.row.people.length + 'customers',
-              //                     placement: 'bottom'
-              //                 }
-              //             }, [
-              //                 h('Tag', params.row.people.length),
-              //                 h('div', {
-              //                     slot: 'content'
-              //                 }, [
-              //                     h('ul', this.tableData1[params.index].people.map(item => {
-              //                         return h('li', {
-              //                             style: {
-              //                                 textAlign: 'center',
-              //                                 padding: '4px'
-              //                             }
-              //                         }, item.n + '：' + item.c + 'People')
-              //                     }))
-              //                 ])
-              //             ]);
           },
           },
         ],
