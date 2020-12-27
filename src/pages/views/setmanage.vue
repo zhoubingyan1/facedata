@@ -921,6 +921,7 @@ export default {
       useroleList:[],//用户角色列表
       chooseauthrole:[],
       userauthorizationModal:false,//用户授权弹框
+      newuserdatatabledata:{},//暂存的用户列表
       userdatatable: {
         page: 1,
         pagesize: 15,
@@ -947,8 +948,7 @@ export default {
                       on: {
                           'on-blur': (event) => {
                               this.userdatatable.data[params.row._index].code = event.target.value
-                              // this.userdatatable.data[params.row._index].isclick=false
-                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                              
                           }
                       }
                   }),
@@ -963,12 +963,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            // setTimeout( ()=> {
-                            //   this.$nextTick(()=>{
-                            //     document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
-                            //   })
-                            // },300)
-                            // this.userdatatable.data[params.row._index].isclick=true
+                            
                           },
                         },
                       },
@@ -999,8 +994,7 @@ export default {
                       on: {
                           'on-blur': (event) => {
                               this.userdatatable.data[params.row._index].name = event.target.value
-                              // this.userdatatable.data[params.row._index].isclick=false
-                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                              
                           }
                       }
                   }),
@@ -1015,12 +1009,6 @@ export default {
                         },
                         on: {
                           click: () => {
-                            // setTimeout( ()=> {
-                            //   this.$nextTick(()=>{
-                            //     document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
-                            //   })
-                            // },300)
-                            // this.userdatatable.data[params.row._index].isclick=true
                           },
                         },
                       },
@@ -1051,8 +1039,7 @@ export default {
                       on: {
                           'on-blur': (event) => {
                               this.userdatatable.data[params.row._index].email = event.target.value
-                              // this.userdatatable.data[params.row._index].isclick=false
-                              // this.currentfetchData.fileColumns[params.row._index]=this.userdatatable.data
+                              
                           }
                       }
                   }),
@@ -1067,12 +1054,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            // setTimeout( ()=> {
-                            //   this.$nextTick(()=>{
-                            //     document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
-                            //   })
-                            // },300)
-                            // this.userdatatable.data[params.row._index].isclick=true
+                            
                           },
                         },
                       },
@@ -1118,12 +1100,7 @@ export default {
                         },
                         on: {
                           click: () => {
-                            // setTimeout( ()=> {
-                            //   this.$nextTick(()=>{
-                            //     document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
-                            //   })
-                            // },300)
-                            // this.userdatatable.data[params.row._index].isclick=true
+                            
                           },
                         },
                       },
@@ -1159,7 +1136,8 @@ export default {
                 h("button", {
                   
                   style: {
-                      display:
+                    paddingRight:'10px',
+                    display:
                         params.row.usershowRightIcon==true&&params.row.isclick==true
                           ? "inline-block"
                           : "none"
@@ -1186,7 +1164,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                       this.userdatatable.data[params.row._index].isclick=false
+                      this.userdatatable.data[params.row._index].isclick=false
+                      this.userdatatable.data[params.row._index]=this.newuserdatatabledata
                     },
                   },
                 },"取消"),
@@ -1202,15 +1181,10 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.newuserdatatabledata=params.row
                       this.userdatatable.data[params.row._index].isclick=true
                       this.userTypes='edit'
-                      this.$nextTick(()=>{
-                        // console.log(document.getElementById('onetableInput'+params.row._index),'document.getElementByIdonetableInput+params.row._index')
-                        document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
-                        document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
-                        document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
-                        document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
-                      })
+                      
                     },
                   },
                 }),
@@ -1227,6 +1201,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      
                       this.delID = params.row.id;
                       this.userforbiddenModal = true;
                       this.userforbiddenTypes="startusing"
