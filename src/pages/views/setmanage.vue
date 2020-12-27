@@ -436,7 +436,8 @@
         </div>
       </div>
       <div class="userauthtreelist_content">
-        <Tree ref="userroletree"  :check-strictly="true" :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
+        <!-- :check-strictly="true"  -->
+        <Tree ref="userroletree"  :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="canceluserauthorizationmodal">取消</button>
@@ -462,7 +463,8 @@
     <Modal width="300" v-model="roleDistribution_modal" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">分配资源</div>
       <div class="roleDistribution_content">
-        <Tree ref="roletree" :check-strictly="true" :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
+        <!-- :check-strictly="true" -->
+        <Tree ref="roletree" :data="roleDistributionList" show-checkbox @on-check-change="roletreechange"></Tree>
       </div>
       <div class="datamodal_footer">
         <button class="btn" @click="cancelroleDistributionmodal">取消</button>
@@ -1166,18 +1168,18 @@ export default {
                   on: {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=false
-                      this.userdatatable.data[params.row._index]=this.newuserdatatabledata
+                      // this.userdatatable.data[params.row._index]=this.newuserdatatabledata
                       if(this.userTypes='new'){
-                        this.userdatatable.data.splice(0, 1)
-                        // this.$refs.rolecurrentRowTable[0].clearCurrentRow()
+                        // this.userdatatable.data.splice(0, 1)
                       }
+                       this.getAllRichUserList() //获取用户列表
                       
                     },
                   },
                 },"取消"),
                 h("i", {
                   attrs: {
-                    class: "iconfont icon-edit",
+                    class: "iconfont icon-edit iconedit",
                   },
                   style: {
                       display:
@@ -1187,10 +1189,12 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.userdatatable.data.forEach((v,i)=>{
+                        this.userdatatable.data[i].isclick=false
+                      })
                       this.newuserdatatabledata=params.row
                       this.userdatatable.data[params.row._index].isclick=true
                       this.userTypes='edit'
-                      
                     },
                   },
                 }),
@@ -2099,7 +2103,7 @@ export default {
             let res =success.data.data
             if(success.data.state=='0'){
               that.roleEdit_modal=false
-              that.roleItemData={}
+              // that.roleItemData={}
               that.getroletabledata()
               that.roleEditname=""
               //用户下的角色编辑
@@ -2209,7 +2213,7 @@ export default {
             let res =success.data.data
             if(success.data.state==0){
               that.delRoleModal=false
-              that.roleItemData={}
+              // that.roleItemData={}
               that.getroletabledata()
               //用户下的角色删除
               if(that.userauthorizationModal==true){
@@ -2229,7 +2233,7 @@ export default {
       this.roleEdit_modal=false
       this.delRoleModal=false
       this.roleEditname=''
-      this.roleItemData={}
+      // this.roleItemData={}
     },
     //打开新建弹框
     openrolepopup(){
@@ -2344,41 +2348,43 @@ export default {
               })
               
               console.log(roledatalist,'roledatalist')
-              if(newroleDistributionList.length>0){
-                for (var i = 0; i < newroleDistributionList.length; i++) {
-                  var n_index = roledatalist.findIndex((n) => {
-                    return n.id == newroleDistributionList[i].id&&n.module == newroleDistributionList[i].module;
-                  });
-                  // console.log(n_index, "n_index");
-                  if (n_index < 0) {
-                    continue;
-                  }
-                  if (newroleDistributionList[n_index]) {
-                    if(newroleDistributionList[i].id=='00'){
-                      newroleDistributionList[i].checked=true
-                    }
-                  }
-                  // console.log(n_index);
-                  
-                  if(newroleDistributionList[i].children.length>0){
-                    for (var j = 0; j < newroleDistributionList[i].children.length; j++) {
-                      var n_index1 = roledatalist.findIndex((n) => {
-                        return n.id == newroleDistributionList[i].id&&n.module == newroleDistributionList[i].children[j].module;
-                      });
-                      // console.log(n_index1, "n_index");
-                      if (n_index1 < 0) {
-                        continue;
-                      }
-                      // console.log(n_index);
-                      if (newroleDistributionList[i].children[n_index1]) {
-                        if(newroleDistributionList[i].children[j].id!=='00'){
-                         newroleDistributionList[i].children[j].checked=true
-                        }
-                      }
-                    }
-                  }
+              if (newroleDistributionList.length > 0) {
+              roledatalist.forEach((Highlight) => {
+                if (Highlight.id == "00") {
+                  //不勾选父节点
+                  return true;
                 }
-              }
+                   console.log(Highlight,1);
+                //父节点序号
+                var n_index = newroleDistributionList.findIndex((n) => {
+                  return n.module == Highlight.module;
+                });
+                if (n_index < 0) {
+                  //没找到父节点
+                  return true;
+                }
+                console.log(Highlight,2);
+                if (newroleDistributionList[n_index].children.length <= 0) {
+                  //子节点不存在
+                  return true;
+                }
+                //子节点序号
+                   console.log(3);
+                var n_index_child = newroleDistributionList[
+                  n_index
+                ].children.findIndex((n) => {
+                  return n.id == Highlight.id;
+                });
+                if (n_index_child < 0) {
+                  //没找到子节点
+                  return true;
+                }
+   console.log(4);
+                newroleDistributionList[n_index].children[
+                  n_index_child
+                ].checked = true;
+              });
+            }
               
             }
             // console.log(newroleDistributionList,'newroleDistributionList')
@@ -2397,7 +2403,7 @@ export default {
     //分配资源取消
     cancelroleDistributionmodal(){
       this.roleDistribution_modal=false
-      this.roleItemData={}
+      // this.roleItemData={}
     },
     //分配资源 确认
     confirmroleDistributionmodal(){
@@ -3113,6 +3119,18 @@ export default {
         &:hover {
           color: #246fea;
         }
+        &:hover::before{
+          content: "重命名";
+          position: absolute;
+          left: -14px;
+          top:-26px;
+          pointer-events: none;
+          z-index: -1;
+          color: #fff;
+          padding:4px 8px;
+          background: rgba(0,0,0,0.70);
+          border-radius: 2px 2px 2px 0 0 0 2px;
+        }
       }
       &.icon-delete {
         font-size: 20px;
@@ -3698,4 +3716,16 @@ export default {
   width: 100%;
   height: 900px;
 }
+.icon-iconedit:hover::before{
+    content: "重命名";
+    position: absolute;
+    left: -14px;
+    top:-26px;
+    pointer-events: none;
+    z-index: -1;
+    color: #fff;
+    padding:4px 8px;
+    background: rgba(0,0,0,0.70);
+    border-radius: 2px 2px 2px 0 0 0 2px;
+  }
 </style>
