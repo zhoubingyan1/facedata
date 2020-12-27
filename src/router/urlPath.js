@@ -63,9 +63,9 @@ export default {
     GETALLRICHUSUPDATE: '/v3/sys/user/sys.user.direct',
     // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
     // update
-    getAllRole:'/v3/sys/user/sys.role.direct',	
+    GETALLROLE:'/v3/sys/user/sys.role.direct',	
     // {"action":"Service","method":"getAllRole","data":null,"type":"rpc","tid":5}
-    setUserRoles:'/v3/sys/user/sys.role.direct',	
+    SETUSERROLES:'/v3/sys/user/sys.role.direct',	
     // {"action":"Service","method":"setUserRoles","data":[53,[4,7]]}
     stopUser:'/v3/sys/user/sys.user.direct',	
     // {"action":"Service","method":"stopUser","data":[53,true]}

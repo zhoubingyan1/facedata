@@ -426,6 +426,22 @@
         </div>
       </div>
     </Modal>
+    <!-- 用户 授权 -->
+    <Modal width="360" :mask-closable="true" v-model="userauthorizationModal" class-name="mr-del-modal">
+      <div class="datamodal_content">
+        <CheckboxGroup v-model="chooseauthrole" @on-change="selectAuth">
+          <div class="mr-check-group" v-for="(itm, idx) in useroleList" :key="idx">
+            <div class="mr-check-title">
+              <Checkbox :label="itm.id">{{itm.name}}</Checkbox>
+            </div>
+          </div>
+        </CheckboxGroup>
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="canceluserauthorizationmodal">取消</button>
+        <button class="btn" @click="confirmuserauthorizationmodal">确定</button>
+      </div>
+    </Modal>
     <!-- 用户 禁用 -->
     <Modal width="360" :mask-closable="true" v-model="userforbiddenModal" class-name="mr-del-modal">
       <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
@@ -896,10 +912,15 @@ export default {
           },
         ],
       }, //系统日志表格
+
+
       userTypes:'new', //用户新增类型 edit 用户修改类型
       userforbiddenTypes:"notstartusing",//用户禁用、启用弹框类型
       userItemData:{}, //用户的行数据
       userforbiddenModal:false,//用户禁用弹框
+      useroleList:[],//用户角色列表
+      chooseauthrole:[],
+      userauthorizationModal:false,//用户授权弹框
       userdatatable: {
         page: 1,
         pagesize: 15,
@@ -1237,6 +1258,8 @@ export default {
         data: [
         ],
       }, //用户表格
+
+
       roleDistribution_modal:false,//分配资源弹框
       roleTypes:'new',
       roleEditname:'',//角色编辑名称
@@ -1244,7 +1267,6 @@ export default {
       delRoleModal:false,
       roleItemData:{},//暂存的角色一行数据
       roleDistributionList:[],//分配资源的列表
-      
       roletable: {
         page: 1,
         pagesize: 15,
@@ -1304,6 +1326,8 @@ export default {
         ],
         data: [],
       }, //角色权限表格
+
+
       departmentlefttable: {
         page: 1,
         pagesize: 15,
@@ -2624,8 +2648,78 @@ export default {
     },
     //角色授权打开弹框
     userauthorization(){
+      if(Object.keys(this.userItemData).length>0){
+        this.userauthorizationModal=true
+        var that = this;
+        var query = {
+          action: "Service",
+          method: "getAllRole",
+          data: null,
+        };
+        // {"action":"Service","method":"stopUser","data":[53,true]}
+        
+        that.$Spin.show();
+        that.$http
+          .post(that.PATH.GETALLROLE, JSON.stringify(query))
+          .then(
+            (success) => {
+              that.$Spin.hide();
+              let res = success.data.result;
+              that.useroleList=res
+              
+            },
+            (error) => {
+              that.$Spin.hide();
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      
+      
+      
+      
+        }else{
+        this.$Message.error({
+          content: "请选中某个用户",
+          duration: 1,
+        });
+      }
+    },
+    selectAuth(){
 
     },
+    canceluserauthorizationmodal(){
+      this.userauthorizationModal=false
+    },
+    confirmuserauthorizationmodal(){
+      console.log(this.chooseauthrole,'chooseauthrole')
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "setUserRoles",
+        data: [that.userItemData.id,that.chooseauthrole],
+      };
+      
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.SETUSERROLES, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            that.useroleList=res
+            that.userauthorizationModal=false
+            that.getAllRichUserList()
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },  
 
 
     //切换算法的分页
