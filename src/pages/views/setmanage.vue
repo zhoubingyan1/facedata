@@ -55,13 +55,13 @@
       <!-- 用户右侧 -->
       <div v-if="tabsvalue == '4'" slot="right_button">
         <div class="displayflex">
-          <div class="header-right-button" @click="choseleadingin">
+          <div class="header-right-button" @click="userAddUser">
             <img class="icon" src="../../assets/images/new.png" />
             <span class="span">新建</span>
           </div>
           <div
             class="header-right-button marginright50"
-            @click="choseleadingin"
+            @click="userauthorization"
           >
             <img class="icon" src="../../assets/images/authorization.png" />
             <span class="span">授权</span>
@@ -398,7 +398,7 @@
         <div v-else>
           <div class="datatreating_fr_table">
             <div class="datatreating_fr_table">
-              <!-- <Table class="facedata-table account-table" stripe :columns="standardtable.columns" :data="standardtable.data"></Table> -->
+              
               <div class="setmanagetree-tit">目录名称</div>
               <div>
                 <div></div>
@@ -424,6 +424,21 @@
         <div class="forget_tips_text" v-for="(node, index) in err_list" :key="index">
           {{ node }}
         </div>
+      </div>
+    </Modal>
+    <!-- 用户 禁用 -->
+    <Modal width="360" :mask-closable="true" v-model="userforbiddenModal" class-name="mr-del-modal">
+      <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
+        确定对选中的用户进行该操作吗
+      </div>
+      <div class="facedata-btn-box">
+        <div class="facedata-btn-confirm" v-if="userforbiddenTypes=='notstartusing'"  style="margin-right: 20px" @click="confirmuserforbidden">
+          禁用
+        </div>
+        <div v-if="userforbiddenTypes=='startusing'" class="facedata-btn-confirm" style="margin-right: 20px" @click="confirmuserforbidden">
+          启用
+        </div>
+        <div class="facedata-btn-cancel" @click="canceluserforbiddenmodal">取消</div>
       </div>
     </Modal>
     <!-- 角色 分配资源 -->
@@ -511,7 +526,6 @@ export default {
   },
   data() {
     return {
-      roleindex:0,
       martId:sessionStorage.getItem("martId"),
       delID: "",
       delModal: false, //删除弹框
@@ -557,19 +571,18 @@ export default {
           removeHoverDom: this.removeHoverDom,
         },
       }, //树节点设置
-      datatreatingnodes: [],
       datatreatingnodes:[
-        {
-            id : -1,
-            name : "指标库",
-            source : 'ICE',
-            leaf : false,
-            index : 0,
-            right :20,
-            left:18,
-            isParent:true,
-            isNotShowIcon:true,
-        },
+        // {
+        //     id : -1,
+        //     name : "指标库",
+        //     source : 'ICE',
+        //     leaf : false,
+        //     index : 0,
+        //     right :20,
+        //     left:18,
+        //     isParent:true,
+        //     isNotShowIcon:true,
+        // },
         {
             id : -2,
             name : "数据模型库",
@@ -603,17 +616,17 @@ export default {
             isParent:true,
             isNotShowIcon:true,
         },
-        {
-            id : -5,
-            name : "风险评估",
-            source : 'RISK',
-            leaf : false,
-            index : 4,
-            right :20,
-            left:16, 
-            isParent:true,
-            isNotShowIcon:true,
-        }
+        // {
+        //     id : -5,
+        //     name : "风险评估",
+        //     source : 'RISK',
+        //     leaf : false,
+        //     index : 4,
+        //     right :20,
+        //     left:16, 
+        //     isParent:true,
+        //     isNotShowIcon:true,
+        // }
       ],
 
       allAlign: null,
@@ -883,11 +896,10 @@ export default {
           },
         ],
       }, //系统日志表格
-      editIndex: -1,  // 当前聚焦的输入框的行数
-      editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
-      editAge: '',  // 第二列输入框
-      editBirthday: '',  // 第三列输入框
-      editAddress: '',  // 第四列输入框
+      userTypes:'new', //用户新增类型 edit 用户修改类型
+      userforbiddenTypes:"notstartusing",//用户禁用、启用弹框类型
+      userItemData:{}, //用户的行数据
+      userforbiddenModal:false,//用户禁用弹框
       userdatatable: {
         page: 1,
         pagesize: 15,
@@ -930,11 +942,11 @@ export default {
                         },
                         on: {
                           click: () => {
-                            setTimeout( ()=> {
-                              this.$nextTick(()=>{
-                                document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
-                              })
-                            },300)
+                            // setTimeout( ()=> {
+                            //   this.$nextTick(()=>{
+                            //     document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
+                            //   })
+                            // },300)
                             // this.userdatatable.data[params.row._index].isclick=true
                           },
                         },
@@ -982,11 +994,11 @@ export default {
                         },
                         on: {
                           click: () => {
-                            setTimeout( ()=> {
-                              this.$nextTick(()=>{
-                                document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
-                              })
-                            },300)
+                            // setTimeout( ()=> {
+                            //   this.$nextTick(()=>{
+                            //     document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
+                            //   })
+                            // },300)
                             // this.userdatatable.data[params.row._index].isclick=true
                           },
                         },
@@ -1034,11 +1046,11 @@ export default {
                         },
                         on: {
                           click: () => {
-                            setTimeout( ()=> {
-                              this.$nextTick(()=>{
-                                document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
-                              })
-                            },300)
+                            // setTimeout( ()=> {
+                            //   this.$nextTick(()=>{
+                            //     document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
+                            //   })
+                            // },300)
                             // this.userdatatable.data[params.row._index].isclick=true
                           },
                         },
@@ -1085,11 +1097,11 @@ export default {
                         },
                         on: {
                           click: () => {
-                            setTimeout( ()=> {
-                              this.$nextTick(()=>{
-                                document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
-                              })
-                            },300)
+                            // setTimeout( ()=> {
+                            //   this.$nextTick(()=>{
+                            //     document.getElementById('fourtableInput'+params.row._index).children[0].children[1].focus();
+                            //   })
+                            // },300)
                             // this.userdatatable.data[params.row._index].isclick=true
                           },
                         },
@@ -1134,6 +1146,12 @@ export default {
                   on: {
                     click: () => {
                        this.userdatatable.data[params.row._index].isclick=false
+                       if(this.userTypes=='new'){
+                         this.userAddData(params)
+                       }else{
+                        this.userUndate(params)
+                       }
+                       
                     },
                   },
                 },"保存"),
@@ -1157,14 +1175,16 @@ export default {
                   },
                   style: {
                       display:
-                        params.row.usershowRightIcon==true
+                        params.row.usershowRightIcon==true&&params.row.isclick==false
                           ? "inline-block"
                           : "none"
                   },
                   on: {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=true
+                      this.userTypes='edit'
                       this.$nextTick(()=>{
+                        // console.log(document.getElementById('onetableInput'+params.row._index),'document.getElementByIdonetableInput+params.row._index')
                         document.getElementById('onetableInput'+params.row._index).children[0].children[1].focus();
                         document.getElementById('twotableInput'+params.row._index).children[0].children[1].focus();
                         document.getElementById('threetableInput'+params.row._index).children[0].children[1].focus();
@@ -1180,14 +1200,15 @@ export default {
                   style: {
                     marginRight: "30",
                       display:
-                        params.row.usershowRightIcon==true
+                        params.row.usershowRightIcon==true&params.row.isclick==false
                           ? "inline-block"
                           : "none"
                   },
                   on: {
                     click: () => {
                       this.delID = params.row.id;
-                      this.delModal = true;
+                      this.userforbiddenModal = true;
+                      this.userforbiddenTypes="startusing"
                     },
                   },
                 }),
@@ -1197,14 +1218,15 @@ export default {
                   },
                   style: {
                       display:
-                        params.row.usershowRightIcon==true
+                        params.row.usershowRightIcon==true&params.row.isclick==false
                           ? "inline-block"
                           : "none"
                   },
                   on: {
                     click: () => {
                       this.delID = params.row.id;
-                      this.delModal = true;
+                      this.userforbiddenModal = true;
+                      this.userforbiddenTypes="notstartusing"
                     },
                   },
                 }),
@@ -1222,7 +1244,7 @@ export default {
       delRoleModal:false,
       roleItemData:{},//暂存的角色一行数据
       roleDistributionList:[],//分配资源的列表
-      submitrolelist:[],//角色提交数据
+      
       roletable: {
         page: 1,
         pagesize: 15,
@@ -1487,102 +1509,6 @@ export default {
           },
         ],
       }, //机构表格
-      standardtable: {
-        page: 1,
-        pagesize: 15,
-        total: 50,
-        columns: [
-          {
-            title: "目录名称",
-            key: "name",
-            align: "center",
-          },
-          {
-            title: "管理员",
-            key: "name1",
-            align: "center",
-          },
-          {
-            title: "快捷名称",
-            key: "name2",
-            align: "center",
-          },
-          {
-            title: " ",
-            align: "right",
-            render: (h, params) => {
-              return h("div", [
-                h("i", {
-                  attrs: {
-                    class: "iconfont icon-edit",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      
-                    },
-                  },
-                }),
-                h("i", {
-                  attrs: {
-                    class: "ivu-icon ivu-icon-ios-remove-circle-outline",
-                  },
-                  style: {
-                    marginRight: "30",
-                  },
-                  on: {
-                    click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
-                    },
-                  },
-                }),
-                h("i", {
-                  attrs: {
-                    class: "ivu-icon ivu-icon-ios-lock-outline",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
-                    },
-                  },
-                }),
-                h("i", {
-                  attrs: {
-                    class: "ivu-icon ivu-icon-ios-reorder",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
-                    },
-                  },
-                }),
-              ]);
-            },
-          },
-        ],
-        data: [
-          {
-            name: "FData",
-            name1: "FData",
-            name2: "FData",
-          },
-          {
-            name: "FData",
-            name1: "FData",
-            name2: "FData",
-          },
-          {
-            name: "FData",
-            name1: "FData",
-            name2: "FData",
-          },
-        ],
-      }, //标准目录表格
 
 
     };
@@ -1601,20 +1527,32 @@ export default {
       // console.log(item,'item')
       this.tabsvalue = item.toString();
     },
+    //重置页面数据
     resettabcut(){
+        //用户
+        this.userTypes='new' //用户的默认弹框类型是新增
+        this.userItemData={} //用户的params的row数据置为空
+        this.userdatatable.page=1 //用户的page为1
 
+        //角色
+        this.roleDistribution_modal=false//分配资源弹框
+        this.roleTypes='new'
+        this.roleEditname=''//角色编辑名称
+        this.roleEdit_modal=false//角色编辑
+        this.delRoleModal=false
+        this.roleItemData={}//暂存的角色一行数据
     },
     //获取标准目录的列表
     getDataTreeList() {
       this.datatreatingnodes = [
-        {
-            id : -1,
-            name : "指标库",
-            source : 'ICE',
-            leaf : false,
-            index : 0,
-            children:[]
-        },
+        // {
+        //     id : -1,
+        //     name : "指标库",
+        //     source : 'ICE',
+        //     leaf : false,
+        //     index : 0,
+        //     children:[]
+        // },
         {
             id : -2,
             name : "数据模型库",
@@ -1630,7 +1568,7 @@ export default {
             leaf : false,
             index : 2,
             children:[]
-        },//新增应用模型库
+        },
         {
             id : -4,
             name : "应用模型库",
@@ -1639,25 +1577,15 @@ export default {
             index : 3,
             children:[]
         },
-        {
-            id : -5,
-            name : "风险评估",
-            source : 'RISK',
-            leaf : false,
-            index : 4,
-            children:[]
-        }
+        // {
+        //     id : -5,
+        //     name : "风险评估",
+        //     source : 'RISK',
+        //     leaf : false,
+        //     index : 4,
+        //     children:[]
+        // }
       ];
-      // if(this.datatreatingnodes.length>0){
-      //     this.datatreatingnodes.forEach((v,i)=>{
-      //         this.getdatatreatingdata(v.source, v.id)
-      //     })
-      // }
-    //   this.getdatatreatingdata("ICE", -1); //获取目录的列表
-    //   this.getdatatreatingdata("DAP", -2); //获取目录的列表
-    //   this.getdatatreatingdata("EXPLORER", -3); //获取目录的列表
-    //   this.getdatatreatingdata("DAPAPP", -4); //获取目录的列表
-    //   this.getdatatreatingdata("RISK", -5); //获取目录的列表
     },
     sortByKey(array, key) {
       return array.sort(function (a, b) {
@@ -1713,6 +1641,7 @@ export default {
           }
         );
     },
+    //目录树点击
     onExpand: function (evt, treeId, treeNode) {
       // 点击事件
       if (treeNode.open) {
@@ -1735,7 +1664,7 @@ export default {
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       console.log(treeNode, "treeNode");
       let nowParentNode = treeNode.getParentNode();
-      console.log(nowParentNode)
+      // console.log(nowParentNode)
       var that = this;
       var query = {
         action: "Service",
@@ -2115,6 +2044,8 @@ export default {
             if(res.length>0){
               res.forEach((v,i)=>{
                 res[i].roleshowRightIcon=false
+                res[i].index=i
+                res[i]._highlight =false
               })
             }
             that.roletable.data = res
@@ -2490,15 +2421,18 @@ export default {
     },
     //角色树点击
     roletreechange(item,data){
-      if(this.submitrolelist){
-        
-      }
       // console.log(this.$refs.roletree.getCheckedNodes())
     },
     //角色选中高亮
     roleCurrentChange(currentRow,oldCurrentRow){
       // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.roleItemData=currentRow
+      this.roletable.data[currentRow.index]._highlight=true
+      this.roletable.data.forEach((v,i)=>{
+        if(currentRow.id!=v.id){
+          this.roletable.data[i]._highlight=false
+        }
+      })
     },
     //角色单行点击
     roleRowClick(row,index){
@@ -2530,6 +2464,8 @@ export default {
               res.data.forEach((v,i)=>{
                 res.data[i].isclick = false
                 res.data[i].usershowRightIcon = false
+                res.data[i]._highlight =false
+                res.data[i].index=i
               })
             }
             that.userdatatable.total = res.count
@@ -2550,11 +2486,18 @@ export default {
     //用户选中高亮
     userCurrentChange(currentRow,oldCurrentRow){
       // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
-      this.roleItemData=currentRow
+      this.userItemData=currentRow
+      this.userdatatable.data[currentRow.index]._highlight=true
+      this.userdatatable.data.forEach((v,i)=>{
+        if(currentRow.id!=v.id){
+          this.userdatatable.data[i]._highlight=false
+        }
+      })
+      
     },
-    //角色单行点击
+    //用户单行点击
     userRowClick(row,index){
-      console.log(row,'row')
+      // console.log(row,'row')
       this.userdatatable.data[index].usershowRightIcon=true
       this.userdatatable.data.forEach((v,i)=>{
         if(row.id!=v.id){
@@ -2562,6 +2505,128 @@ export default {
         }
       })
     },
+    //用户新增
+    userAddData(params){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "add",
+        data: [{"id":0,"code":params.row.code,"name":params.row.name,"stopped":params.row.stopped,"change":params.row.change,"email":params.row.email,"tel":params.row.tel}],
+      };
+      // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
+      
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.GETALLRICHUSADD, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            that.getAllRichUserList()
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    
+    },
+    //用户更新
+    userUndate(params){
+      // console.log(params.row,'params')
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "update",
+        data: [{"id":params.row.id,"code":params.row.code,"name":params.row.name,"stopped":params.row.stopped,"change":params.row.change,"email":params.row.email,"tel":params.row.tel}],
+      };
+      // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
+      
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.GETALLRICHUSUPDATE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            that.getAllRichUserList()
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
+    //用户右侧点击新建
+    userAddUser(){
+      this.userTypes='new'
+      this.userdatatable.data.unshift({
+        change: false,
+        code: "",
+        email: "",
+        errorCount: 0,
+        id: 0,
+        isclick: true,
+        name: "",
+        stopped: false,
+        tel: "",
+        usershowRightIcon: true,
+        roles:[]
+      })
+    },
+    //用户禁用弹框取消
+    canceluserforbiddenmodal(){
+      this.userforbiddenModal=false
+    },
+    //用户禁用弹框授权
+    confirmuserforbidden(){
+      if(this.userforbiddenTypes=='notstartusing'){
+        //禁用
+        this.stopUser(false)
+      }else{
+        //启用
+        this.stopUser(true)
+      }
+    },
+    //用户禁用、启用请求接口
+    stopUser(usertype){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "stopUser",
+        data: [that.userItemData.id,usertype],
+      };
+      // {"action":"Service","method":"stopUser","data":[53,true]}
+      
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.STOPUSER, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            that.userforbiddenModal=false
+            that.getAllRichUserList()
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    
+    
+    },
+    //角色授权打开弹框
+    userauthorization(){
+
+    },
+
 
     //切换算法的分页
     changearithmetictablePage(page) {
@@ -2575,7 +2640,6 @@ export default {
     changesystemtablePage(page) {
       this.systemtable.page = page;
     },
-    
     //切换角色权限的分页
     changeroletablePage(page) {
       this.roletable.page = page;
@@ -2587,10 +2651,6 @@ export default {
     //切换机构的分页
     changeorganizationtablePage(page) {
       this.organizationtable.page = page;
-    },
-    //切换标准目录的分页
-    changestandardtablePage(page) {
-      this.standardtable.page = page;
     },
     // 选择导入
     choseleadingin() {

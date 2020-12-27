@@ -56,18 +56,19 @@ export default {
     ROLESETRESOURCE: '/v3/sys/role/sys.role.direct',
 
     //用户
-    GETALLRICHUSELIST:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',	
+    GETALLRICHUSELIST:'/v3/sys/user/sys.user.direct',	
     // {"action":"Service","method":"getAllRichUser","data":[1,25,false],"type":"rpc","tid":2}
-    GETALLRICHUSADD: 'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    GETALLRICHUSADD: '/v3/sys/user/sys.user.direct',
     // {"action":"Service","method":"add","data":[{"id":0,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":false,"email":"","tel":""}],"type":"rpc","tid":3}
-    GETALLRICHUSUPDATE: 'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    GETALLRICHUSUPDATE: '/v3/sys/user/sys.user.direct',
+    // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
     // update
-    getAllRole:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.role.direct',	
+    getAllRole:'/v3/sys/user/sys.role.direct',	
     // {"action":"Service","method":"getAllRole","data":null,"type":"rpc","tid":5}
-    setUserRoles:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.role.direct',	
+    setUserRoles:'/v3/sys/user/sys.role.direct',	
     // {"action":"Service","method":"setUserRoles","data":[53,[4,7]]}
-    stopUser:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',	
+    stopUser:'/v3/sys/user/sys.user.direct',	
     // {"action":"Service","method":"stopUser","data":[53,true]}
-    stopUser:'http: //192.168.1.236:8081/miner/v3/sys/user/sys.user.direct',
+    STOPUSER:'/v3/sys/user/sys.user.direct',
     // {"action":"Service","method":"stopUser","data":[53,false]}
 }
