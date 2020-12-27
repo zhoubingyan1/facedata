@@ -423,22 +423,19 @@
     </Modal>
     <!-- 用户 授权 -->
     <Modal width="360" :mask-closable="true" v-model="userauthorizationModal" class-name="mr-del-modal">
-      <div>
-        <span @click="openrolepopup">新增</span>
-        <span @click="userdistributionResource">分配</span>
-      </div>
-      <div class="datamodal_content">
-        <!-- <CheckboxGroup v-model="chooseauthrole" @on-change="selectAuth">
-          <div class="mr-check-group" v-for="(itm, idx) in useroleList" :key="idx">
-            <div class="mr-check-title">
-              <Checkbox :label="itm.id">
-                <span @click.prevent="authRowClick(itm)">{{itm.name}}</span>
-                <span @click.prevent="authAddRole(itm)">修改</span>
-                <span @click.prevent="authDeleteRole(itm)">删除</span>
-              </Checkbox>
-            </div>
+      <div class="userauthtree-content">
+        <div class="displayflex">
+          <div class="header-right-button" @click="openrolepopup">
+            <img class="icon" src="../../assets/images/new.png" />
+            <span class="span">新建</span>
           </div>
-        </CheckboxGroup> -->
+          <div class="header-right-button marginright50" @click="userdistributionResource">
+            <img class="icon" src="../../assets/images/resources.png" />
+            <span class="span">分配资源</span>
+          </div>
+        </div>
+      </div>
+      <div class="userauthtreelist_content">
         <Tree ref="userroletree" check-strictly :render="renderContent" :data="useroleList" show-checkbox @on-check-change="userroletreechange" @on-select-change="userRoleSelectChange"></Tree>
       </div>
       <div class="datamodal_footer">
@@ -1170,6 +1167,11 @@ export default {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=false
                       this.userdatatable.data[params.row._index]=this.newuserdatatabledata
+                      if(this.userTypes='new'){
+                        this.userdatatable.data.splice(0, 1)
+                        // this.$refs.rolecurrentRowTable[0].clearCurrentRow()
+                      }
+                      
                     },
                   },
                 },"取消"),
@@ -2751,6 +2753,9 @@ export default {
                     attrs: {
                       class: "iconfont icon-edit",
                     },
+                    style: {
+                      marginRight:'10px'
+                    },
                     on: {
                         click: () => { 
                           // console.log(root, node, data)
@@ -3404,6 +3409,75 @@ export default {
       overflow: auto;
       margin:30px 30px;
       text-align: left;
+      
+    }
+    .userauthtree-content{
+      padding: 30px 20px 0px;
+      .displayflex {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      .header-right-button {
+        flex: 1;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        height: 38px;
+        line-height: 38px;
+        // padding:0px 30px;
+        margin-right: 20px;
+        font-size: 14px !important;
+        color: rgba(0, 0, 0, 0.4);
+        letter-spacing: 0;
+        width: 140px;
+        .icon {
+          width: 18px;
+          height: 17px;
+        }
+        .span {
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: rgba(0, 0, 0, 0.4);
+          letter-spacing: 0;
+          line-height: 14px;
+          padding-left: 10px;
+        }
+        .datasearch_input {
+          height: 38px;
+          line-height: 38px;
+          border: none;
+          background: none;
+          outline: none;
+          margin-left: 10px;
+        }
+        &:hover {
+          color: rgba(0, 0, 0, 0.8);
+          border: 1px solid rgba(0, 0, 0, 0.4);
+          .span {
+            color: rgba(0, 0, 0, 0.8);
+          }
+        }
+      }
+    }
+    .userauthtreelist_content{
+      padding: 30px 0px;
+      height: 500px;
+      overflow: auto;
+      .ivu-tree-title{
+        width: 80%;
+        display: inline-block;
+        margin: 0;
+        padding: 0 4px;
+        border-radius: 3px;
+        cursor: pointer;
+        vertical-align: top;
+        color: #515a6e;
+        transition: all .2s ease-in-out;
+      }
     }
     .datamodal_content {
       padding: 30px 20px;
