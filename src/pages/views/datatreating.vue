@@ -96,7 +96,7 @@
           </Row>
         </div>
         <div v-else-if="item.name=='2'">
-          <iframe
+          <iframe  width="1000px" height="800px"
             src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.store'"
             class="myiframe"
             frameborder="0"
@@ -112,6 +112,7 @@
             ></Table>
           </div>
           <div class="datatreating_fr_page">
+            <span class="pageclass" @click="changeothertablefirstPage">首页</span>
             <div class="facedata-pagination">
               <Page
                 :total="othertable.total"
@@ -120,7 +121,9 @@
                 @on-change="changeothertablePage"
                 :pageSize="othertable.pagesize"
               ></Page>
+              
             </div>
+            <span class="pageclass" @click="changeothertablelastePage">尾页</span>
           </div>
         </div>
       </TabPane>
@@ -319,6 +322,17 @@
         <button class="btn" @click="systemtipsmodalconfirm">确定</button>
       </div>
     </Modal>
+    <!-- 导入检查失败弹窗 -->
+    <Modal v-model="doCheckDatasFail_modal" width="600" class-name="vertical-center-modal">
+      <div class="layer_header" style="cursor: move;">上传日志按钮弹窗</div>
+      <div class="leadingInFail_content">
+        <div class="datamodal_item-logcontent" v-html="doCheckDatasFaillog"></div>
+        
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="downloadFaillog">下载日志文件</button>
+      </div>
+    </Modal>
     <!-- 导入失败弹窗 -->
     <Modal v-model="leadingInFail_modal" width="600" class-name="vertical-center-modal">
       <div class="layer_header" style="cursor: move;">导入失败</div>
@@ -467,6 +481,9 @@ export default {
       datatreatingsheetsave_modal: false, //保存sheet页
       firstsheetsave_modal: false, //配置第一步弹框
       sencdsheetsave_modal: false, //配置第二步弹框
+      doCheckDatasFail_modal:false,//导入检查失败
+      doCheckDatasFaillog:'',//导入检查失败日志
+      docheckResultFileId:'',//导入检查失败的checkResultFileId
       formCustom: {
         hasHeader: "1",
         startCol: "",
@@ -605,6 +622,7 @@ export default {
         page: 1,
         pagesize: 10,
         total: 0,
+        lastpage:1,
         columns: [],
         data: [],
       },
@@ -984,7 +1002,6 @@ export default {
   created() {
     //获取根目录
     this.getdata(0);
-    // this.gettable(17);
   },
   mounted() {},
   methods: {
@@ -1066,6 +1083,12 @@ export default {
         data: [id, page, pagesize],
       };
       let newtabledata = [];
+      let datavbmodaltypelist=[]
+      let datasdmodaltypelist=[]
+      let datascmodaltypelist=[]
+      let datasemodaltypelist=[]
+      let datascdemodaltypelist=[]
+      let datavkpmodaltypelist=[]
       let modaltype = new Object();
 
       // that.table.data = newtabledata.result.data;
@@ -1085,8 +1108,8 @@ export default {
               );
             });
           }
-          //   newtabledata=success.data.result.data
-          console.log(success.data.result.data, "success.data.result.data");
+          // newtabledata=success.data.result.data
+          // console.log(success.data.result.data, "success.data.result.data");
           that.table.data = newtabledata;
           // that.table.total = Number(success.data.result.count);
           // console.log(that.table.total,'that.table.total')
@@ -1099,21 +1122,58 @@ export default {
             //     因子分析datascde入库------综合
             //     因子分析datavkpi入库------rkpi和审核发现
             newtabledata.forEach((v, i) => {
-              if (v.name == "因子分析datavb入库") {
-                modaltype[v.name] = v.param;
-              } else if (v.name == "因子分析datasd入库") {
-                modaltype[v.name] = v.param;
-              } else if (v.name == "因子分析datasc入库") {
-                modaltype[v.name] = v.param;
-              } else if (v.name == "因子分析datase入库") {
-                modaltype[v.name] = v.param;
-              } else if (v.name == "因子分析datascde入库") {
-                modaltype[v.name] = v.param;
-              } else if (v.name == "因子分析datavkpi入库") {
-                modaltype[v.name] = v.param;
+              if (v.name.indexOf("因子分析datavb入库")!= -1) {
+                // modaltype[v.name] = v.param;
+                datavbmodaltypelist.push(v)
+              } else if (v.name.indexOf("因子分析datasd入库") != -1){
+                // modaltype[v.name] = v.param;
+                datasdmodaltypelist.push(v)
+              } else if (v.name.indexOf("因子分析datasc入库") != -1){
+                // modaltype[v.name] = v.param;
+                datascmodaltypelist.push(v)
+              } else if (v.name.indexOf("因子分析datase入库") != -1){
+                // modaltype[v.name] = v.param;
+                datasemodaltypelist.push(v)
+              } else if (v.name.indexOf("因子分析datascde入库") != -1){
+                // modaltype[v.name] = v.param;
+                datascdemodaltypelist.push(v)
+              } else if (v.name.indexOf("因子分析datavkpi入库") != -1){
+                // modaltype[v.name] = v.param;
+                datavkpmodaltypelist.push(v)
               }
             });
+            if(datavbmodaltypelist.length>0){
+              that.sortByKey(datavbmodaltypelist,'createTime')
+              // console.log(datavbmodaltypelist,'datavbmodaltypelist')
+              modaltype[datavbmodaltypelist[0].name]=datavbmodaltypelist[0].param
+            }
+            if(datasdmodaltypelist.length>0){
+              that.sortByKey(datasdmodaltypelist,'createTime')
+              // console.log(datasdmodaltypelist,'datasdmodaltypelist')
+              modaltype[datasdmodaltypelist[0].name]=datasdmodaltypelist[0].param
+            }
+            if(datascmodaltypelist.length>0){
+              that.sortByKey(datascmodaltypelist,'createTime')
+              // console.log(datascmodaltypelist,'datascmodaltypelist')
+              modaltype[datascmodaltypelist[0].name]=datascmodaltypelist[0].param
+            }
+            if(datasemodaltypelist.length>0){
+              that.sortByKey(datasemodaltypelist,'createTime')
+              // console.log(datasemodaltypelist,'datasemodaltypelist')
+              modaltype[datasemodaltypelist[0].name]=datasemodaltypelist[0].param
+            }
+            if(datascdemodaltypelist.length>0){
+              that.sortByKey(datascdemodaltypelist,'createTime')
+              // console.log(datascdemodaltypelist,'datascdemodaltypelist')
+              modaltype[datascdemodaltypelist[0].name]=datascdemodaltypelist[0].param
+            }
+            if(datavkpmodaltypelist.length>0){
+              that.sortByKey(datavkpmodaltypelist,'createTime')
+              // console.log(datavkpmodaltypelist,'datavkpmodaltypelist')
+              modaltype[datavkpmodaltypelist[0].name]=datavkpmodaltypelist[0].param
+            }
 
+            // console.log(modaltype,'modaltype')
             localStorage.setItem("modaltype", JSON.stringify(modaltype));
           }
         },
@@ -1123,6 +1183,14 @@ export default {
           that.errorTips_modal = true;
         }
       );
+    },
+    //数组对象方法排序:升序
+    sortByKey(array, key) {
+      return array.sort(function (a, b) {
+        var value1 = a[key];
+        var value2 = b[key];
+        return value1 - value2;
+      });
     },
     onExpand: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1201,6 +1269,16 @@ export default {
     //tab上的分页切换
     changeothertablePage(page) {
       this.othertable.page = page;
+      this.getTableData(this.othertable.columns, this.othertablelistdata.param);
+    },
+    //切换首页
+    changeothertablefirstPage(){
+      this.othertable.page = 1;
+      this.getTableData(this.othertable.columns, this.othertablelistdata.param);
+    },
+    //切换尾页
+    changeothertablelastePage(){
+      this.othertable.page = this.othertable.lastpage
       this.getTableData(this.othertable.columns, this.othertablelistdata.param);
     },
     // 选择导入
@@ -1300,6 +1378,7 @@ export default {
     },
     //导入sheet项
     sheetsavebutton() {
+      console.log(this.leadinUploadingsheets,'leadinUploadingsheets')
       if (!this.isClickSheets) {
         this.$Message.error({
           content: "请选择sheet",
@@ -1493,11 +1572,61 @@ export default {
     },
     //配置第二步确认
     secondlendinginsave() {
-      // this.firstsheetsave_modal=true
-      this.systemtips_modal = true;
-      this.sencdsheetsave_modal = false; //配置第一步弹框消失
       var that = this;
       console.log(that.leadinUploadingid,that.currentfetchData)
+      that.currentfetchData.fileColumns=that.sheetseetingtable1.data
+      
+      var query = {
+        action: "Service",
+        method: "doCheckDatas",
+        data: [that.leadinUploadingid,that.currentfetchData],
+      };
+      that.$http
+        .post(that.PATH.DOCHECKDATTAS, JSON.stringify(query))
+        .then(
+          (success) => {
+            // console.log(success.data.result,'doCheckDatas');
+            let res=success.data.result
+            if(res.length>0){
+              if(res[0].checkResultFileId>0){
+                that.docheckResultFileId = res[0].checkResultFileId
+                that.doCheckDatasFaillog = res[0].checkResult
+                that.doCheckDatasFail_modal=true
+                that.sencdsheetsave_modal=false
+              }else{
+                that.secondlendinginsavedoCheckDatas()
+              }
+            }
+            // that.doImportresult=res
+          },
+          (error) => {
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+        // that.ReupdateRemark()
+    
+    },
+    //下载日志文件
+    downloadFaillog(){
+       let that = this;
+       let fileName=Base64.encode(encodeURI('导入日志')).replace(/\+/g,"%2B")
+      let url =
+        "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?fileId="+that.docheckResultFileId +"&fileName=" +
+        fileName+'.csv';
+      let a = document.createElement("a");
+      a.id = "temp";
+      document.body.appendChild(a);
+      a.addEventListener("click", function () {
+        window.open(encodeURI(url), "_blank");
+      });
+      a.click();
+      document.body.removeChild(a);
+    },
+    //配置第二步确认接口返回正确的
+    secondlendinginsavedoCheckDatas(){
+      var that = this;
+      // console.log(that.leadinUploadingid,that.currentfetchData)
       that.currentfetchData.fileColumns=that.sheetseetingtable1.data
       var query = {
         action: "Service",
@@ -1510,7 +1639,16 @@ export default {
           (success) => {
             console.log(success.data);
             let res=success.data.result
-            that.doImportresult=res
+            if(success.data.state=='1'){
+              that.$Message.error({
+                content: success.data.result,
+                duration: 1,
+              });
+            }else if(success.data.state=='0'){
+              that.doImportresult=res
+              that.systemtips_modal = true;
+              that.sencdsheetsave_modal = false; //配置第一步弹框消失
+            }
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1518,6 +1656,7 @@ export default {
           }
         );
         // that.ReupdateRemark()
+    
     },
     //系统提示确定
     systemtipsmodalconfirm(){
@@ -1538,7 +1677,7 @@ export default {
         .post(that.PATH.LEADINIMPORTLOG, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
+            // console.log(success.data);
             let res=success.data.result
             that.systemtips_modal=false
           },
@@ -1690,6 +1829,7 @@ export default {
 
         this.currentfetchData.sheetIndexes=[treeNode.index]
       }else{
+        this.isClickSheets = false;
         this.$Message.error({
           content: "当前不能选择，请选择其他sheet",
           duration: 1,
@@ -1946,7 +2086,7 @@ export default {
         } else {
           this.tabIndex = tabIndex + 1;
         }
-        console.log(params, "addTabparams");
+        // console.log(params, "addTabparams");
         this.TabList.push({
           name: this.tabIndex,
           label: params.name,
@@ -2077,6 +2217,8 @@ export default {
           //周
           console.log(res);
           that.othertable.total = res;
+          that.othertable.lastpage =that.pageTotal(res,that.othertable.pagesize)
+          console.log(that.othertable.lastpage,'that.othertable.lastpage')
         },
         (error) => {
           that.$Spin.hide();
@@ -2527,6 +2669,22 @@ export default {
   .datatreating_fr_page {
     margin-top: 30px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    // height: 40px;
+    justify-content:center;
+    .pageclass{
+      cursor: pointer;
+      margin:10px 10px 50px 10px;
+      // 0.1rem 0.1rem 0.5rem 0.1rem;
+      background: rgba(0, 0, 0, 0.10);
+      border-radius: 0.02rem;
+      padding:0px 4px;
+      font-size: 12px;
+    }
+    .pageclass:hover{
+      color: #2d8cf0;
+    }
   }
 }
 .ivu-modal {
@@ -2688,6 +2846,14 @@ export default {
         color: rgba(0, 0, 0, 0.8);
         letter-spacing: 0;
         line-height: 16px;
+      }
+      .datamodal_item-logcontent{
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.8);
+        letter-spacing: 0;
+        line-height: 30px;
+        text-align: left;
       }
       .datamodal_item_textarea {
         margin-top: 20px;

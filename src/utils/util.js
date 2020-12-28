@@ -255,3 +255,19 @@ export function formatTime(value) {
     let s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60))
     return `${m}:${s}`
 }
+
+//"总条数"：rowCount，"每页总条数"：pageSize
+export function pageTotal(rowCount, pageSize) {
+    if (rowCount == null || rowCount == "") {
+        return 0;
+    } else {
+        if (pageSize != 0 && rowCount % pageSize == 0) {
+            return parseInt(rowCount / pageSize)
+        }
+
+        if (pageSize != 0 && rowCount % pageSize != 0) {
+            return parseInt(rowCount / pageSize) + 1;
+        }
+        
+    }
+}

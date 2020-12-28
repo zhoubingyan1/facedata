@@ -31,7 +31,8 @@ import {
   copyContent,
   getFormatDate,
   getenumlistContent,
-  formatTime
+  formatTime,
+  pageTotal
 } from '@/utils/util'
 
 import Vuetify from 'vuetify'
@@ -46,6 +47,7 @@ Vue.prototype.copyContent = copyContent
 Vue.prototype.getFormatDate = getFormatDate
 Vue.prototype.getenumlistContent = getenumlistContent
 Vue.prototype.formatTime = formatTime
+Vue.prototype.pageTotal = pageTotal
 
 Vue.use(ViewUI);
 

@@ -39,7 +39,9 @@ html {
   text-align: center;
  }
   .facedata-pagination .ivu-page {
-    height: 40px; }
+    height: 40px; 
+    line-height: 40px;
+  }
     .facedata-pagination .ivu-page-item {
       height: 40px;
     }

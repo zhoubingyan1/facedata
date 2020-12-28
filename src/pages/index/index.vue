@@ -69,7 +69,7 @@
       <Col span="8">
         <div class="rkpi_index_content height465">
           <div class="rkpi_index_content_title">
-            <span class="title">RKPI和审核发现</span>
+            <span class="title">审计综合得分</span>
             <!-- <span class="title_mini">RKPI and Audit Findings</span> -->
           </div>
           <div class="heightoverflow">
@@ -886,17 +886,17 @@ export default {
         for (const i in newmodaltype) {
           // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
-            if (i == "因子分析datavb入库") {
+            if (i.indexOf("因子分析datavb入库") != -1){
               this.getData(newmodaltype[i],'indexdata');
-            } else if (i == "因子分析datasd入库") {
+            } else if (i.indexOf("因子分析datasd入库") != -1){
               this.getData(newmodaltype[i],'indexdata1');
-            } else if (i == "因子分析datasc入库") {
+            } else if (i.indexOf("因子分析datasc入库") != -1){
               this.getData(newmodaltype[i],'indexdata2');
-            } else if (i == "因子分析datase入库") {
+            } else if (i.indexOf("因子分析datase入库") != -1){
               this.getData(newmodaltype[i],'indexdata3');
-            } else if (i == "因子分析datascde入库") {
+            } else if (i.indexOf("因子分析datascde入库") != -1){
               this.getData(newmodaltype[i],'indexdata4');
-            } else if (i == "因子分析datavkpi入库") {
+            } else if (i.indexOf("因子分析datavkpi入库") != -1){
               this.getData(newmodaltype[i],'indexdata5');
             }
           }
@@ -936,7 +936,10 @@ export default {
           // console.log(success);
           if(success.data.result){
             var res = success.data.result;
-            that.getData2(res, id,datatype);
+            if(res.length>0){
+              that.getData2(res, id,datatype);
+            }
+            
           }
           
         },

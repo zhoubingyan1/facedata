@@ -12,19 +12,18 @@ export default {
     DoAutoImport: '/sys/explorer/dfi.excel.direct', //导入
     GoIfarme: '/v3/dap/store/index.html', //dapstore
 
-
+    //数据处理
     GETCURUSERMARTS: '/sys.login.direct',
     GETCURUSERUNITS: '/sys.login.direct',
     GETCOLUMS: '/v3/qry/common/base.entity.direct',
     PAGEQUERYNOCOUNT: '/v3/qry/common/qry.common.direct',
-
     getExplorerChildren: '/v3/sys/explorer/sys.catalog.direct',
     getByCatalog: '/v3/sys/explorer/explorer.direct',
-
     DATATREATINGDELETE: '/v3/sys/explorer/sys.explorer.direct',
-
     getByCatalog: '/v3/sys/explorer/sys.explorer.direct',
     GETTEMPLATEFIES:'v3/sys/explorer/dfi.excel.direct',
+    DOCHECKDATTAS:'/v3/sys/explorer/dfi.excel.direct',
+
 
     GETCHILDRENBYSOURCELIST: '/v3/sys/catalog/sys.catalog.direct', //标准目录 获取列表
     GETCHILDRENBYSOURCEADD: '/v3/sys/catalog/sys.catalog.direct', //标准目录 增加

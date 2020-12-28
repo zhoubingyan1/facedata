@@ -241,6 +241,7 @@
             </div>
           </div>
           <div class="datatreating_fr_page">
+            <span class="pageclass" @click="changeuserdatatablefirstPage">首页</span>
             <div class="facedata-pagination">
               <Page
                 :total="userdatatable.total"
@@ -250,6 +251,7 @@
                 :pageSize="userdatatable.pagesize"
               ></Page>
             </div>
+            <span class="pageclass" @click="changeuserdatatablelastPage">尾页</span>
           </div>
         </div>
         <!-- 角色权限 -->
@@ -928,6 +930,7 @@ export default {
       },//暂存的用户列表
       userdatatable: {
         page: 1,
+        lastpage:1,
         pagesize: 15,
         total: 50,
         columns: [
@@ -2594,6 +2597,7 @@ export default {
               })
             }
             that.userdatatable.total = res.count
+            that.userdatatable.lastpage = that.pageTotal(res.count,that.userdatatable.pagesize)
             that.userdatatable.data=res.data
           },
           (error) => {
@@ -2606,6 +2610,16 @@ export default {
     //切换用户列表的分页
     changeuserdatatablePage(page) {
       this.userdatatable.page = page;
+      this.getAllRichUserList()
+    },
+    //切换用户第一页
+    changeuserdatatablefirstPage(){
+      this.userdatatable.page = 1;
+      this.getAllRichUserList()
+    },
+    //切换用户最后一页
+    changeuserdatatablelastPage(){
+      this.userdatatable.page = this.userdatatable.lastpage
       this.getAllRichUserList()
     },
     //用户选中高亮
@@ -3376,6 +3390,23 @@ word-wrap:break-word;
   }
   .datatreating_fr_page {
     margin-top: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    // height: 40px;
+    justify-content:center;
+    .pageclass{
+      cursor: pointer;
+      margin:10px 10px 50px 10px;
+      // 0.1rem 0.1rem 0.5rem 0.1rem;
+      background: rgba(0, 0, 0, 0.10);
+      border-radius: 0.02rem;
+      padding:0px 4px;
+      font-size: 12px;
+    }
+    .pageclass:hover{
+      color: #2d8cf0;
+    }
   }
   .setmanagetree-tit {
     padding: 50px 0px 0px 110px;
