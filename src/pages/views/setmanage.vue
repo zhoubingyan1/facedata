@@ -1192,6 +1192,9 @@ export default {
                   on: {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=false
+                      if (Object.keys(this.newuserdatatabledata).length > 0) {
+
+                      }
                       // this.userdatatable.data[params.row._index]=this.newuserdatatabledata
                       if(this.userTypes='new'){
                         // this.userdatatable.data.splice(0, 1)
