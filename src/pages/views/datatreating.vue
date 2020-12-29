@@ -1610,7 +1610,7 @@ export default {
     //下载日志文件
     downloadFaillog(){
        let that = this;
-       let fileName=Base64.encode('导入日志').replace(/\+/g,"%2B")
+            let fileName=encodeURI('导入日志');
       // let url =
       //   "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?fileId="+that.docheckResultFileId +"&fileName=" +
       //   fileName+'.csv';
