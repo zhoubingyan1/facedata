@@ -253,7 +253,7 @@ export default {
       that.$Spin.show()
       that.$http.post(that.PATH.LOGIN, JSON.stringify(query)).then(
         (success) => {
-          console.log(success.data);
+          // console.log(success.data);
           that.$Spin.hide()
           var res = success.data;
           if (res.result != null) {

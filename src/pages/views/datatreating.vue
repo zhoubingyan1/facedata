@@ -96,7 +96,7 @@
           </Row>
         </div>
         <div v-else-if="item.name=='2'">
-          <div style="width:1000px;height:600px;overflow:auto;margin:0 auto;">
+          <div class="iframe-content">
           <iframe 
             src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.store'"
             class="myiframe"
@@ -683,10 +683,9 @@ export default {
                       },
                       on: {
                           'on-blur': (event) => {
-                              console.log(event,'event')
                               this.sheetseetingtable1.data[params.row._index].name = event.target.value
                                this.sheetseetingtable1.data[params.row._index].isclickname=false
-                              //  this.currentfetchData.fileColumns[params.row._index]=this.sheetseetingtable1.data
+                             
                           }
                       }
                   }),
@@ -786,11 +785,10 @@ export default {
                           },
                           on: {
                               'on-change': (event) => {
-                                console.log(event,"onchange");
                                
                                   that.sheetseetingtable1.data[params.row._index].type = event;//datalist为table中的数据集
                                   that.sheetseetingtable1.data[params.row._index].isclicktype=false
-                                //  that.currentfetchData.fileColumns[params.row._index]=that.sheetseetingtable1.data
+                                
                               }
                           },
                       },
@@ -1020,7 +1018,6 @@ export default {
         .post(that.PATH.getExplorerChildren, JSON.stringify(query))
         .then(
           (success) => {
-            // console.log(success.data.result);
             newResult = success.data.result;
             // newResult=[]
             if (newResult.length > 0) {
@@ -1036,7 +1033,6 @@ export default {
               });
             }
             this.nodes = newResult;
-            // console.log(this.nodes,'this.nodes')
           },
           (error) => {
             that.err_list = ["登录异常", "请联系管理员"];
@@ -1054,7 +1050,6 @@ export default {
       let newResult = new Array();
       that.$http.post(that.PATH.DATATREATINGDELETE, JSON.stringify(query)).then(
         (success) => {
-          // console.log(success.data);
           that.delModal = false;
           that.$Message.success({
             content: "删除成功",
@@ -1098,8 +1093,7 @@ export default {
       that.$Spin.show();
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
-          // console.log(success.data.result);
-          //   createTime
+          
           that.$Spin.hide();
           newtabledata = success.data.result.data;
           if (newtabledata.length > 0) {
@@ -1111,10 +1105,8 @@ export default {
             });
           }
           // newtabledata=success.data.result.data
-          // console.log(success.data.result.data, "success.data.result.data");
           that.table.data = newtabledata;
           // that.table.total = Number(success.data.result.count);
-          // console.log(that.table.total,'that.table.total')
           //储存localstore
           if (newtabledata.length > 0) {
             //   因子分析datavb入库------RKPI综合得分
@@ -1146,36 +1138,29 @@ export default {
             });
             if(datavbmodaltypelist.length>0){
               that.sortByKey(datavbmodaltypelist,'createTime')
-              // console.log(datavbmodaltypelist,'datavbmodaltypelist')
               modaltype[datavbmodaltypelist[0].name]=datavbmodaltypelist[0].param
             }
             if(datasdmodaltypelist.length>0){
               that.sortByKey(datasdmodaltypelist,'createTime')
-              // console.log(datasdmodaltypelist,'datasdmodaltypelist')
               modaltype[datasdmodaltypelist[0].name]=datasdmodaltypelist[0].param
             }
             if(datascmodaltypelist.length>0){
               that.sortByKey(datascmodaltypelist,'createTime')
-              // console.log(datascmodaltypelist,'datascmodaltypelist')
               modaltype[datascmodaltypelist[0].name]=datascmodaltypelist[0].param
             }
             if(datasemodaltypelist.length>0){
               that.sortByKey(datasemodaltypelist,'createTime')
-              // console.log(datasemodaltypelist,'datasemodaltypelist')
               modaltype[datasemodaltypelist[0].name]=datasemodaltypelist[0].param
             }
             if(datascdemodaltypelist.length>0){
               that.sortByKey(datascdemodaltypelist,'createTime')
-              // console.log(datascdemodaltypelist,'datascdemodaltypelist')
               modaltype[datascdemodaltypelist[0].name]=datascdemodaltypelist[0].param
             }
             if(datavkpmodaltypelist.length>0){
               that.sortByKey(datavkpmodaltypelist,'createTime')
-              // console.log(datavkpmodaltypelist,'datavkpmodaltypelist')
               modaltype[datavkpmodaltypelist[0].name]=datavkpmodaltypelist[0].param
             }
 
-            // console.log(modaltype,'modaltype')
             localStorage.setItem("modaltype", JSON.stringify(modaltype));
           }
         },
@@ -1208,7 +1193,6 @@ export default {
     },
     treeClick: function (evt, treeId, treeNode) {
       // 点击事件
-      // console.log(treeNode.open,'onClick');
       this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       const childNodes = this.ztreeObj.transformToArray(treeNode); //获取子节点集合
@@ -1233,7 +1217,6 @@ export default {
             .post(that.PATH.getExplorerChildren, JSON.stringify(query))
             .then(
               (success) => {
-                // console.log(success.data.result);
                 const childrenData = eval(success.data.result);
                 //判断子节点是否包含子元素
                 // for(var i in childrenData){
@@ -1251,7 +1234,6 @@ export default {
                     childrenData[i].isParent = false;
                   }
                 });
-                // console.log(childrenData)
                 this.ztreeObj.refresh();
                 this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
               },
@@ -1304,7 +1286,6 @@ export default {
             },
           })
           .then((success) => {
-            // console.log(success, "success");
             let res = success.data;
             that.leadinUploadingid = res.fileId;
             that.leadinUploadingname = res.currentFileName;
@@ -1333,14 +1314,12 @@ export default {
     },
     //上传excel
     UploadMore(e) {
-      // console.log(e)
       let files = e.target.files || e.dataTransfer.files;
       var editorupload = document.getElementById("resource"); //根据id选择器选中对象
       editorupload.type = "text";
       this.unloadFile = files;
       this.choosename = files[0].name;
       editorupload.type = "file";
-      // console.log(typeof files,this.unloadFile )
     },
     getLeadInLIST(fileId) {
       var that = this;
@@ -1354,7 +1333,6 @@ export default {
         .post(that.PATH.EXPLORERGETEXCELINFO, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data.result);
             let res = success.data.result;
             // {"fileName":"附件1-经营&资产质量类指标.xlsx","sheets":[{"index":1,"name":"Sheet1"}],"type":"XLSX"}
             res.open = true;
@@ -1363,9 +1341,7 @@ export default {
             that.leadinUploadingsheets = res.sheets; //上传文件后的文件sheets
             newResult.push(res);
             that.nodes3 = newResult;
-            console.log(newResult, "newResult");
             // this.nodes = newResult;
-            // console.log(this.nodes,'this.nodes')
             that.currentfetchData.fileName=res.fileName
             that.currentfetchData.fileInfo.fileName = res.fileName
             that.currentfetchData.fileInfo.sheets = res.sheets
@@ -1380,7 +1356,6 @@ export default {
     },
     //导入sheet项
     sheetsavebutton() {
-      console.log(this.leadinUploadingsheets,'leadinUploadingsheets')
       if (!this.isClickSheets) {
         this.$Message.error({
           content: "请选择sheet",
@@ -1425,7 +1400,6 @@ export default {
         .post(that.PATH.EXPLORERGETCHILDRENBYSOURCELIST, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data.result);
             let res = success.data.result;
 
             if (res.length > 0) {
@@ -1449,7 +1423,6 @@ export default {
         );
     },
     clickRow(row,index){
-      console.log(row,'rowrow')
       this.sheetsavesearchtit=row.name
     },
     //sheet保存
@@ -1475,7 +1448,6 @@ export default {
           .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
           .then(
             (success) => {
-              console.log(success.data);
 
               
             },
@@ -1505,7 +1477,6 @@ export default {
         .post(that.PATH.EXPLORERisNameExit, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
 
             
           },
@@ -1528,7 +1499,6 @@ export default {
         .post(that.PATH.EXPLORERGETDEFAULTemplet, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
             let res=success.data.result
             if(res.hasHeader==true){
               that.formCustom.hasHeader ="1"
@@ -1575,7 +1545,6 @@ export default {
     //配置第二步确认
     secondlendinginsave() {
       var that = this;
-      console.log(that.leadinUploadingid,that.currentfetchData)
       that.currentfetchData.fileColumns=that.sheetseetingtable1.data
       
       var query = {
@@ -1587,7 +1556,6 @@ export default {
         .post(that.PATH.DOCHECKDATTAS, JSON.stringify(query))
         .then(
           (success) => {
-            // console.log(success.data.result,'doCheckDatas');
             let res=success.data.result
             if(res.length>0){
               if(res[0].checkResultFileId>0){
@@ -1623,7 +1591,6 @@ export default {
       let a = document.createElement("a");
       a.id = "temp";
       document.body.appendChild(a);
-      console.log(url,'url')
       a.addEventListener("click", function () {
         window.open(url, '',"");
         // encodeURI(
@@ -1634,7 +1601,6 @@ export default {
     //配置第二步确认接口返回正确的
     secondlendinginsavedoCheckDatas(){
       var that = this;
-      // console.log(that.leadinUploadingid,that.currentfetchData)
       that.currentfetchData.fileColumns=that.sheetseetingtable1.data
       var query = {
         action: "Service",
@@ -1645,7 +1611,6 @@ export default {
         .post(that.PATH.EXPLORERDOAUTOIMPORT, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
             let res=success.data.result
             if(success.data.state=='1'){
               that.$Message.error({
@@ -1685,7 +1650,6 @@ export default {
         .post(that.PATH.LEADINIMPORTLOG, JSON.stringify(query))
         .then(
           (success) => {
-            // console.log(success.data);
             let res=success.data.result
             that.systemtips_modal=false
           },
@@ -1803,7 +1767,6 @@ export default {
       let newResult = new Array();
       that.$http.post(that.PATH.GETTEMPLATEFIES, JSON.stringify(query)).then(
         (success) => {
-          console.log(success.data);
           var res = success.data.result;
           if (res.length > 0) {
             that.DownloadtemplateList = success.data.result;
@@ -1844,7 +1807,6 @@ export default {
         });
       }
       
-      // console.log(treeNode)
     },
     onExpand4: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1860,7 +1822,6 @@ export default {
     },
     SheetSavetreeClick: function (evt, treeId, treeNode) {
       // 点击事件
-      // console.log(treeNode.open,'onClick');
       // this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj4.getNodeByParam(
         "id",
@@ -1890,7 +1851,6 @@ export default {
             .post(that.PATH.EXPLORERGETCHILDRENBYSOURCE, JSON.stringify(query))
             .then(
               (success) => {
-                // console.log(success.data.result);
                 const childrenData = eval(success.data.result);
                 //判断子节点是否包含子元素
                 // for(var i in childrenData){
@@ -1909,7 +1869,6 @@ export default {
                   }
                 });
                 // ztreeObj4
-                // console.log(childrenData)
                 this.ztreeObj4.refresh();
                 this.ztreeObj4.addNodes(parentZNode, childrenData, false); //添加节点
               },
@@ -1937,7 +1896,6 @@ export default {
         .post(that.PATH.EXPLORERSEARCHNoPage, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
             //   createTime
             that.$Spin.hide();
             let res = success.data.result;
@@ -1946,7 +1904,6 @@ export default {
                 res[i].createTime = that.getNweDate(v.createTime, "year");
               });
             }
-            // console.log(success.data.result.data, "success.data.result.data");
             // that.table.data = newtabledata;
             that.sheettable.data = res;
           },
@@ -1987,16 +1944,13 @@ export default {
         .post(that.PATH.EXPLORERFETCHDATA, JSON.stringify(query))
         .then(
           (success) => {
-            console.log(success.data);
             that.$Spin.hide();
             let res = success.data.result;
             let newkey = []
             if(res.length>0){
               for(let key in res[0]){
-                  // console.log(key);
                   newkey.push(key)
               }
-              // console.log(newkey,'newkey')
 
             }
             for(let i=0;i<newkey.length;i++){
@@ -2025,7 +1979,6 @@ export default {
       ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
     },
     handleCreatedLeadinSheet: function (newztreeObj) {
-      // console.log(newztreeObj, "newztreeObj");
       let that = this;
       that.ztreeUploadingObj = newztreeObj;
       // onCreated 中操作ztreeObj对象展开第一个节点
@@ -2038,7 +1991,6 @@ export default {
       that.ztreeObj4.expandNode(that.ztreeObj.getNodes()[0], false);
     },
     tabclick(item) {
-      console.log(item, "item");
       // this.tabsvalue = item.toString();
       if (item.name == 1) {
         this.tabsvalue = item.name.toString();
@@ -2047,7 +1999,6 @@ export default {
       } else {
         this.othertable.page = 1;
         this.tabsvalue = item.name.toString();
-        console.log(item.paramId, "item.paramId");
         this.getnewDataTableCol(item.paramId);
       }
     },
@@ -2077,13 +2028,13 @@ export default {
     },
     //增加tab
     addTab(params) {
-      // console.log(params,'addTab')
+
       let oneTabitem = new Array();
       let tabIndex = this.tabIndex;
       oneTabitem = this.TabList.filter(function (item) {
         return item.label == params.name;
       });
-      // console.log(oneTabitem,'oneTabitem')
+
       this.othertable.page = 1;
       if (oneTabitem.length > 0) {
         this.tabsvalue = oneTabitem[0].index.toString();
@@ -2094,7 +2045,6 @@ export default {
         } else {
           this.tabIndex = tabIndex + 1;
         }
-        // console.log(params, "addTabparams");
         this.TabList.push({
           name: this.tabIndex,
           label: params.name,
@@ -2106,8 +2056,6 @@ export default {
         this.tabsvalue = this.tabIndex.toString();
       }
       this.othertablelistdata = params;
-      console.log(this.TabList, "(this.TabList,");
-      // this.isTip = false;
     },
     getnewDataTableCol(id) {
       var that = this;
@@ -2124,7 +2072,6 @@ export default {
         (success) => {
           that.$Spin.hide();
           var res = success.data.result;
-          console.log(success.data, "gettablecolumes");
           that.othertable.columns = [];
           that.othertable.data = [];
           if (res.length > 0) {
@@ -2184,7 +2131,6 @@ export default {
           if (success.data.state == "0") {
             var res = success.data.result;
             //周
-            console.log(res, "getTableData列数据");
             that.othertable.data = res;
           }
         },
@@ -2223,10 +2169,8 @@ export default {
           that.$Spin.hide();
           var res = success.data.result;
           //周
-          console.log(res);
           that.othertable.total = res;
           that.othertable.lastpage =that.pageTotal(res,that.othertable.pagesize)
-          console.log(that.othertable.lastpage,'that.othertable.lastpage')
         },
         (error) => {
           that.$Spin.hide();
@@ -2237,10 +2181,8 @@ export default {
     },
     //关闭tab的x
     closeicon(index) {
-      // console.log(item)
       this.TabList.splice(index, 1);
       if (this.TabList.length > 0) {
-        // console.log(this.TabList[this.TabList.length-1].name.toString(),'1234')
         let newname = this.TabList[this.TabList.length - 1].name;
         this.tabsvalue = newname.toString();
       }
@@ -2995,8 +2937,18 @@ export default {
     }
   }
 }
-.myiframe {
-  width: 100%;
-  height: 900px;
+.iframe-content{
+  min-width: 800Px;
+  width:1000px;
+  height:800px;
+  overflow:hidden;
+  margin:0 auto;
+  .myiframe {
+     min-width: 800Px;
+      width:1000px;
+    height: 900px;
+    overflow:auto;
+    margin:0 auto;
+  }
 }
 </style>

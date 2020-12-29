@@ -111,7 +111,7 @@ export default {
       );
     },
     hello($event) {
-      console.log(`hello index: ${$event}`);
+      // console.log(`hello index: ${$event}`);
     },
     goto(id) {
       var that = this;

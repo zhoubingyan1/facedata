@@ -1192,7 +1192,6 @@ export default {
                   on: {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=false
-                      console.log(Object.keys(this.newuserdatatabledata).length,'Object.keys(this.newuserdatatabledata).length')
                       if (Object.keys(this.newuserdatatabledata).length == 0) {
                         this.userdatatable.data.splice(0, 1)
                       }
@@ -1627,7 +1626,6 @@ export default {
   methods: {
     //最上面的tab切换
     tabclick(item) {
-      // console.log(item,'item')
       this.tabsvalue = item.toString();
     },
     //重置页面数据
@@ -1710,7 +1708,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            // console.log(success.data);
             let newResult = success.data.result;
             if (newResult.length > 0) {
               newResult.forEach((v, i) => {
@@ -1735,7 +1732,6 @@ export default {
             }
             that.sortByKey(that.datatreatingnodes, "id");
             // that.datatreatingnodes.push(newResult)
-            // console.log(that.datatreatingnodes)
           },
           (error) => {
             that.$Spin.hide();
@@ -1762,12 +1758,9 @@ export default {
 
     treeClick: function (treeId, treeNode) {
       // 点击事件
-      // console.log(treeNode.open,'onClick');
       this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-      console.log(treeNode, "treeNode");
       let nowParentNode = treeNode.getParentNode();
-      // console.log(nowParentNode)
       var that = this;
       var query = {
         action: "Service",
@@ -1784,7 +1777,6 @@ export default {
             .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
             .then(
               (success) => {
-                // console.log(success.data.result);
                 const childrenData = eval(success.data.result);
                 if(!nowParentNode){
                   childrenData.forEach((v, i) => {
@@ -1808,7 +1800,6 @@ export default {
                   }
                 });
                 
-                // console.log(childrenData)
                 this.ztreeObj.refresh();
                 this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
               },
@@ -1823,9 +1814,7 @@ export default {
     //刷新当前选择节点的父节点
     refreshParentNode(treeNode) {
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-      // console.log(parentZNode,'parentZNode')
       let parentNode = treeNode.getParentNode();
-      // console.log(treeNode.getParentNode(),'treeNode')
       var that = this;
       if (parentNode) {
         var query = {
@@ -1841,7 +1830,6 @@ export default {
               .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
               .then(
                 (success) => {
-                  // console.log(success.data.result);
                   const childrenData = eval(success.data.result);
                   //判断子节点是否包含子元素
                   childrenData.forEach((v, i) => {
@@ -1858,7 +1846,6 @@ export default {
                     // }
                   });
                   
-                  // console.log(childrenData)
                   that.ztreeObj.refresh();
                   that.ztreeObj.addNodes(parentNode, childrenData, false); //添加节点
                 },
@@ -1950,7 +1937,6 @@ export default {
     },
     refreshcurrentNode: function (treeId, treeNode) {
       // 点击事件
-      // console.log(treeNode.open,'onClick');
       this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       var that = this;
@@ -1964,7 +1950,6 @@ export default {
         .post(that.PATH.GETCHILDRENBYSOURCELIST, JSON.stringify(query))
         .then(
           (success) => {
-            // console.log(success.data.result);
             const childrenData = eval(success.data.result);
             //判断子节点是否包含子元素
             childrenData.forEach((v, i) => {
@@ -1980,7 +1965,6 @@ export default {
               //     childrenData[i].isParent = false;
               // }
             });
-            // console.log(childrenData)
             this.ztreeObj.refresh();
             this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
             this.nodeitem=null
@@ -2062,10 +2046,8 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            // console.log(success.data);
             // that.getdatatreatingdata()
             that.datatreatingEdit_modal = false;
-            console.log(that.nodeitem)
             
             that.refreshcurrentNode("", that.nodeitem);
           },
@@ -2089,7 +2071,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             that.datatreatingEdit_modal = false;
             // that.getdatatreatingdata()
             that.refreshParentNode(that.nodeitem);
@@ -2116,7 +2097,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             // that.getdatatreatingdata()
             that.delModal = false;
             that.refreshParentNode(that.nodeitem);
@@ -2192,7 +2172,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            // console.log(success.data);
             // that.getdatatreatingdata()
             let res =success.data.data
             if(success.data.state=='0'){
@@ -2234,7 +2213,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             // that.getdatatreatingdata()
             let res =success.data.data
             if(success.data.state=='0'){
@@ -2271,7 +2249,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             // that.getdatatreatingdata()
             let res =success.data.result
             if(res){
@@ -2302,7 +2279,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             // that.getdatatreatingdata()
             let res =success.data.data
             if(success.data.state==0){
@@ -2378,16 +2354,13 @@ export default {
                   newResouceList.push(node);
                 }
               });
-              // console.log(newResouceList, "newResouceList1");
               for (var i = 0; i < res.length; i++) {
                 var n_index = newResouceList.findIndex((n) => {
                   return n.module == res[i].module;
                 });
-                // console.log(n_index, "n_index");
                 if (n_index < 0) {
                   continue;
                 }
-                // console.log(n_index);
                 if (newResouceList[n_index].children) {
                   if(res[i].id!=='00'){
                     var nodes = {};
@@ -2400,7 +2373,6 @@ export default {
                 }
               }
             }
-            // console.log(newResouceList, "newResouceList2");
             that.roleDistributionList = newResouceList;
             that.distributionResourceData(that.roleItemData.id)
           },
@@ -2427,7 +2399,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            // console.log(success.data.result);
             let res =success.data.result
             let roledatalist=new Array()
             let newroleDistributionList=that.roleDistributionList
@@ -2441,14 +2412,12 @@ export default {
                 roledatalist.push(nodes)
               })
               
-              // console.log(roledatalist,'roledatalist')
               if (newroleDistributionList.length > 0) {
               roledatalist.forEach((Highlight) => {
                 if (Highlight.id == "00") {
                   //不勾选父节点
                   return true;
                 }
-                  //  console.log(Highlight,1);
                 //父节点序号
                 var n_index = newroleDistributionList.findIndex((n) => {
                   return n.module == Highlight.module;
@@ -2457,13 +2426,11 @@ export default {
                   //没找到父节点
                   return true;
                 }
-                // console.log(Highlight,2);
                 if (newroleDistributionList[n_index].children.length <= 0) {
                   //子节点不存在
                   return true;
                 }
                 //子节点序号
-                  //  console.log(3);
                 var n_index_child = newroleDistributionList[
                   n_index
                 ].children.findIndex((n) => {
@@ -2473,7 +2440,6 @@ export default {
                   //没找到子节点
                   return true;
                 }
-                // console.log(4);
                 newroleDistributionList[n_index].children[
                   n_index_child
                 ].checked = true;
@@ -2481,9 +2447,7 @@ export default {
             }
               
             }
-            // console.log(newroleDistributionList,'newroleDistributionList')
             that.roleDistributionList = newroleDistributionList;
-            // console.log(that.roleDistributionList,'that.roleDistributionList')
 
           },
           (error) => {
@@ -2501,7 +2465,6 @@ export default {
     },
     //分配资源 确认
     confirmroleDistributionmodal(){
-      console.log(this.$refs.roletree.getCheckedNodes())
       let rolecurrenttdata=this.$refs.roletree.getCheckedNodes()
       let roledata=new Array()
       if(rolecurrenttdata.length>0){
@@ -2525,7 +2488,6 @@ export default {
         .then(
           (success) => {
             that.$Spin.hide();
-            console.log(success.data);
             // that.getdatatreatingdata()
             that.roleDistribution_modal=false
             //用户下授权 分配资源确认
@@ -2549,11 +2511,9 @@ export default {
     },
     //角色树点击
     roletreechange(item,data){
-      // console.log(this.$refs.roletree.getCheckedNodes())
     },
     //角色选中高亮
     roleCurrentChange(currentRow,oldCurrentRow){
-      // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.roleItemData=currentRow
       this.roletable.data[currentRow.index]._highlight=true
       this.roletable.data.forEach((v,i)=>{
@@ -2564,7 +2524,6 @@ export default {
     },
     //角色单行点击
     roleRowClick(row,index){
-      // console.log(row,'row')
       this.roletable.data[index].roleshowRightIcon=true
       this.roletable.data.forEach((v,i)=>{
         if(row.id!=v.id){
@@ -2624,7 +2583,6 @@ export default {
     },
     //用户选中高亮
     userCurrentChange(currentRow,oldCurrentRow){
-      // console.log(currentRow,'currentRow','oldCurrentRow',oldCurrentRow)
       this.userItemData=currentRow
       if(!currentRow.isclick){
         this.userdatatable.data[currentRow.index]._highlight=true
@@ -2639,7 +2597,6 @@ export default {
     },
     //用户单行点击
     userRowClick(row,index){
-      // console.log(row,'row')
       this.userdatatable.data[index].usershowRightIcon=true
       this.userdatatable.data.forEach((v,i)=>{
         if(row.id!=v.id){
@@ -2677,7 +2634,6 @@ export default {
     },
     //用户更新
     userUndate(params){
-      // console.log(params.row,'params')
       var that = this;
       var query = {
         action: "Service",
@@ -2815,7 +2771,6 @@ export default {
       this.userauthorizationModal=false
     },
     confirmuserauthorizationmodal(){
-      console.log(this.chooseauthrole,'chooseauthrole')
       let rolecurrenttdata=this.$refs.userroletree.getCheckedNodes()
       if(rolecurrenttdata.length>0){
         rolecurrenttdata.forEach((v,i)=>{
@@ -2874,7 +2829,6 @@ export default {
                     },
                     on: {
                         click: () => { 
-                          // console.log(root, node, data)
                           this.roleItemData = data
                           this.roleTypes='edit'
                           this.roleEditname=data.name
@@ -2912,7 +2866,6 @@ export default {
     },
     //授权分配 下的树点击
     userRoleSelectChange(treeitem,item){
-      // console.log(treeitem,item)
       this.roleItemData=item
     },
 

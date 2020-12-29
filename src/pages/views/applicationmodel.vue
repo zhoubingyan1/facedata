@@ -370,7 +370,6 @@ export default {
             that.$http.post(that.PATH.GetMenuList, JSON.stringify(query)).then(
                 (success) => {
                 that.$Spin.hide()
-                // console.log(success.data.result);
                 if(success.data.result.length==0){
                     //弹窗 内容  你没有使用本系统的权限!
                     that.err_list = ["你没有使用本系统的权限!"];
@@ -425,7 +424,6 @@ export default {
             //树的点击
         },
         tabclick(item){
-            // console.log(item,'item')
             this.tabsvalue = item.toString();
         },
         addtabs(){
@@ -466,17 +464,12 @@ export default {
                 index:this.tabIndex
             });
             this.tabsvalue=this.tabIndex.toString()
-            // console.log(this.applicationmodelTabList)
-            // this.isTip = false;
         },
         closeicon(index){
-            // console.log(item)
             this.applicationmodelTabList.splice(index,1)
             if(this.applicationmodelTabList.length>0){
-                // console.log(this.applicationmodelTabList[this.applicationmodelTabList.length-1].name.toString(),'1234')
                 let newname=this.applicationmodelTabList[this.applicationmodelTabList.length-1].name
                 this.tabsvalue=newname.toString()
-                
             }
             
             
