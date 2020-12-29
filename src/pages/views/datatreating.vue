@@ -587,8 +587,15 @@ export default {
             align: "center",
             render: (h, params) => {
               let result = "0";
-              return h("div", [
-                h("i", {
+              let arr = [];
+              arr.push(
+                  h('Tooltip', {
+                      props: {
+                          placement: 'top',
+                          transfer: true
+                      }
+                  }, [ 
+                    h("i", {
                   attrs: {
                     class: "iconfont icon-edit",
                   },
@@ -598,9 +605,21 @@ export default {
                       this.addTab(params.row);
                     },
                   },
-                }),
-
-                h("i", {
+                }), h('span', {
+                      slot: 'content',
+                      style: {
+                          whiteSpace: 'normal'
+                      }
+                  }, '修改')
+                  ])
+              )
+              arr.push(
+                    h('Tooltip', {
+                        props: {
+                            placement: 'top',
+                            transfer: true
+                        }
+                    }, [ h("i", {
                   attrs: {
                     class: "iconfont icon-delete",
                   },
@@ -612,8 +631,43 @@ export default {
                       //  this.datatreatingtableDel(params.row);
                     },
                   },
-                }),
-              ]);
+                }), h('span', {
+                        slot: 'content',
+                        style: {
+                            whiteSpace: 'normal'
+                        }
+                    }, '删除')
+                    ])
+                )
+              return h('div', arr);
+
+              // return h("div", [
+              //   h("i", {
+              //     attrs: {
+              //       class: "iconfont icon-edit",
+              //     },
+              //     style: {},
+              //     on: {
+              //       click: () => {
+              //         this.addTab(params.row);
+              //       },
+              //     },
+              //   }),
+
+              //   h("i", {
+              //     attrs: {
+              //       class: "iconfont icon-delete",
+              //     },
+              //     style: {},
+              //     on: {
+              //       click: () => {
+              //         this.delID = params.row.id;
+              //         this.delModal = true;
+              //         //  this.datatreatingtableDel(params.row);
+              //       },
+              //     },
+              //   }),
+              // ]);
             },
           },
         ],
