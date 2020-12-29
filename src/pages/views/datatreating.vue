@@ -1611,8 +1611,11 @@ export default {
     downloadFaillog(){
        let that = this;
        let fileName=Base64.encode(encodeURI('导入日志')).replace(/\+/g,"%2B")
-      let url =
-        "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?fileId="+that.docheckResultFileId +"&fileName=" +
+      // let url =
+      //   "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?fileId="+that.docheckResultFileId +"&fileName=" +
+      //   fileName+'.csv';
+        let url =
+        "http://192.168.1.236:8081/miner/sys/explorer/attachement.attachment.down?fileId="+that.docheckResultFileId +"&fileName=" +
         fileName+'.csv';
       let a = document.createElement("a");
       a.id = "temp";
