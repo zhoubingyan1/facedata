@@ -1192,12 +1192,9 @@ export default {
                   on: {
                     click: () => {
                       this.userdatatable.data[params.row._index].isclick=false
-                      if (Object.keys(this.newuserdatatabledata).length > 0) {
-
-                      }
-                      // this.userdatatable.data[params.row._index]=this.newuserdatatabledata
-                      if(this.userTypes='new'){
-                        // this.userdatatable.data.splice(0, 1)
+                      console.log(Object.keys(this.newuserdatatabledata).length,'Object.keys(this.newuserdatatabledata).length')
+                      if (Object.keys(this.newuserdatatabledata).length == 0) {
+                        this.userdatatable.data.splice(0, 1)
                       }
                       //  this.getAllRichUserList() //获取用户列表
                       
