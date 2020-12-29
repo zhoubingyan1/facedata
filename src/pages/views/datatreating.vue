@@ -1122,22 +1122,22 @@ export default {
             //     因子分析datascde入库------综合
             //     因子分析datavkpi入库------rkpi和审核发现
             newtabledata.forEach((v, i) => {
-              if (v.name.indexOf("因子分析datavb入库")!= -1) {
+              if (v.name.indexOf("因子分析datavb入库")!= -1&&v.name.indexOf("_因子载荷")== -1) {
                 // modaltype[v.name] = v.param;
                 datavbmodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datasd入库") != -1){
+              } else if (v.name.indexOf("因子分析datasd入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datasdmodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datasc入库") != -1){
+              } else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datascmodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datase入库") != -1){
+              } else if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datasemodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datascde入库") != -1){
+              } else if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datascdemodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datavkpi入库") != -1){
+              } else if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datavkpmodaltypelist.push(v)
               }
@@ -1610,18 +1610,21 @@ export default {
     //下载日志文件
     downloadFaillog(){
        let that = this;
-       let fileName=Base64.encode(encodeURI('导入日志')).replace(/\+/g,"%2B")
+       let fileName=Base64.encode('导入日志').replace(/\+/g,"%2B")
       // let url =
       //   "http://192.168.1.236:8081/miner/v3/sys/explorer/document.kbsdownload?fileId="+that.docheckResultFileId +"&fileName=" +
       //   fileName+'.csv';
+      
         let url =
         "http://192.168.1.236:8081/miner/sys/explorer/attachement.attachment.down?fileId="+that.docheckResultFileId +"&fileName=" +
         fileName+'.csv';
       let a = document.createElement("a");
       a.id = "temp";
       document.body.appendChild(a);
+      console.log(url,'url')
       a.addEventListener("click", function () {
-        window.open(encodeURI(url), "_blank");
+        window.open(url, '',"");
+        // encodeURI(
       });
       a.click();
       document.body.removeChild(a);
