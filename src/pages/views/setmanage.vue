@@ -3465,14 +3465,41 @@ word-wrap:break-word;
   .tree_extra_renamebtn:hover::before{
     content: "重命名";
     position: absolute;
-    left: -14px;
-    top:-26px;
-    pointer-events: none;
+    // left: -14px;
+    // top:-26px;
+    // pointer-events: none;
     z-index: -1;
-    color: #fff;
+
+    word-break: keep-all;
+    white-space: nowrap;
+    position: absolute;
     padding:4px 8px;
+    display: block;
+    color: #fff;
     background: rgba(0,0,0,0.70);
-    border-radius: 2px 2px 2px 0 0 0 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height:20px;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .tree_extra_renamebtn:hover::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: #fff;
+    height: 7px;
+    line-height: 13px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0,0,0,0.70);
   }
   .tree_extra_renamebtn:hover,
   .tree_extra_delbtn:hover,
@@ -3498,14 +3525,41 @@ word-wrap:break-word;
   .tree_extra_delbtn:hover::before{
     content: "删除";
     position: absolute;
-    left: -10px;
-    top:-26px;
-    pointer-events: none;
+    // left: -14px;
+    // top:-26px;
+    // pointer-events: none;
     z-index: -1;
-    color: #fff;
+
+    word-break: keep-all;
+    white-space: nowrap;
+    position: absolute;
     padding:4px 8px;
+    display: block;
+    color: #fff;
     background: rgba(0,0,0,0.70);
-    border-radius: 2px 2px 2px 0 0 0 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height:20px;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .tree_extra_delbtn:hover::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: #fff;
+    height: 7px;
+    line-height: 13px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0,0,0,0.70);
   }
   .tree_extra_delbtn:hover{
     background: url(../../assets/images/setmanage/delete-h.png) no-repeat center center;

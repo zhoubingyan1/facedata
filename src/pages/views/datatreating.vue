@@ -96,7 +96,7 @@
           </Row>
         </div>
         <div v-else-if="item.name=='2'">
-          <div style="width:1000px;height:00px;overflow:auto;margin:0 auto;">
+          <div style="width:1000px;height:600px;overflow:auto;margin:0 auto;">
           <iframe 
             src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.store'"
             class="myiframe"
