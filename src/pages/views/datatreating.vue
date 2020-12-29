@@ -96,11 +96,13 @@
           </Row>
         </div>
         <div v-else-if="item.name=='2'">
-          <iframe  width="1000px" height="800px"
+          <div style="width:1000px;height:600px;overflow:auto;margin:0 auto;">
+          <iframe 
             src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.store'"
             class="myiframe"
             frameborder="0"
           ></iframe>
+          </div>
         </div>
         <div v-else>
           <div class="datatreating_fr_table">
