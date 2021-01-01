@@ -1451,7 +1451,7 @@ export default {
         columns: [
           {
             title: "机构代码",
-            key: "id",
+            key: "code",
             align: "center",
           },
           {
@@ -1460,20 +1460,7 @@ export default {
             align: "center",
           },
         ],
-        data: [
-          {
-            id: "1",
-            name: "市北D",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-          },
-        ],
+        data: [],
       }, //部门左边表格
       departmenttable: {
         page: 1,
@@ -1481,18 +1468,13 @@ export default {
         total: 50,
         columns: [
           {
-            title: "排名",
-            key: "id",
+            title: "账号",
+            key: "code",
             align: "center",
           },
           {
-            title: "机构名称",
+            title: "名称",
             key: "name",
-            align: "center",
-          },
-          {
-            title: "风险因子2",
-            key: "name1",
             align: "center",
           },
           {
@@ -1529,56 +1511,7 @@ export default {
           },
         ],
         data: [
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
+          
         ],
       }, //部门右边表格
       departmentnodes: [],//部门左边树
@@ -3338,7 +3271,7 @@ export default {
       }
       that.orgnodeitem=null
     },
-    //刷新当前的节点
+    //机构刷新当前的节点
     refreshOrgcurrentNode: function (treeId, treeNode) {
       // 点击事件
       const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
@@ -3434,7 +3367,8 @@ export default {
       // }else{
       //   this.parentPid = 1
       // }
-      
+      this.getByDept(treeNode.id)
+      this.getDomainOrg(treeNode.id)
       this.deptnodeitem = treeNode;
     },
     departmentonExpand: function (evt, treeId, treeNode) {
@@ -3538,6 +3472,64 @@ export default {
           item.removeChild(renamebtn);
         }
       }
+    },
+    //获取部门人员
+    getByDept(id){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getByDept",
+        data: [id],
+      };
+      that.departmenttable.data=[]
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPTGETBYDEPT, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            if (res.length > 0) {
+              that.departmenttable.data = res
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+  
+    },
+    //获取部门机构
+    getDomainOrg(id){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getDomainOrg",
+        data: [id],
+      };
+      that.departmentlefttable.data=[]
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPTGETDOMAINORG, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            if (res.length > 0) {
+              that.departmentlefttable.data = res
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+   
+    
     },
 
     //切换算法的分页
