@@ -30,7 +30,7 @@ export default {
     GETCHILDRENBYSOURCERENAME: '/v3/sys/catalog/sys.catalog.direct', //标准目录 重命名
     GETCHILDRENBYSOURCEDEL: '/v3/sys/catalog/sys.catalog.direct', //标准目录 删除
 
-    //设置目录
+    //设置目录 导入
     EXPLORERGETEXCELINFO: '/v3/sys/explorer/dfi.excel.direct', //导入10
     EXPLORERCHECKSHEETS: '/v3/sys/explorer/dfi.excel.direct',//提交sheet
     EXPLORERGETCHILDRENBYSOURCELIST: '/v3/sys/explorer/sys.catalog.direct', //导入保存的左边树父节点
@@ -55,19 +55,27 @@ export default {
     ROLESETRESOURCE: '/v3/sys/role/sys.role.direct',
 
     //用户
-    GETALLRICHUSELIST:'/v3/sys/user/sys.user.direct',	
-    // {"action":"Service","method":"getAllRichUser","data":[1,25,false],"type":"rpc","tid":2}
+    GETALLRICHUSELIST:'/v3/sys/user/sys.user.direct',
     GETALLRICHUSADD: '/v3/sys/user/sys.user.direct',
-    // {"action":"Service","method":"add","data":[{"id":0,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":false,"email":"","tel":""}],"type":"rpc","tid":3}
     GETALLRICHUSUPDATE: '/v3/sys/user/sys.user.direct',
-    // {"action":"Service","method":"update","data":[{"id":53,"code":"1111111","name":"sdsafvddfdf","stopped":false,"change":true,"email":"","tel":""}],"type":"rpc","tid":4}
-    // update
     GETALLROLE:'/v3/sys/user/sys.role.direct',	
-    // {"action":"Service","method":"getAllRole","data":null,"type":"rpc","tid":5}
     SETUSERROLES:'/v3/sys/user/sys.role.direct',	
-    // {"action":"Service","method":"setUserRoles","data":[53,[4,7]]}
-    stopUser:'/v3/sys/user/sys.user.direct',	
-    // {"action":"Service","method":"stopUser","data":[53,true]}
     STOPUSER:'/v3/sys/user/sys.user.direct',
-    // {"action":"Service","method":"stopUser","data":[53,false]}
+
+    //机构
+    ORGANIZATIONGETLIST:'/v3/sys/org/sys.org.direct',
+    ORGANIZATIONGETADD: '/v3/sys/org/sys.org.direct',
+    ORGANIZATIONGETUPDATE:'/v3/sys/org/sys.org.direct',
+    ORGANIZATIONGETDELETE:'/v3/sys/org/sys.org.direct',
+
+    //部门
+    DEPTGETCHILDRENLIST:'/v3/sys/dept/sys.dept.direct',
+    DEPTGETBYDEPT:'/v3/sys/dept/sys.user.direct',
+    DEPTGETDOMAINORG:'/v3/sys/dept/sys.dept.direct',
+    DEPARTMENTADD:'/v3/sys/dept/sys.dept.direct',
+    DEPARTMENTUPDATE:'/v3/sys/dept/sys.dept.direct',
+    DEPARTMENTDELETE:'/v3/sys/dept/sys.dept.direct',
+    DEPTGETNOTINDEPT:'/v3/sys/dept/sys.user.direct',
+
+
 }

@@ -121,7 +121,7 @@
         <div class="displayflex">
           <div
             class="header-right-button marginright50"
-            @click="choseleadingin"
+            @click="addOrgbtnClick"
           >
             <img class="icon" src="../../assets/images/new.png" />
             <span class="span">新建</span>
@@ -291,11 +291,11 @@
                   <div class="left_name">数据表</div>
                   <div class="left_tree">
                     <ztree
-                      :setting="setting"
-                      :nodes="nodes"
-                      @onClick="onClick"
-                      @onCreated="handleCreated"
-                      @onExpand="onExpand"
+                      :setting="departmentsetting"
+                      :nodes="departmentnodes"
+                      @onClick="departmentonClick"
+                      @onCreated="departmentCreated"
+                      @onExpand="departmentonExpand"
                     ></ztree>
                     
                   </div>
@@ -343,7 +343,7 @@
         </div>
         <!-- 机构 -->
         <div v-else-if="item.name == '7'" class="datatreating_firstitem">
-          <Row>
+          <!-- <Row>
             <Col span="6">
               <div class="datatreating_firstitem_left">
                 <div class="marginright30">
@@ -351,7 +351,7 @@
                   <div class="left_tree">
                     <ztree
                       :setting="setting"
-                      :nodes="departmentnodes"
+                      :nodes="organizationnodes"
                       @onClick="onClick"
                       @onCreated="handleCreated"
                       @onExpand="onExpand"
@@ -389,7 +389,21 @@
                 </div>
               </div>
             </Col>
-          </Row>
+          </Row> -->
+          <div class="datatreating_fr_table">
+            <div class="datatreating_fr_table">
+              <div class="setmanagetree-tit">机构名称</div>
+              <div class="setmanagetree">
+                <ztree
+                  :setting="organizationsetting"
+                  :nodes="organizationnodes"
+                  @onClick="organizationonClick"
+                  @onCreated="organizationCreated"
+                  @onExpand="organizationonExpand"
+                ></ztree>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- 标准目录 -->
         <div v-else>
@@ -421,6 +435,48 @@
         <div class="forget_tips_text" v-for="(node, index) in err_list" :key="index">
           {{ node }}
         </div>
+      </div>
+    </Modal>
+    <!-- 机构 增加 -->
+    <Modal width="300" v-model="organizationEdit_modal" class-name="vertical-center-modal">
+      <div v-if="organizationtype=='edit'" style="text-align: center; margin-bottom: 10px; font-size: 14px">
+        添加机构
+      </div>
+      <div v-if="organizationtype=='new'" style="text-align: center; margin-bottom: 10px; font-size: 14px">
+        更新机构
+      </div>
+      <div class="datamodal_content">
+        <Form ref="formVaildate" :model="formVaildate" :label-width="80">
+            <FormItem label="机构名称:" >
+               <Input type="text" v-model="formVaildate.name"></Input>
+            </FormItem>
+            <FormItem label="机构编码:" >
+               <Input type="text" v-model="formVaildate.code"></Input>
+            </FormItem>
+            <FormItem label="机构描述:" >
+               <Input type="text" v-model="formVaildate.remark"></Input>
+            </FormItem>
+          </Form>
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="cancelorganizationEditmodal">取消</button>
+        <button class="btn" @click="confirmorganizationEditmodal">确定</button>
+      </div>
+    </Modal>
+    <!-- 机构删除弹框 -->
+    <Modal width="360" :mask-closable="true" v-model="orgdelModal" class-name="mr-del-modal">
+      <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
+        确认删除该条数据
+      </div>
+      <div class="facedata-btn-box">
+        <div
+          class="facedata-btn-confirm"
+          style="margin-right: 20px"
+          @click="organizationmenuDel"
+        >
+          删除
+        </div>
+        <div class="facedata-btn-cancel" @click="cancelorganizationEditmodal">取消</div>
       </div>
     </Modal>
     <!-- 用户 授权 -->
@@ -740,22 +796,6 @@ export default {
                     },
                   },
                 }),
-
-                // h("i", {
-                //     attrs: {
-                //         class: "iconfont icon-delete"
-                //     },
-                //     style: {
-
-                //     },
-                //     on: {
-                //         click: () => {
-                //         this.delID = params.row.id;
-                //         this.delModal = true;
-                //         }
-                //     },
-
-                // })
               ]);
             },
           },
@@ -826,8 +866,6 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
                     },
                   },
                 }),
@@ -1482,8 +1520,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
+                      
                     },
                   },
                 }),
@@ -1544,7 +1581,59 @@ export default {
           },
         ],
       }, //部门右边表格
-      departmentnodes: [],
+      departmentnodes: [],//部门左边树
+      departmentsetting:{
+        async: {
+          autoParam: [],
+          enable: true,
+        },
+        data: {
+          simpleData: {
+            enable: true,
+            pIdKey: "pid",
+          },
+        },
+        view: {
+          showIcon: true,
+          addHoverDom: this.departmentaddHoverDom,
+          removeHoverDom: this.departmentremoveHoverDom,
+          txtSelectedEnable: true
+        },
+      },
+      departztreeObj:null,
+      departmenttype: "new", //部门
+      deptnodeitem:null,//部门树暂存节点
+
+      organizationtype: "new", //机构
+      orgnodeitem:null,//机构树暂存节点
+      parentPid:null,//当前选中父节点id
+      OrgztreeObj: null,
+      orgdelModal:false,//机构删除弹框
+      organizationEdit_modal:false,//机构增加弹框
+      formVaildate:{
+        code:'',//机构编码
+        name:"",//机构名称
+        remark:'',//机构备注
+      },
+      organizationsetting :{
+        async: {
+          autoParam: [],
+          enable: true,
+        },
+        data: {
+          simpleData: {
+            enable: true,
+            pIdKey: "pid",
+          },
+        },
+        view: {
+          showIcon: true,
+          addHoverDom: this.organizationaddHoverDom,
+          removeHoverDom: this.organizationremoveHoverDom,
+          txtSelectedEnable: true
+        },
+      },
+      organizationnodes: [],//机构树
       organizationtable: {
         page: 1,
         pagesize: 15,
@@ -1587,8 +1676,7 @@ export default {
                   style: {},
                   on: {
                     click: () => {
-                      this.delID = params.row.id;
-                      this.delModal = true;
+                      
                     },
                   },
                 }),
@@ -1611,14 +1699,14 @@ export default {
           },
         ],
       }, //机构表格
-
-
     };
   },
   created() {
-    // this.getDataTreeList();
     this.getroletabledata() //获取角色列表
     this.getAllRichUserList() //获取用户列表
+    this.getOrganizationList() //获取机构列表
+
+    this.getDeptLeftTreeList()
   },
   mounted() {
      
@@ -1630,18 +1718,35 @@ export default {
     },
     //重置页面数据
     resettabcut(){
-        //用户
-        this.userTypes='new' //用户的默认弹框类型是新增
-        this.userItemData={} //用户的params的row数据置为空
-        this.userdatatable.page=1 //用户的page为1
+      //用户
+      this.userTypes='new' //用户的默认弹框类型是新增
+      this.userItemData={} //用户的params的row数据置为空
+      this.userdatatable.page=1 //用户的page为1
 
-        //角色
-        this.roleDistribution_modal=false//分配资源弹框
-        this.roleTypes='new'
-        this.roleEditname=''//角色编辑名称
-        this.roleEdit_modal=false//角色编辑
-        this.delRoleModal=false
-        this.roleItemData={}//暂存的角色一行数据
+      //角色
+      this.roleDistribution_modal=false//分配资源弹框
+      this.roleTypes='new'
+      this.roleEditname=''//角色编辑名称
+      this.roleEdit_modal=false//角色编辑
+      this.delRoleModal=false
+      this.roleItemData={}//暂存的角色一行数据
+
+      //机构
+      this.organizationtype= "new" //机构
+      this.orgnodeitem=null//机构树暂存节点
+      this.parentPid=null//当前选中父节点id
+      this.OrgztreeObj= null
+      this.orgdelModal=false//机构删除弹框
+      this.organizationEdit_modal=false//机构增加弹框
+      this.formVaildate={
+        code:'',//机构编码
+        name:"",//机构名称
+        remark:'',//机构备注
+      }
+
+      //部门
+        
+
     },
     //获取标准目录的列表
     getDataTreeList() {
@@ -1740,6 +1845,12 @@ export default {
           }
         );
     },
+    //标准目录生成的树
+    handleCreated: function (ztreeObj) {
+      this.ztreeObj = ztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
+    },
     //目录树点击
     onExpand: function (evt, treeId, treeNode) {
       // 点击事件
@@ -1758,7 +1869,6 @@ export default {
 
     treeClick: function (treeId, treeNode) {
       // 点击事件
-      this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       let nowParentNode = treeNode.getParentNode();
       var that = this;
@@ -1937,7 +2047,6 @@ export default {
     },
     refreshcurrentNode: function (treeId, treeNode) {
       // 点击事件
-      this.treenodeID = treeNode.id;
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       var that = this;
       var query = {
@@ -2802,7 +2911,6 @@ export default {
         );
     
     },  
-
     renderContent (h, { root, node, data }) {
         return h('span', {
             style: {
@@ -2869,6 +2977,569 @@ export default {
       this.roleItemData=item
     },
 
+    //机构列表
+    getOrganizationList(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [0],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ORGANIZATIONGETLIST, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            if (res.length > 0) {
+              res.forEach((v, i) => {
+                res[i].open = false;
+
+                res[i].isParent = true;
+                res[i].children = [];
+                // if (res[i].right - res[i].left != 1) {
+                //     res[i].isParent = true;
+                //     res[i].children = [];
+                // }
+                // if (res[i].right - res[i].left == 1) {
+                //     res[i].isParent = false;
+                // }
+              
+              });
+              that.organizationnodes = res
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //机构树点击
+    organizationonClick: function (evt, treeId, treeNode) {
+      if (!treeNode.open) {
+        this.organizationontreeClick(treeId, treeNode);
+       
+      }
+      const orgparentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      if(orgparentZNode){
+        this.parentPid = orgparentZNode.id
+      }else{
+        this.parentPid = 1
+      }
+      
+      this.orgnodeitem = treeNode;
+    },
+    organizationonExpand: function (evt, treeId, treeNode) {
+      if (treeNode.open) {
+        this.organizationontreeClick(treeId, treeNode);
+      }
+    },
+    organizationontreeClick: function (treeId, treeNode) {
+      const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [treeNode.id],
+      };
+      if (treeNode.right - treeNode.left == 1) {
+      } else {
+        treeNode.children = [];
+        if (treeNode.isParent) {
+          that.$http
+            .post(that.PATH.ORGANIZATIONGETLIST, JSON.stringify(query))
+            .then(
+              (success) => {
+                const childrenData = eval(success.data.result);
+                //判断子节点是否包含子元素
+                childrenData.forEach((v, i) => {
+                  childrenData[i].open = false;
+                  childrenData[i].isParent = true;
+                  childrenData[i].children = [];
+                  // if (childrenData[i].right - childrenData[i].left != 1) {
+                  //   childrenData[i].isParent = true;
+                  //   childrenData[i].children = [];
+                  // }
+                  // if (childrenData[i].right - childrenData[i].left == 1) {
+                  //   childrenData[i].isParent = false;
+                  // }
+                });
+                
+                that.OrgztreeObj.refresh();
+                that.OrgztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                that.orgnodeitem =null
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+              }
+            );
+        }
+      }
+    },
+    organizationCreated(ztreeObj){
+      this.OrgztreeObj = ztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
+    },
+    organizationaddHoverDom(treeid, treeNode) {
+      const item = document.getElementById(`${treeNode.tId}_a`);
+      var node = this.OrgztreeObj.getNodeByParam(treeNode.id,1);
+      let that = this;
+      if (item && !item.querySelector(".tree_extra_delbtn")) {
+        const btn = document.createElement("sapn");
+        btn.id = `${treeid}_${treeNode.id}_btn`;
+        btn.classList.add("tree_extra_delbtn");
+        // btn.innerText = "删除";
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          that.orgdelModal = true;
+          that.orgnodeitem = treeNode;
+          
+          that.OrgztreeObj.selectNode(node)
+        });
+        item.appendChild(btn);
+      }
+      if (item && !item.querySelector(".tree_extra_renamebtn")) {
+        const renamebtn = document.createElement("sapn");
+        renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
+        renamebtn.classList.add("tree_extra_renamebtn");
+        // renamebtn.innerText = "   重命名   ";
+        renamebtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          that.organizationtype = "edit";
+          that.organizationEdit_modal = true;
+          // that.datatreatingEditname = treeNode.name;
+          that.formVaildate.code=treeNode.code
+          that.formVaildate.name=treeNode.name
+          that.formVaildate.remark=treeNode.remark
+          that.orgnodeitem = treeNode;
+          that.OrgztreeObj.selectNode(node)
+          // this.clickRename(treeNode)
+        });
+        item.appendChild(renamebtn);
+      }
+      
+    },
+    organizationremoveHoverDom(treeid, treeNode) {
+      const item = document.getElementById(`${treeNode.tId}_a`);
+      if (item) {
+        const btn = item.querySelector(".tree_extra_delbtn");
+        if (btn) {
+          item.removeChild(btn);
+        }
+        const renamebtn = item.querySelector(".tree_extra_renamebtn");
+        if (renamebtn) {
+          item.removeChild(renamebtn);
+        }
+      }
+    },
+    //机构删除弹框
+    organizationmenuDel() {
+      var that = this;
+      let treeNodeinfo = that.orgnodeitem;
+      
+      let data=new Object()
+      data={
+        id:treeNodeinfo.id,
+        pid:treeNodeinfo.pid,
+        layer:treeNodeinfo.layer,
+        code:treeNodeinfo.code,
+        name:treeNodeinfo.name,
+        remark:treeNodeinfo.remark}
+      var query = {
+        action: "Service",
+        method: "delete",
+        data: [data],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ORGANIZATIONGETDELETE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            // that.getorganizationdata()
+            that.orgdelModal = false;
+            that.refreshOrgParentNode(that.orgnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //机构删除弹框取消
+    cancelorganizationEditmodal(){
+      this.organizationEdit_modal = false;
+      this.orgdelModal=false
+    },
+    //机构弹框确定
+    confirmorganizationEditmodal() {
+      let that = this;
+      let nodeinfo = that.orgnodeitem;
+      let data={}
+      if (that.organizationtype == "edit") {
+        data = {
+          id:nodeinfo.id,
+          pid:nodeinfo.pid,
+          layer:nodeinfo.layer,
+          code:that.formVaildate.code,
+          name:that.formVaildate.name,
+          remark:that.formVaildate.remark,
+          // parentId:1,
+          // leaf:false
+        }
+        that.RenameOrganizationNode(data);
+      } else {
+        data = {
+          id:0,
+          pid:that.parentPid,
+          layer:nodeinfo.layer,
+          code:that.formVaildate.code,
+          name:that.formVaildate.name,
+          remark:that.formVaildate.remark,
+          // parentId:1,
+          // leaf:false
+        }
+        that.addDOrganizationNode(data);
+      }
+    },
+    addDOrganizationNode(node) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "add",
+        data: [node],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ORGANIZATIONGETADD, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            // that.getdatatreatingdata()
+            that.organizationEdit_modal = false;
+            
+            that.refreshOrgcurrentNode("", that.orgnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    RenameOrganizationNode(node) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "update",
+        data: [node],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.ORGANIZATIONGETUPDATE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            that.organizationEdit_modal = false;
+            // that.getdatatreatingdata()
+            that.refreshOrgParentNode(that.orgnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //机构新建
+    addOrgbtnClick(){
+      let that=this
+      that.organizationtype = "new";
+      that.formVaildate={
+        code:"",
+        name:'',
+        remark:''
+      }
+      if(that.orgnodeitem!=null){
+        // if(!that.orgnodeitem.isNotShowIcon){
+        //   that.organizationtype = "new";
+        //   that.organizationEdit_modal = true;
+          
+        // }else{
+        //   that.$Message.error({
+        //     content: "该节点不支持新增",
+        //     duration: 1,
+        //   });
+        // }
+        that.organizationEdit_modal = true; 
+      }else{
+        that.$Message.error({
+          content: "请选择机构节点",
+          duration: 1,
+        });
+      }
+      
+      
+    },
+    //刷新当前选择节点的父节点
+    refreshOrgParentNode(treeNode) {
+      const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      let parentNode = treeNode.getParentNode();
+      var that = this;
+      if (parentNode) {
+        var query = {
+          action: "Service",
+          method: "getChildren",
+          data: [parentNode.id],
+        };
+        if (parentNode.right - parentNode.left != 1) {
+          //文件夹
+          parentNode.children = [];
+          if (parentNode.isParent) {
+            that.$http
+              .post(that.PATH.ORGANIZATIONGETLIST, JSON.stringify(query))
+              .then(
+                (success) => {
+                  const childrenData = eval(success.data.result);
+                  //判断子节点是否包含子元素
+                  childrenData.forEach((v, i) => {
+                    childrenData[i].open = false;
+
+                    childrenData[i].isParent = true;
+                    childrenData[i].children = [];
+                    // if (childrenData[i].right - childrenData[i].left != 1) {
+                    //     childrenData[i].isParent = true;
+                    //     childrenData[i].children = [];
+                    // }
+                    // if (childrenData[i].right - childrenData[i].left == 1) {
+                    //     childrenData[i].isParent = false;
+                    // }
+                  });
+                  
+                  that.OrgztreeObj.refresh();
+                  that.OrgztreeObj.addNodes(parentNode, childrenData, false); //添加节点
+                  that.orgnodeitem =null
+                },
+                (error) => {
+                  that.err_list = ["登录异常", "请联系管理员"];
+                  that.errorTips_modal = true;
+                }
+              );
+          }
+        }
+      } else {
+        that.getOrganizationList();
+      }
+      that.orgnodeitem=null
+    },
+    //刷新当前的节点
+    refreshOrgcurrentNode: function (treeId, treeNode) {
+      // 点击事件
+      const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [treeNode.id],
+      };
+      treeNode.children = [];
+      that.$http
+          .post(that.PATH.ORGANIZATIONGETLIST, JSON.stringify(query))
+          .then(
+            (success) => {
+              const childrenData = eval(success.data.result);
+              //判断子节点是否包含子元素
+              childrenData.forEach((v, i) => {
+                childrenData[i].open = false;
+                childrenData[i].isParent = true;
+                childrenData[i].children = [];
+                // if (childrenData[i].right - childrenData[i].left != 1) {
+                //   childrenData[i].isParent = true;
+                //   childrenData[i].children = [];
+                // }
+                // if (childrenData[i].right - childrenData[i].left == 1) {
+                //   childrenData[i].isParent = false;
+                // }
+              });
+              
+              this.OrgztreeObj.refresh();
+              this.OrgztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+              that.orgnodeitem=null
+            },
+            (error) => {
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      
+    },
+
+    
+    //部门
+    getDeptLeftTreeList(){
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [0],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPTGETCHILDRENLIST, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            let res = success.data.result;
+            if (res.length > 0) {
+              res.forEach((v, i) => {
+                res[i].open = false;
+
+                res[i].isParent = true;
+                res[i].children = [];
+                // if (res[i].right - res[i].left != 1) {
+                //     res[i].isParent = true;
+                //     res[i].children = [];
+                // }
+                // if (res[i].right - res[i].left == 1) {
+                //     res[i].isParent = false;
+                // }
+              
+              });
+              that.departmentnodes = res
+            }
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    
+    },
+    departmentonClick: function (evt, treeId, treeNode) {
+      if (!treeNode.open) {
+        this.departmenttreeClick(treeId, treeNode);
+       
+      }
+      // const orgparentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      // if(orgparentZNode){
+      //   this.parentPid = orgparentZNode.id
+      // }else{
+      //   this.parentPid = 1
+      // }
+      
+      this.deptnodeitem = treeNode;
+    },
+    departmentonExpand: function (evt, treeId, treeNode) {
+      if (treeNode.open) {
+        this.departmenttreeClick(treeId, treeNode);
+      }
+      
+    },
+    departmenttreeClick: function (treeId, treeNode) {
+      const parentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [treeNode.id],
+      };
+      if (treeNode.right - treeNode.left == 1) {
+      } else {
+        treeNode.children = [];
+        if (treeNode.isParent) {
+          that.$http
+            .post(that.PATH.DEPTGETCHILDRENLIST, JSON.stringify(query))
+            .then(
+              (success) => {
+                const childrenData = eval(success.data.result);
+                //判断子节点是否包含子元素
+                childrenData.forEach((v, i) => {
+                  childrenData[i].open = false;
+                  childrenData[i].isParent = true;
+                  childrenData[i].children = [];
+                  // if (childrenData[i].right - childrenData[i].left != 1) {
+                  //   childrenData[i].isParent = true;
+                  //   childrenData[i].children = [];
+                  // }
+                  // if (childrenData[i].right - childrenData[i].left == 1) {
+                  //   childrenData[i].isParent = false;
+                  // }
+                });
+                
+                that.departztreeObj.refresh();
+                that.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                that.deptnodeitem =null
+              },
+              (error) => {
+                that.err_list = ["登录异常", "请联系管理员"];
+                that.errorTips_modal = true;
+              }
+            );
+        }
+      }
+    },
+    departmentCreated(ztreeObj){
+      this.departztreeObj = ztreeObj;
+      // onCreated 中操作ztreeObj对象展开第一个节点
+      ztreeObj.expandNode(ztreeObj.getNodes()[0], false);    
+    },
+    departmentaddHoverDom(treeid, treeNode) {
+      const item = document.getElementById(`${treeNode.tId}_a`);
+      var node = this.departztreeObj.getNodeByParam(treeNode.id,1);
+      let that = this;
+      if (item && !item.querySelector(".tree_extra_delbtn")) {
+        const btn = document.createElement("sapn");
+        btn.id = `${treeid}_${treeNode.id}_btn`;
+        btn.classList.add("tree_extra_delbtn");
+        // btn.innerText = "删除";
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // that.orgdelModal = true;
+          that.deptnodeitem = treeNode;
+          
+          that.departztreeObj.selectNode(node)
+        });
+        item.appendChild(btn);
+      }
+      if (item && !item.querySelector(".tree_extra_renamebtn")) {
+        const renamebtn = document.createElement("sapn");
+        renamebtn.id = `${treeid}_${treeNode.id}_renamebtn`;
+        renamebtn.classList.add("tree_extra_renamebtn");
+        // renamebtn.innerText = "   重命名   ";
+        renamebtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          that.departmenttype = "edit";
+          // that.organizationEdit_modal = true;
+          that.deptnodeitem = treeNode;
+          that.departztreeObj.selectNode(node)
+          // this.clickRename(treeNode)
+        });
+        item.appendChild(renamebtn);
+      }
+      
+    },
+    departmentremoveHoverDom(treeid, treeNode) {
+      const item = document.getElementById(`${treeNode.tId}_a`);
+      if (item) {
+        const btn = item.querySelector(".tree_extra_delbtn");
+        if (btn) {
+          item.removeChild(btn);
+        }
+        const renamebtn = item.querySelector(".tree_extra_renamebtn");
+        if (renamebtn) {
+          item.removeChild(renamebtn);
+        }
+      }
+    },
+
     //切换算法的分页
     changearithmetictablePage(page) {
       this.arithmetictable.page = page;
@@ -2897,12 +3568,7 @@ export default {
     choseleadingin() {
 
     },
-    //标准目录生成的树
-    handleCreated: function (ztreeObj) {
-      this.ztreeObj = ztreeObj;
-      // onCreated 中操作ztreeObj对象展开第一个节点
-      ztreeObj.expandNode(ztreeObj.getNodes()[0], false);
-    },
+
     
   },
 };
