@@ -288,7 +288,16 @@
             <Col span="6">
               <div class="datatreating_firstitem_left">
                 <div class="marginright30">
-                  <div class="left_name">数据表</div>
+                  <div class="left_nameflex">
+                    <div class="width100">数据表</div>
+                    <div
+                      class="header-right-button1"
+                      @click="adddeptbtnClick"
+                    >
+                      <img class="icon" src="../../assets/images/new.png" />
+                      <span class="span">新建</span>
+                    </div>
+                  </div>
                   <div class="left_tree">
                     <ztree
                       :setting="departmentsetting"
@@ -300,7 +309,7 @@
                     
                   </div>
                 </div>
-                <div class="margintop200">
+                <div>
                   <div class="left_name">管辖机构</div>
                   <Table
                     class="facedata-table1 account-table1"
@@ -343,57 +352,10 @@
         </div>
         <!-- 机构 -->
         <div v-else-if="item.name == '7'" class="datatreating_firstitem">
-          <!-- <Row>
-            <Col span="6">
-              <div class="datatreating_firstitem_left">
-                <div class="marginright30">
-                  <div class="left_name">数据表</div>
-                  <div class="left_tree">
-                    <ztree
-                      :setting="setting"
-                      :nodes="organizationnodes"
-                      @onClick="onClick"
-                      @onCreated="handleCreated"
-                      @onExpand="onExpand"
-                    ></ztree>
-                    
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col span="1">
-              <div class="datatreating_firstitem_middle">
-                <div class="widthborder8"></div>
-              </div>
-            </Col>
-            <Col span="17">
-              <div class="datatreating_firstitem_right">
-                <div class="datatreating_fr_table">
-                  <Table
-                    class="facedata-table account-table"
-                    stripe
-                    :columns="organizationtable.columns"
-                    :data="organizationtable.data"
-                  ></Table>
-                </div>
-                <div class="datatreating_fr_page">
-                  <div class="facedata-pagination">
-                    <Page
-                      :total="organizationtable.total"
-                      :current="organizationtable.page"
-                      size="small"
-                      @on-change="changeorganizationtablePage"
-                      :pageSize="organizationtable.pagesize"
-                    ></Page>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row> -->
           <div class="datatreating_fr_table">
             <div class="datatreating_fr_table">
               <div class="setmanagetree-tit">机构名称</div>
-              <div class="setmanagetree">
+              <div class="organizatiotree">
                 <ztree
                   :setting="organizationsetting"
                   :nodes="organizationnodes"
@@ -437,6 +399,48 @@
         </div>
       </div>
     </Modal>
+    <!-- 部门 增加 -->
+    <Modal width="300" v-model="departmentEdit_modal" class-name="vertical-center-modal">
+      <div v-if="organizationtype=='edit'" style="text-align: center; margin-bottom: 10px; font-size: 14px">
+        添加机构
+      </div>
+      <div v-if="organizationtype=='new'" style="text-align: center; margin-bottom: 10px; font-size: 14px">
+        更新机构
+      </div>
+      <div class="datamodal_content">
+        <Form ref="formdeptVaildate" :model="formdeptVaildate" :label-width="80">
+            <FormItem label="机构名称:" >
+               <Input type="text" v-model="formdeptVaildate.name"></Input>
+            </FormItem>
+            <FormItem label="机构编码:" >
+               <Input type="text" v-model="formdeptVaildate.code"></Input>
+            </FormItem>
+            <FormItem label="机构描述:" >
+               <Input type="text" v-model="formdeptVaildate.remark"></Input>
+            </FormItem>
+          </Form>
+      </div>
+      <div class="datamodal_footer">
+        <button class="btn" @click="canceldepartmentEditmodal">取消</button>
+        <button class="btn" @click="confirmdepartmentEditmodal">确定</button>
+      </div>
+    </Modal>
+    <!-- 部门 删除弹框 -->
+    <Modal width="360" :mask-closable="true" v-model="departmentdelModal" class-name="mr-del-modal">
+      <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
+        确认删除该条数据
+      </div>
+      <div class="facedata-btn-box">
+        <div
+          class="facedata-btn-confirm"
+          style="margin-right: 20px"
+          @click="departmentmenuDel"
+        >
+          删除
+        </div>
+        <div class="facedata-btn-cancel" @click="canceldepartmentEditmodal">取消</div>
+      </div>
+    </Modal>
     <!-- 机构 增加 -->
     <Modal width="300" v-model="organizationEdit_modal" class-name="vertical-center-modal">
       <div v-if="organizationtype=='edit'" style="text-align: center; margin-bottom: 10px; font-size: 14px">
@@ -464,7 +468,7 @@
       </div>
     </Modal>
     <!-- 机构删除弹框 -->
-    <Modal width="360" :mask-closable="true" v-model="orgdelModal" class-name="mr-del-modal">
+    <Modal width="360" :mask-closable="true" v-model="orgdeldelModal" class-name="mr-del-modal">
       <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
         确认删除该条数据
       </div>
@@ -1530,18 +1534,26 @@ export default {
           showIcon: true,
           addHoverDom: this.departmentaddHoverDom,
           removeHoverDom: this.departmentremoveHoverDom,
-          txtSelectedEnable: true
+          // txtSelectedEnable: true
         },
       },
       departztreeObj:null,
       departmenttype: "new", //部门
       deptnodeitem:null,//部门树暂存节点
+      deptparentPid:null,//部门当前选中父节点id
+      departmentEdit_modal:false,
+      departmentdelModal:false,
+      formdeptVaildate:{
+        code:'',//机构编码
+        name:"",//机构名称
+        remark:'',//机构备注
+      },
 
       organizationtype: "new", //机构
       orgnodeitem:null,//机构树暂存节点
       parentPid:null,//当前选中父节点id
       OrgztreeObj: null,
-      orgdelModal:false,//机构删除弹框
+      orgdeldelModal:false,//机构删除弹框
       organizationEdit_modal:false,//机构增加弹框
       formVaildate:{
         code:'',//机构编码
@@ -1567,71 +1579,6 @@ export default {
         },
       },
       organizationnodes: [],//机构树
-      organizationtable: {
-        page: 1,
-        pagesize: 15,
-        total: 50,
-        columns: [
-          {
-            title: "账号",
-            key: "name",
-            align: "center",
-            width: "100",
-          },
-          {
-            title: "名称",
-            key: "name1",
-            align: "center",
-            width: "100",
-          },
-          {
-            title: " ",
-            align: "right",
-            render: (h, params) => {
-              let result = "0";
-              return h("div", [
-                h("i", {
-                  attrs: {
-                    class: "iconfont icon-edit",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      
-                    },
-                  },
-                }),
-
-                h("i", {
-                  attrs: {
-                    class: "iconfont icon-delete",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      
-                    },
-                  },
-                }),
-              ]);
-            },
-          },
-        ],
-        data: [
-          {
-            name: "FData",
-            name1: "FData",
-          },
-          {
-            name: "agate",
-            name1: "FData",
-          },
-          {
-            name: "审计员",
-            name1: "FData",
-          },
-        ],
-      }, //机构表格
     };
   },
   created() {
@@ -1669,7 +1616,7 @@ export default {
       this.orgnodeitem=null//机构树暂存节点
       this.parentPid=null//当前选中父节点id
       this.OrgztreeObj= null
-      this.orgdelModal=false//机构删除弹框
+      this.orgdeldelModal=false//机构删除弹框
       this.organizationEdit_modal=false//机构增加弹框
       this.formVaildate={
         code:'',//机构编码
@@ -3029,7 +2976,7 @@ export default {
         // btn.innerText = "删除";
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          that.orgdelModal = true;
+          that.orgdeldelModal = true;
           that.orgnodeitem = treeNode;
           
           that.OrgztreeObj.selectNode(node)
@@ -3095,7 +3042,7 @@ export default {
           (success) => {
             that.$Spin.hide();
             // that.getorganizationdata()
-            that.orgdelModal = false;
+            that.orgdeldelModal = false;
             that.refreshOrgParentNode(that.orgnodeitem);
           },
           (error) => {
@@ -3108,7 +3055,7 @@ export default {
     //机构删除弹框取消
     cancelorganizationEditmodal(){
       this.organizationEdit_modal = false;
-      this.orgdelModal=false
+      this.orgdeldelModal=false
     },
     //机构弹框确定
     confirmorganizationEditmodal() {
@@ -3361,12 +3308,12 @@ export default {
         this.departmenttreeClick(treeId, treeNode);
        
       }
-      // const orgparentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
-      // if(orgparentZNode){
-      //   this.parentPid = orgparentZNode.id
-      // }else{
-      //   this.parentPid = 1
-      // }
+      const orgparentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      if(orgparentZNode){
+        this.deptparentPid = orgparentZNode.id
+      }else{
+        this.deptparentPid = 1
+      }
       this.getByDept(treeNode.id)
       this.getDomainOrg(treeNode.id)
       this.deptnodeitem = treeNode;
@@ -3436,7 +3383,7 @@ export default {
         // btn.innerText = "删除";
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          // that.orgdelModal = true;
+          that.departmentdelModal = true;
           that.deptnodeitem = treeNode;
           
           that.departztreeObj.selectNode(node)
@@ -3451,8 +3398,11 @@ export default {
         renamebtn.addEventListener("click", (e) => {
           e.stopPropagation();
           that.departmenttype = "edit";
-          // that.organizationEdit_modal = true;
+          that.departmentEdit_modal = true;
           that.deptnodeitem = treeNode;
+          that.formdeptVaildate.code=treeNode.code
+          that.formdeptVaildate.name=treeNode.name
+          that.formdeptVaildate.remark=treeNode.remark
           that.departztreeObj.selectNode(node)
           // this.clickRename(treeNode)
         });
@@ -3531,6 +3481,250 @@ export default {
    
     
     },
+    //机构删除弹框
+    departmentmenuDel() {
+      var that = this;
+      let treeNodeinfo = that.deptnodeitem;
+      
+      let data=new Object()
+      data={
+        id:treeNodeinfo.id,
+        pid:treeNodeinfo.pid,
+        layer:treeNodeinfo.layer,
+        code:treeNodeinfo.code,
+        name:treeNodeinfo.name,
+        remark:treeNodeinfo.remark}
+      var query = {
+        action: "Service",
+        method: "delete",
+        data: [data],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPARTMENTDELETE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            that.departmentdelModal = false;
+            that.refreshdepartmentParentNode(that.deptnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //部门删除弹框取消
+    canceldepartmentEditmodal(){
+      this.departmentEdit_modal = false;
+      this.departmentdelModal=false
+    },
+    //部门弹框确定
+    confirmdepartmentEditmodal() {
+      let that = this;
+      let nodeinfo = that.deptnodeitem;
+      let data={}
+      if (that.departmenttype == "edit") {
+        data = {
+          id:nodeinfo.id,
+          pid:nodeinfo.pid,
+          layer:nodeinfo.layer,
+          code:that.formdeptVaildate.code,
+          name:that.formdeptVaildate.name,
+          remark:that.formdeptVaildate.remark,
+          // parentId:1,
+          // leaf:false
+        }
+        that.RenamedepartmentNode(data);
+      } else {
+        data = {
+          id:0,
+          pid:that.deptparentPid,
+          layer:nodeinfo.layer,
+          code:that.formdeptVaildate.code,
+          name:that.formdeptVaildate.name,
+          remark:that.formdeptVaildate.remark,
+          // parentId:1,
+          // leaf:false
+        }
+        that.addDdepartmentNode(data);
+      }
+    },
+    addDdepartmentNode(node) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "add",
+        data: [node],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPARTMENTADD, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            // that.getdatatreatingdata()
+            that.departmentEdit_modal = false;
+            
+            that.refreshdepartmentcurrentNode("", that.deptnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    RenamedepartmentNode(node) {
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "update",
+        data: [node],
+      };
+      that.$Spin.show();
+      that.$http
+        .post(that.PATH.DEPARTMENTUPDATE, JSON.stringify(query))
+        .then(
+          (success) => {
+            that.$Spin.hide();
+            that.departmentEdit_modal = false;
+            // that.getdatatreatingdata()
+            that.refreshdepartmentParentNode(that.deptnodeitem);
+          },
+          (error) => {
+            that.$Spin.hide();
+            that.err_list = ["登录异常", "请联系管理员"];
+            that.errorTips_modal = true;
+          }
+        );
+    },
+    //部门新建
+    adddeptbtnClick(){
+      let that=this
+      that.departmenttype = "new";
+      that.formdeptVaildate={
+        code:"",
+        name:'',
+        remark:''
+      }
+      if(that.deptnodeitem!=null){
+        // if(!that.deptnodeitem.isNotShowIcon){
+        //   that.organizationtype = "new";
+        //   that.organizationEdit_modal = true;
+          
+        // }else{
+        //   that.$Message.error({
+        //     content: "该节点不支持新增",
+        //     duration: 1,
+        //   });
+        // }
+        that.departmentEdit_modal = true; 
+      }else{
+        that.$Message.error({
+          content: "请选择部门节点",
+          duration: 1,
+        });
+      }
+      
+      
+    },
+    //刷新当前选择节点的父节点
+    refreshdepartmentParentNode(treeNode) {
+      const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      let parentNode = treeNode.getParentNode();
+      var that = this;
+      if (parentNode) {
+        var query = {
+          action: "Service",
+          method: "getChildren",
+          data: [parentNode.id],
+        };
+        if (parentNode.right - parentNode.left != 1) {
+          //文件夹
+          parentNode.children = [];
+          if (parentNode.isParent) {
+            that.$http
+              .post(that.PATH.DEPTGETCHILDRENLIST, JSON.stringify(query))
+              .then(
+                (success) => {
+                  const childrenData = eval(success.data.result);
+                  //判断子节点是否包含子元素
+                  childrenData.forEach((v, i) => {
+                    childrenData[i].open = false;
+
+                    childrenData[i].isParent = true;
+                    childrenData[i].children = [];
+                    // if (childrenData[i].right - childrenData[i].left != 1) {
+                    //     childrenData[i].isParent = true;
+                    //     childrenData[i].children = [];
+                    // }
+                    // if (childrenData[i].right - childrenData[i].left == 1) {
+                    //     childrenData[i].isParent = false;
+                    // }
+                  });
+                  
+                  that.departztreeObj.refresh();
+                  that.departztreeObj.addNodes(parentNode, childrenData, false); //添加节点
+                  that.deptnodeitem =null
+                },
+                (error) => {
+                  that.err_list = ["登录异常", "请联系管理员"];
+                  that.errorTips_modal = true;
+                }
+              );
+          }
+        }
+      } else {
+        that.getOrganizationList();
+      }
+      that.deptnodeitem=null
+    },
+    //部门刷新当前的节点
+    refreshdepartmentcurrentNode: function (treeId, treeNode) {
+      // 点击事件
+      const parentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getChildren",
+        data: [treeNode.id],
+      };
+      treeNode.children = [];
+      that.$http
+          .post(that.PATH.DEPTGETCHILDRENLIST, JSON.stringify(query))
+          .then(
+            (success) => {
+              const childrenData = eval(success.data.result);
+              //判断子节点是否包含子元素
+              childrenData.forEach((v, i) => {
+                childrenData[i].open = false;
+                childrenData[i].isParent = true;
+                childrenData[i].children = [];
+                // if (childrenData[i].right - childrenData[i].left != 1) {
+                //   childrenData[i].isParent = true;
+                //   childrenData[i].children = [];
+                // }
+                // if (childrenData[i].right - childrenData[i].left == 1) {
+                //   childrenData[i].isParent = false;
+                // }
+              });
+              
+              this.departztreeObj.refresh();
+              this.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+              that.deptnodeitem=null
+            },
+            (error) => {
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      
+    },
+
+
 
     //切换算法的分页
     changearithmetictablePage(page) {
@@ -3551,10 +3745,6 @@ export default {
     //切换部门的分页
     changedepartmenttablePage(page) {
       this.departmenttable.page = page;
-    },
-    //切换机构的分页
-    changeorganizationtablePage(page) {
-      this.organizationtable.page = page;
     },
     // 选择导入
     choseleadingin() {
@@ -3730,8 +3920,69 @@ export default {
         border-bottom: 1px solid #e8e8e8;
         box-shadow: #e8e8e8;
       }
+      .left_nameflex {
+        font-family: PingFangSC-Semibold;
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.8);
+        letter-spacing: 0;
+        line-height: 24px;
+        padding: 20px 0px;
+        border-bottom: 1px solid #e8e8e8;
+        box-shadow: #e8e8e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .width100{
+          flex: 1;
+        }
+        .header-right-button1 {
+          width: 200px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 5px;
+          height: 38px;
+          line-height: 38px;
+          // padding:0px 30px;
+          font-size: 14px !important;
+          color: rgba(0, 0, 0, 0.4);
+          letter-spacing: 0;
+          width: 140px;
+          .icon {
+            width: 18px;
+            height: 17px;
+          }
+          .span {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.4);
+            letter-spacing: 0;
+            line-height: 14px;
+            padding-left: 10px;
+          }
+          .datasearch_input {
+            height: 38px;
+            line-height: 38px;
+            border: none;
+            background: none;
+            outline: none;
+            margin-left: 10px;
+          }
+          &:hover {
+            color: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            .span {
+              color: rgba(0, 0, 0, 0.8);
+            }
+          }
+        }
+      }
       .left_tree {
         padding: 20px 0px 50px 0px;
+        height: 350px;
+        overflow: auto;
       }
     }
     .datatreating_firstitem_middle {
@@ -4032,6 +4283,13 @@ word-wrap:break-word;
     // overflow: scroll;
     overflow-y: auto;
     margin: 30px 50px 0px 50px;
+  }
+  .organizatiotree{
+    height: 600px;
+    // overflow: scroll;
+    overflow-y: auto;
+    margin: 30px 50px 0px 50px;
+    z-index: 99;
   }
   .tree_extra_addbtn {
     // margin-left: 200px;
