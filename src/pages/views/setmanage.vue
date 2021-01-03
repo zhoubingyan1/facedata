@@ -4043,7 +4043,7 @@ export default {
       
       }else{
         that.$Message.error({
-          content: "请选择部门节点",
+          content: "请选择部门用户",
           duration: 1,
         });
       }
