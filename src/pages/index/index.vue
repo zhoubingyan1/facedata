@@ -1786,14 +1786,14 @@ export default {
     box-sizing: border-box;
     .rkpi_item {
       height: 240px;
-      overflow: scroll;
+      overflow: auto;
       padding: 0px 50px 0px 50px;
       margin-top: 25px;
       margin-bottom: 50px;
     }
     .rkpi_item1 {
       height: 330px;
-      overflow: scroll;
+      overflow: auto;
       padding: 0px 50px 0px 50px;
       margin-top: 25px;
       margin-bottom: 50px;
@@ -1877,7 +1877,7 @@ export default {
     padding: 30px 30px !important;
     background: #fff;
     height: 576px;
-    overflow: scroll;
+    overflow: auto;
     .index_row1_title {
       font-family: PingFangSC-Medium;
       font-size: 14px;

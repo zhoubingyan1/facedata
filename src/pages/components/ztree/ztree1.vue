@@ -116,6 +116,7 @@ export default {
 .ztree {
   text-align: left;
   font-size: 14px;
+  padding-top: 30px;
 }
 .ztree >>> li {
   list-style-type: none;
@@ -209,7 +210,7 @@ export default {
 .ztree {
   position: relative;
   z-index: 1;
-  overflow-x:hidden ;
+  /* overflow-x:hidden ; */
 }
 .ztree >>> .curSelectedNode:before {
   content: "";
@@ -427,7 +428,7 @@ ul.ztree.zTreeDragUL {
   margin: 0;
   padding: 0;
   position: absolute;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: #dedede;
   border: 1px #4fcbf0 dotted;
   border-radius: 4px;

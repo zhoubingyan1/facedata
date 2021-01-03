@@ -1,10 +1,6 @@
 <template>
   <div id="Setmanage">
-    <NewTabs
-      class="tabs-animation"
-      :active="tabsvalue"
-      v-on:tabclick="tabclick"
-    >
+    <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
       <!-- 算法右侧 -->
       <div v-if="tabsvalue == '1'" slot="right_button">
         <div class="search_iconconent">
@@ -95,14 +91,14 @@
       <!-- 部门右侧 -->
       <div v-if="tabsvalue == '6'" slot="right_button">
         <div class="displayflex">
-          <div class="header-right-button" @click="choseleadingin">
+          <!-- <div class="header-right-button" @click="choseleadingin">
             <img class="icon" src="../../assets/images/new.png" />
             <span class="span">新建</span>
           </div>
           <div class="header-right-button" @click="choseleadingin">
             <img class="icon" src="../../assets/images/form.png" />
             <span class="span">分配表</span>
-          </div>
+          </div> -->
           <div
             class="header-right-button marginright50"
             @click="deptallocationUserClick"
@@ -442,7 +438,7 @@
       </div>
     </Modal>
     <!-- 部门 分配用户 -->
-    <Modal width="360" :mask-closable="true" v-model="departmentallocationModal" class-name="mr-del-modal">
+    <Modal width="600" :mask-closable="true" v-model="departmentallocationModal" class-name="mr-del-modal">
       <div style="text-align: center; font-size: 14px">
         分配用户
       </div>
@@ -1542,9 +1538,14 @@ export default {
             title: " ",
             align: "center",
             render: (h, params) => {
-              let result = "0";
-              return h("div", [
-                h("i", {
+              let arr = [];
+              arr.push(
+                  h('Tooltip', {
+                      props: {
+                          placement: 'top',
+                          transfer: true
+                      }
+                  }, [ h("i", {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-close-circle-outline",
                   },
@@ -1555,8 +1556,15 @@ export default {
                       // this.deptUserItem =params.row
                     },
                   },
-                }),
-              ]);
+                }), h('span', {
+                      slot: 'content',
+                      style: {
+                          whiteSpace: 'normal'
+                      }
+                  }, '移除用户')
+                  ])
+              )
+              return h('div', arr);
             },
           },
         ],
@@ -1675,7 +1683,7 @@ export default {
   methods: {
     //最上面的tab切换
     tabclick(item) {
-      console.log(item,'item')
+      // console.log(item,'item')
       this.resettabcut()
       switch(item){
         case "1":
@@ -1875,6 +1883,7 @@ export default {
       if (treeNode.open) {
         this.treeClick(treeId, treeNode);
       }
+      this.nodeitem = treeNode;
     },
     onClick: function (evt, treeId, treeNode) {
       // 点击事件
@@ -3055,6 +3064,14 @@ export default {
       if (treeNode.open) {
         this.organizationontreeClick(treeId, treeNode);
       }
+      const orgparentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      if(orgparentZNode){
+        this.parentPid = orgparentZNode.id
+      }else{
+        this.parentPid = 1
+      }
+      
+      this.orgnodeitem = treeNode;
     },
     organizationontreeClick: function (treeId, treeNode) {
       const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
@@ -3461,6 +3478,15 @@ export default {
       if (treeNode.open) {
         this.departmenttreeClick(treeId, treeNode);
       }
+      const orgparentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      if(orgparentZNode){
+        this.deptparentPid = orgparentZNode.id
+      }else{
+        this.deptparentPid = 1
+      }
+      this.getByDept(treeNode.id)
+      this.getDomainOrg(treeNode.id)
+      this.deptnodeitem = treeNode;
       
     },
     departmenttreeClick: function (treeId, treeNode) {
@@ -3933,8 +3959,7 @@ export default {
           .then(
             (success) => {
               that.$Spin.hide();
-              that.departmentdelModal = false;
-              that.refreshdepartmentParentNode(that.deptnodeitem);
+              that.departmentremoveUserModal = false;
             },
             (error) => {
               that.$Spin.hide();
@@ -4247,7 +4272,7 @@ export default {
         }
       }
       .left_tree {
-        padding: 20px 0px 50px 0px;
+        padding: 0px 0px 50px 0px;
         height: 350px;
         overflow: auto;
       }
@@ -4547,13 +4572,11 @@ word-wrap:break-word;
   }
   .setmanagetree {
     height: 600px;
-    // overflow: scroll;
     overflow-y: auto;
     margin: 30px 50px 0px 50px;
   }
   .organizatiotree{
     height: 600px;
-    // overflow: scroll;
     overflow-y: auto;
     margin: 30px 50px 0px 50px;
     z-index: 99;
@@ -4604,7 +4627,7 @@ word-wrap:break-word;
     // left: -14px;
     // top:-26px;
     // pointer-events: none;
-    z-index: -1;
+    z-index: 3;
 
     word-break: keep-all;
     white-space: nowrap;
@@ -4628,7 +4651,7 @@ word-wrap:break-word;
     -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);
-    background: #fff;
+    background: rgba(0, 0, 0, 0);
     height: 7px;
     line-height: 13px;
     width: 0;
@@ -4636,6 +4659,7 @@ word-wrap:break-word;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 5px solid rgba(0,0,0,0.70);
+    z-index: 3;
   }
   .tree_extra_renamebtn:hover,
   .tree_extra_delbtn:hover,
@@ -4664,7 +4688,7 @@ word-wrap:break-word;
     // left: -14px;
     // top:-26px;
     // pointer-events: none;
-    z-index: -1;
+    z-index: 3;
 
     word-break: keep-all;
     white-space: nowrap;
@@ -4688,7 +4712,7 @@ word-wrap:break-word;
     -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);
-    background: #fff;
+    background: rgba(0, 0, 0, 0);
     height: 7px;
     line-height: 13px;
     width: 0;
@@ -4696,6 +4720,7 @@ word-wrap:break-word;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 5px solid rgba(0,0,0,0.70);
+    z-index: 3;
   }
   .tree_extra_delbtn:hover{
     background: url(../../assets/images/setmanage/delete-h.png) no-repeat center center;

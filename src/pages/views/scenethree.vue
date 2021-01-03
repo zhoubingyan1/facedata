@@ -902,7 +902,7 @@ export default {
             height: 447px;
         }
         .rkpi_item{
-            overflow: scroll;
+            overflow: auto;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;
             margin-bottom: 50px;
@@ -971,7 +971,7 @@ export default {
             height: 426px;
         }
         .rkpi_item{
-            overflow: scroll;
+            overflow: auto;
             padding: 0px 30px 0px 30px;
             margin-top: 25px;
             margin-bottom: 50px;

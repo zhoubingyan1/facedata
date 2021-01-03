@@ -2327,7 +2327,7 @@ export default {
   }
   #tabs {
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
     .tabs-nav {
       width: 100%;
       //    border-bottom: 1px solid #ddd;
@@ -2736,8 +2736,7 @@ export default {
     }
     .datatreting-sheet-content {
       height: 500px;
-      // overflow: scroll;
-     overflow-y: auto;
+      overflow-y: auto;
       padding-top: 30px;
     }
     .datamodal_content {
@@ -2825,7 +2824,7 @@ export default {
           border: none;
           .ivu-select-dropdown-list {
             height: 100px;
-            overflow: scroll;
+            overflow: auto;
           }
         }
         .downloadtemplate {
@@ -2937,7 +2936,7 @@ export default {
   .Systemicselection_head_content {
     padding: 30px 0px;
     height: 500px;
-    // overflow: scroll;
+    overflow: auto;
   }
   .ivu-form-item .ivu-form-item .ivu-form-item-content {
     margin-left: 80px !important;

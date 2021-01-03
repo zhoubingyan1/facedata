@@ -746,7 +746,7 @@ export default {
         .right-timeline-content{
             margin-top: 60px;
             height: 450Px;
-            overflow: scroll;
+            overflow: auto;
             .ivu-timeline-item-tail{
                 border-left: 0.01rem dashed #246FEA !important;
             }
