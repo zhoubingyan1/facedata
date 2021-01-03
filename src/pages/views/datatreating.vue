@@ -1260,6 +1260,7 @@ export default {
         this.table.page = 1;
         this.currenttableid = treeNode.id;
         this.gettable(treeNode.id, this.table.page, this.table.pagesize);
+        that.ztreeObj.selectNode(parentZNode, true);
       } else {
         //文件夹
         treeNode.children = [];
@@ -1895,6 +1896,7 @@ export default {
         //文件,获取右边的表格
         that.table.page = 1;
         that.getsearchnoPageTable(treeNode.id, treeNode.name);
+        that.ztreeObj4.selectNode(parentZNode, true);
       } else {
         //文件夹
         treeNode.children = [];
