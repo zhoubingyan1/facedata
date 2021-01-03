@@ -1921,9 +1921,9 @@ export default {
                     childrenData[i].isParent = false;
                   }
                 });
-                // ztreeObj4
-                this.ztreeObj4.refresh();
-                this.ztreeObj4.addNodes(parentZNode, childrenData, false); //添加节点
+                // ztreeObj4s
+                that.ztreeObj4.refresh();
+                that.ztreeObj4.addNodes(parentZNode, childrenData, false); //添加节点
                 that.ztreeObj4.selectNode(parentZNode, true);
               },
               (error) => {
