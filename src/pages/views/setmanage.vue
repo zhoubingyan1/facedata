@@ -105,10 +105,10 @@
           </div>
           <div
             class="header-right-button marginright50"
-            @click="choseleadingin"
+            @click="deptallocationUserClick"
           >
             <img class="icon" src="../../assets/images/user.png" />
-            <span class="span">切换用户</span>
+            <span class="span">分配用户</span>
           </div>
           <div class="search_iconconent">
             <img class="icon" src="../../assets/images/search@2x.png" />
@@ -437,6 +437,63 @@
           @click="departmentmenuDel"
         >
           删除
+        </div>
+        <div class="facedata-btn-cancel" @click="canceldepartmentEditmodal">取消</div>
+      </div>
+    </Modal>
+    <!-- 部门 分配用户 -->
+    <Modal width="360" :mask-closable="true" v-model="departmentallocationModal" class-name="mr-del-modal">
+      <div style="text-align: center; font-size: 14px">
+        分配用户
+      </div>
+      <div class="datamodal_content">
+        <div >
+          <Table
+            height="400" 
+            class="facedata-table account-table"
+            stripe
+            highlight-row
+            :columns="allocationusertable.columns"
+            :data="allocationusertable.data"
+            @on-row-click="allocationuserRowClick"
+            ref="allocationcurrentRowTable"
+          ></Table>
+        </div>
+        <div class="datatreating_fr_page">
+          <div class="facedata-pagination" style="margin-bottom:0px;">
+            <Page
+              :total="allocationusertable.total"
+              :current="allocationusertable.page"
+              size="small"
+              @on-change="changeallocationusertablePage"
+              :pageSize="allocationusertable.pagesize"
+            ></Page>
+          </div>
+        </div>
+      </div>
+      <div class="facedata-btn-box">
+        <div
+          class="facedata-btn-cancel"
+          style="margin-right: 20px"
+          @click="canceldepartmentEditmodal"
+        >
+          取消
+        </div>
+        <div class="facedata-btn-confirm" @click="confirmallocationUser">确定</div>
+      </div>
+    </Modal>
+    <!-- 部门 移除用户弹框 -->
+    <Modal width="360" :mask-closable="true" v-model="departmentremoveUserModal" class-name="mr-del-modal">
+      <div style="text-align: center; margin-bottom: 30px; font-size: 14px">
+        确认移除该用户
+      </div>
+      <div class="facedata-btn-box">
+        <div
+          class="facedata-btn-confirm"
+          style="margin-right: 20px"
+          @click="departmentremoveUser"
+        >
+          移除
         </div>
         <div class="facedata-btn-cancel" @click="canceldepartmentEditmodal">取消</div>
       </div>
@@ -1447,7 +1504,7 @@ export default {
         data: [],
       }, //角色权限表格
 
-
+      deptUserItem:{},//部门的用户行数据
       departmentlefttable: {
         page: 1,
         pagesize: 15,
@@ -1489,24 +1546,13 @@ export default {
               return h("div", [
                 h("i", {
                   attrs: {
-                    class: "iconfont icon-edit",
+                    class: "ivu-icon ivu-icon-ios-close-circle-outline",
                   },
                   style: {},
                   on: {
                     click: () => {
-                      
-                    },
-                  },
-                }),
-
-                h("i", {
-                  attrs: {
-                    class: "iconfont icon-delete",
-                  },
-                  style: {},
-                  on: {
-                    click: () => {
-                      
+                      this.departmentremoveUserModal=true
+                      // this.deptUserItem =params.row
                     },
                   },
                 }),
@@ -1543,11 +1589,50 @@ export default {
       deptparentPid:null,//部门当前选中父节点id
       departmentEdit_modal:false,
       departmentdelModal:false,
+      departmentallocationModal:false,//分配用户
+      departmentremoveUserModal:false,//移除用户
       formdeptVaildate:{
-        code:'',//机构编码
-        name:"",//机构名称
-        remark:'',//机构备注
+        code:'',//部门编码
+        name:"",//部门名称
+        remark:'',//部门备注
       },
+      allocationusertable:{
+        page: 1,
+        pagesize: 15,
+        total: 50,
+        columns: [
+          {
+            title: "账号",
+            key: "code",
+            align: "center",
+          },
+          {
+            title: "名称",
+            key: "name",
+            align: "center",
+          },
+          {
+            title: "邮箱",
+            key: "email",
+            align: "center",
+          },
+          {
+            title: "电话",
+            key: "tel",
+            align: "center",
+          },
+          {
+            title: "角色",
+            key: "",
+            align: "center",
+          },
+        ],
+        data: [
+          
+        ],
+      },
+      allocationUseritem:null,//用户分配行数据
+      
 
       organizationtype: "new", //机构
       orgnodeitem:null,//机构树暂存节点
@@ -1582,11 +1667,7 @@ export default {
     };
   },
   created() {
-    this.getroletabledata() //获取角色列表
-    this.getAllRichUserList() //获取用户列表
-    this.getOrganizationList() //获取机构列表
-
-    this.getDeptLeftTreeList()
+   
   },
   mounted() {
      
@@ -1594,6 +1675,39 @@ export default {
   methods: {
     //最上面的tab切换
     tabclick(item) {
+      console.log(item,'item')
+      this.resettabcut()
+      switch(item){
+        case "1":
+          //
+        break;
+        case "2":
+          //
+        break;
+        case "3":
+          //
+        break;
+        case "4":
+          //用户
+          this.getAllRichUserList() //获取用户列表
+        break;
+        case "5":
+          //角色权限
+           this.getroletabledata() //获取角色列表
+        break;
+        case "6":
+          //部门
+          this.getDeptLeftTreeList() //获取部门列表
+        break;
+        case "7":
+          //机构
+          this.getOrganizationList() //获取机构列表
+        break;
+        case "8":
+          //标准目录
+        break;
+
+      }
       this.tabsvalue = item.toString();
     },
     //重置页面数据
@@ -1610,6 +1724,8 @@ export default {
       this.roleEdit_modal=false//角色编辑
       this.delRoleModal=false
       this.roleItemData={}//暂存的角色一行数据
+      this.roletable.page=1
+      this.roletable.data=[]
 
       //机构
       this.organizationtype= "new" //机构
@@ -1625,6 +1741,28 @@ export default {
       }
 
       //部门
+      this.deptUserItem={}//部门的用户行数据
+      this.departmentlefttable.page=1 //部门左边表格
+      this.departmentlefttable.data=[]//部门左边表格
+      this.departmenttable.page=1 //部门右边表格
+      this.departmenttable.data=[] //部门右边表格
+      this.departmentnodes=[]//部门左边树
+      this.departztreeObj=null
+      this.departmenttype="new" //部门
+      this.deptnodeitem=null//部门树暂存节点
+      this.deptparentPid=null//部门当前选中父节点id
+      this.departmentEdit_modal=false
+      this.departmentdelModal=false
+      this.departmentallocationModal=false//分配用户
+      this.departmentremoveUserModal=false//移除用户
+      this.formdeptVaildate={
+        code:'',//部门编码
+        name:"",//部门名称
+        remark:'',//部门备注
+      },
+      this.allocationusertable.page=1
+      this.allocationusertable.data=[]
+      this.allocationUseritem=null//用户分配行数据
         
 
     },
@@ -1792,6 +1930,7 @@ export default {
                 
                 this.ztreeObj.refresh();
                 this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                that.ztreeObj.selectNode(parentZNode, true);
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -2951,6 +3090,7 @@ export default {
                 that.OrgztreeObj.refresh();
                 that.OrgztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
                 that.orgnodeitem =null
+                that.OrgztreeObj.selectNode(parentZNode, true);
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -3306,7 +3446,6 @@ export default {
     departmentonClick: function (evt, treeId, treeNode) {
       if (!treeNode.open) {
         this.departmenttreeClick(treeId, treeNode);
-       
       }
       const orgparentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       if(orgparentZNode){
@@ -3358,6 +3497,8 @@ export default {
                 that.departztreeObj.refresh();
                 that.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
                 that.deptnodeitem =null
+                
+                that.departztreeObj.selectNode(parentZNode, true);
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -3519,6 +3660,8 @@ export default {
     canceldepartmentEditmodal(){
       this.departmentEdit_modal = false;
       this.departmentdelModal=false
+      this.departmentallocationModal=false
+      this.departmentremoveUserModal=false
     },
     //部门弹框确定
     confirmdepartmentEditmodal() {
@@ -3722,6 +3865,118 @@ export default {
           );
       
       
+    },
+    //部门打开分配用户弹框
+    deptallocationUserClick(){
+      if(this.deptnodeitem!=null){
+        this.departmentallocationModal=true
+        this.allocationusertable.page=1
+        this.getdeptallocationUser()
+      }else{
+        this.$Message.error({
+          content: "请选择部门节点",
+          duration: 1,
+        });
+      }
+    },
+    //获取部门分配用户列表
+    getdeptallocationUser(){
+      var that =this
+      var query = {
+          action: "Service",
+          method: "getNotInDept",
+          data: [that.deptnodeitem.id,that.allocationusertable.page,that.allocationusertable.pagesize],
+        };
+        that.$Spin.show();
+        that.$http
+          .post(that.PATH.DEPTGETNOTINDEPT, JSON.stringify(query))
+          .then(
+            (success) => {
+              that.$Spin.hide();
+              let res=success.data.result
+              this.allocationusertable.data=res.data
+              this.allocationusertable.total = res.count
+            },
+            (error) => {
+              that.$Spin.hide();
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      
+    },
+    //移除用户
+    departmentremoveUser(){
+      var that = this;
+      if(this.deptnodeitem!=null){
+        var query = {
+          action: "Service",
+          method: "removeFromDept",
+          data: [that.deptUserItem.id,that.deptnodeitem.id],
+        };
+        that.$Spin.show();
+        that.$http
+          .post(that.PATH.DEPTREMOVEDEPT, JSON.stringify(query))
+          .then(
+            (success) => {
+              that.$Spin.hide();
+              that.departmentdelModal = false;
+              that.refreshdepartmentParentNode(that.deptnodeitem);
+            },
+            (error) => {
+              that.$Spin.hide();
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      }else{
+        that.$Message.error({
+          content: "请选择部门节点",
+          duration: 1,
+        });
+      }
+    },
+    changeallocationusertablePage(page){
+      this.allocationusertable.page = page;
+    },
+    allocationuserRowClick(row,index){
+      this.allocationUseritem = row
+    },
+    // 部门用户分配确认
+    confirmallocationUser(){
+      let that=this
+      if(that.allocationUseritem!=null){
+         var query = {
+          action: "Service",
+          method: "setDept",
+          data: [that.allocationUseritem.id,that.deptnodeitem.id],
+        };
+        that.$Spin.show();
+        that.$http
+          .post(that.PATH.DEPTSETDEPT, JSON.stringify(query))
+          .then(
+            (success) => {
+              that.$Spin.hide();
+              that.departmentallocationModal = false;
+              that.$refs.allocationcurrentRowTable.clearCurrentRow();
+              that.getByDept(that.deptnodeitem.id)
+            },
+            (error) => {
+              that.$Spin.hide();
+              that.err_list = ["登录异常", "请联系管理员"];
+              that.errorTips_modal = true;
+            }
+          );
+      
+      
+      }else{
+        that.$Message.error({
+          content: "请选择部门节点",
+          duration: 1,
+        });
+      }
     },
 
 

@@ -76,6 +76,9 @@ export default {
     DEPARTMENTUPDATE:'/v3/sys/dept/sys.dept.direct',
     DEPARTMENTDELETE:'/v3/sys/dept/sys.dept.direct',
     DEPTGETNOTINDEPT:'/v3/sys/dept/sys.user.direct',
+    DEPTSETDEPT: '/v3/sys/dept/sys.user.direct',
+    DEPTREMOVEDEPT: '/v3/sys/dept/sys.user.direct',
+
 
 
 }

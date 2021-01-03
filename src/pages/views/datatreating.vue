@@ -1288,6 +1288,7 @@ export default {
                 });
                 this.ztreeObj.refresh();
                 this.ztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
+                that.ztreeObj.selectNode(parentZNode, true);
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -1923,6 +1924,7 @@ export default {
                 // ztreeObj4
                 this.ztreeObj4.refresh();
                 this.ztreeObj4.addNodes(parentZNode, childrenData, false); //添加节点
+                that.ztreeObj4.selectNode(parentZNode, true);
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
