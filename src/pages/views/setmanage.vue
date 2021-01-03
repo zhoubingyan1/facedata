@@ -1896,6 +1896,7 @@ export default {
 
     treeClick: function (treeId, treeNode) {
       // 点击事件
+      this.ztreeObj.cancelSelectedNode();
       const parentZNode = this.ztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       let nowParentNode = treeNode.getParentNode();
       var that = this;
@@ -1906,6 +1907,7 @@ export default {
       };
       if (treeNode.right - treeNode.left == 1) {
         //文件,获取右边的表格
+        that.ztreeObj.selectNode(parentZNode, true);
       } else {
         //文件夹
         treeNode.children = [];
@@ -1948,6 +1950,7 @@ export default {
             );
         }
       }
+      
     },
     //刷新当前选择节点的父节点
     refreshParentNode(treeNode) {
@@ -3074,6 +3077,7 @@ export default {
       this.orgnodeitem = treeNode;
     },
     organizationontreeClick: function (treeId, treeNode) {
+      this.OrgztreeObj.cancelSelectedNode();
       const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       var that = this;
       var query = {
@@ -3082,6 +3086,7 @@ export default {
         data: [treeNode.id],
       };
       if (treeNode.right - treeNode.left == 1) {
+        that.OrgztreeObj.selectNode(parentZNode, true);
       } else {
         treeNode.children = [];
         if (treeNode.isParent) {
@@ -3116,6 +3121,7 @@ export default {
             );
         }
       }
+      
     },
     organizationCreated(ztreeObj){
       this.OrgztreeObj = ztreeObj;
@@ -3136,7 +3142,7 @@ export default {
           that.orgdeldelModal = true;
           that.orgnodeitem = treeNode;
           
-          that.OrgztreeObj.selectNode(node)
+          // that.OrgztreeObj.selectNode(node)
         });
         item.appendChild(btn);
       }
@@ -3154,7 +3160,7 @@ export default {
           that.formVaildate.name=treeNode.name
           that.formVaildate.remark=treeNode.remark
           that.orgnodeitem = treeNode;
-          that.OrgztreeObj.selectNode(node)
+          // that.OrgztreeObj.selectNode(node)
           // this.clickRename(treeNode)
         });
         item.appendChild(renamebtn);
@@ -3490,6 +3496,7 @@ export default {
       
     },
     departmenttreeClick: function (treeId, treeNode) {
+      this.departztreeObj.cancelSelectedNode();
       const parentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       var that = this;
       var query = {
@@ -3498,6 +3505,7 @@ export default {
         data: [treeNode.id],
       };
       if (treeNode.right - treeNode.left == 1) {
+        that.departztreeObj.selectNode(parentZNode, true);
       } else {
         treeNode.children = [];
         if (treeNode.isParent) {
@@ -3523,8 +3531,8 @@ export default {
                 that.departztreeObj.refresh();
                 that.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
                 // that.deptnodeitem =null
-                
                 that.departztreeObj.selectNode(parentZNode, true);
+                
               },
               (error) => {
                 that.err_list = ["登录异常", "请联系管理员"];
@@ -3533,6 +3541,7 @@ export default {
             );
         }
       }
+      
     },
     departmentCreated(ztreeObj){
       this.departztreeObj = ztreeObj;
@@ -3553,7 +3562,7 @@ export default {
           that.departmentdelModal = true;
           that.deptnodeitem = treeNode;
           
-          that.departztreeObj.selectNode(node)
+          // that.departztreeObj.selectNode(node)
         });
         item.appendChild(btn);
       }
@@ -3570,7 +3579,7 @@ export default {
           that.formdeptVaildate.code=treeNode.code
           that.formdeptVaildate.name=treeNode.name
           that.formdeptVaildate.remark=treeNode.remark
-          that.departztreeObj.selectNode(node)
+          // that.departztreeObj.selectNode(node)
           // this.clickRename(treeNode)
         });
         item.appendChild(renamebtn);
