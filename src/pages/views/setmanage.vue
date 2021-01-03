@@ -3648,6 +3648,10 @@ export default {
             that.$Spin.hide();
             that.departmentdelModal = false;
             that.refreshdepartmentParentNode(that.deptnodeitem);
+            that.departmentlefttable.data=[]
+            that.departmentlefttable.page=1
+            that.departmenttable.data=[]
+            that.departmenttable.page=1
           },
           (error) => {
             that.$Spin.hide();
@@ -3775,7 +3779,7 @@ export default {
     },
     //刷新当前选择节点的父节点
     refreshdepartmentParentNode(treeNode) {
-      const parentZNode = this.OrgztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
+      const parentZNode = this.departztreeObj.getNodeByParam("id", treeNode.id, null); //获取指定父节点
       let parentNode = treeNode.getParentNode();
       var that = this;
       if (parentNode) {
@@ -3823,6 +3827,10 @@ export default {
         that.getOrganizationList();
       }
       that.deptnodeitem=null
+      that.departmentlefttable.data=[]
+      that.departmentlefttable.page=1
+      that.departmenttable.data=[]
+      that.departmenttable.page=1
     },
     //部门刷新当前的节点
     refreshdepartmentcurrentNode: function (treeId, treeNode) {
@@ -3857,6 +3865,10 @@ export default {
               this.departztreeObj.refresh();
               this.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
               that.deptnodeitem=null
+              that.departmentlefttable.data=[]
+              that.departmentlefttable.page=1
+              that.departmenttable.data=[]
+              that.departmenttable.page=1
             },
             (error) => {
               that.err_list = ["登录异常", "请联系管理员"];
