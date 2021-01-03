@@ -329,6 +329,9 @@
                     stripe
                     :columns="departmenttable.columns"
                     :data="departmenttable.data"
+                    highlight-row
+                    ref="deptcurrentRowTable"
+                    @on-row-click="departmentuserRowClick"
                   ></Table>
                 </div>
                 <div class="datatreating_fr_page">
@@ -1549,7 +1552,12 @@ export default {
                   attrs: {
                     class: "ivu-icon ivu-icon-ios-close-circle-outline",
                   },
-                  style: {},
+                  style: {
+                      display:
+                        params.row.usershowRightIcon==true
+                          ? "inline-block"
+                          : "none"
+                  },
                   on: {
                     click: () => {
                       this.departmentremoveUserModal=true
@@ -3616,6 +3624,11 @@ export default {
             that.$Spin.hide();
             let res = success.data.result;
             if (res.length > 0) {
+              res.forEach((v,i)=>{
+                res[i].usershowRightIcon = false
+                res[i].index=i
+                res[i]._highlight =false
+              })
               that.departmenttable.data = res
             }
           },
@@ -3626,6 +3639,17 @@ export default {
           }
         );
   
+    },
+    //部门人员单行点击
+    departmentuserRowClick(row,index){
+      this.departmenttable.data[index]._highlight=true
+      this.departmenttable.data[index].usershowRightIcon=true
+      this.departmenttable.data.forEach((v,i)=>{
+        if(row.id!=v.id){
+          this.departmenttable.data[i].usershowRightIcon=false
+          this.departmenttable.data[i]._highlight=false
+        }
+      })
     },
     //获取部门机构
     getDomainOrg(id){
