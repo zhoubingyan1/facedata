@@ -1917,15 +1917,15 @@ export default {
                 childrenData.forEach((v, i) => {
                   childrenData[i].open = false;
 
-                  // childrenData[i].isParent = true;
-                  // childrenData[i].children = [];
-                  if (childrenData[i].right - childrenData[i].left != 1) {
-                    childrenData[i].isParent = true;
-                    childrenData[i].children = [];
-                  }
-                  if (childrenData[i].right - childrenData[i].left == 1) {
-                    childrenData[i].isParent = false;
-                  }
+                  childrenData[i].isParent = true;
+                  childrenData[i].children = [];
+                  // if (childrenData[i].right - childrenData[i].left != 1) {
+                  //   childrenData[i].isParent = true;
+                  //   childrenData[i].children = [];
+                  // }
+                  // if (childrenData[i].right - childrenData[i].left == 1) {
+                  //   childrenData[i].isParent = false;
+                  // }
                 });
                 
                 this.ztreeObj.refresh();
@@ -3089,7 +3089,7 @@ export default {
                 
                 that.OrgztreeObj.refresh();
                 that.OrgztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
-                that.orgnodeitem =null
+                // that.orgnodeitem =null
                 that.OrgztreeObj.selectNode(parentZNode, true);
               },
               (error) => {
@@ -3496,7 +3496,7 @@ export default {
                 
                 that.departztreeObj.refresh();
                 that.departztreeObj.addNodes(parentZNode, childrenData, false); //添加节点
-                that.deptnodeitem =null
+                // that.deptnodeitem =null
                 
                 that.departztreeObj.selectNode(parentZNode, true);
               },
