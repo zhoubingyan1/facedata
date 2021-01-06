@@ -1134,7 +1134,8 @@ export default {
       let newtabledata = [];
       let datavbmodaltypelist=[]
       let datasdmodaltypelist=[]
-      let datascmodaltypelist=[]
+      let datascmodaltypelist=[] //不含因子载荷
+      let datascmodaltypelist1=[] //含有因子载荷
       let datasemodaltypelist=[]
       let datascdemodaltypelist=[]
       let datavkpmodaltypelist=[]
@@ -1176,7 +1177,12 @@ export default {
                 datasdmodaltypelist.push(v)
               } else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
+                //不含因子载荷
                 datascmodaltypelist.push(v)
+              }else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
+                // modaltype[v.name] = v.param;
+               //含有_因子载荷
+                datascmodaltypelist1.push(v)
               } else if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datasemodaltypelist.push(v)
@@ -1196,10 +1202,17 @@ export default {
               that.sortByKey(datasdmodaltypelist,'createTime')
               modaltype[datasdmodaltypelist[0].name]=datasdmodaltypelist[0].param
             }
+            //因子分析datasc入库 不含有尾部加因子载荷
             if(datascmodaltypelist.length>0){
               that.sortByKey(datascmodaltypelist,'createTime')
               modaltype[datascmodaltypelist[0].name]=datascmodaltypelist[0].param
             }
+            //因子分析datasc入库 含有尾部加因子载荷
+            if(datascmodaltypelist1.length>0){
+              that.sortByKey(datascmodaltypelist1,'createTime')
+              modaltype[datascmodaltypelist1[0].name]=datascmodaltypelist1[0].param
+            }
+            
             if(datasemodaltypelist.length>0){
               that.sortByKey(datasemodaltypelist,'createTime')
               modaltype[datasemodaltypelist[0].name]=datasemodaltypelist[0].param

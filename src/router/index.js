@@ -50,7 +50,7 @@ export default new Router({
           name: 'sceneone',
           component: path.Sceneone,
           meta: {
-            keepAlive: true
+            keepAlive: false
           }
         },
         {

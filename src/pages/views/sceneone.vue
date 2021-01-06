@@ -1,5 +1,5 @@
 <template>
-  <div id="sceneone">
+  <div id="Sceneone">
     
     <Row :gutter="52">
       <Col span="8">
@@ -27,7 +27,7 @@
                 v-for="(item,index) in firstrkpilist"
                 :key="index"
                 class="rkpi_item_content"
-                @click="ishowtable"
+                @click="isshowtable1(item,index)"
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
@@ -40,7 +40,7 @@
                 <div class="progress-content">
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#FD5056"
+                    color="#008000"
                     :value="item.scoreleft"
                     height="10"
                     stream
@@ -48,7 +48,7 @@
                   ></v-progress-linear>
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#246FEA"
+                    color="#f00"
                     :value="item.scoreright"
                     height="10"
                   ></v-progress-linear>
@@ -69,7 +69,7 @@
       <Col span="8">
         <div class="rkpi_index_content height465">
           <div class="rkpi_index_content_title">
-            <span class="title">RKPI和审核发现</span>
+            <span class="title">审计综合得分</span>
             <!-- <span class="title_mini">RKPI and Audit Findings</span> -->
           </div>
           <div class="heightoverflow">
@@ -106,7 +106,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -114,7 +114,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -162,7 +162,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -170,7 +170,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -217,7 +217,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -225,7 +225,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -272,7 +272,7 @@
                     <div class="progress-content">
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#FD5056"
+                        color="#008000"
                         :value="item.scoreleft"
                         height="10"
                         stream
@@ -280,7 +280,7 @@
                       ></v-progress-linear>
                       <v-progress-linear
                         background-color="rgba(0,0,0,0.05)"
-                        color="#246FEA"
+                        color="#f00"
                         :value="item.scoreright"
                         height="10"
                       ></v-progress-linear>
@@ -337,7 +337,7 @@
                 <div class="progress-content">
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#FD5056"
+                    color="#008000"
                     :value="item.scoreleft"
                     height="10"
                     stream
@@ -345,7 +345,7 @@
                   ></v-progress-linear>
                   <v-progress-linear
                     background-color="rgba(0,0,0,0.05)"
-                    color="#246FEA"
+                    color="#f00"
                     :value="item.scoreright"
                     height="10"
                   ></v-progress-linear>
@@ -364,16 +364,55 @@
       </Col>
     </Row>
     <!-- 表格 -->
+     <!-- v-if="ishowtable1" -->
     <Row>
-      <Col span="6" class="index_row1" v-if="ishowtable1">
-        <Table
+      <Col span="9" class="index_row1">
+       <Table
           class="facedata-table account-table"
           stripe
+          highlight-row
+          height="576"
+          ref="currentRowTable"
           :columns="table.columns"
           :data="table.data"
         ></Table>
+        <!-- <vxe-table
+          border="none"
+          stripe
+          class="mytable-style"
+          align="center"
+          highlight-hover-row
+          highlight-current-row
+          :cell-class-name="cellClassName"
+          :data="table.data"
+          @cell-click="cellClickEvent">
+          <vxe-table-column :field="item.field" :title="item.title" v-for="(item,index) in table.columns" :key="index"></vxe-table-column>
+        </vxe-table> -->
+        <!-- <vxe-grid
+          border="none"
+          align="center"
+          stripe
+          highlight-hover-row
+          highlight-current-row
+          @current-change="tablecurrent"
+          :row-style="rowStyle"
+          :cell-style="cellStyle"
+          highlight-hover-column
+          highlight-current-column
+          height="576"
+          ref="xGrid"
+          class="mytable-style"
+          :columns="table.columns"
+          :data="table.data"
+          :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil-square-o'}"
+          >
+          <template v-slot:img1_default="{ row }">
+            <span style="width: 100px; color:#f00;">{{}}</span>
+          </template>
+        </vxe-grid> -->
       </Col>
-      <Col span="7" offset="1" class="index_row1" v-if="ishowtable2">
+      <!-- v-if="ishowtable2" -->
+      <Col span="7" offset="1" class="index_row1" >
         <div class="index_row1_title">旋转后的成分矩阵</div>
         <Table
           class="facedata-table account-table"
@@ -382,93 +421,15 @@
           :data="table1.data"
         ></Table>
       </Col>
-      <Col span="9" offset="1" class="index_row1" v-if="ishowtable3">
+      <!-- v-if="ishowtable3" -->
+      <Col span="6" offset="1" class="index_row1" >
         <Table
           class="facedata-table account-table"
           stripe
-          :columns="table.columns"
-          :data="table.data"
+          :columns="table2.columns"
+          :data="table2.data"
         ></Table>
       </Col>
-    </Row>
-    <Row class="index_row">
-      <Card shadow class="echartstwocontent">
-        <div class="rkpi_index_content_title1">
-          <span class="title">风险分布热力图</span>
-          <span class="title_mini">Risk Heat Map</span>
-        </div>
-        <div class="echartscontent">
-          <div style="position: relative;" class="leftecharts">
-            <div class="leftlinecontent">
-              <div>高</div>
-              <div class="index_echarts_height">
-                <Icon class="index_echarts_icon1" type="md-arrow-dropup" />
-              </div>
-              <div class="index_echartsline"></div>
-              <div class="index_echarts_bottom">低</div>
-            </div>
-            <div class="index_echarts_leftmiddle">发生频率</div>
-          </div>
-          <div class="reports2">
-            <Row type="flex" justify="center" align="middle">
-              <Col span="8" class="bg1">
-                <div class="middlecontent">授信-贷后检查执行</div>
-              </Col>
-              <Col span="8" class="bg2">
-                <div class="middlecontent">
-                  授信-审批条件的落实，分类准确性、全面性，不良贷款管理
-                  <br />运营-营业场所安全管理
-                  <br />新兴-同业八项规定执行；交易员行为管理
-                  <br />科技-信息科技治理，信息科技风险管理
-                </div>
-              </Col>
-              <Col span="8" class="bg3">
-                <div></div>
-              </Col>
-              <Col span="8" class="bg4">
-                <div class="middlecontent">
-                  运营-会计业务管理
-                  <br />科技-业务连续性管理
-                </div>
-              </Col>
-              <Col span="8" class="bg5">
-                <div class="middlecontent"></div>
-              </Col>
-              <Col span="8" class="bg6">
-                <div class="middlecontent"></div>
-              </Col>
-              <Col span="8" class="bg7">
-                <div class="middlecontent"></div>
-              </Col>
-              <Col span="8" class="bg8">
-                <div class="middlecontent"></div>
-              </Col>
-              <Col span="8" class="bg9">
-                <div class="middlecontent"></div>
-              </Col>
-            </Row>
-          </div>
-          <!-- <div class="reports2" ref="charts_two"></div> -->
-        </div>
-        <div class="bottomlinecontent">
-          <div class="flexlineconent">
-            <div class="index_echartsline2"></div>
-            <div class="index_echarts_rightheight">
-              <Icon class="index_echarts_icon2" type="md-arrow-dropright" />高
-            </div>
-          </div>
-          <div class="index_echarts_rightmiddle">影响程度</div>
-        </div>
-      </Card>
-    </Row>
-    <Row class="index_row">
-      <Card shadow>
-        <div class="rkpi_index_content_title">
-          <span class="title">转化率趋势图</span>
-          <span class="title_mini">Risk Heat Map</span>
-        </div>
-        <div class="reports1" ref="charts_one"></div>
-      </Card>
     </Row>
   </div>
 </template>
@@ -480,7 +441,7 @@ import { on, off } from "@/utils/tools";
 // import { Tabs, TabPane } from "../components/tabs/index";
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
 export default {
-  name: "sceneone",
+  name: "Sceneone",
   // components: { Tabs, TabPane },
   components: { NewTabs, NewTabPane },
   data() {
@@ -607,272 +568,21 @@ export default {
       ],
       table: {
         columns: [
-          {
-            title: "排名",
-            key: "id",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.id;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "机构名称",
-            key: "name",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "风险因子2",
-            key: "name1",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name1;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
         ],
-        data: [
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-        ],
+        data: [],
       },
       table1: {
-        columns: [
-          {
-            title: "排名",
-            key: "id",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.id;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "机构名称",
-            key: "name",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "风险因子2",
-            key: "name1",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name1;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-        ],
-        data: [
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-        ],
+        columns: [],
+        data: [],
       },
+      table2:{
+        columns: [
+        ],
+        data: [],
+      },
+
+      selectRow: null,
+      selectColumn: null
     };
   },
   created() {
@@ -886,17 +596,19 @@ export default {
         for (const i in newmodaltype) {
           // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
-            if (i == "因子分析datavb入库") {
+            if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata');
-            } else if (i == "因子分析datasd入库") {
+            } else if (i.indexOf("因子分析datasd入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata1');
-            } else if (i == "因子分析datasc入库") {
+            } else if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata2');
-            } else if (i == "因子分析datase入库") {
+            }else if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")!= -1){
+              this.getData(newmodaltype[i],'indexdata6');
+            } else if (i.indexOf("因子分析datase入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata3');
-            } else if (i == "因子分析datascde入库") {
+            } else if (i.indexOf("因子分析datascde入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata4');
-            } else if (i == "因子分析datavkpi入库") {
+            } else if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata5');
             }
           }
@@ -904,14 +616,8 @@ export default {
       }
     }
 
-    // this.drawTwo(this.legenddata,this.xAxisdata,this.seriesdata)
   },
   mounted() {
-    this.$nextTick(() => {
-      // this.drawTwo(this.legenddata,this.xAxisdata,this.seriesdata)
-      this.drawOne();
-      on(window, "resize", this.resize);
-    });
   },
   methods: {
     //获取列表
@@ -936,7 +642,10 @@ export default {
           // console.log(success);
           if(success.data.result){
             var res = success.data.result;
-            that.getData2(res, id,datatype);
+            if(res.length>0){
+              that.getData2(res, id,datatype);
+            }
+            
           }
           
         },
@@ -982,60 +691,152 @@ export default {
         (success) => {
           that.$Spin.hide()
           var res = success.data.result;
+          let newResult = success.data.result;
           //周
+          if(Array.isArray(res)==true){
+            if(res.length>0){
+              res.forEach((v,i)=>{
+                res[i].name = v.ORG
+                res[i].number =that.tofix(v.SUM,6)
+                newscorelist.push(res[i].number)
+                res[i].strokeWidth = 5
+                res[i].strokeColor = ["#92BBFF", "#92BBFF"]
+              })
+              //处理进度条值
+              that.get_progress(res)
+              //取综合得分中间值
+              middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
+              
+            }
+            if(datatype=='indexdata'){
+              that.firstrkpilist= res
+              // //处理默认的得分升序
+              that.sortByKey(that.firstrkpilist,'number')
+              that.mediannumber=middlenumber 
+              that.table.columns = [];
+              let newkey = []
+              // console.log(newResult,'newResult')   
+              if (newResult.length > 0) {
+                for(let key in newResult[0]){
+                    if(key!='name'&&key!='number'&&key!='scoreleft'&&key!='scoreright'&&key!='strokeColor'&&key!='strokeWidth'){
+                      newkey.push(key)
+                    }
+                    
+                }
+                for(let i=0;i<newkey.length;i++){
+                  // that.table.columns.push({
+                  //   title:newkey[i],
+                  //   field:newkey[i],
+                  //   slots:{}
+                  // })
+                  that.table.columns.push({
+                    title:newkey[i],
+                    align: "center",
+                  })
 
-          // name: "市北分行",
-          // number: "2.94016",
-          // score: 45,
-          // strokeWidth: 5,
-          // strokeColor: ["#92BBFF", "#92BBFF"],
-          // console.log(res);s
-          if(res.length>0){
-            res.forEach((v,i)=>{
-              res[i].name = v.ORG
-              res[i].number =that.tofix(v.SUM,6)
-              newscorelist.push(res[i].number)
-              res[i].strokeWidth = 5
-              res[i].strokeColor = ["#92BBFF", "#92BBFF"]
-            })
-            //处理进度条值
-            that.get_progress(res)
-            //取综合得分中间值
-            middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
-            
+                  that.table.columns.forEach((v,i)=>{
+                    // v.slots.default=function ({ row }, h) { 
+                    //   return [
+                    //     h('span', {
+                    //       style: {
+                    //         color: row.showClick
+                    //       },
+                    //       on: {
+                    //         // click: () => this.addressClickEvent(row)
+                    //       }
+                    //     }, row[newkey[i]])
+                    //   ]
+                    // }
+                    v.render = function(h, params) {
+                      let result = "";
+                      result = params.row[newkey[i]];
+                      return h("div", [
+                        h(
+                          "span",
+                          {
+                            style: {
+                              color: params.row.showClick=='1'?'#246FEA':'rgba(0,0,0,0.80)'
+                            },
+                            on: {
+                              click: () => {
+                                
+                              }
+                            }
+                          },
+                          result
+                        )
+                      ]);
+                    };
+                    
+                  })  
+                }
+                // that.tofix(v.SUM,6)
+                let newtabledata=newResult
+                newtabledata.forEach((v,i)=>{
+                  // console.log(v[newkey[i]],'v[newkey[i]]')
+                  // if(typeof v[newkey[i]]=='number'){
+                  //   v[newkey[i]]=Number(that.tofix(v[newkey[i]],6))
+                  // }
+                  v.FACTOR_1_STEP2=that.tofix(v.FACTOR_1_STEP2,6)
+                  v.FACTOR_2_STEP2=that.tofix(v.FACTOR_2_STEP2,6)
+                  v.FACTOR_3_STEP2=that.tofix(v.FACTOR_3_STEP2,6)
+                  v.SUM=that.tofix(v.SUM,6)
+                  v.showClick='0'
+                  v.index=i
+                  v._highlight=false
+                })
+                // console.log(newtabledata,'newtabledata')
+                that.table.data = newtabledata;
+                that.sortByKey(that.table.data,'number')
+              }
+            }else if(datatype=='indexdata1'){
+              that.firstrkpilist1= res
+              // //处理默认的得分升序
+              that.mediannumber1=middlenumber 
+              that.sortByKey(that.firstrkpilist1,'number')
+            }else if(datatype=='indexdata2'){
+              that.firstrkpilist2= res
+              // //处理默认的得分升序
+              that.mediannumber2=middlenumber 
+              that.sortByKey(that.firstrkpilist2,'number')
+            }else if(datatype=='indexdata3'){
+              that.firstrkpilist3= res
+              // //处理默认的得分升序
+              that.mediannumber3=middlenumber 
+              that.sortByKey(that.firstrkpilist3,'number')
+            }else if(datatype=='indexdata4'){
+              that.firstrkpilist4= res
+              // //处理默认的得分升序
+              that.mediannumber4=middlenumber 
+              that.sortByKey(that.firstrkpilist4,'number')
+            }else if(datatype=='indexdata5'){
+              that.firstrkpilist5= res
+              // //处理默认的得分升序
+              that.mediannumber5=middlenumber 
+              that.sortByKey(that.firstrkpilist5,'number')
+            }else if(datatype=='indexdata6'){
+              // that.firstrkpilist5= res
+              // //处理默认的得分升序
+              // that.mediannumber5=middlenumber 
+              // that.sortByKey(that.firstrkpilist5,'number')
+              that.table1.columns = [];
+              let newkey = []
+              if (newResult.length > 0) {
+                for(let key in newResult[0]){
+                    newkey.push(key)
+                }
+                for(let i=0;i<newkey.length;i++){
+                  that.table1.columns.push({
+                    title:newkey[i],
+                    field:newkey[i],
+                    align: "center",
+                  })
+                }
+                that.table1.data = res;
+              }
+            }
           }
-          if(datatype=='indexdata'){
-            that.firstrkpilist= res
-            // //处理默认的得分升序
-            that.sortByKey(that.firstrkpilist,'number')
-            that.mediannumber=middlenumber 
-          }else if(datatype=='indexdata1'){
-            that.firstrkpilist1= res
-            // //处理默认的得分升序
-            that.mediannumber1=middlenumber 
-            that.sortByKey(that.firstrkpilist1,'number')
-            
-          }else if(datatype=='indexdata2'){
-            that.firstrkpilist2= res
-            // //处理默认的得分升序
-            that.mediannumber2=middlenumber 
-            that.sortByKey(that.firstrkpilist2,'number')
-          }else if(datatype=='indexdata3'){
-            that.firstrkpilist3= res
-            // //处理默认的得分升序
-            that.mediannumber3=middlenumber 
-            that.sortByKey(that.firstrkpilist3,'number')
-          }else if(datatype=='indexdata4'){
-            that.firstrkpilist4= res
-            // //处理默认的得分升序
-            that.mediannumber4=middlenumber 
-            that.sortByKey(that.firstrkpilist4,'number')
-          }else if(datatype=='indexdata5'){
-            that.firstrkpilist5= res
-            // //处理默认的得分升序
-            that.mediannumber5=middlenumber 
-            that.sortByKey(that.firstrkpilist5,'number')
-          }
+          
   
           
         },
@@ -1257,224 +1058,9 @@ export default {
       }
       return s;
     },
-    drawOne() {
-      // charts_one
-      var legenddata = legenddata || []; //报表的标题
-      var xAxisdata = xAxisdata || []; //报表得x轴
-      var seriesdata = seriesdata || []; //报表得数据
-
-      var bar_dv = this.$refs.charts_one;
-      // let echarts = this.echarts.init(document.getElementById('reports'))
-      this.dom = this.echarts.init(bar_dv);
-      let option = {
-        // dataZoom: [
-        //     {
-        //         id: 'dataZoomX',
-        //         type: 'slider',
-        //         xAxisIndex: [0],
-        //         filterMode: 'filter'
-        //     }
-        // ],
-        // tooltip: {
-        //     trigger: 'axis',
-        //     axisPointer: {
-        //         type: 'cross',
-        //         label: {
-        //             backgroundColor: '#6a7985'
-        //         }
-        //     },
-        // },
-
-        // legend: {
-        //     type: 'scroll',
-        //     top: 22,
-        //     // data:['文章海报','视频海报'],
-        //     // data:legenddata
-        // },
-        // grid: {
-        //     left: '3%',
-        //     right: '6%',
-        //     bottom: '3%',
-        //     containLabel: true
-        // },
-        // toolbox: {
-        //     feature: {
-        //         dataZoom: {
-        //             yAxisIndex: 'none'
-        //         },
-        //         mark : {show: true},
-        //         dataView : {show: true, readOnly: false},
-        //         magicType: {show: true, type: ['line', 'bar']},
-        //         restore: {},
-        //         saveAsImage: {}
-        //     }
-        // },
-        xAxis: {
-          type: "category",
-          axisLine: {
-            lineStyle: {
-              color: "#CDCDCD",
-            },
-          },
-
-          // boundaryGap: false,
-          data: ["05.31", "06.10", "06.20", "06.30", "07.10", "07.20", "07.30"],
-          // data: xAxisdata
-        },
-        yAxis: {
-          type: "value",
-          nameTextStyle: {
-            color: "#92BBFF",
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#CDCDCD",
-            },
-          },
-          axisLabel: {
-            formatter: "{value} k",
-          },
-          data: [],
-        },
-        // series:seriesdata
-        series: [
-          {
-            name: "",
-            type: "line",
-            showSymbol: false,
-            // type: 'bar',
-            data: [1201, 1312, 1011, 1134, 9110, 2310, 2110],
-            lineStyle: {
-              color: "#92BBFF",
-            },
-            areaStyle: {
-              color: "rgba(255,255,255,0)",
-            },
-            stack: "总量",
-            markLine: {
-              lineStyle: {
-                color: "#FD5056",
-              },
-              data: [
-                {
-                  type: "average",
-                  name: "平均值",
-                },
-              ],
-            },
-          },
-          {
-            name: "",
-            type: "line",
-
-            data: [2210, 1821, 1911, 2134, 2190, 3310, 3110],
-            lineStyle: {
-              color: "#246FEA",
-            },
-            areaStyle: {
-              color: "#92BBFF",
-            },
-            stack: "总量",
-            markLine: {
-              lineStyle: {
-                color: "#92BBFF",
-              },
-              data: [{ type: "median", name: "平均值" }],
-            },
-          },
-        ],
-      };
-
-      this.dom.setOption(option, true);
-    },
-    drawTwo(legenddata, xAxisdata, seriesdata) {
-      var legenddata = legenddata || []; //报表的标题
-      var xAxisdata = xAxisdata || []; //报表得x轴
-      var seriesdata = seriesdata || []; //报表得数据
-
-      var bar_dv = this.$refs.charts_two;
-      // let echarts = this.echarts.init(document.getElementById('reports'))
-      this.dom1 = this.echarts.init(bar_dv);
-
-      var series_list = [];
-      var series_data = [
-        { name: "", value: [0, 0, 5] },
-        { name: "", value: [1, 0, 10] },
-        { name: "", value: [2, 0, 15] },
-        { name: "运营-会计业务管理\n科技-业务连续性管理", value: [0, 1, 10] },
-        { name: "", value: [1, 1, 15] },
-        { name: "", value: [2, 1, 20] },
-        { name: "授信-贷后检查执行", value: [0, 2, 15] },
-        {
-          name:
-            "授信-审批条件的落实，分类准确性、全面性，不良贷款管理\n运营-营业场所安全管理\n新兴-同业八项规定执行；交易员行为管理\n科技-信息科技治理，信息科技风险管理",
-          value: [1, 2, 20],
-        },
-        { name: "", value: [2, 2, 30] },
-      ];
-
-      series_data.forEach((v) => {
-        var node = {};
-        node.name = v.name;
-        (node.type = "heatmap"), (node.data = [{ value: v.value }]);
-        node.label = {
-          show: true,
-          formatter: "{a}",
-          lineHeight: 15,
-          fontSize: 12,
-          color: "#246FEA",
-          align: "left",
-          offset: [-150, 0],
-          borderWidth: 0,
-        };
-        series_list.push(node);
-      });
-      // console.log(series_list);
-      let option = {
-        tooltip: {
-          show: false,
-        },
-        animation: false,
-        grid: {
-          height: "100%",
-          left: 0,
-          top: 0,
-          right: 0,
-        },
-        xAxis: {
-          type: "category",
-          data: [0, 1, 2],
-          show: false,
-        },
-        yAxis: {
-          type: "category",
-          data: [0, 1, 2],
-          show: false,
-        },
-        visualMap: {
-          min: 0,
-          max: 100,
-          calculable: false,
-          orient: "horizontal",
-          inRange: {
-            color: ["rgba(36,111,234,.1)", "rgba(36,111,234,.9)"],
-          },
-          show: false,
-        },
-        series: series_list,
-      };
-      this.dom1.setOption(option, true);
-    },
-    resize() {
-      if (this.dom != null) {
-        this.dom.resize();
-      }
-      if (this.dom1 != null) {
-        this.dom1.resize();
-      }
-    },
     ishowtable() {
-      this.ishowtable1 = true;
+      // this.ishowtable1 = true;
+
     },
     ishowsecondtable() {
       // console.log(1)
@@ -1483,14 +1069,61 @@ export default {
     ishowthreetable() {
       this.ishowtable3 = true;
     },
-  },
-  beforeDestroy() {
-    off(window, "resize", this.resize);
+    isshowtable1(item,index){
+      console.log(this.$refs.currentRowTable,'this.$refs.currentRowTable')
+      
+      // console.log(item,'item')
+      // this.$nextTick((v,i)=>{
+      //   this.table.data.forEach((v,i)=>{
+      //     if(item.name==v.name){
+      //       this.table.data[i]._highlight=true
+      //       this.$set(this.table.data[i],'_highlight',true)
+      //     }
+      //   })
+      //   this.$forceUpdate()
+      // })
+      
+      console.log(this.table.data,'this.table.data')
+    },
+    //行高亮
+    tablecurrent({ row,rowIndex}){
+      let that=this
+      that.rowStyle({row,rowIndex},row.index)
+      
+      // console.log(that.table.data,'this.table.data')
+    },
+    rowStyle ({ row, rowIndex },index) {
+      if(index){
+        // console.log(index,'index',rowIndex)
+          if ([index].includes(rowIndex)) {
+            // console.log(111)
+            return {
+              backgroundColor: 'red',
+              color: '#ffffff'
+            }
+          } 
+      }
+      
+    },
+    cellStyle ({ row, rowIndex, column, columnIndex }) {
+      // return {
+      //   color: 'rgba(0,0,0,0.80)'
+      // }
+    },
+    cellClassName ({ row, column }) {
+      // if (row === this.selectRow & column === this.selectColumn) {
+      //   return 'col-orange'
+      // }
+    },
+    cellClickEvent ({ row, column }) {
+      this.selectRow = row
+      this.selectColumn = column
+    }
   },
 };
 </script>
 <style lang="scss">
-#sceneone {
+#Sceneone {
   min-width: 1200px;
   height: 100%;
   padding: 50px 70px;
@@ -1873,8 +1506,8 @@ export default {
     position: relative;
     padding: 30px 30px !important;
     background: #fff;
-    height: 576px;
-    overflow: auto;
+    // height: 576px;
+    // overflow: auto;
     .index_row1_title {
       font-family: PingFangSC-Medium;
       font-size: 14px;
@@ -2093,6 +1726,7 @@ export default {
         background-color: transparent;
       }
     }
+
     .ivu-table-tbody {
       color: var(--font);
     }
@@ -2152,6 +1786,47 @@ export default {
         }
       }
     }
+    .ivu-table-row-highlight td, .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td, tr.ivu-table-row-highlight.ivu-table-row-hover td {
+    background-color: #fff !important;
+    box-shadow: 0 3px 0px 0px rgba(0,0,0,0.10);
   }
+  }
+  .mytable-style .vxe-table{
+    .vxe-body--row{
+      background: rgba(36,111,234,0.05);
+      color: rgba(0,0,0,0.80);
+    }
+    .vxe-body--row.row--stripe{
+      background-color: #fff !important;
+    }
+    .vxe-body--row.row--current {
+      background: #FFFFFF !important;
+      box-shadow: 0 5px 30px 0 rgba(0,0,0,0.10) !important;
+      z-index: 99;
+    }
+    .vxe-body--row.row-green {
+      background-color: #187;
+      color: #fff;
+    }
+    .vxe-header--column.col-blue {
+      background-color: #2db7f5;
+      color: #fff;
+    }
+    .vxe-body--column.col-red {
+      background-color: red;
+      color: #fff;
+    }
+    .vxe-body--column.col-orange {
+      background-color: #f60;
+      color: #fff;
+    }
+    .vxe-cell {
+      white-space: pre-line;
+      word-break: break-all;
+      padding-left: 2px !important;
+      padding-right: 2px !important;
+    } 
+  }
+  
 }
 </style>

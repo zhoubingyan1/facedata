@@ -20,7 +20,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="2-1">
-                  <span>场景1</span>
+                  <span>风险成因分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -30,7 +30,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="3-1">
-                  <span>场景2</span>
+                  <span>排名差异分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -40,7 +40,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="4-1">
-                  <span>场景3</span>
+                  <span>审计质量分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -96,7 +96,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="12-1">
-                  <span>场景1</span>
+                  <span>风险成因分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -106,7 +106,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="13-1">
-                  <span>场景2</span>
+                  <span>排名差异分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -116,7 +116,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="14-1">
-                  <span>场景3</span>
+                  <span>审计质量分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -172,7 +172,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="22-1">
-                  <span>场景1</span>
+                  <span>风险成因分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -182,7 +182,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="23-1">
-                  <span>场景2</span>
+                  <span>排名差异分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -192,7 +192,7 @@
                   <div class="sildercircle"></div>
                 </MenuItem>
                 <MenuItem name="24-1">
-                  <span>场景3</span>
+                  <span>审计质量分析</span>
                   <div class="right_top">
                     <div class="border"></div>
                   </div>
@@ -392,7 +392,7 @@ export default {
             }
             break  
           case "3-1":
-            //场景2
+            //排名差异分析
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenetwo'})
@@ -403,7 +403,7 @@ export default {
             }
             break
           case "4-1":
-            //场景3
+            //审计质量分析
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenethree'})
@@ -467,7 +467,7 @@ export default {
             }
             break  
           case "13-1":
-            //场景2
+            //排名差异分析
            if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenetwo'})
@@ -478,7 +478,7 @@ export default {
             }
             break
           case "14-1":
-            //场景3
+            //审计质量分析
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenethree'})
@@ -543,7 +543,7 @@ export default {
             }
             break  
           case "23-1":
-            //场景2
+            //排名差异分析
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenetwo'})
@@ -554,7 +554,7 @@ export default {
             }
             break
           case "24-1":
-            //场景3
+            //审计质量分析
             if(item.type=='1'){
               //对公
               this.$router.push({ name:'scenethree'})
@@ -612,11 +612,11 @@ export default {
             this.$router.push({ name:'sceneone'})
             break  
           case "3-1":
-            //场景2
+            //排名差异分析
             this.$router.push({ name:'scenetwo'})
             break
           case "4-1":
-            //场景3
+            //审计质量分析
             this.$router.push({ name:'scenethree'})
             break  
           case "5-1":
