@@ -397,6 +397,11 @@
           <span class="title">风险分布热力图</span>
           <span class="title_mini">Risk Heat Map</span>
         </div>
+        <div class="organizationmodel"> 
+          <Select v-model="organizationmodel" class="organizationselect">
+              <Option v-for="item in organizationList" :value="item" :key="item">{{ item}}</Option>
+          </Select>
+        </div>
         <div class="echartscontent">
           <div style="position: relative;" class="leftecharts">
             <div class="leftlinecontent">
@@ -503,6 +508,8 @@ export default {
       firstsort5:'scoreup',
 
       tabsvalue:'1',
+      organizationmodel:'',
+      organizationList:[],
 
       ishowtable1: false,
       ishowtable2: false,
@@ -1528,6 +1535,14 @@ export default {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   background: #f5f5f5;
+  .organizationmodel{
+    padding-right: 50px;
+    display: flex;
+    justify-content: flex-end;
+    .organizationselect{
+      width: 200px;
+    }
+  }
   .rkpi_index_content_title {
     background: #f5f5f5;
     border-radius: 15px;
