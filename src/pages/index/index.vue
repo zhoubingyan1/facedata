@@ -1,6 +1,5 @@
 <template>
   <div id="index">
-    
     <Row :gutter="52">
       <Col span="8">
         <div class="rkpi_index_content height465">
@@ -11,7 +10,7 @@
           <div class="heightoverflow">
             <div class="rkpi_index_content_sort">
               <div class="left_sort">
-                <div class="left_sorttit">中间值: {{mediannumber}}</div>
+                <div class="left_sorttit">中间值: {{ mediannumber }}</div>
               </div>
               <div class="right_sort">
                 <Select v-model="firstsort" @on-change="RKPIsort">
@@ -24,18 +23,19 @@
             </div>
             <div class="rkpi_item">
               <div
-                v-for="(item,index) in firstrkpilist"
+                v-for="(item, index) in firstrkpilist"
                 :key="index"
                 class="rkpi_item_content"
                 @click="ishowtable"
               >
                 <Row>
-                  <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                  <Col span="12" class="rkpi_item_title">{{ item.name }}</Col>
                   <Col
                     span="12"
                     class="rkpi_item_righttitle"
-                    style="text-align:right;"
-                  >{{item.number}}</Col>
+                    style="text-align: right"
+                    >{{ item.number }}</Col
+                  >
                 </Row>
                 <div class="progress-content">
                   <v-progress-linear
@@ -53,7 +53,7 @@
                     height="10"
                   ></v-progress-linear>
                 </div>
-                
+
                 <!-- <Progress
                   :percent="item.score"
                   :stroke-width="item.strokeWidth"
@@ -73,11 +73,15 @@
             <!-- <span class="title_mini">RKPI and Audit Findings</span> -->
           </div>
           <div class="heightoverflow">
-            <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
+            <NewTabs
+              class="tabs-animation"
+              :active="tabsvalue"
+              v-on:tabclick="tabclick"
+            >
               <NewTabPane label="总行" name="1">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber1}}</div>
+                    <div class="left_sorttit">中间值: {{ mediannumber1 }}</div>
                   </div>
                   <div class="right_sort">
                     <Select v-model="firstsort1" @on-change="RKPIsort1">
@@ -90,18 +94,21 @@
                 </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist1"
+                    v-for="(item, index) in firstrkpilist1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
                   >
                     <Row>
-                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col span="12" class="rkpi_item_title">{{
+                        item.name
+                      }}</Col>
                       <Col
                         span="12"
                         class="rkpi_item_righttitle"
-                        style="text-align:right;"
-                      >{{item.number}}</Col>
+                        style="text-align: right"
+                        >{{ item.number }}</Col
+                      >
                     </Row>
                     <div class="progress-content">
                       <v-progress-linear
@@ -119,7 +126,7 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    
+
                     <!-- <Progress
                       :percent="item.score"
                       :stroke-width="item.strokeWidth"
@@ -133,31 +140,34 @@
               <NewTabPane label="分行" name="2">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber2}}</div>
-                    </div>
-                    <div class="right_sort">
-                      <Select v-model="firstsort2" @on-change="RKPIsort2">
-                        <Option value="scoreup">得分升序</Option>
-                        <Option value="scoredown">得分降序</Option>
-                        <Option value="organizationup">机构名升序</Option>
-                        <Option value="organizationdown">机构名降序</Option>
-                      </Select>
-                    </div>
+                    <div class="left_sorttit">中间值: {{ mediannumber2 }}</div>
                   </div>
+                  <div class="right_sort">
+                    <Select v-model="firstsort2" @on-change="RKPIsort2">
+                      <Option value="scoreup">得分升序</Option>
+                      <Option value="scoredown">得分降序</Option>
+                      <Option value="organizationup">机构名升序</Option>
+                      <Option value="organizationdown">机构名降序</Option>
+                    </Select>
+                  </div>
+                </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist2"
+                    v-for="(item, index) in firstrkpilist2"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
                   >
                     <Row>
-                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col span="12" class="rkpi_item_title">{{
+                        item.name
+                      }}</Col>
                       <Col
                         span="12"
                         class="rkpi_item_righttitle"
-                        style="text-align:right;"
-                      >{{item.number}}</Col>
+                        style="text-align: right"
+                        >{{ item.number }}</Col
+                      >
                     </Row>
                     <div class="progress-content">
                       <v-progress-linear
@@ -188,31 +198,34 @@
               <NewTabPane label="监督" name="3">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber3}}</div>
-                    </div>
-                    <div class="right_sort">
-                      <Select v-model="firstsort3" @on-change="RKPIsort3">
-                        <Option value="scoreup">得分升序</Option>
-                        <Option value="scoredown">得分降序</Option>
-                        <Option value="organizationup">机构名升序</Option>
-                        <Option value="organizationdown">机构名降序</Option>
-                      </Select>
-                    </div>
+                    <div class="left_sorttit">中间值: {{ mediannumber3 }}</div>
                   </div>
+                  <div class="right_sort">
+                    <Select v-model="firstsort3" @on-change="RKPIsort3">
+                      <Option value="scoreup">得分升序</Option>
+                      <Option value="scoredown">得分降序</Option>
+                      <Option value="organizationup">机构名升序</Option>
+                      <Option value="organizationdown">机构名降序</Option>
+                    </Select>
+                  </div>
+                </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist3"
+                    v-for="(item, index) in firstrkpilist3"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
                   >
                     <Row>
-                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col span="12" class="rkpi_item_title">{{
+                        item.name
+                      }}</Col>
                       <Col
                         span="12"
                         class="rkpi_item_righttitle"
-                        style="text-align:right;"
-                      >{{item.number}}</Col>
+                        style="text-align: right"
+                        >{{ item.number }}</Col
+                      >
                     </Row>
                     <div class="progress-content">
                       <v-progress-linear
@@ -243,31 +256,34 @@
               <NewTabPane label="综合" name="4">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber4}}</div>
-                    </div>
-                    <div class="right_sort">
-                      <Select v-model="firstsort4" @on-change="RKPIsort4">
-                        <Option value="scoreup">得分升序</Option>
-                        <Option value="scoredown">得分降序</Option>
-                        <Option value="organizationup">机构名升序</Option>
-                        <Option value="organizationdown">机构名降序</Option>
-                      </Select>
-                    </div>
+                    <div class="left_sorttit">中间值: {{ mediannumber4 }}</div>
                   </div>
+                  <div class="right_sort">
+                    <Select v-model="firstsort4" @on-change="RKPIsort4">
+                      <Option value="scoreup">得分升序</Option>
+                      <Option value="scoredown">得分降序</Option>
+                      <Option value="organizationup">机构名升序</Option>
+                      <Option value="organizationdown">机构名降序</Option>
+                    </Select>
+                  </div>
+                </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist4"
+                    v-for="(item, index) in firstrkpilist4"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
                   >
                     <Row>
-                      <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                      <Col span="12" class="rkpi_item_title">{{
+                        item.name
+                      }}</Col>
                       <Col
                         span="12"
                         class="rkpi_item_righttitle"
-                        style="text-align:right;"
-                      >{{item.number}}</Col>
+                        style="text-align: right"
+                        >{{ item.number }}</Col
+                      >
                     </Row>
                     <div class="progress-content">
                       <v-progress-linear
@@ -308,7 +324,7 @@
           <div class="heightoverflow">
             <div class="rkpi_index_content_sort">
               <div class="left_sort">
-                <div class="left_sorttit">中间值: {{mediannumber5}}</div>
+                <div class="left_sorttit">中间值: {{ mediannumber5 }}</div>
               </div>
               <div class="right_sort">
                 <Select v-model="firstsort5" @on-change="RKPIsort5">
@@ -321,18 +337,19 @@
             </div>
             <div class="rkpi_item">
               <div
-                v-for="(item,index) in firstrkpilist5"
+                v-for="(item, index) in firstrkpilist5"
                 :key="index"
                 class="rkpi_item_content"
                 @click="ishowtable"
               >
                 <Row>
-                  <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
+                  <Col span="12" class="rkpi_item_title">{{ item.name }}</Col>
                   <Col
                     span="12"
                     class="rkpi_item_righttitle"
-                    style="text-align:right;"
-                  >{{item.number}}</Col>
+                    style="text-align: right"
+                    >{{ item.number }}</Col
+                  >
                 </Row>
                 <div class="progress-content">
                   <v-progress-linear
@@ -397,13 +414,22 @@
           <span class="title">风险分布热力图</span>
           <span class="title_mini">Risk Heat Map</span>
         </div>
-        <div class="organizationmodel"> 
-          <Select v-model="organizationmodel" class="organizationselect">
-              <Option v-for="item in organizationList" :value="item" :key="item">{{ item}}</Option>
+        <div class="organizationmodel">
+          <Select
+            v-model="organizationmodel"
+            class="organizationselect"
+            @on-change="change_reli"
+          >
+            <Option
+              v-for="(item, index) in organizationList"
+              :value="index"
+              :key="item"
+              >{{ item }}</Option
+            >
           </Select>
         </div>
         <div class="echartscontent">
-          <div style="position: relative;" class="leftecharts">
+          <div style="position: relative" class="leftecharts">
             <div class="leftlinecontent">
               <div>高</div>
               <div class="index_echarts_height">
@@ -478,12 +504,10 @@
   </div>
 </template>
 <script>
-
-
 import echarts from "echarts";
 import { on, off } from "@/utils/tools";
 // import { Tabs, TabPane } from "../components/tabs/index";
-import { NewTabs,NewTabPane} from '../components/newtabs/index'
+import { NewTabs, NewTabPane } from "../components/newtabs/index";
 export default {
   name: "index",
   // components: { Tabs, TabPane },
@@ -492,24 +516,24 @@ export default {
     return {
       mediannumber: 0, //综合得分中间值
       firstsort: "scoreup",
-      mediannumber1:0,//总行中间值
-      firstsort1:'scoreup',
+      mediannumber1: 0, //总行中间值
+      firstsort1: "scoreup",
 
-      mediannumber2:0,//分行中间值
-      firstsort2:'scoreup',
+      mediannumber2: 0, //分行中间值
+      firstsort2: "scoreup",
 
-      mediannumber3:0,//监督中间值
-      firstsort3:'scoreup',
+      mediannumber3: 0, //监督中间值
+      firstsort3: "scoreup",
 
-      mediannumber4:0,//综合中间值
-      firstsort4:'scoreup',
+      mediannumber4: 0, //综合中间值
+      firstsort4: "scoreup",
 
-      mediannumber5:0,//rkpi和审核发现中间值
-      firstsort5:'scoreup',
+      mediannumber5: 0, //rkpi和审核发现中间值
+      firstsort5: "scoreup",
 
-      tabsvalue:'1',
-      organizationmodel:'',
-      organizationList:[],
+      tabsvalue: "1",
+      organizationmodel: "",
+      organizationList: [],
 
       ishowtable1: false,
       ishowtable2: false,
@@ -517,12 +541,12 @@ export default {
       dom: null,
       dom1: null,
       echarts: echarts,
-      firstrkpilist:[],//综合得分
-      firstrkpilist1:[],//总行
-      firstrkpilist2:[],//分行
-      firstrkpilist3:[],//监督
-      firstrkpilist4:[],//综合
-      firstrkpilist5:[],//RKPI和审核发现
+      firstrkpilist: [], //综合得分
+      firstrkpilist1: [], //总行
+      firstrkpilist2: [], //分行
+      firstrkpilist3: [], //监督
+      firstrkpilist4: [], //综合
+      firstrkpilist5: [], //RKPI和审核发现
 
       rkpilist: [
         {
@@ -880,6 +904,7 @@ export default {
           },
         ],
       },
+      reli_list: [],
     };
   },
   created() {
@@ -893,21 +918,21 @@ export default {
         for (const i in newmodaltype) {
           // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datavb入库") != -1){
-              this.getData(newmodaltype[i],'indexdata');
-            } else if (i.indexOf("因子分析datasd入库") != -1){
-              this.getData(newmodaltype[i],'indexdata1');
-            } else if (i.indexOf("因子分析datasc入库") != -1){
-              this.getData(newmodaltype[i],'indexdata2');
-            } else if (i.indexOf("因子分析datase入库") != -1){
-              this.getData(newmodaltype[i],'indexdata3');
-            } else if (i.indexOf("因子分析datascde入库") != -1){
-              this.getData(newmodaltype[i],'indexdata4');
-            } else if (i.indexOf("因子分析datavkpi入库") != -1){
-              this.getData(newmodaltype[i],'indexdata5');
-            }else if(i.indexOf('datacde热力图入库'!= -1)){
+            if (i.indexOf("因子分析datavb入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata");
+            } else if (i.indexOf("因子分析datasd入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata1");
+            } else if (i.indexOf("因子分析datasc入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata2");
+            } else if (i.indexOf("因子分析datase入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata3");
+            } else if (i.indexOf("因子分析datascde入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata4");
+            } else if (i.indexOf("因子分析datavkpi入库") != -1) {
+              this.getData(newmodaltype[i], "indexdata5");
+            } else if (i.indexOf("datacde热力图入库" != -1)) {
               // datacde热力图入库
-              this.getData(newmodaltype[i],'indexdata7');
+              this.getData(newmodaltype[i], "indexdata7");
             }
           }
         }
@@ -925,9 +950,9 @@ export default {
   },
   methods: {
     //获取列表
-    getData(id,datatype) {
-      if(datatype==null){
-        return
+    getData(id, datatype) {
+      if (datatype == null) {
+        return;
       }
       var that = this;
       // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
@@ -938,37 +963,37 @@ export default {
       };
       //用下面的that.getData2(res)，这个需要删掉，暂时使用
       // that.getData2([]);
-      that.$Spin.show()
+      that.$Spin.show();
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
-        
-          that.$Spin.hide()
+          that.$Spin.hide();
           // console.log(success);
-          if(success.data.result){
+          if (success.data.result) {
             var res = success.data.result;
-            if(res.length>0){
-              that.getData2(res, id,datatype);
+            if (res.length > 0) {
+              that.getData2(res, id, datatype);
             }
-            
           }
-          
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
     },
-    getData2(list, id,datatype) {
+    getData2(list, id, datatype) {
       var that = this;
       var list_data = [];
+      var list_desc = [];
       if (list.length > 0) {
         list.forEach((node) => {
           list_data.push(node.name);
+          list_desc.push(node.desc);
         });
       }
-      if(datatype=='indexdata7'){
+
+      if (datatype == "indexdata7") {
         var query_data = [
           {
             conditions: [],
@@ -979,34 +1004,32 @@ export default {
           1,
           30,
         ];
-      }else{
+      } else {
         var query_data = [
-        {
-          conditions: [],
-          entityId: id,
-          fields: list_data,
-          orderBy: [{ name: "SUM", asc: false }],
-        },
-        1,
-        30,
-      ];
+          {
+            conditions: [],
+            entityId: id,
+            fields: list_data,
+            orderBy: [{ name: "SUM", asc: false }],
+          },
+          1,
+          30,
+        ];
       }
-      
+
       var query = {
         action: "Service",
         method: "pageQueryNoCount",
         data: query_data,
       };
       // let newfirstrkpilist = []
-      let newscorelist=[] //进度条列表
-      let middlenumber=new Number()
+      let newscorelist = []; //进度条列表
+      let middlenumber = new Number();
 
-     
-
-      that.$Spin.show()
+      that.$Spin.show();
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           var res = success.data.result;
           //周
 
@@ -1016,80 +1039,269 @@ export default {
           // strokeWidth: 5,
           // strokeColor: ["#92BBFF", "#92BBFF"],
           // console.log(res);s
-          if(res.length>0){
-            res.forEach((v,i)=>{
-              res[i].name = v.ORG
-              res[i].number =that.tofix(v.SUM,6)
-              newscorelist.push(res[i].number)
-              res[i].strokeWidth = 5
-              res[i].strokeColor = ["#92BBFF", "#92BBFF"]
-            })
-            //处理进度条值
-            that.get_progress(res)
-            //取综合得分中间值
-            middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
-            
-          }
-          if(datatype=='indexdata'){
-            that.firstrkpilist= res
-            // //处理默认的得分升序
-            that.sortByKey(that.firstrkpilist,'number')
-            that.mediannumber=middlenumber 
-          }else if(datatype=='indexdata1'){
-            that.firstrkpilist1= res
-            // //处理默认的得分升序
-            that.mediannumber1=middlenumber 
-            that.sortByKey(that.firstrkpilist1,'number')
-            
-          }else if(datatype=='indexdata2'){
-            that.firstrkpilist2= res
-            // //处理默认的得分升序
-            that.mediannumber2=middlenumber 
-            that.sortByKey(that.firstrkpilist2,'number')
-          }else if(datatype=='indexdata3'){
-            that.firstrkpilist3= res
-            // //处理默认的得分升序
-            that.mediannumber3=middlenumber 
-            that.sortByKey(that.firstrkpilist3,'number')
-          }else if(datatype=='indexdata4'){
-            that.firstrkpilist4= res
-            // //处理默认的得分升序
-            that.mediannumber4=middlenumber 
-            that.sortByKey(that.firstrkpilist4,'number')
-          }else if(datatype=='indexdata5'){
-            that.firstrkpilist5= res
-            // //处理默认的得分升序
-            that.mediannumber5=middlenumber 
-            that.sortByKey(that.firstrkpilist5,'number')
-          }else if(datatype=='indexdata7'){
-            // datacde热力图入库
-            console.log(res,'res')
-            let selectdata=[]
-            if(res.length>0){
-              res.forEach((v,i)=>{
-                selectdata.push(v.A1)
-              })
+          if (res.length > 0) {
+            if (datatype != "indexdata7") {
+              res.forEach((v, i) => {
+                res[i].name = v.ORG;
+                res[i].number = that.tofix(v.SUM, 6);
+                newscorelist.push(res[i].number);
+                res[i].strokeWidth = 5;
+                res[i].strokeColor = ["#92BBFF", "#92BBFF"];
+              });
+              //处理进度条值
+
+              that.get_progress(res);
+              //取综合得分中间值
+              middlenumber =
+                newscorelist[Math.floor((newscorelist.length - 1) / 2)];
             }
-            that.organizationList=selectdata
-
-
-            
-
-
           }
-  
-          
+          if (datatype == "indexdata") {
+            that.firstrkpilist = res;
+            // //处理默认的得分升序
+            that.sortByKey(that.firstrkpilist, "number");
+            that.mediannumber = middlenumber;
+          } else if (datatype == "indexdata1") {
+            that.firstrkpilist1 = res;
+            // //处理默认的得分升序
+            that.mediannumber1 = middlenumber;
+            that.sortByKey(that.firstrkpilist1, "number");
+          } else if (datatype == "indexdata2") {
+            that.firstrkpilist2 = res;
+            // //处理默认的得分升序
+            that.mediannumber2 = middlenumber;
+            that.sortByKey(that.firstrkpilist2, "number");
+          } else if (datatype == "indexdata3") {
+            that.firstrkpilist3 = res;
+            // //处理默认的得分升序
+            that.mediannumber3 = middlenumber;
+            that.sortByKey(that.firstrkpilist3, "number");
+          } else if (datatype == "indexdata4") {
+            that.firstrkpilist4 = res;
+            // //处理默认的得分升序
+            that.mediannumber4 = middlenumber;
+            that.sortByKey(that.firstrkpilist4, "number");
+          } else if (datatype == "indexdata5") {
+            that.firstrkpilist5 = res;
+            // //处理默认的得分升序
+            that.mediannumber5 = middlenumber;
+            that.sortByKey(that.firstrkpilist5, "number");
+          } else if (datatype == "indexdata7") {
+            // datacde热力图入库
+            console.log(res, "res");
+            let selectdata = [];
+            if (res.length > 0) {
+              var new_res = [];
+              for (var i = 0; i < res.length; i++) {
+                var v = res[i];
+                var new_res_row = [];
+                for (var name in res[i]) {
+                  var n_index = list_data.findIndex((n2) => {
+                    return n2 == name;
+                  });
+
+                  if (n_index != -1) {
+                    var new_res_node = {};
+                    new_res_node.name = name;
+                    new_res_node.desc = list_desc[n_index];
+                    new_res_node.value = res[i][name];
+                    new_res_row.push(new_res_node);
+                  }
+                }
+                new_res.push(new_res_row);
+                selectdata.push(v.A1);
+              }
+            }
+            selectdata.push("全行");
+            that.organizationList = selectdata;
+            console.log(new_res, "111");
+            that.get_reli_data(new_res);
+          }
         },
         (error) => {
-          that.$Spin.hide()
+          that.$Spin.hide();
           that.err_list = ["登录异常", "请联系管理员"];
           that.errorTips_modal = true;
         }
       );
     },
-    tabclick(item){
-        // console.log(item,'item')
-        this.tabsvalue = item.toString();
+    get_reli_data(data) {
+      var that = this;
+      //that.reli_list
+      //
+      var data_list = [];
+      data.forEach((n_data) => {
+        var data_list_row = [];
+        n_data.forEach((n_data_cell) => {
+          // if (n_data_cell.name == "A1") {
+          //  return true;
+          // }
+          var n_index = data_list_row.findIndex((c_n) => {
+            if (!c_n) {
+              return false;
+            }
+            return c_n.name == n_data_cell.desc;
+          });
+          if (n_index == -1) {
+            //没有值
+            var node = {};
+            node.name = n_data_cell.desc;
+            node.key = n_data_cell.name;
+            node.count = n_data_cell.value;
+            node.score = 0;
+            data_list_row.push(node);
+          } else {
+            //有值
+            if (data_list_row[n_index].count > n_data_cell.value) {
+              data_list_row[n_index].score = data_list_row[n_index].count;
+              data_list_row[n_index].count = n_data_cell.value;
+            } else {
+              data_list_row[n_index].score = n_data_cell.value;
+            }
+          }
+        });
+        data_list.push(data_list_row);
+      });
+      var new_data_list = [];
+      //过滤0 数据
+      data_list.forEach((n_data) => {
+        new_data_list.push(n_data);
+      });
+      var xuni_row = [];
+      for (var i = 0; i < new_data_list[0].length; i++) {
+        if (i == 0) {
+          var node = {};
+          node.name = "A1";
+          node.key = "A1";
+          node.count = "全行";
+          node.score = 0;
+          xuni_row.push(node);
+          continue;
+        }
+        var node = {};
+        node.name = new_data_list[0][i].name;
+        node.key = new_data_list[0][i].key;
+        node.count = 0;
+        node.score = 0;
+        xuni_row.push(node);
+      }
+
+      //给全行 赋值次数和分数
+      for (var x = 0; x < new_data_list.length; x++) {
+        for (var y = 0; y < new_data_list[x].length; y++) {
+          if (new_data_list[x][y].key == "A1") {
+            continue;
+          }
+
+          xuni_row[y].count += new_data_list[x][y].count;
+          xuni_row[y].score += new_data_list[x][y].score;
+        }
+      }
+
+      new_data_list.push(xuni_row);
+      console.log(xuni_row);
+      that.reli_list = new_data_list;
+    },
+    change_reli() {
+      var data = this.reli_list[this.organizationmodel];
+      data = data.slice(1, data.length);
+      data = data.filter((a, i) => {
+        return a.count != 0;
+      });
+      data = data.sort((a, b) => {
+        return a.count - b.count;
+      });
+      console.log(data, "排序");
+      var row = [0, 0, 0, 0]; //分数 平均
+      var cell = [0, 0, 0, 0]; //次数 中位数
+      var max_score = 0;
+      var all_score = 0;
+      //得到分数合
+      for (var i = 0; i < data.length; i++) {
+        all_score += data[i].score;
+
+        if (data[i].score > max_score) max_score = data[i].score;
+      }
+      row[3] = max_score;
+      var socre_center = all_score / data.length;
+      //left_
+      var left_list = data.filter((a, i) => {
+        return a.score <= socre_center;
+      });
+
+      var right_list = data.filter((a, i) => {
+        return a.score > socre_center;
+      });
+
+      //左侧平均值
+      all_score = 0;
+      //得到分数合
+      for (var i = 0; i < left_list.length; i++) {
+        all_score += left_list[i].score;
+      }
+      row[1] = all_score / left_list.length;
+
+      //右侧平均值
+
+      all_score = 0;
+      //得到分数合
+      for (var i = 0; i < right_list.length; i++) {
+        all_score += right_list[i].score;
+      }
+      row[2] = all_score / right_list.length;
+
+      //中位数
+
+      var all_count = 0;
+      var max_count = 0;
+      //得到分数合
+      for (var i = 0; i < data.length; i++) {
+        all_count += data[i].count;
+        if (data[i].count > max_count) max_count = data[i].count;
+      }
+      cell[3] = max_count;
+
+      var count_center = 0;
+      count_center =
+        data.length / 2 === 0
+          ? (data[data.length / 2].count + data[data.length / 2 - 1].count) / 2
+          : data[parseInt(data.length / 2)].count;
+
+      //left_
+      left_list = data.filter((a, i) => {
+        return a.count <= count_center;
+      });
+
+      right_list = data.filter((a, i) => {
+        return a.count > count_center;
+      });
+
+      //左侧平均值
+      count_center = 0;
+      //得到分数合
+      console.log(left_list.length / 2 - 0.5);
+      cell[1] =
+        left_list.length / 2 === 0
+          ? (left_list[left_list.length / 2].count +
+              left_list[left_list.length / 2 - 1].count) /
+            2
+          : left_list[parseInt(left_list.length / 2)].count;
+
+      //   //右侧平均值
+
+      cell[2] =
+        right_list.length / 2 === 0
+          ? (right_list[right_list.length / 2].count +
+              right_list[right_list.length / 2 - 1].count) /
+            2
+          : right_list[parseInt(right_list.length / 2)].count;
+
+      console.log(cell);
+      console.log(row);
+    },
+    tabclick(item) {
+      // console.log(item,'item')
+      this.tabsvalue = item.toString();
     },
     //综合得分排序
     RKPIsort(data) {
@@ -1108,88 +1320,83 @@ export default {
       }
     },
     //总行排序
-    RKPIsort1(data){
-      if(data=='scoreup'){ 
+    RKPIsort1(data) {
+      if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist1,'number')
-      }else if(data=='scoredown'){
+        this.sortByKey(this.firstrkpilist1, "number");
+      } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist1,'number')
-      }else if(data=='organizationup'){
+        this.sortDownByKey(this.firstrkpilist1, "number");
+      } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist1.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
+        this.firstrkpilist1.sort(this.nameasc("name"));
+      } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist1.sort(this.namedesc('name'))
+        this.firstrkpilist1.sort(this.namedesc("name"));
       }
     },
     //分行排序
-    RKPIsort2(data){
-      if(data=='scoreup'){ 
+    RKPIsort2(data) {
+      if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist2,'number')
-      }else if(data=='scoredown'){
+        this.sortByKey(this.firstrkpilist2, "number");
+      } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist2,'number')
-      }else if(data=='organizationup'){
+        this.sortDownByKey(this.firstrkpilist2, "number");
+      } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist2.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
+        this.firstrkpilist2.sort(this.nameasc("name"));
+      } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist2.sort(this.namedesc('name'))
+        this.firstrkpilist2.sort(this.namedesc("name"));
       }
     },
     //监督排序
-    RKPIsort3(data){
-      if(data=='scoreup'){ 
+    RKPIsort3(data) {
+      if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist3,'number')
-      }else if(data=='scoredown'){
+        this.sortByKey(this.firstrkpilist3, "number");
+      } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist3,'number')
-      }else if(data=='organizationup'){
+        this.sortDownByKey(this.firstrkpilist3, "number");
+      } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist3.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
+        this.firstrkpilist3.sort(this.nameasc("name"));
+      } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist3.sort(this.namedesc('name'))
+        this.firstrkpilist3.sort(this.namedesc("name"));
       }
     },
     //综合排序
-    RKPIsort4(data){
-      if(data=='scoreup'){ 
+    RKPIsort4(data) {
+      if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist4,'number')
-      }else if(data=='scoredown'){
+        this.sortByKey(this.firstrkpilist4, "number");
+      } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist4,'number')
-      }else if(data=='organizationup'){
+        this.sortDownByKey(this.firstrkpilist4, "number");
+      } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist4.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
+        this.firstrkpilist4.sort(this.nameasc("name"));
+      } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist4.sort(this.namedesc('name'))
+        this.firstrkpilist4.sort(this.namedesc("name"));
       }
     },
     //RKPI和审核发现
-    RKPIsort5(data){
-      if(data=='scoreup'){ 
+    RKPIsort5(data) {
+      if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist5,'number')
-      }else if(data=='scoredown'){
+        this.sortByKey(this.firstrkpilist5, "number");
+      } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist5,'number')
-      }else if(data=='organizationup'){
+        this.sortDownByKey(this.firstrkpilist5, "number");
+      } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist5.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
+        this.firstrkpilist5.sort(this.nameasc("name"));
+      } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist5.sort(this.namedesc('name'))
+        this.firstrkpilist5.sort(this.namedesc("name"));
       }
     },
     //进度条算法
@@ -1214,15 +1421,21 @@ export default {
       // }
       // console.log(cha,'cha');
       for (var i = 0; i < list.length; i++) {
-        if(((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100>=0){
-          list[i].scoreright =((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100
-          list[i].scoreleft=0
-        }else{
-          list[i].scoreleft =Math.abs(((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100)
-          list[i].scoreright =0
+        if (
+          ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100 >=
+          0
+        ) {
+          list[i].scoreright =
+            ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100;
+          list[i].scoreleft = 0;
+        } else {
+          list[i].scoreleft = Math.abs(
+            ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100
+          );
+          list[i].scoreright = 0;
         }
         // list[i].score =
-          ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100;
+        ((1 / max) * (Number(list[i].number) + cha)).toFixed(2) * 100;
       }
       // console.log(list,'123');
     },
@@ -1539,11 +1752,11 @@ export default {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   background: #f5f5f5;
-  .organizationmodel{
+  .organizationmodel {
     padding-right: 50px;
     display: flex;
     justify-content: flex-end;
-    .organizationselect{
+    .organizationselect {
       width: 200px;
     }
   }
@@ -1619,9 +1832,8 @@ export default {
       // width: 109px;
     }
   }
-  .progress-content{
+  .progress-content {
     display: flex;
-
   }
   #tabs {
     .tabs-nav {
@@ -1728,50 +1940,50 @@ export default {
       }
     }
   }
-  #newtabs{
-        background: #fff;
-        .newtabs-nav{
-            padding:0px 50px 0px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .newtabs-tab-left{
-            width: 800px;
-        }
-        .newtabs-tab-right{
-            flex:1;
-            // text-align: right;
-            display: flex;
-            justify-content:flex-end;
-            align-items: center;
-        }
-        .newtabs-tab{
-            display: inline-block;
-            margin-right: 30px;
-            font-family: PingFangSC-Regular;
-            font-size: 18px;
-            color: rgba(0,0,0,0.40);
-            letter-spacing: 0;
-            line-height: 38px;
-            cursor: pointer;
-        }
-        .newtabs-tab.active{
-            opacity: 0.8;
-            font-family: PingFangSC-Medium;
-            font-size: 24px;
-            color: #000000;
-            letter-spacing: 0;
-            line-height: 24px;
-        }
-        .middle_line1{
-            width: 30px;
-            height: 4px;
-            background: #246FEA;
-            border-radius: 2px;
-            margin:15px auto 0px;
-        }
+  #newtabs {
+    background: #fff;
+    .newtabs-nav {
+      padding: 0px 50px 0px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+    .newtabs-tab-left {
+      width: 800px;
+    }
+    .newtabs-tab-right {
+      flex: 1;
+      // text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .newtabs-tab {
+      display: inline-block;
+      margin-right: 30px;
+      font-family: PingFangSC-Regular;
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.4);
+      letter-spacing: 0;
+      line-height: 38px;
+      cursor: pointer;
+    }
+    .newtabs-tab.active {
+      opacity: 0.8;
+      font-family: PingFangSC-Medium;
+      font-size: 24px;
+      color: #000000;
+      letter-spacing: 0;
+      line-height: 24px;
+    }
+    .middle_line1 {
+      width: 30px;
+      height: 4px;
+      background: #246fea;
+      border-radius: 2px;
+      margin: 15px auto 0px;
+    }
+  }
   .tabs-content {
     height: 380px;
     overflow: hidden;
@@ -1812,8 +2024,8 @@ export default {
   .height465 {
     height: 465px;
   }
-  .heightoverflow{
-    height:400px;
+  .heightoverflow {
+    height: 400px;
     overflow: hidden;
   }
   .ivu-progress-inner {
@@ -1881,10 +2093,10 @@ export default {
         height: 20px !important;
       }
     }
-    .rkpi_item_content:hover .v-progress-linear{
+    .rkpi_item_content:hover .v-progress-linear {
       height: 20px !important;
-      transition:none !important;
-      box-shadow: 0 3px 5px 0 rgba(0,0,0,0.1);
+      transition: none !important;
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
     }
     .rkpi_index_card {
       .ivu-tabs-nav-container {
