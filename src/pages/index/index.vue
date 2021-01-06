@@ -1064,12 +1064,16 @@ export default {
           }else if(datatype=='indexdata7'){
             // datacde热力图入库
             console.log(res,'res')
+            let selectdata=[]
+            if(res.length>0){
+              res.forEach((v,i)=>{
+                selectdata.push(v.A1)
+              })
+            }
+            that.organizationList=selectdata
 
 
-
-
-
-
+            
 
 
           }
