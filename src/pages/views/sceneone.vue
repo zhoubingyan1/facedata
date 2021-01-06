@@ -54,13 +54,6 @@
                   ></v-progress-linear>
                 </div>
                 
-                <!-- <Progress
-                  :percent="item.score"
-                  :stroke-width="item.strokeWidth"
-                  status="active"
-                  :stroke-color="item.strokeColor"
-                  hide-info
-                /> -->
               </div>
             </div>
           </div>
@@ -120,13 +113,7 @@
                       ></v-progress-linear>
                     </div>
                     
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
+
                   </div>
                 </div>
               </NewTabPane>
@@ -175,13 +162,7 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
+
                   </div>
                 </div>
               </NewTabPane>
@@ -230,13 +211,7 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
+
                   </div>
                 </div>
               </NewTabPane>
@@ -285,13 +260,7 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
+
                   </div>
                 </div>
               </NewTabPane>
@@ -350,13 +319,6 @@
                     height="10"
                   ></v-progress-linear>
                 </div>
-                <!-- <Progress
-                  :percent="item.score"
-                  :stroke-width="item.strokeWidth"
-                  status="active"
-                  :stroke-color="item.strokeColor"
-                  hide-info
-                /> -->
               </div>
             </div>
           </div>
@@ -367,60 +329,113 @@
      <!-- v-if="ishowtable1" -->
     <Row>
       <Col span="9" class="index_row1">
-       <Table
-          class="facedata-table account-table"
-          stripe
-          highlight-row
-          height="576"
-          ref="currentRowTable"
-          :columns="table.columns"
-          :data="table.data"
-          @on-current-change="tableoncurrentchange"
-        ></Table>
-        <!-- <vxe-table
-          border="none"
-          stripe
-          class="mytable-style"
-          align="center"
-          highlight-hover-row
-          highlight-current-row
-          :cell-class-name="cellClassName"
-          :data="table.data"
-          @cell-click="cellClickEvent">
-          <vxe-table-column :field="item.field" :title="item.title" v-for="(item,index) in table.columns" :key="index"></vxe-table-column>
-        </vxe-table> -->
-        <!-- <vxe-grid
-          border="none"
-          align="center"
-          stripe
-          highlight-hover-row
-          highlight-current-row
-          @current-change="tablecurrent"
-          :row-style="rowStyle"
-          :cell-style="cellStyle"
-          highlight-hover-column
-          highlight-current-column
-          height="576"
-          ref="xGrid"
-          class="mytable-style"
-          :columns="table.columns"
-          :data="table.data"
-          :edit-config="{trigger: 'click', mode: 'cell', icon: 'fa fa-pencil-square-o'}"
+        <vxe-table
+            border="none"
+            ref="ktable"
+            align="center"
+            height="576"
+            :data="table.data"
+            highlight-hover-row
+            highlight-current-row
+            
+            @cell-click="cell_click"
+            @header-cell-click="header_cell_click"
           >
-          <template v-slot:img1_default="{ row }">
-            <span style="width: 100px; color:#f00;">{{}}</span>
-          </template>
-        </vxe-grid> -->
+            <vxe-table-column type="seq" width="20"></vxe-table-column>
+            <vxe-table-column
+              v-for="(n, index) in table.data[0]"
+              :key="index"
+              :field="n.key"
+              minWidth=80
+              :title="n.key == 'ORG' ? '组织' : n.key"
+            >
+              <template v-slot="{ row }">
+                <span
+                  v-if="row[index].key == 'ORG'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <span
+                  v-else-if="row[index].key == 'ROW_NEXT'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <div
+                  v-else
+                  class="num_split_5"
+                  :style="{ color: row[index].fontcolor }"
+                  :class="{ select_block: row[index].selected }"
+                >
+                  <div>
+                    {{ row[index].value.toString().split(".")[0] }}
+                  </div>
+                  .
+                  <div>
+                    {{ row[index].value.toString().split(".")[1] }}
+                  </div>
+                </div>
+              </template>
+            </vxe-table-column>
+          </vxe-table>
       </Col>
       <!-- v-if="ishowtable2" -->
       <Col span="7" offset="1" class="index_row1" >
         <div class="index_row1_title">旋转后的成分矩阵</div>
-        <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="table1.columns"
-          :data="table1.data"
-        ></Table>
+        <vxe-table
+            border="none"
+            ref="ktable1"
+            align="center"
+            height="576"
+            :data="table1.data"
+            highlight-hover-row
+            highlight-current-row
+            highlight-hover-column
+            highlight-current-column
+            @cell-click="cell_click1"
+            @header-cell-click="header_cell_click1"
+          >
+            <vxe-table-column type="seq" width="60"></vxe-table-column>
+            <!-- minWidth=80 -->
+            <vxe-table-column
+              v-for="(n, index) in table1.data[0]"
+              :key="index"
+              :field="n.key"
+              minWidth=80
+              :title="n.key == 'ORG' ? '组织' : n.key"
+            >
+              <template v-slot="{ row }">
+                <span
+                  v-if="row[index].key == 'ORG'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <span
+                  v-else-if="row[index].key == 'ROW_NEXT'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <span
+                  v-else-if="row[index].key == 'CREATETIME'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <div
+                  v-else
+                  class="num_split_5"
+                  :style="{ color: row[index].fontcolor }"
+                  :class="{ select_block: row[index].selected }"
+                >
+                  <div>
+                    {{ row[index].value.toString().split(".")[0] }}
+                  </div>
+                  .
+                  <div>
+                    {{ row[index].value.toString().split(".")[1] }}
+                  </div>
+                </div>
+              </template>
+            </vxe-table-column>
+          </vxe-table>
       </Col>
       <!-- v-if="ishowtable3" -->
       <Col span="6" offset="1" class="index_row1" >
@@ -479,94 +494,7 @@ export default {
       firstrkpilist4:[],//综合
       firstrkpilist5:[],//RKPI和审核发现
 
-      rkpilist: [
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#FFAB92", "#FFAB92"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-      ],
-      rkpilist1: [
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-      ],
+      rkpilist: [],
       table: {
         columns: [
         ],
@@ -583,7 +511,12 @@ export default {
       },
 
       selectRow: null,
-      selectColumn: null
+      selectColumn: null,
+
+      data_table: [],
+      default_color: "rgba(0,0,0,0.80)",
+      max_color: "#FD5056",
+      select_color: "#246FEA",
     };
   },
   created() {
@@ -611,15 +544,12 @@ export default {
               this.getData(newmodaltype[i],'indexdata4');
             } else if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata5');
-            }else if(i.indexOf('datacde热力图入库'!= -1)){
-              // datacde热力图入库
-              this.getData(newmodaltype[i],'indexdata7');
             }
           }
         }
       }
     }
-
+    
   },
   mounted() {
   },
@@ -663,22 +593,36 @@ export default {
     getData2(list, id,datatype) {
       var that = this;
       var list_data = [];
+      let hassum = true
       if (list.length > 0) {
         list.forEach((node) => {
           list_data.push(node.name);
+          if (node.name.indexOf("SUM")!= -1) {
+            //包含SUM
+            hassum=true
+          }else{
+            hassum=false
+          }
         });
       }
-
+      var hasorderBy = []
+      // [{ name: "SUM", asc: false }]
+      if(hassum){
+        hasorderBy=[{ name: "SUM", asc: false }]
+      }else{
+        hasorderBy=[]
+      }
       var query_data = [
-        {
-          conditions: [],
-          entityId: id,
-          fields: list_data,
-          orderBy: [{ name: "SUM", asc: false }],
-        },
-        1,
-        30,
-      ];
+          {
+            conditions: [],
+            entityId: id,
+            fields: list_data,
+            orderBy: hasorderBy,
+          },
+          1,
+          30,
+        ];
+      
       var query = {
         action: "Service",
         method: "pageQueryNoCount",
@@ -713,11 +657,65 @@ export default {
               
             }
             if(datatype=='indexdata'){
+              // that.firstrkpilist= res
+              // // //处理默认的得分升序
+              // that.sortByKey(that.firstrkpilist,'number')
+              // that.mediannumber=middlenumber 
+              that.firstrkpilist2= res
+              // //处理默认的得分升序
+              that.mediannumber2=middlenumber 
+              that.sortByKey(that.firstrkpilist2,'number')
+              
+            }else if(datatype=='indexdata1'){
+              that.firstrkpilist1= res
+              // //处理默认的得分升序
+              that.mediannumber1=middlenumber 
+              that.sortByKey(that.firstrkpilist1,'number')
+            }else if(datatype=='indexdata2'){
+              // that.firstrkpilist2= res
+              // // //处理默认的得分升序
+              // that.mediannumber2=middlenumber 
+              // that.sortByKey(that.firstrkpilist2,'number')
               that.firstrkpilist= res
               // //处理默认的得分升序
               that.sortByKey(that.firstrkpilist,'number')
               that.mediannumber=middlenumber 
-              that.table.columns = [];
+              that.disposeFirstTable(newResult)
+            }else if(datatype=='indexdata3'){
+              that.firstrkpilist3= res
+              // //处理默认的得分升序
+              that.mediannumber3=middlenumber 
+              that.sortByKey(that.firstrkpilist3,'number')
+            }else if(datatype=='indexdata4'){
+              that.firstrkpilist4= res
+              // //处理默认的得分升序
+              that.mediannumber4=middlenumber 
+              that.sortByKey(that.firstrkpilist4,'number')
+            }else if(datatype=='indexdata5'){
+              that.firstrkpilist5= res
+              // //处理默认的得分升序
+              that.mediannumber5=middlenumber 
+              that.sortByKey(that.firstrkpilist5,'number')
+            }else if(datatype=='indexdata6'){
+              //下面第二个表格
+              that.table1.columns = [];
+              that.disposeSecondTable(newResult)
+              
+            }
+          }
+          
+  
+          
+        },
+        (error) => {
+          that.$Spin.hide()
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
+    },
+    out(){
+      that.table.columns = [];
               let newkey = []
               // console.log(newResult,'newResult')   
               if (newResult.length > 0) {
@@ -793,125 +791,126 @@ export default {
                 that.table.data = newtabledata;
                 that.sortByKey(that.table.data,'number')
               }
-            }else if(datatype=='indexdata1'){
-              that.firstrkpilist1= res
-              // //处理默认的得分升序
-              that.mediannumber1=middlenumber 
-              that.sortByKey(that.firstrkpilist1,'number')
-            }else if(datatype=='indexdata2'){
-              that.firstrkpilist2= res
-              // //处理默认的得分升序
-              that.mediannumber2=middlenumber 
-              that.sortByKey(that.firstrkpilist2,'number')
-            }else if(datatype=='indexdata3'){
-              that.firstrkpilist3= res
-              // //处理默认的得分升序
-              that.mediannumber3=middlenumber 
-              that.sortByKey(that.firstrkpilist3,'number')
-            }else if(datatype=='indexdata4'){
-              that.firstrkpilist4= res
-              // //处理默认的得分升序
-              that.mediannumber4=middlenumber 
-              that.sortByKey(that.firstrkpilist4,'number')
-            }else if(datatype=='indexdata5'){
-              that.firstrkpilist5= res
-              // //处理默认的得分升序
-              that.mediannumber5=middlenumber 
-              that.sortByKey(that.firstrkpilist5,'number')
-            }else if(datatype=='indexdata6'){
-              // that.firstrkpilist5= res
-              // //处理默认的得分升序
-              // that.mediannumber5=middlenumber 
-              // that.sortByKey(that.firstrkpilist5,'number')
-              //下面第二个表格
-              that.table1.columns = [];
-              let newkey = []
-              if (newResult.length > 0) {
-                for(let key in newResult[0]){
-                    newkey.push(key)
-                }
-                for(let i=0;i<newkey.length;i++){
-                  that.table1.columns.push({
-                    title:newkey[i],
-                    field:newkey[i],
-                    align: "center",
-                  })
-                }
-                that.table1.data = res;
-              }
-            }else if(datatype=='indexdata7'){
-              // datacde热力图入库
-
-
-
-
-
-
-
-
-            }
-          }
-          
-  
-          
-        },
-        (error) => {
-          that.$Spin.hide()
-          that.err_list = ["登录异常", "请联系管理员"];
-          that.errorTips_modal = true;
-        }
-      );
     },
     //处理下面的第一个表格
     disposeFirstTable(list) {
-      var zuzhi = "org";
-      var list = [
-        { test1: "1.42511", test2: "2.32531", Sum: "5.21234", org: "A" },
-        { org: "B", test1: "1.42511", test2: "2.32531", Sum: "5.21234" },
-        { test1: "1.42511", test2: "-12.32531", Sum: "-5.21234", org: "C" },
-      ];
+      var zuzhi = "ORG";
       //列名
       var key_list = [];
       var sort_key_list = [];
-      if(list.length>0){
-        for (var name in list[0]) {
+      for (var name in list[0]) {
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
           key_list.push(name);
         }
-        console.log(key_list, "列名");
-        //排序
-        sort_key_list.push(zuzhi);
-        key_list.forEach((n) => {
-          n == "org" || n == "Sum" ? "" : sort_key_list.push(n);
-        });
-        sort_key_list.push("Sum");
-        console.log(sort_key_list, "排序后列名");
-        //建造对象
-        var list_model = new Array();
-        for (var row = 0; row < list.length; row++) {
-          var node_list = new Array();
-          var row_max = 0;
-          var row_max_cell=0;
-          for (var cell = 0; cell < sort_key_list.length; cell++) {
-            var node = {};
-            node.cell = cell;
-            node.row = row;
-            node.key = sort_key_list[cell];
-            node.value = list[row][sort_key_list[cell]];
-            node.fontcolor = "rgba(0,0,0,0.80)";
-            node_list.push(node);
+      }
+
+      // console.log(key_list, "列名");
+
+      //排序
+      sort_key_list.push(zuzhi);
+      key_list.forEach((n) => {
+        n == "ORG" || n == "SUM" ? "" : sort_key_list.push(n);
+      });
+      sort_key_list.push("SUM");
+      // console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi&&node.key!='ROW_NEXT') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
             //找行最大值
-            if ( node.key != zuzhi) {
-            if( Math.abs(node.value)>row_max){
-              row_max=Math.abs(node.value);
-              row_max_cell=cell;
-            }
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
             }
           }
-          node_list[row_max_cell].fontcolor="#246FEA";
-          list_model.push(node_list);
         }
-        console.log(list_model, "建立模型对象");
+        // node_list[row_max_cell].fontcolor = this.max_color;
+        list_model.push(node_list);
       }
+
+      // console.log(list_model, "建立模型对象");
+      // this.data_table = list_model;
+      this.table.data = list_model
+      
+      
+    },
+    //处理下面的第一个表格
+    disposeSecondTable(list) {
+      var zuzhi = "ORG";
+      var creacttime = "CREATETIME";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      for (var name in list[0]) {
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
+          key_list.push(name);
+        }
+        
+      }
+
+      console.log(key_list, "列名");
+
+      //排序
+      sort_key_list.push(zuzhi);
+      key_list.forEach((n) => {
+        n == "ORG" ||n=='CREATETIME'? "" : sort_key_list.push(n);
+      });
+      sort_key_list.push("CREATETIME");
+      console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi&&node.key!=creacttime&&node.key!='ROW_NEXT') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.select_color;
+        list_model.push(node_list);
+      }
+
+      console.log(list_model, "建立模型对象");
+      // this.data_table = list_model;
+      this.table1.data = list_model
       
       
     },
@@ -1065,11 +1064,6 @@ export default {
 
     //数组对象方法排序:升序
     sortByKey(array, key) {
-      // return array.sort(function (a, b) {
-      //   var x = a[key];
-      //   var y = b[key];
-      //   return x < y ? -1 : x > y ? 1 : 0;
-      // });
       return array.sort(function (a, b) {
         var value1 = a[key];
         var value2 = b[key];
@@ -1145,74 +1139,168 @@ export default {
     ishowthreetable() {
       this.ishowtable3 = true;
     },
-    isshowtable1(item,index){
-      console.log(this.$refs.currentRowTable,'this.$refs.currentRowTable')
-      
-      // console.log(item,'item')
-      // this.$nextTick((v,i)=>{
-      //   this.table.data.forEach((v,i)=>{
-      //     if(item.name==v.name){
-      //       this.table.data[i]._highlight=true
-      //       this.$set(this.table.data[i],'_highlight',true)
-      //     }
-      //   })
-      //   this.$forceUpdate()
-      // })
-      
-      console.log(this.table.data,'this.table.data')
-    },
     isshowfirsttable(item,index){
-      // console.log(this.$refs.currentRowTable,'this.$refs.currentRowTable')
-      this.table.data.forEach((v,i)=>{
-        if(v.title=item.name){
-          this.tableoncurrentchange(v,v)
-        }
-      })
-      // console.log(this.table.data,'this.table.data')
+      this.InitRowColor();
+      // var index = 1;
+      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
+      this.SelectRowColor(index);
     },
-    //表格行点击
-    tableoncurrentchange(currentRow,oldCurrentRow){
-      this.table.data[currentRow.index]._highlight=true
-      this.table.data.forEach((v,i)=>{
-        if(v.id!=currentRow.id){
-          this.table.data[i]._highlight=false
-        }
-      })
+
+    //设置高亮列
+    setHigthCell() {
+      this.InitRowColor();
+      var index = 1;
+      this.$refs.ktable.setCurrentColumn(this.$refs.ktable.getColumns()[index]);
     },
-    //行高亮
-    tablecurrent({ row,rowIndex}){
-      let that=this
-      that.rowStyle({row,rowIndex},row.index)
-      
-      // console.log(that.table.data,'this.table.data')
+    //设置高亮行
+    setHigthRow() {
+      this.InitRowColor();
+      var index = 1;
+      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
+      this.SelectRowColor(index);
+      console.log();
     },
-    rowStyle ({ row, rowIndex },index) {
-      if(index){
-        // console.log(index,'index',rowIndex)
-          if ([index].includes(rowIndex)) {
-            // console.log(111)
-            return {
-              backgroundColor: 'red',
-              color: '#ffffff'
-            }
-          } 
+    //块点击
+    cell_click(event) {
+      console.log(event);
+      this.InitRowColor();
+      //赋值选中
+      this.SelectRowColor(event.rowIndex);
+      //防止序号
+      if (event.columnIndex > 0) {
+        this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
       }
-      
+      // columnIndex
+      this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event.columnIndex]);
+      this.table1.data.forEach((m,i) => {
+        m.map((n) => {
+          console.log(n,'nn',event.row[event.columnIndex].key)
+          if(n.key==event.row[event.columnIndex-1].key){
+            if (n.fontcolor != this.default_color) n.fontcolor = this.max_color;
+          }else{
+            if (n.fontcolor != this.default_color) n.fontcolor = this.select_color;
+            // n.fontcolor = this.default_color;
+          }
+          
+        });
+      });
+
     },
-    cellStyle ({ row, rowIndex, column, columnIndex }) {
-      // return {
-      //   color: 'rgba(0,0,0,0.80)'
+    //头点击
+    header_cell_click(event) {
+      //console.log(event);
+    },
+    //初始化颜色
+    InitRowColor() {
+      this.table.data.forEach((m) => {
+        m.map((n) => {
+          n.selected = false;
+          if (n.fontcolor != this.max_color) n.fontcolor = this.default_color;
+        });
+      });
+    },
+    //设置选中颜色
+    SelectRowColor(row_index) {
+      this.table.data[row_index].map((n) => {
+        if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
+      });
+    },
+
+    InitFun(list) {
+      var zuzhi = "org";
+      // var list = [
+      //   { test1: "1.42511", test2: "2.32531112", Sum: "5.21321234", org: "A" },
+      //   { org: "B", test1: "1.42511", test2: "2.32", Sum: "5.21234" },
+      //   {
+      //     test1: "1.42511",
+      //     test2: "-12.325313232",
+      //     Sum: "-5.2123412321",
+      //     org: "C",
+      //   },
+      // ];
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      for (var name in list[0]) {
+        key_list.push(name);
+      }
+      console.log(key_list, "列名");
+
+      //排序
+      sort_key_list.push(zuzhi);
+      key_list.forEach((n) => {
+        n == "org" || n == "Sum" ? "" : sort_key_list.push(n);
+      });
+      sort_key_list.push("Sum");
+      console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi) {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.max_color;
+        list_model.push(node_list);
+      }
+
+      console.log(list_model, "建立模型对象");
+      this.data_table = list_model;
+    },
+
+    
+
+    InitSecondRowColor() {
+      this.table1.data.forEach((m) => {
+        m.map((n) => {
+          n.selected = false;
+          if (n.fontcolor != this.max_color) n.fontcolor = this.default_color;
+        });
+      });
+    },
+    SelectSecondRowColor(row_index) {
+      this.table1.data[row_index].map((n) => {
+        if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
+      });
+    },
+
+    //块点击
+    cell_click1(event) {
+      //console.log(event);
+      // this.InitRowColor();
+      // //赋值选中
+      // this.SelectRowColor(event.rowIndex);
+      // //防止序号
+      // if (event.columnIndex > 0) {
+      //   this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
       // }
     },
-    cellClassName ({ row, column }) {
-      // if (row === this.selectRow & column === this.selectColumn) {
-      //   return 'col-orange'
-      // }
+    //头点击
+    header_cell_click1(event) {
+      //console.log(event);
     },
-    cellClickEvent ({ row, column }) {
-      this.selectRow = row
-      this.selectColumn = column
-    }
   },
 };
 </script>
@@ -1610,7 +1698,6 @@ export default {
       text-align: center;
       line-height: 14px;
       margin-bottom: 30px;
-      text-align: right;
     }
   }
   .leftecharts {
@@ -1920,6 +2007,29 @@ export default {
       padding-left: 2px !important;
       padding-right: 2px !important;
     } 
+  }
+  .windows_view {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .num_split_5 {
+    text-align: center;
+    display: flex;
+    width: max-content;
+    margin: auto;
+    div:nth-child(1) {
+      text-align: right;
+      // width: 40px;
+    }
+    div:nth-child(2) {
+      text-align: left;
+      // width: 50px;
+    }
+  }
+  .select_block {
+    background: rgba(36,111,234,0.2);
+    border-radius: 4px;
   }
   
 }
