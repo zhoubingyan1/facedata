@@ -27,7 +27,7 @@
                 v-for="(item,index) in firstrkpilist"
                 :key="index"
                 class="rkpi_item_content"
-                @click="isshowtable1(item,index)"
+                 @click="isshowfirsttable(item,index)"
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
@@ -375,6 +375,7 @@
           ref="currentRowTable"
           :columns="table.columns"
           :data="table.data"
+          @on-current-change="tableoncurrentchange"
         ></Table>
         <!-- <vxe-table
           border="none"
@@ -610,6 +611,9 @@ export default {
               this.getData(newmodaltype[i],'indexdata4');
             } else if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
               this.getData(newmodaltype[i],'indexdata5');
+            }else if(i.indexOf('datacde热力图入库'!= -1)){
+              // datacde热力图入库
+              this.getData(newmodaltype[i],'indexdata7');
             }
           }
         }
@@ -819,6 +823,7 @@ export default {
               // //处理默认的得分升序
               // that.mediannumber5=middlenumber 
               // that.sortByKey(that.firstrkpilist5,'number')
+              //下面第二个表格
               that.table1.columns = [];
               let newkey = []
               if (newResult.length > 0) {
@@ -834,6 +839,16 @@ export default {
                 }
                 that.table1.data = res;
               }
+            }else if(datatype=='indexdata7'){
+              // datacde热力图入库
+
+
+
+
+
+
+
+
             }
           }
           
@@ -847,6 +862,59 @@ export default {
         }
       );
     },
+    //处理下面的第一个表格
+    disposeFirstTable(list) {
+      var zuzhi = "org";
+      var list = [
+        { test1: "1.42511", test2: "2.32531", Sum: "5.21234", org: "A" },
+        { org: "B", test1: "1.42511", test2: "2.32531", Sum: "5.21234" },
+        { test1: "1.42511", test2: "-12.32531", Sum: "-5.21234", org: "C" },
+      ];
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      if(list.length>0){
+        for (var name in list[0]) {
+          key_list.push(name);
+        }
+        console.log(key_list, "列名");
+        //排序
+        sort_key_list.push(zuzhi);
+        key_list.forEach((n) => {
+          n == "org" || n == "Sum" ? "" : sort_key_list.push(n);
+        });
+        sort_key_list.push("Sum");
+        console.log(sort_key_list, "排序后列名");
+        //建造对象
+        var list_model = new Array();
+        for (var row = 0; row < list.length; row++) {
+          var node_list = new Array();
+          var row_max = 0;
+          var row_max_cell=0;
+          for (var cell = 0; cell < sort_key_list.length; cell++) {
+            var node = {};
+            node.cell = cell;
+            node.row = row;
+            node.key = sort_key_list[cell];
+            node.value = list[row][sort_key_list[cell]];
+            node.fontcolor = "rgba(0,0,0,0.80)";
+            node_list.push(node);
+            //找行最大值
+            if ( node.key != zuzhi) {
+            if( Math.abs(node.value)>row_max){
+              row_max=Math.abs(node.value);
+              row_max_cell=cell;
+            }
+            }
+          }
+          node_list[row_max_cell].fontcolor="#246FEA";
+          list_model.push(node_list);
+        }
+        console.log(list_model, "建立模型对象");
+      }
+      
+      
+    },
     tabclick(item){
         // console.log(item,'item')
         this.tabsvalue = item.toString();
@@ -856,15 +924,23 @@ export default {
       if (data == "scoreup") {
         // 得分升序
         this.sortByKey(this.firstrkpilist, "number");
+        // 下面对应的表格排序
+        this.sortByKey(this.table.data, "number");
       } else if (data == "scoredown") {
         // 得分降序
         this.sortDownByKey(this.firstrkpilist, "number");
+        // 下面对应的表格排序
+        this.sortDownByKey(this.table.data, "number");
       } else if (data == "organizationup") {
         // 机构名升序
         this.firstrkpilist.sort(this.nameasc("name"));
+        // 下面对应的表格排序
+        this.table.data.sort(this.nameasc("title"));
       } else if (data == "organizationdown") {
         // 机构名降序
         this.firstrkpilist.sort(this.namedesc("name"));
+        // 下面对应的表格排序
+        this.table.data.sort(this.namedesc("title"));
       }
     },
     //总行排序
@@ -1084,6 +1160,24 @@ export default {
       // })
       
       console.log(this.table.data,'this.table.data')
+    },
+    isshowfirsttable(item,index){
+      // console.log(this.$refs.currentRowTable,'this.$refs.currentRowTable')
+      this.table.data.forEach((v,i)=>{
+        if(v.title=item.name){
+          this.tableoncurrentchange(v,v)
+        }
+      })
+      // console.log(this.table.data,'this.table.data')
+    },
+    //表格行点击
+    tableoncurrentchange(currentRow,oldCurrentRow){
+      this.table.data[currentRow.index]._highlight=true
+      this.table.data.forEach((v,i)=>{
+        if(v.id!=currentRow.id){
+          this.table.data[i]._highlight=false
+        }
+      })
     },
     //行高亮
     tablecurrent({ row,rowIndex}){

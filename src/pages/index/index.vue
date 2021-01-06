@@ -898,6 +898,9 @@ export default {
               this.getData(newmodaltype[i],'indexdata4');
             } else if (i.indexOf("因子分析datavkpi入库") != -1){
               this.getData(newmodaltype[i],'indexdata5');
+            }else if(i.indexOf('datacde热力图入库'!= -1)){
+              // datacde热力图入库
+              this.getData(newmodaltype[i],'indexdata7');
             }
           }
         }
@@ -1038,6 +1041,17 @@ export default {
             // //处理默认的得分升序
             that.mediannumber5=middlenumber 
             that.sortByKey(that.firstrkpilist5,'number')
+          }else if(datatype=='indexdata7'){
+            // datacde热力图入库
+            console.log(res,'res')
+
+
+
+
+
+
+
+
           }
   
           

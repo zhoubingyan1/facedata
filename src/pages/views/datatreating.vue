@@ -1139,6 +1139,7 @@ export default {
       let datasemodaltypelist=[]
       let datascdemodaltypelist=[]
       let datavkpmodaltypelist=[]
+      let datacdemodeltypelist=[] //datacde热力图入库
       let modaltype = new Object();
 
       // that.table.data = newtabledata.result.data;
@@ -1192,6 +1193,9 @@ export default {
               } else if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 // modaltype[v.name] = v.param;
                 datavkpmodaltypelist.push(v)
+              }else if(v.name.indexOf("datacde热力图入库") != -1){
+                // datacde热力图入库
+                datacdemodeltypelist.push(v)
               }
             });
             if(datavbmodaltypelist.length>0){
@@ -1224,6 +1228,10 @@ export default {
             if(datavkpmodaltypelist.length>0){
               that.sortByKey(datavkpmodaltypelist,'createTime')
               modaltype[datavkpmodaltypelist[0].name]=datavkpmodaltypelist[0].param
+            }
+            if(datacdemodeltypelist.length>0){
+              that.sortByKey(datacdemodeltypelist,'createTime')
+              modaltype[datacdemodeltypelist[0].name]=datacdemodeltypelist[0].param
             }
 
             localStorage.setItem("modaltype", JSON.stringify(modaltype));
@@ -2148,8 +2156,30 @@ export default {
             newResult.forEach((v, i) => {
               v.title = v.desc;
               v.key = v.name;
-              // name
+              v.minWidth=100
+              v.ellipsis=true
+              v.tooltip=true
               v.align = "center";
+              // v.render = function(h, params) {
+              //   let result = "";
+              //   result = params.row[newkey[i]];
+              //   return h("div", [
+              //     h(
+              //       "span",
+              //       {
+              //         style: {
+              //           color: params.row.showClick=='1'?'#246FEA':'rgba(0,0,0,0.80)'
+              //         },
+              //         on: {
+              //           click: () => {
+                          
+              //           }
+              //         }
+              //       },
+              //       result
+              //     )
+              //   ]);
+              // };
             });
             // {
             // title: "名称",
@@ -2157,6 +2187,7 @@ export default {
             // width:'200',
             //   // align: "center",
             // },
+            console.log(newResult,'newResult')
             that.othertable.columns = newResult;
             that.getTableData(res, id);
             that.gettablepagetotal(res, id);
@@ -2200,6 +2231,7 @@ export default {
           if (success.data.state == "0") {
             var res = success.data.result;
             //周
+            console.log(res,'res')
             that.othertable.data = res;
           }
         },
