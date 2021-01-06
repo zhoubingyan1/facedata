@@ -1114,6 +1114,7 @@ export default {
             }
             selectdata.push("全行");
             that.organizationList = selectdata;
+
             console.log(new_res, "111");
             that.get_reli_data(new_res);
           }
@@ -1201,6 +1202,8 @@ export default {
       new_data_list.push(xuni_row);
       console.log(xuni_row);
       that.reli_list = new_data_list;
+      that.organizationmodel = new_data_list.length - 1;
+      that.change_reli();
     },
     change_reli() {
       var data = this.reli_list[this.organizationmodel];
