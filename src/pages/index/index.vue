@@ -961,8 +961,19 @@ export default {
           list_data.push(node.name);
         });
       }
-
-      var query_data = [
+      if(datatype=='indexdata7'){
+        var query_data = [
+          {
+            conditions: [],
+            entityId: id,
+            fields: list_data,
+            orderBy: [],
+          },
+          1,
+          30,
+        ];
+      }else{
+        var query_data = [
         {
           conditions: [],
           entityId: id,
@@ -972,6 +983,8 @@ export default {
         1,
         30,
       ];
+      }
+      
       var query = {
         action: "Service",
         method: "pageQueryNoCount",
