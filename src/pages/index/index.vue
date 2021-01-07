@@ -933,7 +933,7 @@ export default {
         ],
       },
       reli_list: [],
-      reliMap_3_3: [],
+      reliMap_3_3: [[[],[],[]],[[],[],[]],[[],[],[]]],
     };
   },
   created() {
