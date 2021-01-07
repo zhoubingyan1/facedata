@@ -104,12 +104,38 @@
         </div>
         <div v-else>
           <div class="datatreating_fr_table">
-            <Table
+            <!-- <Table
               class="facedata-table account-table"
               stripe
               :columns="othertable.columns"
               :data="othertable.data"
-            ></Table>
+            ></Table> -->
+
+            <vxe-table
+              border="none"
+              align="center"
+              stripe
+              :data="othertable.data"
+            >
+              <vxe-table-column
+                v-for="(n, index) in othertable.columns"
+                :key="index"
+                :field="n.name"
+                :title="n.name"
+                show-header-overflow 
+                show-overflow="title" 
+                minWidth=120
+              >
+                <!-- <template v-slot="{ row }">
+                  <span
+                    >{{ row[index].value }}
+                  </span>
+                  </div>
+                </template> -->
+              </vxe-table-column>
+            </vxe-table>
+     
+
           </div>
           <div class="datatreating_fr_page">
             <span class="pageclass" @click="changeothertablefirstPage">首页</span>
@@ -2156,9 +2182,6 @@ export default {
             newResult.forEach((v, i) => {
               v.title = v.desc;
               v.key = v.name;
-              v.minWidth=100
-              v.ellipsis=true
-              v.tooltip=true
               v.align = "center";
               // v.render = function(h, params) {
               //   let result = "";

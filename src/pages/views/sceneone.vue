@@ -347,7 +347,7 @@
               v-for="(n, index) in table.data[0]"
               :key="index"
               :field="n.key"
-              minWidth=80
+              minWidth=120
               :title="n.key == 'ORG' ? '组织' : n.key"
             >
               <template v-slot="{ row }">
@@ -366,11 +366,11 @@
                   class="num_split_5"
                   :style="{ color: row[index].fontcolor }"
                   :class="{ select_block: row[index].selected }"
+                  
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}
+                    {{ row[index].value.toString().split(".")[0] }}.
                   </div>
-                  .
                   <div>
                     {{ row[index].value.toString().split(".")[1] }}
                   </div>
@@ -389,20 +389,17 @@
             height="576"
             stripe
             :data="table1.data"
-            highlight-hover-row
-            highlight-current-row
             highlight-hover-column
             highlight-current-column
             @cell-click="cell_click1"
             @header-cell-click="header_cell_click1"
           >
             <vxe-table-column type="seq" title="  "  width="60"></vxe-table-column>
-            <!-- minWidth=80 -->
             <vxe-table-column
               v-for="(n, index) in table1.data[0]"
               :key="index"
               :field="n.key"
-              minWidth=80
+              minWidth=120
               :title="n.key == 'ORG' ? '组织' : n.key"
             >
               <template v-slot="{ row }">
@@ -428,9 +425,8 @@
                   :class="{ select_block: row[index].selected }"
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}
+                    {{ row[index].value.toString().split(".")[0] }}.
                   </div>
-                  .
                   <div>
                     {{ row[index].value.toString().split(".")[1] }}
                   </div>
@@ -2018,15 +2014,19 @@ export default {
   .num_split_5 {
     text-align: center;
     display: flex;
-    width: max-content;
+    // width: 200px;
     margin: auto;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    line-height: 0px;
     div:nth-child(1) {
       text-align: right;
       width: 40px;
     }
     div:nth-child(2) {
       text-align: left;
-      width: 70px;
+      width: 90px;
     }
   }
   .select_block {
@@ -2038,7 +2038,7 @@ export default {
   }
   .vxe-table .row--current{
     background: #ffffff !important;
-    box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.08),0 -5px 10px 5px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08),0px 0px 10px rgba(0, 0, 0, 0.08) !important;
     z-index:999;
   }
   
