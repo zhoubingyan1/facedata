@@ -516,7 +516,6 @@ export default {
       default_color: "rgba(0,0,0,0.80)",
       max_color: "#FD5056",
       select_color: "#246FEA",
-      indexdata6list:[],//暂存第二个表格
     };
   },
   created() {
@@ -681,6 +680,7 @@ export default {
               that.sortByKey(that.firstrkpilist,'number')
               that.mediannumber=middlenumber 
               that.disposeFirstTable(newResult)
+              console.log(res,'res1')
             }else if(datatype=='indexdata3'){
               that.firstrkpilist3= res
               // //处理默认的得分升序
@@ -698,9 +698,9 @@ export default {
               that.sortByKey(that.firstrkpilist5,'number')
             }else if(datatype=='indexdata6'){
               //下面第二个表格
+              console.log(res,'res2')
               that.table1.columns = [];
-              that.indexdata6list=newResult
-              // that.disposeSecondTable(newResult)
+              that.disposeSecondTable(newResult)
               
             }
           }
@@ -727,7 +727,7 @@ export default {
         }
       }
 
-      console.log(key_list, "列名1");
+      // console.log(key_list, "列名1");
 
       //排序
       sort_key_list.push(zuzhi);
@@ -774,8 +774,23 @@ export default {
       // console.log(list_model, "建立模型对象");
       // this.data_table = list_model;
       this.table.data = list_model
-      // indexdata6list
-      this.disposeSecondTable(this.indexdata6list)
+
+      let newmodaltype = localStorage.getItem("modaltype");
+      // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
+      if (newmodaltype) {
+        newmodaltype = JSON.parse(newmodaltype);
+        if (Object.keys(newmodaltype).length > 0) {
+          // console.log(111);
+          for (const i in newmodaltype) {
+            // console.log(i, newmodaltype[i]);
+            if (newmodaltype.hasOwnProperty(i)) {
+              if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")!= -1){
+                this.getData(newmodaltype[i],'indexdata6');
+              }
+            }
+          }
+        }
+      }
       
     },
     //处理下面的第二个表格
@@ -792,20 +807,13 @@ export default {
         
       }
       // console.log(key_list,this.firsttablecolums, "列名");
-      let newkeylist =[]
-      // newkeylist=key_list.filter(function(n) {
-      //   if(this.firsttablecolums.length>0){
-      //     return this.firsttablecolums.indexOf(n) != -1
-      //   }
-      // });
-      // console.log(newkeylist,'newkeylist')
       //排序
       sort_key_list.push(zuzhi);
       key_list.forEach((n) => {
         n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
       });
       // sort_key_list.push("CREATETIME");
-      console.log(sort_key_list, "排序后列名");
+      // console.log(sort_key_list, "排序后列名");
 
       //建造对象
       var list_model = new Array();
@@ -1088,11 +1096,10 @@ export default {
       var index = 1;
       this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
       this.SelectRowColor(index);
-      console.log();
     },
     //块点击
     cell_click(event) {
-      console.log(event);
+      // console.log(event);
       this.InitRowColor();
       //赋值选中
       this.SelectRowColor(event.rowIndex);
@@ -1169,7 +1176,7 @@ export default {
       this.SelectRowColor(event.rowIndex);
       //防止序号
       if (event.columnIndex > 0) {
-        this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
+        this.table.data[event.rowIndex][event.columnIndex].selected = true;
       }
     },
     //头点击
@@ -1901,7 +1908,7 @@ export default {
     margin: auto;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    height: 42px;
     line-height: 0px;
     div:nth-child(1) {
       text-align: right;
@@ -1913,8 +1920,7 @@ export default {
     }
   }
   .select_block {
-    background: rgba(36,111,234,0.2);
-    border-radius: 4px;
+    background: rgba(211, 226, 251,0.8);
   }
   
 
