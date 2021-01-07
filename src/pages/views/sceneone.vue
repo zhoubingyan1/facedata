@@ -334,6 +334,7 @@
             ref="ktable"
             align="center"
             height="576"
+            stripe
             :data="table.data"
             highlight-hover-row
             highlight-current-row
@@ -341,7 +342,7 @@
             @cell-click="cell_click"
             @header-cell-click="header_cell_click"
           >
-            <vxe-table-column type="seq" width="20"></vxe-table-column>
+            <vxe-table-column type="seq" title="  " width="20"></vxe-table-column>
             <vxe-table-column
               v-for="(n, index) in table.data[0]"
               :key="index"
@@ -386,6 +387,7 @@
             ref="ktable1"
             align="center"
             height="576"
+            stripe
             :data="table1.data"
             highlight-hover-row
             highlight-current-row
@@ -394,7 +396,7 @@
             @cell-click="cell_click1"
             @header-cell-click="header_cell_click1"
           >
-            <vxe-table-column type="seq" width="60"></vxe-table-column>
+            <vxe-table-column type="seq" title="  "  width="60"></vxe-table-column>
             <!-- minWidth=80 -->
             <vxe-table-column
               v-for="(n, index) in table1.data[0]"
