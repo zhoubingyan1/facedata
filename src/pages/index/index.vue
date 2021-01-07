@@ -443,39 +443,67 @@
           <div class="reports2">
             <Row type="flex" justify="center" align="middle">
               <Col span="8" class="bg1">
-                <div class="middlecontent">授信-贷后检查执行</div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[0][2]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg2">
                 <div class="middlecontent">
-                  授信-审批条件的落实，分类准确性、全面性，不良贷款管理
-                  <br />运营-营业场所安全管理
-                  <br />新兴-同业八项规定执行；交易员行为管理
-                  <br />科技-信息科技治理，信息科技风险管理
+                  <p v-for="(n, index) in reliMap_3_3[1][2]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
                 </div>
               </Col>
               <Col span="8" class="bg3">
-                <div></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[2][2]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg4">
                 <div class="middlecontent">
-                  运营-会计业务管理
-                  <br />科技-业务连续性管理
+                  <p v-for="(n, index) in reliMap_3_3[0][1]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
                 </div>
               </Col>
               <Col span="8" class="bg5">
-                <div class="middlecontent"></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[1][1]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg6">
-                <div class="middlecontent"></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[2][1]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg7">
-                <div class="middlecontent"></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[0][0]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg8">
-                <div class="middlecontent"></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[0][1]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
               <Col span="8" class="bg9">
-                <div class="middlecontent"></div>
+                <div class="middlecontent">
+                  <p v-for="(n, index) in reliMap_3_3[0][2]" :key="index">
+                    {{ n.name }}({{ n.count }},{{ n.score }})
+                  </p>
+                </div>
               </Col>
             </Row>
           </div>
@@ -905,6 +933,7 @@ export default {
         ],
       },
       reli_list: [],
+      reliMap_3_3: [],
     };
   },
   created() {
@@ -1299,8 +1328,51 @@ export default {
             2
           : right_list[parseInt(right_list.length / 2)].count;
 
-      console.log(cell);
-      console.log(row);
+      console.log(cell, "cell");
+      console.log(row, "row");
+
+      //初始化热力9宫格
+
+      var row_init = 3;
+      var cell_init = 3;
+      var node_map = [];
+      for (var x = 0; x < row_init; x++) {
+        var node_row = [];
+        for (var y = 0; y < cell_init; y++) {
+          var node = [];
+          node_row.push(node);
+        }
+        node_map.push(node_row);
+      }
+
+      //九宫格赋值
+      data.forEach((n) => {
+        var x = 0;
+        var y = 0;
+
+        row.forEach((n_s) => {
+          if (n.score > n_s) {
+            x++;
+            return true;
+          }
+          return false;
+        });
+        cell.forEach((n_c) => {
+          if (n.count > n_c) {
+            y++;
+            return true;
+          }
+          return false;
+        });
+
+        //算法降位
+        x--;
+        y--;
+        console.log(`x:${x},y:${y}`);
+        node_map[x][y].push(n);
+      });
+
+      this.reliMap_3_3 = node_map;
     },
     tabclick(item) {
       // console.log(item,'item')
@@ -2242,8 +2314,11 @@ export default {
     }
     .middlecontent {
       position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+      height: 90%;
+      padding-top: 5%;
+      width: 90%;
+      margin: auto;
+      overflow: auto;
     }
   }
   .reports1 {
