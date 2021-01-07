@@ -933,13 +933,18 @@ export default {
         ],
       },
       reli_list: [],
-      reliMap_3_3: [],
+      reliMap_3_3: [
+        [[], [], []],
+        [[], [], []],
+        [[], [], []],
+      ],
     };
   },
   created() {
     // this.getData();
     let newmodaltype = localStorage.getItem("modaltype");
     // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
+    console.log(newmodaltype);
     if (newmodaltype) {
       newmodaltype = JSON.parse(newmodaltype);
       if (Object.keys(newmodaltype).length > 0) {
