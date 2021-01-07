@@ -2022,16 +2022,24 @@ export default {
     margin: auto;
     div:nth-child(1) {
       text-align: right;
-      // width: 40px;
+      width: 40px;
     }
     div:nth-child(2) {
       text-align: left;
-      // width: 50px;
+      width: 70px;
     }
   }
   .select_block {
     background: rgba(36,111,234,0.2);
     border-radius: 4px;
+  }
+  .vxe-table--body{
+    padding:10px 0px;
+  }
+  .vxe-table .row--current{
+    background: #ffffff !important;
+    box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.08),0 -5px 10px 5px rgba(0, 0, 0, 0.08) !important;
+    z-index:999;
   }
   
 }

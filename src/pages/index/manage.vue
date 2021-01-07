@@ -1,117 +1,212 @@
 <template>
-  <Table :columns="columns" :data="data">
-    <template slot-scope="{ row, index }" slot="name">
-      <Input type="text" v-model="editName" v-if="editIndex === index" />
-      <span v-else>{{ row.name }}</span>
-    </template>
+  <div class="windows_view">
+    <vxe-toolbar>
+      <template v-slot:buttons>
+        <vxe-button @click="setHigthRow">高亮行</vxe-button>
+        <vxe-button @click="setHigthCell">高亮列</vxe-button>
+      </template>
+    </vxe-toolbar>
 
-    <template slot-scope="{ row, index }" slot="age">
-      <Input type="text" v-model="editAge" v-if="editIndex === index" />
-      <span v-else>{{ row.age }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="birthday">
-      <Input type="text" v-model="editBirthday" v-if="editIndex === index" />
-      <span v-else>{{ getBirthday(row.birthday) }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="address">
-      <Input type="text" v-model="editAddress" v-if="editIndex === index" />
-      <span v-else>{{ row.address }}</span>
-    </template>
-
-    <template slot-scope="{ row, index }" slot="action">
-      <div v-if="editIndex === index">
-        <Button @click="handleSave(index)">保存</Button>
-        <Button @click="editIndex = -1">取消</Button>
-      </div>
-      <div v-else>
-        <Button @click="handleEdit(row, index)">操作</Button>
-      </div>
-    </template>
-  </Table>
+    <vxe-table
+      border="none"
+      align="center"
+      ref="ktable"
+      stripe
+      :data="data_table"
+      highlight-hover-row
+      highlight-current-row
+      highlight-hover-column
+      highlight-current-column
+      @cell-click="cell_click"
+      @header-cell-click="header_cell_click"
+    >
+      <vxe-table-column type="seq" width="60"></vxe-table-column>
+      <vxe-table-column
+        v-for="(n, index) in data_table[0]"
+        :key="index"
+        :field="n.key"
+        :title="n.key == 'org' ? '组织' : n.key"
+      >
+        <template v-slot="{ row }">
+          <span
+            v-if="row[index].key == 'org'"
+            :style="{ color: row[index].fontcolor }"
+            >{{ row[index].value }}
+          </span>
+          <div
+            v-else
+            class="num_split_5"
+            :style="{ color: row[index].fontcolor }"
+            :class="{ select_block: row[index].selected }"
+          >
+            <div>
+              {{ row[index].value.toString().split(".")[0] }}
+            </div>
+            .
+            <div>
+              {{ row[index].value.toString().split(".")[1] }}
+            </div>
+          </div>
+        </template>
+      </vxe-table-column>
+    </vxe-table>
+  </div>
 </template>
+
 <script>
-  export default {
-    data () {
-      return {
-        columns: [
-          {
-            title: '姓名',
-            slot: 'name'
-          },
-          {
-            title: '年龄',
-            slot: 'age'
-          },
-          {
-            title: '出生日期',
-            slot: 'birthday'
-          },
-          {
-            title: '地址',
-            slot: 'address'
-          },
-          {
-            title: '操作',
-            slot: 'action'
-          }
-        ],
-        data: [
-          {
-            name: '王小明',
-            age: 18,
-            birthday: '919526400000',
-            address: '北京市朝阳区芍药居'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            birthday: '696096000000',
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            birthday: '563472000000',
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            birthday: '687024000000',
-            address: '深圳市南山区深南大道'
-          }
-        ],
-        editIndex: -1,  // 当前聚焦的输入框的行数
-        editName: '',  // 第一列输入框，当然聚焦的输入框的输入内容，与 data 分离避免重构的闪烁
-        editAge: '',  // 第二列输入框
-        editBirthday: '',  // 第三列输入框
-        editAddress: '',  // 第四列输入框
+export default {
+  name: "",
+  data() {
+    return {
+      data_table: [],
+      default_color: "#000",
+      max_color: "red",
+      select_color: "blue",
+    };
+  },
+  methods: {
+    //设置高亮列
+    setHigthCell() {
+      this.InitRowColor();
+      var index = 1;
+      this.$refs.ktable.setCurrentColumn(this.$refs.ktable.getColumns()[index]);
+    },
+    //设置高亮行
+    setHigthRow() {
+      this.InitRowColor();
+      var index = 1;
+      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
+      this.SelectRowColor(index);
+      console.log();
+    },
+    //块点击
+    cell_click(event) {
+      //console.log(event);
+      this.InitRowColor();
+      //赋值选中
+      this.SelectRowColor(event.rowIndex);
+      //防止序号
+      if (event.columnIndex > 0) {
+        this.data_table[event.rowIndex][event.columnIndex - 1].selected = true;
       }
     },
-    methods: {
-      handleEdit (row, index) {
-        this.editName = row.name;
-        this.editAge = row.age;
-        this.editAddress = row.address;
-        this.editBirthday = row.birthday;
-        this.editIndex = index;
-      },
-      handleSave (index) {
-        this.data[index].name = this.editName;
-        this.data[index].age = this.editAge;
-        this.data[index].birthday = this.editBirthday;
-        this.data[index].address = this.editAddress;
-        this.editIndex = -1;
-      },
-      getBirthday (birthday) {
-        const date = new Date(parseInt(birthday));
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${year}-${month}-${day}`;
+    //头点击
+    header_cell_click(event) {
+      //console.log(event);
+    },
+    //初始化颜色
+    InitRowColor() {
+      this.data_table.forEach((m) => {
+        m.map((n) => {
+          n.selected = false;
+          if (n.fontcolor != this.max_color) n.fontcolor = this.default_color;
+        });
+      });
+    },
+    //设置选中颜色
+    SelectRowColor(row_index) {
+      this.data_table[row_index].map((n) => {
+        if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
+      });
+    },
+    InitFun() {
+      var zuzhi = "org";
+      var list = [
+        { test1: "1.42511", test2: "2.32531112", Sum: "5.21321234", org: "A" },
+        { org: "B", test1: "1.42511", test2: "2.32", Sum: "5.21234" },
+        {
+          test1: "1.42511",
+          test2: "-12.325313232",
+          Sum: "-5.2123412321",
+          org: "C",
+        },
+      ];
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      for (var name in list[0]) {
+        key_list.push(name);
       }
-    }
-  }
+      console.log(key_list, "列名");
+
+      //排序
+      sort_key_list.push(zuzhi);
+      key_list.forEach((n) => {
+        n == "org" || n == "Sum" ? "" : sort_key_list.push(n);
+      });
+      sort_key_list.push("Sum");
+      console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi) {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.max_color;
+        list_model.push(node_list);
+      }
+
+      console.log(list_model, "建立模型对象");
+      this.data_table = list_model;
+    },
+  },
+  mounted() {
+    this.InitFun();
+  },
+};
 </script>
+
+<style lang="scss">
+
+.windows_view {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.num_split_5 {
+  text-align: center;
+  display: flex;
+  width: max-content;
+  margin: auto;
+  div:nth-child(1) {
+    text-align: right;
+    width: 40px;
+  }
+  div:nth-child(2) {
+    text-align: left;
+    width: 70px;
+  }
+}
+.select_block {
+  background: #8181ce;
+  border-radius: 4px;
+}
+.vxe-table .row--current{
+  background: #ffffff !important;
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.08),0 -5px 10px 5px rgba(0, 0, 0, 0.08) !important;
+  z-index:999;
+}
+</style>
