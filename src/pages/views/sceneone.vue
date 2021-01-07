@@ -338,7 +338,7 @@
             :data="table.data"
             highlight-hover-row
             highlight-current-row
-            
+            class="myfirsttable firststyle"
             @cell-click="cell_click"
             @header-cell-click="header_cell_click"
           >
@@ -388,23 +388,23 @@
             align="center"
             height="576"
             stripe
+            class="myfirsttable seconstyle"
             :data="table1.data"
             highlight-hover-column
             highlight-current-column
             @cell-click="cell_click1"
             @header-cell-click="header_cell_click1"
           >
-            <vxe-table-column type="seq" title="  "  width="60"></vxe-table-column>
             <vxe-table-column
               v-for="(n, index) in table1.data[0]"
               :key="index"
               :field="n.key"
               minWidth=120
-              :title="n.key == 'ORG' ? '组织' : n.key"
+              :title="n.key"
             >
               <template v-slot="{ row }">
                 <span
-                  v-if="row[index].key == 'ORG'"
+                  v-if="row[index].key == 'ICE'"
                   :style="{ color: row[index].fontcolor }"
                   >{{ row[index].value }}
                 </span>
@@ -512,9 +512,11 @@ export default {
       selectColumn: null,
 
       data_table: [],
+      firsttablecolums:[],//暂存第一个表格的表头
       default_color: "rgba(0,0,0,0.80)",
       max_color: "#FD5056",
       select_color: "#246FEA",
+      indexdata6list:[],//暂存第二个表格
     };
   },
   created() {
@@ -697,7 +699,8 @@ export default {
             }else if(datatype=='indexdata6'){
               //下面第二个表格
               that.table1.columns = [];
-              that.disposeSecondTable(newResult)
+              that.indexdata6list=newResult
+              // that.disposeSecondTable(newResult)
               
             }
           }
@@ -712,84 +715,6 @@ export default {
         }
       );
     },
-    out(){
-      that.table.columns = [];
-              let newkey = []
-              // console.log(newResult,'newResult')   
-              if (newResult.length > 0) {
-                for(let key in newResult[0]){
-                    if(key!='name'&&key!='number'&&key!='scoreleft'&&key!='scoreright'&&key!='strokeColor'&&key!='strokeWidth'){
-                      newkey.push(key)
-                    }
-                    
-                }
-                for(let i=0;i<newkey.length;i++){
-                  // that.table.columns.push({
-                  //   title:newkey[i],
-                  //   field:newkey[i],
-                  //   slots:{}
-                  // })
-                  that.table.columns.push({
-                    title:newkey[i],
-                    align: "center",
-                  })
-
-                  that.table.columns.forEach((v,i)=>{
-                    // v.slots.default=function ({ row }, h) { 
-                    //   return [
-                    //     h('span', {
-                    //       style: {
-                    //         color: row.showClick
-                    //       },
-                    //       on: {
-                    //         // click: () => this.addressClickEvent(row)
-                    //       }
-                    //     }, row[newkey[i]])
-                    //   ]
-                    // }
-                    v.render = function(h, params) {
-                      let result = "";
-                      result = params.row[newkey[i]];
-                      return h("div", [
-                        h(
-                          "span",
-                          {
-                            style: {
-                              color: params.row.showClick=='1'?'#246FEA':'rgba(0,0,0,0.80)'
-                            },
-                            on: {
-                              click: () => {
-                                
-                              }
-                            }
-                          },
-                          result
-                        )
-                      ]);
-                    };
-                    
-                  })  
-                }
-                // that.tofix(v.SUM,6)
-                let newtabledata=newResult
-                newtabledata.forEach((v,i)=>{
-                  // console.log(v[newkey[i]],'v[newkey[i]]')
-                  // if(typeof v[newkey[i]]=='number'){
-                  //   v[newkey[i]]=Number(that.tofix(v[newkey[i]],6))
-                  // }
-                  v.FACTOR_1_STEP2=that.tofix(v.FACTOR_1_STEP2,6)
-                  v.FACTOR_2_STEP2=that.tofix(v.FACTOR_2_STEP2,6)
-                  v.FACTOR_3_STEP2=that.tofix(v.FACTOR_3_STEP2,6)
-                  v.SUM=that.tofix(v.SUM,6)
-                  v.showClick='0'
-                  v.index=i
-                  v._highlight=false
-                })
-                // console.log(newtabledata,'newtabledata')
-                that.table.data = newtabledata;
-                that.sortByKey(that.table.data,'number')
-              }
-    },
     //处理下面的第一个表格
     disposeFirstTable(list) {
       var zuzhi = "ORG";
@@ -797,20 +722,22 @@ export default {
       var key_list = [];
       var sort_key_list = [];
       for (var name in list[0]) {
-        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'&&name!='SUM'&&name!='ROW_NEXT'){
           key_list.push(name);
         }
       }
 
-      // console.log(key_list, "列名");
+      console.log(key_list, "列名1");
 
       //排序
       sort_key_list.push(zuzhi);
       key_list.forEach((n) => {
-        n == "ORG" || n == "SUM" ? "" : sort_key_list.push(n);
+        // n == "ORG"||n == "SUM"? "" : sort_key_list.push(n);
+        n == "ORG"? "" : sort_key_list.push(n);
       });
-      sort_key_list.push("SUM");
+      // sort_key_list.push("SUM");
       // console.log(sort_key_list, "排序后列名");
+      this.firsttablecolums = sort_key_list
 
       //建造对象
       var list_model = new Array();
@@ -830,7 +757,7 @@ export default {
           node.selected = false;
           node_list.push(node);
 
-          if (node.key != zuzhi&&node.key!='ROW_NEXT') {
+          if (node.key != zuzhi) {
             //小数位
             node.value = Number(Number(node.value).toFixed(5));
             //找行最大值
@@ -847,12 +774,13 @@ export default {
       // console.log(list_model, "建立模型对象");
       // this.data_table = list_model;
       this.table.data = list_model
-      
+      // indexdata6list
+      this.disposeSecondTable(this.indexdata6list)
       
     },
-    //处理下面的第一个表格
+    //处理下面的第二个表格
     disposeSecondTable(list) {
-      var zuzhi = "ORG";
+      var zuzhi = "ICE";
       var creacttime = "CREATETIME";
       //列名
       var key_list = [];
@@ -863,15 +791,20 @@ export default {
         }
         
       }
-
-      console.log(key_list, "列名");
-
+      // console.log(key_list,this.firsttablecolums, "列名");
+      let newkeylist =[]
+      // newkeylist=key_list.filter(function(n) {
+      //   if(this.firsttablecolums.length>0){
+      //     return this.firsttablecolums.indexOf(n) != -1
+      //   }
+      // });
+      // console.log(newkeylist,'newkeylist')
       //排序
       sort_key_list.push(zuzhi);
       key_list.forEach((n) => {
-        n == "ORG" ||n=='CREATETIME'? "" : sort_key_list.push(n);
+        n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
       });
-      sort_key_list.push("CREATETIME");
+      // sort_key_list.push("CREATETIME");
       console.log(sort_key_list, "排序后列名");
 
       //建造对象
@@ -899,6 +832,7 @@ export default {
             if (Math.abs(node.value) > row_max) {
               row_max = Math.abs(node.value);
               row_max_cell = cell;
+              
             }
           }
         }
@@ -906,8 +840,7 @@ export default {
         list_model.push(node_list);
       }
 
-      console.log(list_model, "建立模型对象");
-      // this.data_table = list_model;
+      // console.log(list_model, "建立模型对象");
       this.table1.data = list_model
       
       
@@ -1143,7 +1076,6 @@ export default {
       this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
       this.SelectRowColor(index);
     },
-
     //设置高亮列
     setHigthCell() {
       this.InitRowColor();
@@ -1169,10 +1101,10 @@ export default {
         this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
       }
       // columnIndex
-      this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event.columnIndex]);
+      this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event.columnIndex-1]);
       this.table1.data.forEach((m,i) => {
         m.map((n) => {
-          console.log(n,'nn',event.row[event.columnIndex].key)
+          // console.log(m,n,'nn',event.row[event.columnIndex-1].key)
           if(n.key==event.row[event.columnIndex-1].key){
             if (n.fontcolor != this.default_color) n.fontcolor = this.max_color;
           }else{
@@ -1199,101 +1131,35 @@ export default {
     },
     //设置选中颜色
     SelectRowColor(row_index) {
-      this.table.data[row_index].map((n) => {
+      var row_max = 0;
+      var row_max_cell = 0;
+      this.table.data[row_index].map((n,i) => {
         if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
-      });
-    },
-
-    InitFun(list) {
-      var zuzhi = "org";
-      // var list = [
-      //   { test1: "1.42511", test2: "2.32531112", Sum: "5.21321234", org: "A" },
-      //   { org: "B", test1: "1.42511", test2: "2.32", Sum: "5.21234" },
-      //   {
-      //     test1: "1.42511",
-      //     test2: "-12.325313232",
-      //     Sum: "-5.2123412321",
-      //     org: "C",
-      //   },
-      // ];
-      //列名
-      var key_list = [];
-      var sort_key_list = [];
-      for (var name in list[0]) {
-        key_list.push(name);
-      }
-      console.log(key_list, "列名");
-
-      //排序
-      sort_key_list.push(zuzhi);
-      key_list.forEach((n) => {
-        n == "org" || n == "Sum" ? "" : sort_key_list.push(n);
-      });
-      sort_key_list.push("Sum");
-      console.log(sort_key_list, "排序后列名");
-
-      //建造对象
-      var list_model = new Array();
-
-      for (var row = 0; row < list.length; row++) {
-        var node_list = new Array();
-
-        var row_max = 0;
-        var row_max_cell = 0;
-        for (var cell = 0; cell < sort_key_list.length; cell++) {
-          var node = {};
-          node.cell = cell;
-          node.row = row;
-          node.key = sort_key_list[cell];
-          node.value = list[row][sort_key_list[cell]];
-          node.fontcolor = this.default_color;
-          node.selected = false;
-          node_list.push(node);
-
-          if (node.key != zuzhi) {
-            //小数位
-            node.value = Number(Number(node.value).toFixed(5));
-            //找行最大值
-            if (Math.abs(node.value) > row_max) {
-              row_max = Math.abs(node.value);
-              row_max_cell = cell;
-            }
-          }
+        if (Math.abs(n.value) > row_max) {
+          row_max = Math.abs(n.value);
+          row_max_cell = i
         }
-        node_list[row_max_cell].fontcolor = this.max_color;
-        list_model.push(node_list);
-      }
-
-      console.log(list_model, "建立模型对象");
-      this.data_table = list_model;
-    },
-
-    
-
-    InitSecondRowColor() {
-      this.table1.data.forEach((m) => {
-        m.map((n) => {
-          n.selected = false;
-          if (n.fontcolor != this.max_color) n.fontcolor = this.default_color;
-        });
       });
-    },
-    SelectSecondRowColor(row_index) {
-      this.table1.data[row_index].map((n) => {
-        if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
-      });
+      this.table.data[row_index][row_max_cell].fontcolor=this.max_color
+      this.table.data.forEach((v,i)=>{
+        if(i!=row_index){
+          v.map((n,i) => {
+            n.fontcolor = this.default_color;
+          })
+        }
+      })
     },
 
     //块点击
     cell_click1(event) {
       //console.log(event);
-      // this.InitRowColor();
-      // //赋值选中
-      // this.SelectRowColor(event.rowIndex);
-      // //防止序号
-      // if (event.columnIndex > 0) {
-      //   this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
-      // }
+      this.InitRowColor();
+      //赋值选中
+      this.SelectRowColor(event.rowIndex);
+      //防止序号
+      if (event.columnIndex > 0) {
+        this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
+      }
     },
     //头点击
     header_cell_click1(event) {
@@ -1970,7 +1836,7 @@ export default {
     box-shadow: 0 3px 0px 0px rgba(0,0,0,0.10);
   }
   }
-  .mytable-style .vxe-table{
+  .myfirsttable.vxe-table{
     .vxe-body--row{
       background: rgba(36,111,234,0.05);
       color: rgba(0,0,0,0.80);
@@ -1978,10 +1844,10 @@ export default {
     .vxe-body--row.row--stripe{
       background-color: #fff !important;
     }
-    .vxe-body--row.row--current {
-      background: #FFFFFF !important;
-      box-shadow: 0 5px 30px 0 rgba(0,0,0,0.10) !important;
-      z-index: 99;
+    .row--current{
+      background: #ffffff !important;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08),0px 0px 10px rgba(0, 0, 0, 0.08) !important;
+      z-index:999;
     }
     .vxe-body--row.row-green {
       background-color: #187;
@@ -2005,6 +1871,12 @@ export default {
       padding-left: 2px !important;
       padding-right: 2px !important;
     } 
+    
+  }
+  .firststyle.vxe-table{
+    .vxe-table--body{
+      padding:10px 0px;
+    }
   }
   .windows_view {
     width: 100%;
@@ -2033,14 +1905,8 @@ export default {
     background: rgba(36,111,234,0.2);
     border-radius: 4px;
   }
-  .vxe-table--body{
-    padding:10px 0px;
-  }
-  .vxe-table .row--current{
-    background: #ffffff !important;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08),0px 0px 10px rgba(0, 0, 0, 0.08) !important;
-    z-index:999;
-  }
+  
+
   
 }
 </style>
