@@ -386,7 +386,7 @@
             border="none"
             ref="ktable1"
             align="center"
-            height="576"
+            height="546"
             stripe
             class="myfirsttable seconstyle"
             :data="table1.data"
@@ -1102,19 +1102,30 @@ export default {
       }
       // columnIndex
       this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event.columnIndex-1]);
+      var row_max = 0;
+      var row_max_cell = 0;
+      var row_max_row=0
       this.table1.data.forEach((m,i) => {
-        m.map((n) => {
+        m.map((n,j) => {
           // console.log(m,n,'nn',event.row[event.columnIndex-1].key)
           if(n.key==event.row[event.columnIndex-1].key){
-            if (n.fontcolor != this.default_color) n.fontcolor = this.max_color;
+            // if (n.fontcolor != this.default_color) n.fontcolor = this.max_color;
+            if(n.fontcolor!=this.default_color){
+              if (Math.abs(n.value) > row_max) {
+                row_max = Math.abs(n.value);
+                row_max_cell = j
+                row_max_row=i
+              }
+            }
           }else{
             if (n.fontcolor != this.default_color) n.fontcolor = this.select_color;
             // n.fontcolor = this.default_color;
           }
           
+          
         });
       });
-
+      this.table1.data[row_max_row][row_max_cell].fontcolor=this.max_color
     },
     //头点击
     header_cell_click(event) {
