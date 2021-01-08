@@ -1,166 +1,136 @@
 <template>
     <div id="Applicationmodel">
-        <Row>
-            <Col span="18">
-                <div class="backgroundwhite">
-                    <div class="datatreating_fr_content">
-                        <div class="lf">
-                            <div class="header_iconconent cursorpointer" @click="choseleadingin">
-                                <img class="icon" src="../../assets/images/applicationmodel/extract.png" />
-                                <span class="span">数据提取</span>
-                            </div>
-                            <div class="header_iconconent cursorpointer" @click="addtabs">
-                                <img class="icon" src="../../assets/images/applicationmodel/analyse.png" />
-                                <span class="span">因子分析</span>
-                            </div>
-                            <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                <img class="icon" src="../../assets/images/applicationmodel/element.png" />
-                                <span class="span">主要成分分析</span>
-                            </div>
-                            <div class="header_iconconent cursorpointer" @click="downloaddata">
-                                <img class="icon" src="../../assets/images/applicationmodel/correlation.png" />
-                                <span class="span">相关性分析</span>
-                            </div>
-                        </div>
-                        <div class="rg">
-                            <div class="header_iconconent width174 marginright0">
-                                <img class="icon" src="../../assets/images/search@2x.png" />
-                                <input placeholder="关键字搜索" class="datasearch_input">
-                            </div>
-                        </div>
-                    </div>
-                    <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
-                        <NewTabPane :name="item.name" v-for="(item,index) in applicationmodelTabList" :key="index" :label="item.label">
-                            <div class="datatreating_firstitem">
-                                <div class="datatreating_fr_table">
-                                    <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
-                                </div>
-                                <!-- <div class="datatreating_fr_page">
-                                    <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
-                                </div> -->
-                            </div> 
-                        </NewTabPane>
-                    </NewTabs>
-                </div>
-            </Col>
-            <Col span="6">
-                <div class="applicationmodel_right_content">
-                    <div class="clearallinfo">
-                        <div class="clearallinfo_left">
-                            <i class="iconfont icon-delete"></i>
-                            清除全部
-                        </div>
-                        <div class="clearallinfo_right">
-                            <Icon type="ios-close" />
-                        </div>
-                    </div>
-                    <div class="right-timeline-content">
-                        <Timeline>
-                            <TimelineItem v-for="(item,index) in steplist" :key="index">
-                                <img class="doticon" slot="dot" src="../../assets/images/timecircle.png" />
-                                <p class="steptimeitemtit">{{item.name}}</p>
-                                <div class="steptimeitemcontent">
-                                    <div class="listtitle" @click="toggle(item)">{{item.content}}<Icon type="md-arrow-dropdown" /></div>
-                                    <div class="steptimeitem-items" v-if="item.open">
-                                        <div class="steptimeitem-itemsinfo" v-for="(timelineitems,indexs) in item.children" :key="indexs">
-                                            <span class="circle"></span>
-                                            <div class="infomiddle">{{timelineitems.title}}:<span class="infocontent">{{timelineitems.content}}</span></div>
+        <Tabs class="tabs-animation" :active="outsidetabsvalue" :showClose="true" :tabsTab="outsideTabList" v-on:closeiconClick="outsidecloseicon" v-on:tabclick="outsidetabclick">
+            <TabPane :name="item.name" v-for="(item,index) in outsideTabList" :key="index" :label="item.label">
+                <div v-if="item.name=='1'" class="datatreating_firstitem">
+                    <Row>
+                        <Col span="18">
+                            <div class="backgroundwhite">
+                                <div class="datatreating_fr_content">
+                                    <div class="lf">
+                                        <div class="header_iconconent cursorpointer" >
+                                            <img class="icon" src="../../assets/images/applicationmodel/extract.png" />
+                                            <span class="span">数据提取</span>
+                                        </div>
+                                        <div class="header_iconconent cursorpointer" @click="appaddtabs">
+                                            <img class="icon" src="../../assets/images/applicationmodel/analyse.png" />
+                                            <span class="span">因子分析</span>
+                                        </div>
+                                        <div class="header_iconconent cursorpointer" @click="downloaddata">
+                                            <img class="icon" src="../../assets/images/applicationmodel/element.png" />
+                                            <span class="span">主要成分分析</span>
+                                        </div>
+                                        <div class="header_iconconent cursorpointer" @click="downloaddata">
+                                            <img class="icon" src="../../assets/images/applicationmodel/correlation.png" />
+                                            <span class="span">相关性分析</span>
+                                        </div>
+                                    </div>
+                                    <div class="rg">
+                                        <div class="header_iconconent width174 marginright0">
+                                            <img class="icon" src="../../assets/images/search@2x.png" />
+                                            <input placeholder="关键字搜索" class="datasearch_input">
                                         </div>
                                     </div>
                                 </div>
-                            </TimelineItem>
-                        </Timeline>
-                    </div>
-                    <div class="showmoreall">显示全部</div>
+                                <NewTabs class="tabs-animation" :active="tabsvalue" v-on:tabclick="tabclick">
+                                    <NewTabPane :name="item.name" v-for="(item,index) in applicationmodelTabList" :key="index" :label="item.label">
+                                        <div class="datatreating_firstitem">
+                                            <div class="datatreating_fr_table">
+                                                <Table class="facedata-table account-table" stripe :columns="table.columns" :data="table.data"></Table>
+                                            </div>
+                                            <!-- <div class="datatreating_fr_page">
+                                                <Page :total="table.total" :current="table.page" :showElevator="false" @on-change="changePage" :pageSize="table.pagesize"></Page>
+                                            </div> -->
+                                        </div> 
+                                    </NewTabPane>
+                                </NewTabs>
+                            </div>
+                        </Col>
+                        <Col span="6">
+                            <div class="applicationmodel_right_content">
+                                <div class="clearallinfo">
+                                    <div class="clearallinfo_left">
+                                        <i class="iconfont icon-delete"></i>
+                                        清除全部
+                                    </div>
+                                    <div class="clearallinfo_right">
+                                        <Icon type="ios-close" />
+                                    </div>
+                                </div>
+                                <div class="right-timeline-content">
+                                    <Timeline>
+                                        <TimelineItem v-for="(item,index) in steplist" :key="index">
+                                            <img class="doticon" slot="dot" src="../../assets/images/timecircle.png" />
+                                            <p class="steptimeitemtit">{{item.name}}</p>
+                                            <div class="steptimeitemcontent">
+                                                <div class="listtitle" @click="toggle(item)">{{item.content}}<Icon type="md-arrow-dropdown" /></div>
+                                                <div class="steptimeitem-items" v-if="item.open">
+                                                    <div class="steptimeitem-itemsinfo" v-for="(timelineitems,indexs) in item.children" :key="indexs">
+                                                        <span class="circle"></span>
+                                                        <div class="infomiddle">{{timelineitems.title}}:<span class="infocontent">{{timelineitems.content}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </TimelineItem>
+                                    </Timeline>
+                                </div>
+                                <div class="showmoreall">显示全部</div>
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
-            </Col>
+                <div v-else-if="item.name=='2'">
+                <iframe 
+                    src="http://192.168.1.236:8081/miner/v3/desktopmin/index.html?id='dap.storeapp'"
+                    class="myiframe"
+                    frameborder="0"
+                ></iframe>
+                </div>
+                <div v-else>
+                <div class="datatreating_fr_table">
+                    <vxe-table
+                    border="none"
+                    align="center"
+                    stripe
+                    :data="othertable.data"
+                    >
+                    <vxe-table-column
+                        v-for="(n, index) in othertable.columns"
+                        :key="index"
+                        :field="n.name"
+                        :title="n.name"
+                        show-header-overflow 
+                        show-overflow="title" 
+                        minWidth=120
+                    >
+                        <!-- <template v-slot="{ row }">
+                        <span
+                            >{{ row[index].value }}
+                        </span>
+                        </div>
+                        </template> -->
+                    </vxe-table-column>
+                    </vxe-table>
             
-        </Row>
-        
-        <!-- 导入弹窗 -->
-        <Modal width="600" v-model="datatreating_modal" class-name="vertical-center-modal">
-            <!-- 导入 -->
-            <div class="layer_header" style="cursor: move;">
-                导入
-            </div>
-            <div class="datamodal_content">
-                <div class="datamodal_item">
-                    <div class="datamodal_item-title">选择表:</div>
-                    <div class="datamodal_item_flex">
-                        <div class="choose_biao"><div>{{choosename}}</div><img class="icon" src="../../assets/images/add@2x.png" /></div>
-                        <input type="file" id="editorupload" accept="image/gif, image/jpeg, image/png, image/jpg" style="width:100px;height:32px;position:absolute;left:0;top:0;opacity:0;" @change="UploadMore"/>
+
+                </div>
+                <div class="datatreating_fr_page">
+                    <span class="pageclass" @click="changeothertablefirstPage">首页</span>
+                    <div class="facedata-pagination">
+                    <Page
+                        :total="othertable.total"
+                        :current="othertable.page"
+                        size="small"
+                        @on-change="changeothertablePage"
+                        :pageSize="othertable.pagesize"
+                    ></Page>
+                    
                     </div>
+                    <span class="pageclass" @click="changeothertablelastePage">尾页</span>
                 </div>
-                <div class="datamodal_item">
-                    <div class="datamodal_item-title">描述:</div>
-                    <div class="datamodal_item_flex">
-                        <textarea v-model="leadingindescribe" class="textarea-control" placeholder="非必填"></textarea>
-                    </div>
                 </div>
-            </div>
-            <div class="datamodal_footer">
-                <button class="btn" @click="lendinginleavefail">退出</button>
-                <button class="btn" @click="lendinginsave">保存</button>
-            </div>
-        </Modal>
-        <!-- 系统提示弹窗 -->
-        <Modal width="600" v-model="systemtips_modal" class-name="vertical-center-modal" :closable="false">
-            <!-- 导入失败 -->
-            <div class="layer_header" style="cursor: move;">
-                系统提示
-            </div>
-            <div class="systemtips_content">
-                <img class="icon" src="../../assets/images/wrong.png" />
-                <div class="successtips">导入成功</div>
-            </div>
-            <div class="datamodal_footer1">
-                <button class="btn" @click="systemtips_modal=false">确定</button>
-            </div>
-        </Modal>
-        <!-- 导入失败弹窗 -->
-        <Modal width="600" v-model="leadingInFail_modal" class-name="vertical-center-modal">
-            <!-- 导入失败 -->
-            <div class="layer_header" style="cursor: move;">
-                导入失败
-            </div>
-            <div class="leadingInFail_content">
-                <div class="datamodal_item-title1">以下字段为空或与模板样式不符:</div>
-                <div class="datamodal_item_textarea">
-                    <textarea class="textarea-control1" v-model="leadinginfailinfo" placeholder="非必填"></textarea>
-                </div>
-            </div>
-            <div class="datamodal_footer">
-                <button class="btn">导出错误日志</button>
-                <button class="btn">修改数据字典</button>
-            </div>
-        </Modal>
-         <!-- 下载模版 -->
-        <Modal width="600" v-model="downloadTemplate_modal" class-name="vertical-center-modal">
-            <!-- 下载模版 -->
-            <div class="layer_header" style="cursor: move;">
-                下载模版
-            </div>
-            <div class="datamodal_content">
-                <div class="datamodal_item">
-                    <div class="datamodal_item-title">模板类型:</div>
-                    <div class="datamodal_item_flex">
-                        <Select v-model="model8" clearable class="downloadtemplate_content">
-                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                        </Select>
-                    </div>
-                </div>
-                <div class="datamodal_item">
-                    <div class="datamodal_item-title">模板名称:</div>
-                    <div class="datamodal_item_flex">
-                        <textarea v-model="templatename" class="textarea-control" placeholder="非必填"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="datamodal_footer">
-                <button class="btn">退出</button>
-                <button class="btn">保存</button>
-            </div>
-        </Modal>
+            </TabPane>
+        </Tabs> 
          <!-- 错误提示 -->
         <Modal width="300" v-model="errorTips_modal" class-name="vertical-center-modal">
             <div class="errorTips_modal">
@@ -182,30 +152,32 @@
 <script>
 import linetree from "../components/linetree/linetree"
 import { NewTabs,NewTabPane} from '../components/newtabs/index'
+import { Tabs, TabPane } from "../components/tabs/index";
 export default {
     name:"Applicationmodel",
     components: {
         linetree,
         NewTabs,
         NewTabPane,
+        Tabs,
+        TabPane 
     },
     data(){
         return{
+
+            outsidetabsvalue: "1", //tab选项卡的选定
+            outsidetabIndex: 1,
+            outsideTabList: [
+                {
+                    label: "数据预处理",
+                    name: "1",
+                    index: "1",
+                    paramId: "",
+                },
+            ],//数据处理
+
             errorTips_modal:false,//错误弹框
             err_list: [], //错误信息列表
-
-            datatreating_modal:false,//导入弹窗
-            choosename:'', //导入选择表
-            leadingindescribe:'',//导入描述
-
-            leadingInFail_modal:false,//导入失败弹窗
-            leadinginfailinfo:'以下字段为空或与模板样式不符，以下字段为空或与模板样式不',//导入失败的文本框
-
-            downloadTemplate_modal:false,//下载模版弹窗
-            templatename:'2020914KPI2101', //模版名称
-            model8:'',
-            
-            systemtips_modal:false,//系统提示弹窗
 
             tabsvalue:'1',//tab选项卡的选定
             tabIndex:1,
@@ -309,10 +281,6 @@ export default {
                     name2:'总经理'
                 }]
             },
-            cityList:[{
-                label:'123',
-                value:'111'
-            }],
             steplist:[{
                 id:'1',
                 name:"步骤1",
@@ -349,7 +317,11 @@ export default {
                     title:'选择表',
                     content:'DF_68_1506483847543(T1)'
                 }]
-            }]
+            }],
+            othertable:{
+                columns:[],
+                data:[]
+            }
         }
     },
     created(){
@@ -385,6 +357,80 @@ export default {
                 }
             );
         },
+        //关闭tab的x
+        outsidecloseicon(index) {
+            this.outsideTabList.splice(index, 1);
+            if (this.outsideTabList.length > 0) {
+                let newname = this.outsideTabList[this.outsideTabList.length - 1].name;
+                this.outsidetabsvalue = newname.toString();
+            }
+        },
+        outsidetabclick(item) {
+            // this.tabsvalue = item.toString();
+            if (item.name == 1) {
+                this.outsidetabsvalue = item.name.toString();
+            } else if (item.name == 1) {
+                this.outsidetabsvalue = item.name.toString();
+            } else {
+                this.othertable.page = 1;
+                this.outsidetabsvalue = item.name.toString();
+                // this.getnewDataTableCol(item.paramId);
+            }
+        },
+        appaddtabs() {
+            let tabIndex = this.outsidetabIndex;
+            this.outsidetabIndex = tabIndex + 1;
+            let ishasdata = true;
+            if (this.outsideTabList.length > 0) {
+                this.outsideTabList.filter(function (item) {
+                    if (item.name == "2") {
+                        ishasdata = false;
+                    }
+                });
+                if (ishasdata) {
+                    this.outsideTabList.push({
+                        name: 2,
+                        label: "生成数据",
+                        index: tabIndex,
+                        paramId: "",
+                    });
+                    this.outsidetabsvalue = "2";
+                }
+                if (!ishasdata) {
+                this.outsidetabsvalue = "2";
+                }
+            }
+        },
+        outsideaddTab(params) {
+
+            let oneTabitem = new Array();
+            let tabIndex = this.outsidetabIndex;
+            oneTabitem = this.outsideTabList.filter(function (item) {
+                return item.label == params.name;
+            });
+
+            this.othertable.page = 1;
+            if (oneTabitem.length > 0) {
+                this.outsidetabsvalue = oneTabitem[0].index.toString();
+                // this.getnewDataTableCol(params.param)
+            } else {
+                if (tabIndex == 1) {
+                    this.outsidetabIndex = tabIndex + 2;
+                } else {
+                    this.outsidetabIndex = tabIndex + 1;
+                }
+                this.outsideTabList.push({
+                    name: this.tabIndex,
+                    label: params.name,
+                    index: this.tabIndex,
+                    paramId: params.param,
+                });
+
+                // this.getnewDataTableCol(params.param);
+                this.outsidetabsvalue = this.tabIndex.toString();
+            }
+            this.othertablelistdata = params;
+        },
         toggle(item){
             var id = item.id, list = this.steplist;
             // 使用id获取打开的子列表
@@ -404,51 +450,12 @@ export default {
             this.table.page = page;
             this.changeTags();
         },
-        // 选择导入
-        choseleadingin(){
-            this.datatreating_modal = true
-        },
-        //导入保存
-        lendinginsave(){
-            this.systemtips_modal = true
-        },
-        //导入推出
-        lendinginleavefail(){
-            this.leadingInFail_modal=true
-        },
         //下载数据
         downloaddata(){
             this.downloadTemplate_modal=true
         },
-        itemClick(){
-            //树的点击
-        },
         tabclick(item){
             this.tabsvalue = item.toString();
-        },
-        addtabs(){
-            let tabIndex =this.tabIndex
-            this.tabIndex= tabIndex+1;
-            let ishasdata =true
-            if(this.applicationmodelTabList.length>0){
-                this.applicationmodelTabList.filter(function(item){
-                     if(item.name == "2"){
-                         ishasdata = false
-                     }
-                })
-                if(ishasdata){
-                    this.applicationmodelTabList.push({
-                        name: 2,
-                        label:'生成数据',
-                        index:tabIndex
-                    });
-                    this.tabsvalue='2'
-                }
-                if(!ishasdata){
-                    this.tabsvalue='2'
-                }
-                
-            }
         },
         //增加tab
         addTab(params) {
@@ -474,9 +481,6 @@ export default {
             
             
         },
-        UploadMore(e) {
-
-        }
     },
 }
 </script>
@@ -588,6 +592,170 @@ export default {
             background: #246FEA;
             border-radius: 2px;
             margin:15px auto 0px;
+        }
+    }
+    #tabs {
+        width: 100%;
+        overflow: auto;
+        .tabs-nav {
+        width: 100%;
+        //    border-bottom: 1px solid #ddd;
+        display: flex;
+        background: #f5f5f5;
+        border-radius: 10px 10px 0 0;
+
+        .tabs-tab {
+            // width: 170px;
+            max-width: 240px;
+            // flex:1;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 20px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+            height: 50px;
+            position: relative;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.4);
+            letter-spacing: 0;
+            background: #e8e8e8;
+            .newtabs-tab-tit {
+            display: inline-block;
+            // min-width: 100px;
+            // width: 100px;
+            max-width: 180px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            }
+            .tabs_right_bottom {
+            width: 10px;
+            height: 10px;
+            // background: #F5F5F5;
+            background: #fff;
+            position: absolute;
+            bottom: 0px;
+            right: -10px;
+            z-index: 1;
+            // border-radius: 0px 0 20px 0 !important;
+            .tabs_border {
+                width: 10px;
+                height: 10px;
+                // background: #fff;
+                background: #e8e8e8;
+                border-radius: 0px 0 0 10px !important;
+            }
+            }
+            .tabs_left_bottom {
+            width: 10px;
+
+            height: 10px;
+            // background: #e8e8e8;
+            background: #fff;
+            position: absolute;
+            bottom: 0px;
+            left: -10px;
+            z-index: 1;
+            // border-radius: 0px 0 20px 0 !important;
+            .tabs_border {
+                width: 10px;
+                height: 10px;
+                // background: #fff;
+                background: #e8e8e8;
+                border-radius: 0px 0px 10px 0px !important;
+            }
+            }
+            .middle_line {
+            position: absolute;
+            top: 26px;
+            left: 0;
+            width: 1px;
+            height: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            }
+            .middle_line1 {
+            position: absolute;
+            top: 26px;
+            right: -1px;
+            width: 1px;
+            height: 14px;
+            background: #f5f5f5;
+            z-index: 111;
+            }
+            &.active {
+            background: #fff;
+            border-radius: 10px 10px 0 0px;
+            color: #246fea !important;
+            }
+            .tip {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f00;
+            text-align: center;
+            line-height: 20px;
+            display: inline-block;
+            color: #fff;
+            font-size: 12px;
+            position: relative;
+            top: -15px;
+            }
+            &.disabled {
+            color: #999;
+            cursor: not-allowed;
+            }
+        }
+        .tabs-tab:first-child {
+            .middle_line {
+            position: absolute;
+            top: 26px;
+            left: 0;
+            width: 0px !important;
+            height: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            }
+        }
+        .tabs-tab:last-child {
+            .tabs_right_bottom {
+            width: 10px;
+            height: 10px;
+            // background: #F5F5F5;
+            background: #fff;
+            position: absolute;
+            bottom: 0px;
+            right: -10px;
+            z-index: 1;
+            // border-radius: 0px 0 20px 0 !important;
+            .tabs_border {
+                width: 10px;
+                height: 10px;
+                // background: #fff;
+                background: #f5f5f5 !important;
+                border-radius: 0px 0 0 10px !important;
+            }
+            }
+        }
+        }
+        .tabs-content {
+        padding: 30px 50px;
+        background: #ffffff;
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 0 10px 10px 10px;
+        min-height: 970px;
+        .tab-pane {
+            display: none;
+            &.active {
+            display: block;
+            }
+        }
+        }
+        .clearfix {
+        &:after {
+            clear: both;
+        }
         }
     }
     .datatreating_firstitem{
