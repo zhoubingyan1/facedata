@@ -1,6 +1,6 @@
 <template>
   <div id="Sceneone">
-    
+
     <Row :gutter="52">
       <Col span="8">
         <div class="rkpi_index_content height465">
@@ -437,12 +437,111 @@
       </Col>
       <!-- v-if="ishowtable3" -->
       <Col span="6" offset="1" class="index_row1" >
-        <Table
+        <!-- <Table
           class="facedata-table account-table"
           stripe
           :columns="table2.columns"
           :data="table2.data"
-        ></Table>
+        ></Table> -->
+        <vxe-table
+            border="none"
+            ref="ktable"
+            align="center"
+            height="576"
+            stripe
+            :data="table2.data"
+            highlight-hover-row
+            highlight-current-row
+            class="myfirsttable firststyle"
+          >
+            <vxe-table-column
+              v-for="(n, index) in table2.data[0]"
+              :key="index"
+              :field="n.key"
+              minWidth=120
+              :title="n.key == 'ORG' ? '组织' : n.key"
+            >
+              <template v-slot="{ row }">
+                <span
+                  v-if="row[index].key == 'ORG'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <span
+                  v-else-if="row[index].key == 'ROW_NEXT'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <div
+                  v-else
+                  class="num_split_5"
+                  :style="{ color: row[index].fontcolor }"
+                  :class="{ select_block: row[index].selected }"
+                  
+                >
+                  <div>
+                    {{ row[index].value.toString().split(".")[0] }}.
+                  </div>
+                  <div>
+                    {{ row[index].value.toString().split(".")[1] }}
+                  </div>
+                </div>
+              </template>
+            </vxe-table-column>
+          </vxe-table>
+      
+      </Col>
+    </Row>
+    <Row>
+      <Col span="24" class="index_row1">
+        <vxe-table
+            border="none"
+            ref="ktable"
+            align="center"
+            height="576"
+            stripe
+            :data="table3.data"
+            highlight-hover-row
+            highlight-current-row
+            class="myfirsttable firststyle"
+            @cell-click="cell_click"
+            @header-cell-click="header_cell_click"
+          >
+            <vxe-table-column
+              v-for="(n, index) in table3.data[0]"
+              :key="index"
+              :field="n.key"
+              minWidth=120
+              :title="n.key == 'ORG' ? '组织' : n.key"
+            >
+              <template v-slot="{ row }">
+                <span
+                  v-if="row[index].key == 'ORG'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <span
+                  v-else-if="row[index].key == 'ROW_NEXT'"
+                  :style="{ color: row[index].fontcolor }"
+                  >{{ row[index].value }}
+                </span>
+                <div
+                  v-else
+                  class="num_split_5"
+                  :style="{ color: row[index].fontcolor }"
+                  :class="{ select_block: row[index].selected }"
+                  
+                >
+                  <div>
+                    {{ row[index].value.toString().split(".")[0] }}.
+                  </div>
+                  <div>
+                    {{ row[index].value.toString().split(".")[1] }}
+                  </div>
+                </div>
+              </template>
+            </vxe-table-column>
+          </vxe-table>
       </Col>
     </Row>
   </div>
@@ -503,6 +602,11 @@ export default {
         data: [],
       },
       table2:{
+        columns: [
+        ],
+        data: [],
+      },
+      table3:{
         columns: [
         ],
         data: [],
@@ -800,6 +904,8 @@ export default {
       //列名
       var key_list = [];
       var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
       for (var name in list[0]) {
         if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
           key_list.push(name);
@@ -808,10 +914,18 @@ export default {
       }
       // console.log(key_list,this.firsttablecolums, "列名");
       //排序
-      sort_key_list.push(zuzhi);
-      key_list.forEach((n) => {
-        n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
-      });
+      firstsort_key_list.push(zuzhi);
+      if(this.firsttablecolums.length>0){
+        common_key_list=this.firsttablecolums.filter(function(n) {
+            return key_list.indexOf(n) != -1
+        });
+      }
+      sort_key_list = [...firstsort_key_list,...common_key_list]
+      //排序
+      // sort_key_list.push(zuzhi);
+      // key_list.forEach((n) => {
+      //   n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
+      // });
       // sort_key_list.push("CREATETIME");
       // console.log(sort_key_list, "排序后列名");
 
@@ -853,6 +967,147 @@ export default {
       
       
     },
+    //处理下面的第三个表格
+    disposethirdlyTable(list) {
+      var zuzhi = "ICE";
+      var creacttime = "CREATETIME";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
+      for (var name in list[0]) {
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
+          key_list.push(name);
+        }
+        
+      }
+      // console.log(key_list,this.firsttablecolums, "列名");
+      //排序
+      firstsort_key_list.push(zuzhi);
+      if(this.firsttablecolums.length>0){
+        common_key_list=this.firsttablecolums.filter(function(n) {
+            return key_list.indexOf(n) != -1
+        });
+      }
+      sort_key_list = [...firstsort_key_list,...common_key_list]
+      //排序
+      // sort_key_list.push(zuzhi);
+      // key_list.forEach((n) => {
+      //   n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
+      // });
+      // sort_key_list.push("CREATETIME");
+      // console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi&&node.key!=creacttime&&node.key!='ROW_NEXT') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+              
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.select_color;
+        list_model.push(node_list);
+      }
+
+      // console.log(list_model, "建立模型对象");
+      this.table1.data = list_model
+      
+      
+    },
+    //处理下面的第四个表格
+    disposefourTable(list) {
+      var zuzhi = "ICE";
+      var creacttime = "CREATETIME";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
+      for (var name in list[0]) {
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
+          key_list.push(name);
+        }
+        
+      }
+      // console.log(key_list,this.firsttablecolums, "列名");
+      //排序
+      firstsort_key_list.push(zuzhi);
+      if(this.firsttablecolums.length>0){
+        common_key_list=this.firsttablecolums.filter(function(n) {
+            return key_list.indexOf(n) != -1
+        });
+      }
+      sort_key_list = [...firstsort_key_list,...common_key_list]
+      //排序
+      // sort_key_list.push(zuzhi);
+      // key_list.forEach((n) => {
+      //   n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
+      // });
+      // sort_key_list.push("CREATETIME");
+      // console.log(sort_key_list, "排序后列名");
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi&&node.key!=creacttime&&node.key!='ROW_NEXT') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+              
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.select_color;
+        list_model.push(node_list);
+      }
+
+      // console.log(list_model, "建立模型对象");
+      this.table1.data = list_model
+      
+      
+    },
+    //tab切换
     tabclick(item){
         // console.log(item,'item')
         this.tabsvalue = item.toString();
@@ -1581,197 +1836,6 @@ export default {
       line-height: 14px;
       margin-bottom: 30px;
     }
-  }
-  .leftecharts {
-    width: 50px;
-    height: 405px;
-    min-height: 405px;
-  }
-  .reports2 {
-    height: 405px;
-    width: 100%;
-    min-height: 405px;
-    .bg1 {
-      text-align: center;
-      background: rgba(255, 219, 152, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg1:hover {
-      background: rgba(255, 219, 152, 0.8);
-    }
-    .bg2 {
-      text-align: center;
-      background: rgba(255, 202, 156, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg2:hover {
-      background: rgba(255, 202, 156, 0.8);
-    }
-    .bg3 {
-      text-align: center;
-      background: rgba(255, 178, 153, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg3:hover {
-      background: rgba(255, 178, 153, 0.8);
-    }
-    .bg4 {
-      text-align: center;
-      background: rgba(255, 236, 154, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg4:hover {
-      background: rgba(255, 236, 154, 0.8);
-    }
-    .bg5 {
-      text-align: center;
-      background: rgba(255, 219, 152, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg5:hover {
-      background: rgba(255, 219, 152, 0.8);
-    }
-    .bg6 {
-      text-align: center;
-      background: rgba(254, 201, 152, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg6:hover {
-      background: rgba(254, 201, 152, 0.8);
-    }
-    .bg7 {
-      text-align: center;
-      background: rgba(255, 246, 176, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg7:hover {
-      background: rgba(255, 246, 176, 0.8);
-    }
-    .bg8 {
-      text-align: center;
-      background: rgba(255, 236, 154, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg8:hover {
-      background: rgba(255, 236, 154, 0.8);
-    }
-    .bg9 {
-      text-align: center;
-      background: rgba(255, 219, 152, 1);
-      height: 135px;
-      cursor: pointer;
-    }
-    .bg9:hover {
-      background: rgba(255, 219, 152, 0.8);
-    }
-    .middlecontent {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-  .reports1 {
-    height: 612px;
-    margin: 60px 50px 76px 50px;
-    min-height: 612px;
-  }
-  .echartstwocontent {
-    height: 560px;
-    min-height: 520px;
-  }
-  .echartscontent {
-    position: relative;
-    margin: 60px 50px 0px 0px;
-    display: flex;
-    min-height: 400px;
-  }
-  .bottomlinecontent {
-    position: relative;
-    margin: 35px 50px 0px 50px;
-    .flexlineconent {
-      display: flex;
-      display: -webkit-flex; /* Safari */
-      align-items: center;
-      justify-content: center;
-    }
-    .index_echartsline2 {
-      width: calc(100% - 22px);
-      height: 1px;
-      background: #cdcdcd;
-      margin-top: 1px;
-      flex: 1;
-    }
-    .index_echarts_rightheight {
-      background: #fff;
-      width: 22px;
-    }
-    .index_echarts_rightmiddle {
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      bottom: -14px;
-      background: #fff;
-      padding: 0px 10px;
-    }
-    .index_echarts_icon2 {
-      color: #cdcdcd;
-      margin-left: -6px;
-      //  background: #fff;
-    }
-  }
-  .leftlinecontent {
-    display: flex;
-    display: -webkit-flex; /* Safari */
-    align-items: center;
-    justify-content: center;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    width: 15px;
-    height: 465px;
-    min-height: 465px;
-    .index_echartsline {
-      width: 1px;
-      height: 387px;
-      background: #cdcdcd;
-    }
-    .index_echarts_bottom {
-      width: 15px;
-      height: 50px;
-      text-align: center;
-      padding-top: 30px;
-    }
-    .index_echarts_height {
-      width: 15px;
-      height: 5px;
-      text-align: center;
-      z-index: 11;
-      background: #fff;
-    }
-    .index_echarts_icon1 {
-      background: #fff;
-      color: #cdcdcd;
-      height: 5px;
-      line-height: 5px !important;
-      margin-top: -12px;
-    }
-  }
-  .index_echarts_leftmiddle {
-    position: absolute;
-    left: 0px;
-    width: 20px;
-    top: 140px;
-    background: #fff;
-    padding: 10px 0px;
   }
 
   //表格
