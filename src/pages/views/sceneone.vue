@@ -437,12 +437,6 @@
       </Col>
       <!-- v-if="ishowtable3" -->
       <Col span="6" offset="1" class="index_row1" >
-        <!-- <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="table2.columns"
-          :data="table2.data"
-        ></Table> -->
         <vxe-table
             border="none"
             ref="ktable2"
@@ -450,7 +444,6 @@
             height="576"
             stripe
             :data="table2.data"
-            highlight-hover-row
             highlight-current-row
             class="myfirsttable firststyle"
           >
@@ -463,7 +456,7 @@
             >
               <template v-slot="{ row }">
                 <span
-                  v-if="row[index].key == 'ORG'"
+                  v-if="row[index].key == '经营单位'"
                   :style="{ color: row[index].fontcolor }"
                   >{{ row[index].value}}
                 </span>
@@ -947,7 +940,7 @@ export default {
     },
     //处理下面的第二个表格
     disposeSecondTable(list) {
-      console.log(list,'disposeSecondTable')
+      // console.log(list,'disposeSecondTable')
       var zuzhi = "ICE";
       var creacttime = "CREATETIME";
       //列名
@@ -961,8 +954,7 @@ export default {
         }
         
       }
-      // console.log(key_list,this.firsttablecolums, "列名");
-      //排序
+      //从第一个表格头找到相同的
       firstsort_key_list.push(zuzhi);
       if(this.firsttablecolums.length>0){
         common_key_list=this.firsttablecolums.filter(function(n) {
@@ -970,15 +962,7 @@ export default {
         });
       }
       sort_key_list = [...firstsort_key_list,...common_key_list]
-      //排序
-      // sort_key_list.push(zuzhi);
-      // key_list.forEach((n) => {
-      //   n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
-      // });
-      // sort_key_list.push("CREATETIME");
-      // console.log(sort_key_list, "排序后列名");
-      
-
+    
       //建造对象
       var list_model = new Array();
 
@@ -1036,6 +1020,7 @@ export default {
       }
       
     },
+    //处理下面的第三个表格头
     disposethirdlyTableheader(list){
       var zuzhi = "ORG";
       //列名
@@ -1052,11 +1037,32 @@ export default {
     },
     //处理下面的第三个表格
     disposethirdlyTable(list) {
-      console.log(list,'list')
-
+      let secondtablecoumles =[]
+      if(this.table1.data.length>0){
+        this.table1.data.forEach((v,i)=>{
+          v.map((m,j)=>{
+            if(m.key=='ICE'){
+              secondtablecoumles.push(m.value)
+            }
+          })
+        })
+      }
+      // console.log(secondtablecoumles,'secondtablecoumles.push(m.value)')
+      let common_key_list=[]
+      let first_key_list=[]
+      let sort_key_list =[]
+      first_key_list.push(this.table2.columns[0])
+        secondtablecoumles.forEach((key,index) => {
+          this.table2.columns.forEach((item,j) => {
+              if(item.desc === key) {
+                common_key_list.push(this.table2.columns[j])
+              }
+          })
+      })
+      // console.log(common_key_list,'common_key_list')
+      sort_key_list = [...first_key_list,...common_key_list]
       //建造对象
       var list_model = new Array();
-      let sort_key_list = this.table2.columns
 
       for (var row = 0; row < list.length; row++) {
         var node_list = new Array();
@@ -1072,7 +1078,6 @@ export default {
           node.fontcolor = this.default_color;
           node.selected = false;
           node_list.push(node);
-
           if (node.key!='经营单位') {
             //小数位
             node.value = Number(Number(node.value).toFixed(5));
@@ -1088,7 +1093,7 @@ export default {
         list_model.push(node_list);
       }
 
-      console.log(list_model, "建立模型对象");
+      // console.log(list_model, "建立模型对象");
       this.table2.data = list_model
       
       
@@ -1165,7 +1170,6 @@ export default {
     },
     //tab切换
     tabclick(item){
-        // console.log(item,'item')
         this.tabsvalue = item.toString();
     },
     //综合得分排序
@@ -1320,18 +1324,6 @@ export default {
         return value1 - value2;
       });
     },
-    sortByKey1(array, key) {
-      array.map((n,j) => {
-        console.log(n,j,'nn')
-        // n[key]
-        
-      });
-      // return array.sort(function (a, b) {
-      //   var value1 = a[key];
-      //   var value2 = b[key];
-      //   return value1 - value2;
-      // });
-    },
     //数组对象方法排序:降序
     sortDownByKey(array, key) {
       return array.sort(function (a, b) {
@@ -1405,7 +1397,16 @@ export default {
       this.InitRowColor();
       // var index = 1;
       this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
+      // this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(index));
       this.SelectRowColor(index);
+      //第三个表格高亮
+      this.table2.data.forEach((v,i)=>{
+        v.map((m,j)=>{
+          if(m.value==item.name){
+            this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(i));
+          }
+        })
+      })
     },
     //设置高亮列
     setHigthCell() {
@@ -1422,7 +1423,8 @@ export default {
     },
     //块点击
     cell_click(event) {
-      // console.log(event);
+      console.log(event,'event');
+      
       this.InitRowColor();
       //赋值选中
       this.SelectRowColor(event.rowIndex);
@@ -1456,6 +1458,15 @@ export default {
         });
       });
       this.table1.data[row_max_row][row_max_cell].fontcolor=this.max_color
+      //第三个表格
+      this.table2.data.forEach((v,i)=>{
+        v.map((m,j)=>{
+          if(m.value==event.row[event.columnIndex-1].value){
+            // console.log(m,'vv')
+            this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(i));
+          }
+        })
+      })
     },
     //头点击
     header_cell_click(event) {

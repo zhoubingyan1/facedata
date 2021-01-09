@@ -26,7 +26,7 @@
                 v-for="(item, index) in firstrkpilist"
                 :key="index"
                 class="rkpi_item_content"
-                @click="ishowtable"
+
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{ item.name }}</Col>
@@ -53,14 +53,6 @@
                     height="10"
                   ></v-progress-linear>
                 </div>
-
-                <!-- <Progress
-                  :percent="item.score"
-                  :stroke-width="item.strokeWidth"
-                  status="active"
-                  :stroke-color="item.strokeColor"
-                  hide-info
-                /> -->
               </div>
             </div>
           </div>
@@ -97,7 +89,7 @@
                     v-for="(item, index) in firstrkpilist1"
                     :key="index"
                     class="rkpi_item_content"
-                    @click="ishowtable"
+    
                   >
                     <Row>
                       <Col span="12" class="rkpi_item_title">{{
@@ -126,14 +118,6 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -156,7 +140,7 @@
                     v-for="(item, index) in firstrkpilist2"
                     :key="index"
                     class="rkpi_item_content"
-                    @click="ishowtable"
+    
                   >
                     <Row>
                       <Col span="12" class="rkpi_item_title">{{
@@ -185,13 +169,6 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -214,7 +191,7 @@
                     v-for="(item, index) in firstrkpilist3"
                     :key="index"
                     class="rkpi_item_content"
-                    @click="ishowtable"
+    
                   >
                     <Row>
                       <Col span="12" class="rkpi_item_title">{{
@@ -243,13 +220,6 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -272,7 +242,7 @@
                     v-for="(item, index) in firstrkpilist4"
                     :key="index"
                     class="rkpi_item_content"
-                    @click="ishowtable"
+    
                   >
                     <Row>
                       <Col span="12" class="rkpi_item_title">{{
@@ -301,13 +271,6 @@
                         height="10"
                       ></v-progress-linear>
                     </div>
-                    <!-- <Progress
-                      :percent="item.score"
-                      :stroke-width="item.strokeWidth"
-                      status="active"
-                      :stroke-color="item.strokeColor"
-                      hide-info
-                    /> -->
                   </div>
                 </div>
               </NewTabPane>
@@ -340,7 +303,7 @@
                 v-for="(item, index) in firstrkpilist5"
                 :key="index"
                 class="rkpi_item_content"
-                @click="ishowtable"
+
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{ item.name }}</Col>
@@ -367,45 +330,10 @@
                     height="10"
                   ></v-progress-linear>
                 </div>
-                <!-- <Progress
-                  :percent="item.score"
-                  :stroke-width="item.strokeWidth"
-                  status="active"
-                  :stroke-color="item.strokeColor"
-                  hide-info
-                /> -->
               </div>
             </div>
           </div>
         </div>
-      </Col>
-    </Row>
-    <!-- 表格 -->
-    <Row>
-      <Col span="6" class="index_row1" v-if="ishowtable1">
-        <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="table.columns"
-          :data="table.data"
-        ></Table>
-      </Col>
-      <Col span="7" offset="1" class="index_row1" v-if="ishowtable2">
-        <div class="index_row1_title">旋转后的成分矩阵</div>
-        <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="table1.columns"
-          :data="table1.data"
-        ></Table>
-      </Col>
-      <Col span="9" offset="1" class="index_row1" v-if="ishowtable3">
-        <Table
-          class="facedata-table account-table"
-          stripe
-          :columns="table.columns"
-          :data="table.data"
-        ></Table>
       </Col>
     </Row>
     <Row class="index_row">
@@ -563,9 +491,6 @@ export default {
       organizationmodel: "",
       organizationList: [],
 
-      ishowtable1: false,
-      ishowtable2: false,
-      ishowtable3: false,
       dom: null,
       dom1: null,
       echarts: echarts,
@@ -576,94 +501,8 @@ export default {
       firstrkpilist4: [], //综合
       firstrkpilist5: [], //RKPI和审核发现
 
-      rkpilist: [
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#FFAB92", "#FFAB92"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-      ],
-      rkpilist1: [
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "市北分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "成都分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-        {
-          name: "浦东分行",
-          number: "2.94016",
-          score: 45,
-          strokeWidth: 5,
-          strokeColor: ["#92BBFF", "#92BBFF"],
-        },
-      ],
+      rkpilist: [],
+      rkpilist1: [],
       table: {
         columns: [
           {
@@ -735,140 +574,6 @@ export default {
                     on: {
                       click: () => {
                         this.ishowsecondtable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-        ],
-        data: [
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "1",
-            name: "市北D",
-            name1: "-0.20933",
-          },
-          {
-            id: "2",
-            name: "苏州N",
-            name1: "-0.1933",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-          {
-            id: "3",
-            name: "深圳E",
-            name1: "-0.10933",
-          },
-          {
-            id: "4",
-            name: "南京G",
-            name1: "0.2033",
-          },
-        ],
-      },
-      table1: {
-        columns: [
-          {
-            title: "排名",
-            key: "id",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.id;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "机构名称",
-            key: "name",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
-                      },
-                    },
-                  },
-                  result
-                ),
-              ]);
-              // return h('span',result)
-            },
-          },
-          {
-            title: "风险因子2",
-            key: "name1",
-            align: "center",
-            render: (h, params) => {
-              let result = "";
-              result = params.row.name1;
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    attrs: {
-                      class: "cursor",
-                    },
-                    on: {
-                      click: () => {
-                        this.ishowthreetable();
                       },
                     },
                   },
@@ -1873,16 +1578,6 @@ export default {
       if (this.dom1 != null) {
         this.dom1.resize();
       }
-    },
-    ishowtable() {
-      this.ishowtable1 = true;
-    },
-    ishowsecondtable() {
-      // console.log(1)
-      this.ishowtable2 = true;
-    },
-    ishowthreetable() {
-      this.ishowtable3 = true;
     },
   },
   beforeDestroy() {
