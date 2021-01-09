@@ -431,22 +431,6 @@ import { Tabs, TabPane } from "../components/tabs/index";
 import ztree from "../components/ztree/ztree";
 let Base64 = require("js-base64").Base64;
 
-const simpleData = [
-  { id: 1, pid: 0, name: "随意勾选 1", open: false },
-  { id: 11, pid: 1, name: "随意勾选 1-1", open: false },
-  { id: 111, pid: 11, name: "随意勾选 1-1-1", open: false },
-  { id: 112, pid: 11, open: false, name: "随意勾选 1-1-2" },
-  { id: 12, pid: 1, name: "随意勾选 1-2", open: false },
-  { id: 121, pid: 12, name: "随意勾选 1-2-1", open: false },
-  { id: 122, pid: 12, name: "随意勾选 1-2-2", open: false },
-  { id: 2, pid: 0, name: "随意勾选 2-1", open: false },
-  { id: 21, pid: 2, name: "随意勾选 2-1", open: false },
-  { id: 22, pid: 2, name: "随意勾选 2-2", open: false },
-  { id: 221, pid: 22, name: "随意勾选 2-2-1", checked: true, open: false },
-  { id: 222, pid: 22, name: "随意勾选 2-2-2", open: false },
-  { id: 23, pid: 2, name: "随意勾选 2-3", open: false },
-];
-
 export default {
   name: "Datatreating",
   components: {
@@ -1167,22 +1151,31 @@ export default {
       let datasdmodaltypelist=[]//不含因子载荷
       let datasdmodaltypelist1=[]//含因子载荷
       let datasdmodaltypelist2=[]
+      let datasdmodaltypelist3=[]
       let datasdmodaltypeObj=new Object();
       //分行datasc
       let datascmodaltypelist=[] //不含因子载荷
       let datascmodaltypelist1=[] //含有因子载荷
+      let datascmodaltypelist2=[] 
+      let datascmodaltypelist3=[] 
       let datascmodaltypeObj=new Object();
       //监管datase
       let datasemodaltypelist=[]//不含因子载荷
       let datasemodaltypelist1=[]//含因子载荷
+      let datasemodaltypelist2=[]
+      let datasemodaltypelist3=[]
       let datasemodaltypeObj=new Object();
       //综合datascde
       let datascdemodaltypelist=[]//不含因子载荷
       let datascdemodaltypelist1=[]//含因子载荷
+      let datascdemodaltypelist2=[]
+      let datascdemodaltypelist3=[]
       let datascdemodaltypeObj=new Object();
       //rkpi和审核发现datavkpi
       let datavkpimodaltypelist=[]//不含因子载荷
       let datavkpimodaltypelist1=[]//含因子载荷
+      let datavkpimodaltypelist2=[]
+      let datavkpimodaltypelist3=[]
       let datavkpimodaltypeObj=new Object();
 
       let datacdemodeltypelist=[] //datacde热力图入库
@@ -1231,28 +1224,43 @@ export default {
                 datasdmodaltypelist1.push(v)
               }else if(v.name=='datasd次数入库'){
                 datasdmodaltypelist2.push(v)
+              }else if(v.name=='datad次数入库'){
+                datasdmodaltypelist3.push(v)
               }
               
               //分行datasc
               if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                //不含因子载荷
                 datascmodaltypelist.push(v)
               }else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
                 datascmodaltypelist1.push(v)
-              } 
+              }else if(v.name=='datasc次数入库'){
+                datascmodaltypelist2.push(v)
+              }else if(v.name=='datac次数入库'){
+                datascmodaltypelist3.push(v)
+              }
+              
               
               //监管datase
               if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datasemodaltypelist.push(v)
               }else if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
                 datasemodaltypelist1.push(v)
-              } 
+              }else if(v.name=='datase次数入库'){
+                datasemodaltypelist2.push(v)
+              }else if(v.name=='datae次数入库'){
+                datasemodaltypelist3.push(v)
+              }
+                
               //综合datascde      
               if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datascdemodaltypelist.push(v)
               }else if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
                 datascdemodaltypelist1.push(v)
-              } 
+              }else if(v.name=='datascde次数入库'){
+                datascdemodaltypelist2.push(v)
+              }else if(v.name=='datacde次数入库'){
+                datascdemodaltypelist3.push(v)
+              }
               //rkpi和审核发现datavkpi
               if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datavkpimodaltypelist.push(v)

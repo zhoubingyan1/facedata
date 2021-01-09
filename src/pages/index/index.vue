@@ -2404,7 +2404,7 @@ export default {
   }
   .echartscontent {
     position: relative;
-    margin: 60px 50px 0px 0px;
+    margin: 30px 50px 0px 0px;
     display: flex;
     min-height: 400px;
   }
@@ -2440,7 +2440,7 @@ export default {
     }
     .index_echarts_icon2 {
       color: #cdcdcd;
-      margin-left: -6px;
+      margin-left: -20px;
       //  background: #fff;
     }
   }

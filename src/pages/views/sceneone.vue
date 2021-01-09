@@ -27,7 +27,7 @@
                 v-for="(item,index) in firstrkpilist"
                 :key="index"
                 class="rkpi_item_content"
-                 @click="isshowfirsttable(item,index)"
+                 @click="isshowfirsttable(item,index,'datavbtypes')"
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
@@ -463,7 +463,7 @@
             >
               <template v-slot="{ row }">
                 <span
-                  v-if="row[index].key == '经营单位'"
+                  v-if="row[index].key == 'ORG'"
                   :style="{ color: row[index].fontcolor }"
                   >{{ row[index].value}}
                 </span>
@@ -928,7 +928,7 @@ export default {
       // console.log(list_model, "建立模型对象");
       // this.data_table = list_model;
       this.table.data = list_model
-      // console.log(this.table.data ,'this.table.data')
+      console.log(this.table.data ,'this.table.data')
       //RKPI综合得分
       let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
       if (datavbmodaltypeObj) {
@@ -1174,22 +1174,22 @@ export default {
         // 得分升序
         this.sortByKey(this.firstrkpilist, "number");
         // 下面对应的表格排序
-        // this.sortByKey(this.table.data, "value");
+        // this.sortByKey1(this.table.data, "value");
       } else if (data == "scoredown") {
         // 得分降序
         this.sortDownByKey(this.firstrkpilist, "number");
         // 下面对应的表格排序
-        // this.sortDownByKey(this.table.data, "value");
+        this.sortDownByKey(this.table.data, "value");
       } else if (data == "organizationup") {
         // 机构名升序
         this.firstrkpilist.sort(this.nameasc("name"));
         // 下面对应的表格排序
-        // this.table.data.sort(this.nameasc("value"));
+        this.table.data.sort(this.nameasc("value"));
       } else if (data == "organizationdown") {
         // 机构名降序
         this.firstrkpilist.sort(this.namedesc("name"));
         // 下面对应的表格排序
-        // this.table.data.sort(this.namedesc("value"));
+        this.table.data.sort(this.namedesc("value"));
       }
     },
     //总行排序
@@ -1320,6 +1320,18 @@ export default {
         return value1 - value2;
       });
     },
+    sortByKey1(array, key) {
+      array.map((n,j) => {
+        console.log(n,j,'nn')
+        // n[key]
+        
+      });
+      // return array.sort(function (a, b) {
+      //   var value1 = a[key];
+      //   var value2 = b[key];
+      //   return value1 - value2;
+      // });
+    },
     //数组对象方法排序:降序
     sortDownByKey(array, key) {
       return array.sort(function (a, b) {
@@ -1389,7 +1401,7 @@ export default {
     ishowthreetable() {
       this.ishowtable3 = true;
     },
-    isshowfirsttable(item,index){
+    isshowfirsttable(item,index,type){
       this.InitRowColor();
       // var index = 1;
       this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
