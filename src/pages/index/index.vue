@@ -947,21 +947,93 @@ export default {
         for (const i in newmodaltype) {
           // console.log(i, newmodaltype[i]);
           if (newmodaltype.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datavb入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata");
-            } else if (i.indexOf("因子分析datasd入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata1");
-            } else if (i.indexOf("因子分析datasc入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata2");
-            } else if (i.indexOf("因子分析datase入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata3");
-            } else if (i.indexOf("因子分析datascde入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata4");
-            } else if (i.indexOf("因子分析datavkpi入库") != -1) {
-              this.getData(newmodaltype[i], "indexdata5");
-            } else if (i.indexOf("datacde热力图入库" != -1)) {
+            if (i.indexOf("datacde热力图入库" != -1)) {
               // datacde热力图入库
               this.getData(newmodaltype[i], "indexdata7");
+            }
+          }
+        }
+      }
+    }
+    //RKPI综合得分
+    let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
+    if (datavbmodaltypeObj) {
+      datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
+      if (Object.keys(datavbmodaltypeObj).length > 0) {
+        for (const i in datavbmodaltypeObj) {
+          if (datavbmodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datavbmodaltypeObj[i],'datavbindexdata');
+            }
+          }
+        }
+      }
+    }
+    //总行datasd
+    let datasdmodaltypeObj = localStorage.getItem("datasdmodaltypeObj");
+    if (datasdmodaltypeObj) {
+      datasdmodaltypeObj = JSON.parse(datasdmodaltypeObj);
+      if (Object.keys(datasdmodaltypeObj).length > 0) {
+        for (const i in datasdmodaltypeObj) {
+          if (datasdmodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datasd入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datasdmodaltypeObj[i],'datasdindexdata');
+            }
+          }
+        }
+      }
+    }
+    //分行datasc
+    let datascmodaltypeObj = localStorage.getItem("datascmodaltypeObj");
+    if (datascmodaltypeObj) {
+      datascmodaltypeObj = JSON.parse(datascmodaltypeObj);
+      if (Object.keys(datascmodaltypeObj).length > 0) {
+        for (const i in datascmodaltypeObj) {
+          if (datascmodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datascmodaltypeObj[i],'datascindexdata');
+            }
+          }
+        }
+      }
+    }
+    //监管datase
+    let datasemodaltypeObj = localStorage.getItem("datasemodaltypeObj");
+    if (datasemodaltypeObj) {
+      datasemodaltypeObj = JSON.parse(datasemodaltypeObj);
+      if (Object.keys(datasemodaltypeObj).length > 0) {
+        for (const i in datasemodaltypeObj) {
+          if (datasemodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datase入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datasemodaltypeObj[i],'dataseindexdata');
+            }
+          }
+        }
+      }
+    }
+    //综合datascde
+    let datascdemodaltypeObj = localStorage.getItem("datascdemodaltypeObj");
+    if (datascdemodaltypeObj) {
+      datascdemodaltypeObj = JSON.parse(datascdemodaltypeObj);
+      if (Object.keys(datascdemodaltypeObj).length > 0) {
+        for (const i in datascdemodaltypeObj) {
+          if (datascdemodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datascde入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datascdemodaltypeObj[i],'datascdeindexdata');
+            }
+          }
+        }
+      }
+    }
+    //rkpi和审核发现datavkpi
+    let datavkpimodaltypeObj = localStorage.getItem("datavkpimodaltypeObj");
+    if (datavkpimodaltypeObj) {
+      datavkpimodaltypeObj = JSON.parse(datavkpimodaltypeObj);
+      if (Object.keys(datavkpimodaltypeObj).length > 0) {
+        for (const i in datavkpimodaltypeObj) {
+          if (datavkpimodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datavkpimodaltypeObj[i],'datavkpiindexdata');
             }
           }
         }
@@ -1085,32 +1157,32 @@ export default {
                 newscorelist[Math.floor((newscorelist.length - 1) / 2)];
             }
           }
-          if (datatype == "indexdata") {
+          if (datatype == "datavbindexdata") {
             that.firstrkpilist = res;
             // //处理默认的得分升序
             that.sortByKey(that.firstrkpilist, "number");
             that.mediannumber = middlenumber;
-          } else if (datatype == "indexdata1") {
+          } else if (datatype == "datasdindexdata") {
             that.firstrkpilist1 = res;
             // //处理默认的得分升序
             that.mediannumber1 = middlenumber;
             that.sortByKey(that.firstrkpilist1, "number");
-          } else if (datatype == "indexdata2") {
+          } else if (datatype == "datascindexdata") {
             that.firstrkpilist2 = res;
             // //处理默认的得分升序
             that.mediannumber2 = middlenumber;
             that.sortByKey(that.firstrkpilist2, "number");
-          } else if (datatype == "indexdata3") {
+          } else if (datatype == "dataseindexdata") {
             that.firstrkpilist3 = res;
             // //处理默认的得分升序
             that.mediannumber3 = middlenumber;
             that.sortByKey(that.firstrkpilist3, "number");
-          } else if (datatype == "indexdata4") {
+          } else if (datatype == "datascdeindexdata") {
             that.firstrkpilist4 = res;
             // //处理默认的得分升序
             that.mediannumber4 = middlenumber;
             that.sortByKey(that.firstrkpilist4, "number");
-          } else if (datatype == "indexdata5") {
+          } else if (datatype == "datavkpiindexdata") {
             that.firstrkpilist5 = res;
             // //处理默认的得分升序
             that.mediannumber5 = middlenumber;

@@ -1158,18 +1158,39 @@ export default {
         data: [id, page, pagesize],
       };
       let newtabledata = [];
-      let datavbmodaltypelist=[]
-      let datasdmodaltypelist=[]
+      //RKPI综合得分datavb
+      let datavbmodaltypelist=[]//不含因子载荷
+      let datavbmodaltypelist1=[]//含因子载荷
+      let datavbmodaltypelist2=[]
+      let datavbmodaltypeObj=new Object();
+      //总行datasd
+      let datasdmodaltypelist=[]//不含因子载荷
+      let datasdmodaltypelist1=[]//含因子载荷
+      let datasdmodaltypelist2=[]
+      let datasdmodaltypeObj=new Object();
+      //分行datasc
       let datascmodaltypelist=[] //不含因子载荷
       let datascmodaltypelist1=[] //含有因子载荷
-      let datasemodaltypelist=[]
-      let datascdemodaltypelist=[]
-      let datavkpmodaltypelist=[]
-      let datacdemodeltypelist=[] //datacde热力图入库
-      let modaltype = new Object();
+      let datascmodaltypeObj=new Object();
+      //监管datase
+      let datasemodaltypelist=[]//不含因子载荷
+      let datasemodaltypelist1=[]//含因子载荷
+      let datasemodaltypeObj=new Object();
+      //综合datascde
+      let datascdemodaltypelist=[]//不含因子载荷
+      let datascdemodaltypelist1=[]//含因子载荷
+      let datascdemodaltypeObj=new Object();
+      //rkpi和审核发现datavkpi
+      let datavkpimodaltypelist=[]//不含因子载荷
+      let datavkpimodaltypelist1=[]//含因子载荷
+      let datavkpimodaltypeObj=new Object();
 
-      // that.table.data = newtabledata.result.data;
-      //     that.table.total = Number(newtabledata.result.count);
+      let datacdemodeltypelist=[] //datacde热力图入库
+
+      let modaltype = new Object();
+      
+
+
       that.$Spin.show();
       that.$http.post(that.PATH.getByCatalog, JSON.stringify(query)).then(
         (success) => {
@@ -1184,81 +1205,144 @@ export default {
               );
             });
           }
-          // newtabledata=success.data.result.data
           that.table.data = newtabledata;
-          // that.table.total = Number(success.data.result.count);
           //储存localstore
           if (newtabledata.length > 0) {
-            //   因子分析datavb入库------RKPI综合得分
+            //     因子分析datavb入库------RKPI综合得分
             //     因子分析datasd入库------总行
             //     因子分析datasc入库------分行
             //     因子分析datase入库------监管
             //     因子分析datascde入库------综合
             //     因子分析datavkpi入库------rkpi和审核发现
             newtabledata.forEach((v, i) => {
+              //RKPI综合得分datavb
               if (v.name.indexOf("因子分析datavb入库")!= -1&&v.name.indexOf("_因子载荷")== -1) {
-                // modaltype[v.name] = v.param;
                 datavbmodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datasd入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                // modaltype[v.name] = v.param;
+              }else if(v.name.indexOf("因子分析datavb入库")!= -1&&v.name.indexOf("_因子载荷")!= -1) {
+                datavbmodaltypelist1.push(v)
+              }else if(v.name == 'datavb入库'){
+                datavbmodaltypelist2.push(v)
+              }
+
+              //总行datasd
+              if (v.name.indexOf("因子分析datasd入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datasdmodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                // modaltype[v.name] = v.param;
+              }else if (v.name.indexOf("因子分析datasd入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
+                datasdmodaltypelist1.push(v)
+              }else if(v.name=='datasd次数入库'){
+                datasdmodaltypelist2.push(v)
+              }
+              
+              //分行datasc
+              if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 //不含因子载荷
                 datascmodaltypelist.push(v)
               }else if (v.name.indexOf("因子分析datasc入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
-                // modaltype[v.name] = v.param;
-               //含有_因子载荷
                 datascmodaltypelist1.push(v)
-              } else if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                // modaltype[v.name] = v.param;
+              } 
+              
+              //监管datase
+              if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datasemodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                // modaltype[v.name] = v.param;
+              }else if (v.name.indexOf("因子分析datase入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
+                datasemodaltypelist1.push(v)
+              } 
+              //综合datascde      
+              if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")== -1){
                 datascdemodaltypelist.push(v)
-              } else if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")== -1){
-                // modaltype[v.name] = v.param;
-                datavkpmodaltypelist.push(v)
-              }else if(v.name.indexOf("datacde热力图入库") != -1){
+              }else if (v.name.indexOf("因子分析datascde入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
+                datascdemodaltypelist1.push(v)
+              } 
+              //rkpi和审核发现datavkpi
+              if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")== -1){
+                datavkpimodaltypelist.push(v)
+              }else if (v.name.indexOf("因子分析datavkpi入库") != -1&&v.name.indexOf("_因子载荷")!= -1){
+                datavkpimodaltypelist1.push(v)
+              }
+              
+              if(v.name.indexOf("datacde热力图入库") != -1){
                 // datacde热力图入库
                 datacdemodeltypelist.push(v)
               }
             });
+            
+
+            //RKPI综合得分datavb
             if(datavbmodaltypelist.length>0){
               that.sortByKey(datavbmodaltypelist,'createTime')
-              modaltype[datavbmodaltypelist[0].name]=datavbmodaltypelist[0].param
+              datavbmodaltypeObj[datavbmodaltypelist[0].name]=datavbmodaltypelist[0].param
             }
+            if(datavbmodaltypelist1.length>0){
+              that.sortByKey(datavbmodaltypelist1,'createTime')
+              datavbmodaltypeObj[datavbmodaltypelist1[0].name]=datavbmodaltypelist1[0].param
+            }
+            if(datavbmodaltypelist2.length>0){
+              that.sortByKey(datavbmodaltypelist2,'createTime')
+              datavbmodaltypeObj[datavbmodaltypelist2[0].name]=datavbmodaltypelist2[0].param
+            }
+            localStorage.setItem("datavbmodaltypeObj", JSON.stringify(datavbmodaltypeObj));
+
+            //总行datasd
             if(datasdmodaltypelist.length>0){
               that.sortByKey(datasdmodaltypelist,'createTime')
-              modaltype[datasdmodaltypelist[0].name]=datasdmodaltypelist[0].param
+              datasdmodaltypeObj[datasdmodaltypelist[0].name]=datasdmodaltypelist[0].param
             }
-            //因子分析datasc入库 不含有尾部加因子载荷
+            if(datasdmodaltypelist1.length>0){
+              that.sortByKey(datasdmodaltypelist1,'createTime')
+              datasdmodaltypeObj[datasdmodaltypelist1[0].name]=datasdmodaltypelist1[0].param
+            }
+            if(datasdmodaltypelist2.length>0){
+              that.sortByKey(datasdmodaltypelist2,'createTime')
+              datasdmodaltypeObj[datasdmodaltypelist2[0].name]=datasdmodaltypelist2[0].param
+            }
+            localStorage.setItem("datasdmodaltypeObj", JSON.stringify(datasdmodaltypeObj));
+
+            //分行datasc
             if(datascmodaltypelist.length>0){
               that.sortByKey(datascmodaltypelist,'createTime')
-              modaltype[datascmodaltypelist[0].name]=datascmodaltypelist[0].param
+              datascmodaltypeObj[datascmodaltypelist[0].name]=datascmodaltypelist[0].param
             }
-            //因子分析datasc入库 含有尾部加因子载荷
             if(datascmodaltypelist1.length>0){
               that.sortByKey(datascmodaltypelist1,'createTime')
-              modaltype[datascmodaltypelist1[0].name]=datascmodaltypelist1[0].param
+              datascmodaltypeObj[datascmodaltypelist1[0].name]=datascmodaltypelist1[0].param
             }
-            
+            localStorage.setItem("datascmodaltypeObj", JSON.stringify(datascmodaltypeObj));
+            //监管datase
             if(datasemodaltypelist.length>0){
               that.sortByKey(datasemodaltypelist,'createTime')
-              modaltype[datasemodaltypelist[0].name]=datasemodaltypelist[0].param
+              datasemodaltypeObj[datasemodaltypelist[0].name]=datasemodaltypelist[0].param
             }
+            if(datasemodaltypelist1.length>0){
+              that.sortByKey(datasemodaltypelist1,'createTime')
+              datasemodaltypeObj[datasemodaltypelist1[0].name]=datasemodaltypelist1[0].param
+            }
+            localStorage.setItem("datasemodaltypeObj", JSON.stringify(datasemodaltypeObj));
+            //综合datascde  
             if(datascdemodaltypelist.length>0){
               that.sortByKey(datascdemodaltypelist,'createTime')
-              modaltype[datascdemodaltypelist[0].name]=datascdemodaltypelist[0].param
+              datascdemodaltypeObj[datascdemodaltypelist[0].name]=datascdemodaltypelist[0].param
             }
-            if(datavkpmodaltypelist.length>0){
-              that.sortByKey(datavkpmodaltypelist,'createTime')
-              modaltype[datavkpmodaltypelist[0].name]=datavkpmodaltypelist[0].param
+            if(datascdemodaltypelist1.length>0){
+              that.sortByKey(datascdemodaltypelist1,'createTime')
+              datascdemodaltypeObj[datascdemodaltypelist1[0].name]=datascdemodaltypelist1[0].param
             }
+            localStorage.setItem("datascdemodaltypeObj", JSON.stringify(datascdemodaltypeObj));
+
+            //rkpi和审核发现datavkpi
+            if(datavkpimodaltypelist.length>0){
+              that.sortByKey(datavkpimodaltypelist,'createTime')
+              datavkpimodaltypeObj[datavkpimodaltypelist[0].name]=datavkpimodaltypelist[0].param
+            }else if(datavkpimodaltypelist1.length>0){
+              that.sortByKey(datavkpimodaltypelist1,'createTime')
+              datavkpimodaltypeObj[datavkpimodaltypelist1[0].name]=datavkpimodaltypelist1[0].param
+            }
+            localStorage.setItem("datavkpimodaltypeObj", JSON.stringify(datavkpimodaltypeObj));
+
             if(datacdemodeltypelist.length>0){
               that.sortByKey(datacdemodeltypelist,'createTime')
               modaltype[datacdemodeltypelist[0].name]=datacdemodeltypelist[0].param
             }
+            
 
             localStorage.setItem("modaltype", JSON.stringify(modaltype));
           }

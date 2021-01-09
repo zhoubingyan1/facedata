@@ -445,7 +445,7 @@
         ></Table> -->
         <vxe-table
             border="none"
-            ref="ktable"
+            ref="ktable2"
             align="center"
             height="576"
             stripe
@@ -463,14 +463,9 @@
             >
               <template v-slot="{ row }">
                 <span
-                  v-if="row[index].key == 'ORG'"
+                  v-if="row[index].key == '经营单位'"
                   :style="{ color: row[index].fontcolor }"
-                  >{{ row[index].value }}
-                </span>
-                <span
-                  v-else-if="row[index].key == 'ROW_NEXT'"
-                  :style="{ color: row[index].fontcolor }"
-                  >{{ row[index].value }}
+                  >{{ row[index].value}}
                 </span>
                 <div
                   v-else
@@ -480,10 +475,10 @@
                   
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}.
+                    {{ row[index].value.toString().split(".")[0] }}
                   </div>
                   <div>
-                    {{ row[index].value.toString().split(".")[1] }}
+                    .{{ row[index].value.toString().split(".")[1] }}
                   </div>
                 </div>
               </template>
@@ -496,7 +491,7 @@
       <Col span="24" class="index_row1">
         <vxe-table
             border="none"
-            ref="ktable"
+            ref="ktable3"
             align="center"
             height="576"
             stripe
@@ -517,11 +512,6 @@
               <template v-slot="{ row }">
                 <span
                   v-if="row[index].key == 'ORG'"
-                  :style="{ color: row[index].fontcolor }"
-                  >{{ row[index].value }}
-                </span>
-                <span
-                  v-else-if="row[index].key == 'ROW_NEXT'"
                   :style="{ color: row[index].fontcolor }"
                   >{{ row[index].value }}
                 </span>
@@ -617,36 +607,92 @@ export default {
 
       data_table: [],
       firsttablecolums:[],//暂存第一个表格的表头
+      secondtablecols:[],//暂存第二个表格的列
       default_color: "rgba(0,0,0,0.80)",
       max_color: "#FD5056",
       select_color: "#246FEA",
     };
   },
   created() {
-    // this.getData();
-    let newmodaltype = localStorage.getItem("modaltype");
-    // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
-    if (newmodaltype) {
-      newmodaltype = JSON.parse(newmodaltype);
-      if (Object.keys(newmodaltype).length > 0) {
-        // console.log(111);
-        for (const i in newmodaltype) {
-          // console.log(i, newmodaltype[i]);
-          if (newmodaltype.hasOwnProperty(i)) {
+    //RKPI综合得分
+    let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
+    if (datavbmodaltypeObj) {
+      datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
+      if (Object.keys(datavbmodaltypeObj).length > 0) {
+        for (const i in datavbmodaltypeObj) {
+          if (datavbmodaltypeObj.hasOwnProperty(i)) {
             if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata');
-            } else if (i.indexOf("因子分析datasd入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata1');
-            } else if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata2');
-            }else if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")!= -1){
-              this.getData(newmodaltype[i],'indexdata6');
-            } else if (i.indexOf("因子分析datase入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata3');
-            } else if (i.indexOf("因子分析datascde入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata4');
-            } else if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(newmodaltype[i],'indexdata5');
+              this.getData(datavbmodaltypeObj[i],'datavbindexdata');
+            }
+          }
+        }
+      }
+    }
+    //总行datasd
+    let datasdmodaltypeObj = localStorage.getItem("datasdmodaltypeObj");
+    if (datasdmodaltypeObj) {
+      datasdmodaltypeObj = JSON.parse(datasdmodaltypeObj);
+      if (Object.keys(datasdmodaltypeObj).length > 0) {
+        for (const i in datasdmodaltypeObj) {
+          if (datasdmodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datasd入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datasdmodaltypeObj[i],'datasdindexdata');
+            }
+          }
+        }
+      }
+    }
+    //分行datasc
+    let datascmodaltypeObj = localStorage.getItem("datascmodaltypeObj");
+    if (datascmodaltypeObj) {
+      datascmodaltypeObj = JSON.parse(datascmodaltypeObj);
+      if (Object.keys(datascmodaltypeObj).length > 0) {
+        for (const i in datascmodaltypeObj) {
+          if (datascmodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datascmodaltypeObj[i],'datascindexdata');
+            }
+          }
+        }
+      }
+    }
+    //监管datase
+    let datasemodaltypeObj = localStorage.getItem("datasemodaltypeObj");
+    if (datasemodaltypeObj) {
+      datasemodaltypeObj = JSON.parse(datasemodaltypeObj);
+      if (Object.keys(datasemodaltypeObj).length > 0) {
+        for (const i in datasemodaltypeObj) {
+          if (datasemodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datase入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datasemodaltypeObj[i],'dataseindexdata');
+            }
+          }
+        }
+      }
+    }
+    //综合datascde
+    let datascdemodaltypeObj = localStorage.getItem("datascdemodaltypeObj");
+    if (datascdemodaltypeObj) {
+      datascdemodaltypeObj = JSON.parse(datascdemodaltypeObj);
+      if (Object.keys(datascdemodaltypeObj).length > 0) {
+        for (const i in datascdemodaltypeObj) {
+          if (datascdemodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datascde入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datascdemodaltypeObj[i],'datascdeindexdata');
+            }
+          }
+        }
+      }
+    }
+    //rkpi和审核发现datavkpi
+    let datavkpimodaltypeObj = localStorage.getItem("datavkpimodaltypeObj");
+    if (datavkpimodaltypeObj) {
+      datavkpimodaltypeObj = JSON.parse(datavkpimodaltypeObj);
+      if (Object.keys(datavkpimodaltypeObj).length > 0) {
+        for (const i in datavkpimodaltypeObj) {
+          if (datavkpimodaltypeObj.hasOwnProperty(i)) {
+            if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
+              this.getData(datavkpimodaltypeObj[i],'datavkpiindexdata');
             }
           }
         }
@@ -663,14 +709,11 @@ export default {
         return
       }
       var that = this;
-      // var id = "ZM_10268_2_S1607337857606_s_p$DM1";
       var query = {
         action: "Service",
         method: "getColumns",
         data: [id],
       };
-      //用下面的that.getData2(res)，这个需要删掉，暂时使用
-      // that.getData2([]);
       that.$Spin.show()
       that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
         (success) => {
@@ -681,6 +724,15 @@ export default {
             var res = success.data.result;
             if(res.length>0){
               that.getData2(res, id,datatype);
+              //RKPI综合得分
+              if(datatype=='datavbindexdata2'){
+                  //下面第三个表格
+                  // console.log(res,'res2')
+                  that.table2.columns = [];
+                  that.disposethirdlyTableheader(res)
+                  
+              }
+              
             }
             
           }
@@ -735,8 +787,6 @@ export default {
       let newscorelist=[] //进度条列表
       let middlenumber=new Number()
 
-     
-
       that.$Spin.show()
       that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
         (success) => {
@@ -759,58 +809,58 @@ export default {
               middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
               
             }
-            if(datatype=='indexdata'){
-              // that.firstrkpilist= res
-              // // //处理默认的得分升序
-              // that.sortByKey(that.firstrkpilist,'number')
-              // that.mediannumber=middlenumber 
-              that.firstrkpilist2= res
-              // //处理默认的得分升序
-              that.mediannumber2=middlenumber 
-              that.sortByKey(that.firstrkpilist2,'number')
-              
-            }else if(datatype=='indexdata1'){
-              that.firstrkpilist1= res
-              // //处理默认的得分升序
-              that.mediannumber1=middlenumber 
-              that.sortByKey(that.firstrkpilist1,'number')
-            }else if(datatype=='indexdata2'){
-              // that.firstrkpilist2= res
-              // // //处理默认的得分升序
-              // that.mediannumber2=middlenumber 
-              // that.sortByKey(that.firstrkpilist2,'number')
+            //RKPI综合得分datavb
+            if(datatype =='datavbindexdata'){
               that.firstrkpilist= res
               // //处理默认的得分升序
               that.sortByKey(that.firstrkpilist,'number')
               that.mediannumber=middlenumber 
               that.disposeFirstTable(newResult)
-              console.log(res,'res1')
-            }else if(datatype=='indexdata3'){
+            }else if(datatype =='datavbindexdata1'){
+              //下面第二个表格
+              that.disposeSecondTable(newResult)
+            }else if(datatype =='datavbindexdata2'){
+              //下面第三个表格
+              that.disposethirdlyTable(newResult)
+            }
+
+            //总行datasd
+            if(datatype=='datasdindexdata'){
+              that.firstrkpilist1= res
+              // //处理默认的得分升序
+              that.mediannumber1=middlenumber 
+              that.sortByKey(that.firstrkpilist1,'number')
+            }
+            //分行datasc
+            if(datatype=='datascindexdata'){
+              that.firstrkpilist2= res
+              // //处理默认的得分升序
+              that.mediannumber2=middlenumber 
+              that.sortByKey(that.firstrkpilist2,'number')
+            }
+             //监管datase
+            if(datatype=='dataseindexdata'){
               that.firstrkpilist3= res
               // //处理默认的得分升序
               that.mediannumber3=middlenumber 
               that.sortByKey(that.firstrkpilist3,'number')
-            }else if(datatype=='indexdata4'){
+            }
+            //综合datascde
+            if(datatype=='datascdeindexdata'){
               that.firstrkpilist4= res
               // //处理默认的得分升序
               that.mediannumber4=middlenumber 
               that.sortByKey(that.firstrkpilist4,'number')
-            }else if(datatype=='indexdata5'){
+            }
+            //rkpi和审核发现datavkpi
+            if(datatype=='datavkpiindexdata'){
               that.firstrkpilist5= res
               // //处理默认的得分升序
               that.mediannumber5=middlenumber 
               that.sortByKey(that.firstrkpilist5,'number')
-            }else if(datatype=='indexdata6'){
-              //下面第二个表格
-              console.log(res,'res2')
-              that.table1.columns = [];
-              that.disposeSecondTable(newResult)
-              
             }
+
           }
-          
-  
-          
         },
         (error) => {
           that.$Spin.hide()
@@ -878,19 +928,17 @@ export default {
       // console.log(list_model, "建立模型对象");
       // this.data_table = list_model;
       this.table.data = list_model
-
-      let newmodaltype = localStorage.getItem("modaltype");
-      // console.log(newmodaltype, "newmodaltype", typeof newmodaltype);
-      if (newmodaltype) {
-        newmodaltype = JSON.parse(newmodaltype);
-        if (Object.keys(newmodaltype).length > 0) {
-          // console.log(111);
-          for (const i in newmodaltype) {
-            // console.log(i, newmodaltype[i]);
-            if (newmodaltype.hasOwnProperty(i)) {
-              if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")!= -1){
-                this.getData(newmodaltype[i],'indexdata6');
-              }
+      // console.log(this.table.data ,'this.table.data')
+      //RKPI综合得分
+      let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
+      if (datavbmodaltypeObj) {
+        datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
+        if (Object.keys(datavbmodaltypeObj).length > 0) {
+          for (const i in datavbmodaltypeObj) {
+            if (datavbmodaltypeObj.hasOwnProperty(i)) {
+              if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")!= -1){
+              this.getData(datavbmodaltypeObj[i],'datavbindexdata1');
+            } 
             }
           }
         }
@@ -899,6 +947,7 @@ export default {
     },
     //处理下面的第二个表格
     disposeSecondTable(list) {
+      console.log(list,'disposeSecondTable')
       var zuzhi = "ICE";
       var creacttime = "CREATETIME";
       //列名
@@ -928,6 +977,7 @@ export default {
       // });
       // sort_key_list.push("CREATETIME");
       // console.log(sort_key_list, "排序后列名");
+      
 
       //建造对象
       var list_model = new Array();
@@ -963,44 +1013,50 @@ export default {
       }
 
       // console.log(list_model, "建立模型对象");
+      let secondtablecols=[]
+      list_model.forEach((v,i)=>{
+        secondtablecols.push(v.value)
+      })
+      this.secondtablecols=secondtablecols
       this.table1.data = list_model
+
+      //RKPI综合得分
+      let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
+      if (datavbmodaltypeObj) {
+        datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
+        if (Object.keys(datavbmodaltypeObj).length > 0) {
+          for (const i in datavbmodaltypeObj) {
+            if (datavbmodaltypeObj.hasOwnProperty(i)) {
+              if (i == 'datavb入库'){
+              this.getData(datavbmodaltypeObj[i],'datavbindexdata2');
+            } 
+            }
+          }
+        }
+      }
       
-      
+    },
+    disposethirdlyTableheader(list){
+      var zuzhi = "ORG";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
+      for (var name in list) {
+        key_list.push({desc:list[name].desc,name:list[name].name})
+        
+      }
+      console.log(key_list, "排序后列名");
+      this.table2.columns = key_list
     },
     //处理下面的第三个表格
     disposethirdlyTable(list) {
-      var zuzhi = "ICE";
-      var creacttime = "CREATETIME";
-      //列名
-      var key_list = [];
-      var sort_key_list = [];
-      let common_key_list=[]
-      let firstsort_key_list = []
-      for (var name in list[0]) {
-        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
-          key_list.push(name);
-        }
-        
-      }
-      // console.log(key_list,this.firsttablecolums, "列名");
-      //排序
-      firstsort_key_list.push(zuzhi);
-      if(this.firsttablecolums.length>0){
-        common_key_list=this.firsttablecolums.filter(function(n) {
-            return key_list.indexOf(n) != -1
-        });
-      }
-      sort_key_list = [...firstsort_key_list,...common_key_list]
-      //排序
-      // sort_key_list.push(zuzhi);
-      // key_list.forEach((n) => {
-      //   n == "ICE" ||n=='CREATETIME'||n=='ROW_NEXT'? "" : sort_key_list.push(n);
-      // });
-      // sort_key_list.push("CREATETIME");
-      // console.log(sort_key_list, "排序后列名");
+      console.log(list,'list')
 
       //建造对象
       var list_model = new Array();
+      let sort_key_list = this.table2.columns
 
       for (var row = 0; row < list.length; row++) {
         var node_list = new Array();
@@ -1011,13 +1067,13 @@ export default {
           var node = {};
           node.cell = cell;
           node.row = row;
-          node.key = sort_key_list[cell];
-          node.value = list[row][sort_key_list[cell]];
+          node.key = sort_key_list[cell].desc;
+          node.value = list[row][sort_key_list[cell].name];
           node.fontcolor = this.default_color;
           node.selected = false;
           node_list.push(node);
 
-          if (node.key != zuzhi&&node.key!=creacttime&&node.key!='ROW_NEXT') {
+          if (node.key!='经营单位') {
             //小数位
             node.value = Number(Number(node.value).toFixed(5));
             //找行最大值
@@ -1032,8 +1088,8 @@ export default {
         list_model.push(node_list);
       }
 
-      // console.log(list_model, "建立模型对象");
-      this.table1.data = list_model
+      console.log(list_model, "建立模型对象");
+      this.table2.data = list_model
       
       
     },
@@ -1118,22 +1174,22 @@ export default {
         // 得分升序
         this.sortByKey(this.firstrkpilist, "number");
         // 下面对应的表格排序
-        this.sortByKey(this.table.data, "number");
+        // this.sortByKey(this.table.data, "value");
       } else if (data == "scoredown") {
         // 得分降序
         this.sortDownByKey(this.firstrkpilist, "number");
         // 下面对应的表格排序
-        this.sortDownByKey(this.table.data, "number");
+        // this.sortDownByKey(this.table.data, "value");
       } else if (data == "organizationup") {
         // 机构名升序
         this.firstrkpilist.sort(this.nameasc("name"));
         // 下面对应的表格排序
-        this.table.data.sort(this.nameasc("title"));
+        // this.table.data.sort(this.nameasc("value"));
       } else if (data == "organizationdown") {
         // 机构名降序
         this.firstrkpilist.sort(this.namedesc("name"));
         // 下面对应的表格排序
-        this.table.data.sort(this.namedesc("title"));
+        // this.table.data.sort(this.namedesc("value"));
       }
     },
     //总行排序

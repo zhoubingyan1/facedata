@@ -258,6 +258,13 @@ export default {
           var res = success.data;
           if (res.result != null) {
             localStorage.removeItem("modaltype");//清空模型
+            localStorage.removeItem("datavbmodaltypeObj");//清空模型
+            localStorage.removeItem("datasdmodaltypeObj");//清空模型
+            localStorage.removeItem("datascmodaltypeObj");//清空模型
+            localStorage.removeItem("datasemodaltypeObj");//清空模型
+            localStorage.removeItem("datascdemodaltypeObj");//清空模型
+            localStorage.removeItem("datavkpimodaltypeObj");//清空模型
+
             sessionStorage.removeItem("UserName");
             sessionStorage.removeItem("UserId");
             sessionStorage.removeItem("martId");
