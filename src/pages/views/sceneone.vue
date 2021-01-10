@@ -11,10 +11,10 @@
           <div class="heightoverflow">
             <div class="rkpi_index_content_sort">
               <div class="left_sort">
-                <div class="left_sorttit">中间值: {{mediannumber}}</div>
+                <div class="left_sorttit">中间值: {{map_list[0].map_top.mediannumber}}</div>
               </div>
               <div class="right_sort">
-                <Select v-model="firstsort" @on-change="RKPIsort">
+                <Select v-model="map_list[0].sort" @on-change="newRKPIsort(0)">
                   <Option value="scoreup">得分升序</Option>
                   <Option value="scoredown">得分降序</Option>
                   <Option value="organizationup">机构名升序</Option>
@@ -24,10 +24,10 @@
             </div>
             <div class="rkpi_item">
               <div
-                v-for="(item,index) in firstrkpilist"
+                v-for="(item,index) in map_list[0].map_top.table_1"
                 :key="index"
                 class="rkpi_item_content"
-                 @click="isshowfirsttable(item,index,'datavbtypes')"
+                 @click="isshowfirsttable(item,index,0)"
               >
                 <Row>
                   <Col span="12" class="rkpi_item_title">{{item.name}}</Col>
@@ -70,10 +70,10 @@
               <NewTabPane label="总行" name="1">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber1}}</div>
+                    <div class="left_sorttit">中间值: {{map_list[1].map_top.mediannumber}}</div>
                   </div>
                   <div class="right_sort">
-                    <Select v-model="firstsort1" @on-change="RKPIsort1">
+                    <Select v-model="map_list[1].sort" @on-change="newRKPIsort(1)">
                       <Option value="scoreup">得分升序</Option>
                       <Option value="scoredown">得分降序</Option>
                       <Option value="organizationup">机构名升序</Option>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist1"
+                    v-for="(item,index) in map_list[1].map_top.table_1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
@@ -120,10 +120,10 @@
               <NewTabPane label="分行" name="2">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber2}}</div>
+                    <div class="left_sorttit">中间值: {{map_list[2].map_top.mediannumber}}</div>
                     </div>
                     <div class="right_sort">
-                      <Select v-model="firstsort2" @on-change="RKPIsort2">
+                      <Select v-model="map_list[2].sort" @on-change="newRKPIsort(2)">
                         <Option value="scoreup">得分升序</Option>
                         <Option value="scoredown">得分降序</Option>
                         <Option value="organizationup">机构名升序</Option>
@@ -133,7 +133,7 @@
                   </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist2"
+                    v-for="(item,index) in map_list[2].map_top.table_1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
@@ -169,10 +169,10 @@
               <NewTabPane label="监督" name="3">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber3}}</div>
+                    <div class="left_sorttit">中间值: {{map_list[3].map_top.mediannumber}}</div>
                     </div>
                     <div class="right_sort">
-                      <Select v-model="firstsort3" @on-change="RKPIsort3">
+                      <Select v-model="map_list[3].sort" @on-change="newRKPIsort(3)">
                         <Option value="scoreup">得分升序</Option>
                         <Option value="scoredown">得分降序</Option>
                         <Option value="organizationup">机构名升序</Option>
@@ -182,7 +182,7 @@
                   </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist3"
+                    v-for="(item,index) in map_list[3].map_top.table_1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
@@ -218,10 +218,10 @@
               <NewTabPane label="综合" name="4">
                 <div class="rkpi_index_content_sort">
                   <div class="left_sort">
-                    <div class="left_sorttit">中间值: {{mediannumber4}}</div>
+                    <div class="left_sorttit">中间值: {{map_list[4].map_top.mediannumber}}</div>
                     </div>
                     <div class="right_sort">
-                      <Select v-model="firstsort4" @on-change="RKPIsort4">
+                      <Select v-model="map_list[4].sort" @on-change="newRKPIsort(4)">
                         <Option value="scoreup">得分升序</Option>
                         <Option value="scoredown">得分降序</Option>
                         <Option value="organizationup">机构名升序</Option>
@@ -231,7 +231,7 @@
                   </div>
                 <div class="rkpi_item">
                   <div
-                    v-for="(item,index) in firstrkpilist4"
+                    v-for="(item,index) in map_list[4].map_top.table_1"
                     :key="index"
                     class="rkpi_item_content"
                     @click="ishowtable"
@@ -277,10 +277,10 @@
           <div class="heightoverflow">
             <div class="rkpi_index_content_sort">
               <div class="left_sort">
-                <div class="left_sorttit">中间值: {{mediannumber5}}</div>
+                <div class="left_sorttit">中间值: {{map_list[5].map_top.mediannumber}}</div>
               </div>
               <div class="right_sort">
-                <Select v-model="firstsort5" @on-change="RKPIsort5">
+                <Select v-model="map_list[5].sort" @on-change="newRKPIsort(5)">
                   <Option value="scoreup">得分升序</Option>
                   <Option value="scoredown">得分降序</Option>
                   <Option value="organizationup">机构名升序</Option>
@@ -290,7 +290,7 @@
             </div>
             <div class="rkpi_item">
               <div
-                v-for="(item,index) in firstrkpilist5"
+                v-for="(item,index) in map_list[5].map_top.table_1"
                 :key="index"
                 class="rkpi_item_content"
                 @click="ishowtable"
@@ -326,8 +326,7 @@
       </Col>
     </Row>
     <!-- 表格 -->
-     <!-- v-if="ishowtable1" -->
-    <Row>
+    <Row v-if="ishowtable">
       <Col span="9" class="index_row1">
         <vxe-table
             border="none"
@@ -335,16 +334,16 @@
             align="center"
             height="576"
             stripe
-            :data="table.data"
+            :data="table1.data"
             highlight-hover-row
             highlight-current-row
             class="myfirsttable firststyle"
-            @cell-click="cell_click"
-            @header-cell-click="header_cell_click"
+            @cell-click="cell_click1"
+            @header-cell-click="header_cell_click1"
           >
             <vxe-table-column type="seq" title="  " width="20"></vxe-table-column>
             <vxe-table-column
-              v-for="(n, index) in table.data[0]"
+              v-for="(n, index) in table1.data[0]"
               :key="index"
               :field="n.key"
               minWidth=120
@@ -369,18 +368,17 @@
                   
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}.
+                    {{ row[index].value.toString().split(".")[0] }}
                   </div>
                   <div>
-                    {{ row[index].value.toString().split(".")[1] }}
+                    .{{ row[index].value.toString().split(".")[1] }}
                   </div>
                 </div>
               </template>
             </vxe-table-column>
           </vxe-table>
       </Col>
-      <!-- v-if="ishowtable2" -->
-      <Col span="7" offset="1" class="index_row1" >
+      <Col v-if="ishowtable" span="7" offset="1" class="index_row1" >
         <div class="index_row1_title">旋转后的成分矩阵</div>
         <vxe-table
             border="none"
@@ -389,14 +387,14 @@
             height="546"
             stripe
             class="myfirsttable seconstyle"
-            :data="table1.data"
+            :data="table2.data"
             highlight-hover-column
             highlight-current-column
-            @cell-click="cell_click1"
-            @header-cell-click="header_cell_click1"
+            @cell-click="cell_click2"
+            @header-cell-click="header_cell_click2"
           >
             <vxe-table-column
-              v-for="(n, index) in table1.data[0]"
+              v-for="(n, index) in table2.data[0]"
               :key="index"
               :field="n.key"
               minWidth=120
@@ -425,30 +423,30 @@
                   :class="{ select_block: row[index].selected }"
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}.
+                    {{ row[index].value.toString().split(".")[0] }}
                   </div>
                   <div>
-                    {{ row[index].value.toString().split(".")[1] }}
+                    .{{ row[index].value.toString().split(".")[1] }}
                   </div>
                 </div>
               </template>
             </vxe-table-column>
           </vxe-table>
       </Col>
-      <!-- v-if="ishowtable3" -->
-      <Col span="6" offset="1" class="index_row1" >
+      <Col v-if="ishowtable" span="6" offset="1" class="index_row1" >
         <vxe-table
             border="none"
-            ref="ktable2"
+            ref="ktable3"
             align="center"
             height="576"
             stripe
-            :data="table2.data"
+            :data="table3.data"
             highlight-current-row
+            @cell-click="cell_click3"
             class="myfirsttable firststyle"
           >
             <vxe-table-column
-              v-for="(n, index) in table2.data[0]"
+              v-for="(n, index) in table3.data[0]"
               :key="index"
               :field="n.key"
               minWidth=120
@@ -468,10 +466,10 @@
                   
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}
+                    {{ row[index].value.toString().split(".")[0] }} 
                   </div>
                   <div>
-                    .{{ row[index].value.toString().split(".")[1] }}
+                    .{{ row[index].value.toString().split(".")[1] }} 
                   </div>
                 </div>
               </template>
@@ -480,23 +478,21 @@
       
       </Col>
     </Row>
-    <Row>
-      <Col span="24" class="index_row1">
-        <vxe-table
+    <Row v-if="table3.data.length>0">
+      <Col v-if="ishowtable" span="24" class="index_row1">
+        <vxe-table 
             border="none"
-            ref="ktable3"
+            ref="ktable4"
             align="center"
             height="576"
             stripe
-            :data="table3.data"
+            :data="table4.data"
             highlight-hover-row
             highlight-current-row
             class="myfirsttable firststyle"
-            @cell-click="cell_click"
-            @header-cell-click="header_cell_click"
           >
-            <vxe-table-column
-              v-for="(n, index) in table3.data[0]"
+            <vxe-table-column 
+              v-for="(n, index) in table4.data[0]"
               :key="index"
               :field="n.key"
               minWidth=120
@@ -516,10 +512,10 @@
                   
                 >
                   <div>
-                    {{ row[index].value.toString().split(".")[0] }}.
+                    {{ row[index].value.toString().split(".")[0] }}
                   </div>
                   <div>
-                    {{ row[index].value.toString().split(".")[1] }}
+                    .{{ row[index].value.toString().split(".")[1] }}
                   </div>
                 </div>
               </template>
@@ -561,18 +557,27 @@ export default {
 
       tabsvalue:'1',
 
-      ishowtable1: false,
-      ishowtable2: false,
-      ishowtable3: false,
+      ishowtable: false,
       dom: null,
       dom1: null,
       echarts: echarts,
-      firstrkpilist:[],//综合得分
-      firstrkpilist1:[],//总行
-      firstrkpilist2:[],//分行
-      firstrkpilist3:[],//监督
-      firstrkpilist4:[],//综合
-      firstrkpilist5:[],//RKPI和审核发现
+
+      default_sort:'scoreup',
+      map_list:[
+        {map_top:[],sort:'scoreup'},
+        {map_top:[],sort:'scoreup'},
+        {map_top:[],sort:'scoreup'},
+        {map_top:[],sort:'scoreup'},
+        {map_top:[],sort:'scoreup'},
+        {map_top:[],sort:'scoreup'}
+      ],
+
+      firstrkpilist1:[],//综合得分
+      firstrkpilist2:[],//总行
+      firstrkpilist3:[],//分行
+      firstrkpilist4:[],//监督
+      firstrkpilist5:[],//综合
+      firstrkpilist6:[],//RKPI和审核发现
 
       rkpilist: [],
       table: {
@@ -589,18 +594,25 @@ export default {
         ],
         data: [],
       },
+      table2CurrentColumnIndex:0,
       table3:{
         columns: [
         ],
         data: [],
       },
+      table4:{
+        columns: [
+        ],
+        data: [],
+      },
 
-      selectRow: null,
-      selectColumn: null,
-
+      // selectRow: null,
+      currentObjIndex:0,
       data_table: [],
       firsttablecolums:[],//暂存第一个表格的表头
-      secondtablecols:[],//暂存第二个表格的列
+      secondtablecols:[],//暂存第二个表格的第一列
+      thirdlyTableData:[],//第三个表格暂存的表内容
+      tablerow_index3:0,//暂存第三个高亮的行
       default_color: "rgba(0,0,0,0.80)",
       max_color: "#FD5056",
       select_color: "#246FEA",
@@ -609,93 +621,82 @@ export default {
   created() {
     //RKPI综合得分
     let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
-    if (datavbmodaltypeObj) {
-      datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
-      if (Object.keys(datavbmodaltypeObj).length > 0) {
-        for (const i in datavbmodaltypeObj) {
-          if (datavbmodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datavbmodaltypeObj[i],'datavbindexdata');
-            }
-          }
-        }
-      }
-    }
     //总行datasd
     let datasdmodaltypeObj = localStorage.getItem("datasdmodaltypeObj");
-    if (datasdmodaltypeObj) {
-      datasdmodaltypeObj = JSON.parse(datasdmodaltypeObj);
-      if (Object.keys(datasdmodaltypeObj).length > 0) {
-        for (const i in datasdmodaltypeObj) {
-          if (datasdmodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datasd入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datasdmodaltypeObj[i],'datasdindexdata');
-            }
-          }
-        }
-      }
-    }
     //分行datasc
     let datascmodaltypeObj = localStorage.getItem("datascmodaltypeObj");
-    if (datascmodaltypeObj) {
-      datascmodaltypeObj = JSON.parse(datascmodaltypeObj);
-      if (Object.keys(datascmodaltypeObj).length > 0) {
-        for (const i in datascmodaltypeObj) {
-          if (datascmodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datasc入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datascmodaltypeObj[i],'datascindexdata');
-            }
-          }
-        }
-      }
-    }
     //监管datase
     let datasemodaltypeObj = localStorage.getItem("datasemodaltypeObj");
-    if (datasemodaltypeObj) {
-      datasemodaltypeObj = JSON.parse(datasemodaltypeObj);
-      if (Object.keys(datasemodaltypeObj).length > 0) {
-        for (const i in datasemodaltypeObj) {
-          if (datasemodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datase入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datasemodaltypeObj[i],'dataseindexdata');
-            }
-          }
-        }
-      }
-    }
     //综合datascde
     let datascdemodaltypeObj = localStorage.getItem("datascdemodaltypeObj");
-    if (datascdemodaltypeObj) {
-      datascdemodaltypeObj = JSON.parse(datascdemodaltypeObj);
-      if (Object.keys(datascdemodaltypeObj).length > 0) {
-        for (const i in datascdemodaltypeObj) {
-          if (datascdemodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datascde入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datascdemodaltypeObj[i],'datascdeindexdata');
-            }
-          }
-        }
-      }
-    }
     //rkpi和审核发现datavkpi
     let datavkpimodaltypeObj = localStorage.getItem("datavkpimodaltypeObj");
-    if (datavkpimodaltypeObj) {
-      datavkpimodaltypeObj = JSON.parse(datavkpimodaltypeObj);
-      if (Object.keys(datavkpimodaltypeObj).length > 0) {
-        for (const i in datavkpimodaltypeObj) {
-          if (datavkpimodaltypeObj.hasOwnProperty(i)) {
-            if (i.indexOf("因子分析datavkpi入库") != -1&&i.indexOf("_因子载荷")== -1){
-              this.getData(datavkpimodaltypeObj[i],'datavkpiindexdata');
-            }
-          }
-        }
-      }
-    }
+
+    this.map_list[0]=this.InitData(datavbmodaltypeObj,"datavb");
+    this.map_list[1]=this.InitData(datasdmodaltypeObj,"datasd");
+    this.map_list[2]=this.InitData(datascmodaltypeObj,"datasc");
+    this.map_list[3]=this.InitData(datasemodaltypeObj,"datase");
+    this.map_list[4]=this.InitData(datascdemodaltypeObj,"datascde");
+    this.map_list[5]=this.InitData(datavkpimodaltypeObj,"datavkpi");
+
+    // console.log(this.map_list,'this.map_list')
+    this.map_list.forEach((v,i)=>{
+      this.newgetData(v.map_top,i);
+      this.newgetData(v.map_1,i);
+      this.newgetData(v.map_2,i);
+      this.newgetData(v.map_3,i);
+      this.newgetData(v.map_4,i);
+    })
     
   },
   mounted() {
   },
   methods: {
+    InitData(model,key){
+      var data_model;
+      var node;
+      data_model=model;
+      node={};
+      node.sort =this.default_sort
+      node.key=key;
+      node.map_top={};
+      node.map_1={};
+      node.map_2={};
+      node.map_3={};
+      node.map_4={};
+
+      if (data_model) {
+        data_model = JSON.parse(data_model);
+        if (Object.keys(data_model).length > 0) {
+          for (const i in data_model) {
+            if (data_model.hasOwnProperty(i)) {
+              if (i.indexOf(`因子分析${key}入库`) != -1&&i.indexOf("_因子载荷")== -1){
+                // this.getData(node.map_top={};,'0');
+                node.map_top.key=i;
+                node.map_top.value=data_model[i];
+                node.map_top.id=key+'indexdata'
+                node.map_top.index=0;
+                node.map_1.key=i;
+                node.map_1.value=data_model[i];
+                node.map_1.id=key+'indexdata'
+                node.map_1.index=1;
+              }else if (i.indexOf(`因子分析${key}入库`) != -1&&i.indexOf("_因子载荷")!= -1){
+                node.map_2.key=i;
+                node.map_2.value=data_model[i];
+                node.map_2.id=key+'indexdata1'
+                node.map_2.index=2;
+              }else if (i == `${key}入库`){
+                node.map_3.key=i;
+                node.map_3.value=data_model[i];
+                node.map_3.id=key+'indexdata2'
+                node.map_3.index=3;
+              } 
+            }
+          }
+        }
+      }
+      return node;
+    },
     //获取列表
     getData(id,datatype) {
       if(datatype==null){
@@ -723,13 +724,168 @@ export default {
                   // console.log(res,'res2')
                   that.table2.columns = [];
                   that.disposethirdlyTableheader(res)
-                  
               }
               
             }
             
           }
           
+        },
+        (error) => {
+          that.$Spin.hide()
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
+    },
+    newgetData(node,modal_index) {
+      if(!node){
+        return;
+      }
+      var that = this;
+      var query = {
+        action: "Service",
+        method: "getColumns",
+        data: [node.value],
+      };
+      // that.$Spin.show()
+      that.$http.post(that.PATH.GETCOLUMS, JSON.stringify(query)).then(
+        (success) => {
+        
+          that.$Spin.hide()
+          // console.log(success);
+          if(success.data.result){
+            var res = success.data.result;
+            if(res.length>0){
+              
+              that.newgetData2(res, node,modal_index);
+              // that.newdisposethirdlyTableheader(res,modal_index)
+              // console.log(that.map_list[node.index],'123')
+              // console.log( that.map_list[modal_index],node.index,"_______");
+              if(node.index!=0){
+                that.map_list[modal_index]['map_'+node.index].table_columns=res;
+              }
+              
+              
+              // // //RKPI综合得分
+              // if(datatype=='datavbindexdata2'){
+              //     //下面第三个表格
+              //     // console.log(res,'res2')
+              //     that.table2.columns = [];
+              //     that.disposethirdlyTableheader(res)
+              // }
+              
+            }
+            
+          }
+          
+        },
+        (error) => {
+          that.$Spin.hide()
+          that.err_list = ["登录异常", "请联系管理员"];
+          that.errorTips_modal = true;
+        }
+      );
+    },
+    newgetData2(list, p_node,modal_index) {
+      var that = this;
+      var id=p_node.value;
+      var datatype=p_node.id;
+      var list_data = [];
+      let hassum = true
+      if (list.length > 0) {
+        list.forEach((node) => {
+          list_data.push(node.name);
+          if (node.name.indexOf("SUM")!= -1) {
+            //包含SUM
+            hassum=true
+          }else{
+            hassum=false
+          }
+        });
+      }
+      var hasorderBy = []
+      // [{ name: "SUM", asc: false }]
+      if(hassum){
+        hasorderBy=[{ name: "SUM", asc: false }]
+      }else{
+        hasorderBy=[]
+      }
+      var query_data = [
+          {
+            conditions: [],
+            entityId: id,
+            fields: list_data,
+            orderBy: hasorderBy,
+          },
+          1,
+          30,
+        ];
+      
+      var query = {
+        action: "Service",
+        method: "pageQueryNoCount",
+        data: query_data,
+      };
+      // let newfirstrkpilist = []
+      let newscorelist=[] //进度条列表
+      let middlenumber=new Number()
+
+      // that.$Spin.show()
+      that.$http.post(that.PATH.PAGEQUERYNOCOUNT, JSON.stringify(query)).then(
+        (success) => {
+          that.$Spin.hide()
+          var res = success.data.result;
+          let newResult = success.data.result;
+          //周
+          if(Array.isArray(res)==true){
+            if(p_node.index==0){
+              if(res.length>0){
+                res.forEach((v,i)=>{
+                  res[i].name = v.ORG
+                  res[i].number =that.tofix(v.SUM,6)
+                  newscorelist.push(res[i].number)
+                  res[i].strokeWidth = 5
+                  res[i].strokeColor = ["#92BBFF", "#92BBFF"]
+                })
+                //处理进度条值
+                that.get_progress(res)
+                //取综合得分中间值
+                middlenumber = newscorelist[Math.floor((newscorelist.length- 1)/ 2)]
+                // that.sortByKey(res,'number')
+                this.map_list[modal_index].map_top.table_1=res
+                this.map_list[modal_index].map_top.mediannumber=middlenumber
+                that.newRKPIsort(modal_index)
+              }
+            }else{
+              this.map_list[modal_index]['map_'+p_node.index].table_1=res;
+              this.map_list[modal_index]['map_'+p_node.index].newtable_1=[];
+              // console.log(p_node,'p_node')
+              // switch(p_node.index){
+              //   case 1:
+              //      if (modal_index==0){
+              //        that.newdisposeFirstTable(res,modal_index)
+              //      }
+                   
+              //   break;
+              //   case 2:
+              //     //  that.newdisposeSecondTable(res,modal_index)
+              //     this.map_list[modal_index]['map_2'].newtable_1 = res
+              //   break;
+              //   case 3:
+              //     //  that.newdisposethirdlyTable(res,modal_index)
+              //      this.map_list[modal_index]['map_3'].newtable_1 = res
+              //   break;
+              //   default:
+              //     console.log(p_node,'p_nodep_node')
+              // }
+             
+            }
+            that.$forceUpdate()
+            
+            // console.log(this.map_list,'1223')
+
+          }
         },
         (error) => {
           that.$Spin.hide()
@@ -786,7 +942,7 @@ export default {
           that.$Spin.hide()
           var res = success.data.result;
           let newResult = success.data.result;
-          //周
+
           if(Array.isArray(res)==true){
             if(res.length>0){
               res.forEach((v,i)=>{
@@ -804,53 +960,96 @@ export default {
             }
             //RKPI综合得分datavb
             if(datatype =='datavbindexdata'){
-              that.firstrkpilist= res
+              that.firstrkpilist1= res
               // //处理默认的得分升序
-              that.sortByKey(that.firstrkpilist,'number')
+              that.sortByKey(that.firstrkpilist1,'number')
               that.mediannumber=middlenumber 
-              that.disposeFirstTable(newResult)
+              
+              that.disposeFirstTable(newResult,'1')
             }else if(datatype =='datavbindexdata1'){
               //下面第二个表格
-              that.disposeSecondTable(newResult)
+              that.firstrkpilistObj1.secondTabble.data=newResult
+              that.disposeSecondTable(newResult,'1')
+      
             }else if(datatype =='datavbindexdata2'){
               //下面第三个表格
-              that.disposethirdlyTable(newResult)
+              // this.thirdlyTableData =newResult
+              that.firstrkpilistObj1.thirdyTabble.data=newResult
+              // that.disposethirdlyTable(newResult)
             }
 
             //总行datasd
             if(datatype=='datasdindexdata'){
-              that.firstrkpilist1= res
+              that.firstrkpilist2= res
               // //处理默认的得分升序
               that.mediannumber1=middlenumber 
-              that.sortByKey(that.firstrkpilist1,'number')
+              that.sortByKey(that.firstrkpilist2,'number')
+              that.firstrkpilistObj2.firstTabble.data=newResult
+              that.disposeFirstTable(newResult,'2')
+            }else if(datatype=='datasdindexdata1'){
+              that.firstrkpilistObj2.secondTabble.data=newResult
+              that.disposeSecondTable(newResult,'2')
+              
+            }else if(datatype=='datasdindexdata2'){
+             that.firstrkpilistObj2.thirdyTabble.data=newResult
+            }else if(datatype=='datasdindexdata3'){
+              that.firstrkpilistObj2.fourTabble.data=newResult
             }
             //分行datasc
             if(datatype=='datascindexdata'){
-              that.firstrkpilist2= res
+              that.firstrkpilist3= res
               // //处理默认的得分升序
               that.mediannumber2=middlenumber 
-              that.sortByKey(that.firstrkpilist2,'number')
+              that.sortByKey(that.firstrkpilist3,'number')
+              that.firstrkpilistObj3.firstTabble.data=newResult
+              that.disposeFirstTable(newResult,'3')
+            }else if(datatype=='datascindexdata1'){
+               that.firstrkpilistObj3.secondTabble.data=newResult
+               that.disposeSecondTable(newResult,'3')
+              
+            }else if(datatype=='datascindexdata2'){
+               that.firstrkpilistObj3.thirdyTabble.data=newResult
+            }else if(datatype=='datascindexdata3'){
+               that.firstrkpilistObj3.fourTabble.data=newResult
             }
              //监管datase
             if(datatype=='dataseindexdata'){
-              that.firstrkpilist3= res
+              that.firstrkpilist4= res
               // //处理默认的得分升序
               that.mediannumber3=middlenumber 
-              that.sortByKey(that.firstrkpilist3,'number')
+              that.sortByKey(that.firstrkpilist4,'number')
+              that.firstrkpilistObj4.firstTabble.data=newResult
+              that.disposeFirstTable(newResult,'4')
+            }else if(datatype=='dataseindexdata1'){
+              that.firstrkpilistObj4.secondTabble.data=newResult
+              that.disposeSecondTable(newResult,'4')
+            }else if(datatype=='dataseindexdata2'){
+              that.firstrkpilistObj4.thirdyTabble.data=newResult
+            }else if(datatype=='dataseindexdata3'){
+              that.firstrkpilistObj4.fourTabble.data=newResult
             }
             //综合datascde
             if(datatype=='datascdeindexdata'){
-              that.firstrkpilist4= res
+              that.firstrkpilist5= res
               // //处理默认的得分升序
               that.mediannumber4=middlenumber 
-              that.sortByKey(that.firstrkpilist4,'number')
+              that.sortByKey(that.firstrkpilist5,'number')
+              that.firstrkpilistObj5.firstTabble.data=newResult
+              that.disposeFirstTable(newResult,'5')
+            }else if(datatype=='datascdeindexdata1'){
+              that.firstrkpilistObj5.secondTabble.data=newResult
+              that.disposeSecondTable(newResult,'5')
+            }else if(datatype=='datascdeindexdata2'){
+              that.firstrkpilistObj5.thirdyTabble.data=newResult
+            }else if(datatype=='datascdeindexdata3'){
+              that.firstrkpilistObj5.fourTabble.data=newResult
             }
             //rkpi和审核发现datavkpi
             if(datatype=='datavkpiindexdata'){
-              that.firstrkpilist5= res
+              that.firstrkpilist6= res
               // //处理默认的得分升序
               that.mediannumber5=middlenumber 
-              that.sortByKey(that.firstrkpilist5,'number')
+              that.sortByKey(that.firstrkpilist6,'number')
             }
 
           }
@@ -862,8 +1061,214 @@ export default {
         }
       );
     },
+    newdisposeFirstTable(list,type) {
+      var zuzhi = "ORG";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      for (var name in list[0]) {
+        if(name!='SUM'&&name!='ROW_NEXT'){
+          key_list.push(name);
+        }
+      }
+      // console.log(key_list, "列名1");
+      //排序
+      sort_key_list.push(zuzhi);
+      key_list.forEach((n) => {
+        // n == "ORG"||n == "SUM"? "" : sort_key_list.push(n);
+        n == "ORG"? "" : sort_key_list.push(n);
+      });
+      // sort_key_list.push("SUM");
+      // console.log(sort_key_list, "排序后列名");
+      // this.firsttablecolums = sort_key_list
+      this.map_list[type]['map_1'].sort_columns_list=sort_key_list
+
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi) {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+            }
+          }
+        }
+        // node_list[row_max_cell].fontcolor = this.max_color;
+        list_model.push(node_list);
+      }
+      this.map_list[type]['map_1'].newtable_1=list_model
+      // console.log(this.map_list,type,'123')
+     // console.log(list_model,'234')
+    
+        // console.log(this.map_list[type]['map_2'],type,'1223')
+      // this.map_list[type].map_2.newtable_1 = 
+      this.$nextTick(()=>{
+          this.newdisposeSecondTable(type)
+      })
+     
+
+      
+    },
+    //处理下面的第二个表格
+    newdisposeSecondTable(type) {
+      var list=this.map_list[type].map_2.table_1;
+      // this.map_list[modal_index]['map_'+p_node.index].table_1
+      console.log(list,type,'disposeSecondTable')
+      var zuzhi = "ICE";
+      var creacttime = "CREATETIME";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
+      for (var name in list[0]) {
+        if(name!='name'&&name!='number'&&name!='scoreleft'&&name!='scoreright'&&name!='strokeColor'&&name!='strokeWidth'){
+          key_list.push(name);
+        }
+        
+      }
+      //从第一个表格头找到相同的
+      firstsort_key_list.push(zuzhi);
+      if(this.map_list[type]['map_1'].sort_columns_list.length>0){
+        common_key_list=this.map_list[type]['map_1'].sort_columns_list.filter(function(n) {
+            return key_list.indexOf(n) != -1
+        });
+      }
+      sort_key_list = [...firstsort_key_list,...common_key_list]
+    
+      //建造对象
+      var list_model = new Array();
+
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell];
+          node.value = list[row][sort_key_list[cell]];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+
+          if (node.key != zuzhi&&node.key!=creacttime&&node.key!='ROW_NEXT') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+            //找行最大值
+            if (Math.abs(node.value) > row_max) {
+              row_max = Math.abs(node.value);
+              row_max_cell = cell;
+              
+            }
+          }
+        }
+        node_list[row_max_cell].fontcolor = this.select_color;
+        list_model.push(node_list);
+      }
+ 
+      console.log(this.map_list[type]['map_2'],"!!!!!!!!!!")
+      this.currentObjIndex=type
+      this.map_list[type]['map_2'].newtable_1=list_model
+      this.$forceUpdate()
+
+      // this.newdisposethirdlyTableheader(this.map_list[type]['map_2'].secondtablecols,type)
+      
+    },
+    //处理下面的第三个表格头
+    newdisposethirdlyTableheader(list,type){
+      console.log(this.map_list[type]['map_2']);
+      console.log(list,type,'1233_______')
+      var zuzhi = "ORG";
+      //列名
+      var key_list = [];
+      var sort_key_list = [];
+      let common_key_list=[]
+      let firstsort_key_list = []
+      for (var name in list) {
+        key_list.push({desc:list[name].desc,name:list[name].name})
+        
+      }
+      console.log(key_list, "排序后列名");
+      this.map_list[type]['map_3'].newtable_columns=key_list
+      // this.table3.columns = key_list
+      
+    },
+    //处理下面的第三个表格
+    newdisposethirdlyTable(model_index) {
+      // console.log(headercolumlist,'headercolumlist')
+      let common_key_list=[]
+      let sort_key_list =[]
+      let first_key_list=[]
+      // console.log(this.map_list[model_index]['map_3'].table_columns)
+      first_key_list.push(this.map_list[model_index]['map_3'].table_columns[0])
+      
+      this.map_list[model_index]['map_3'].secondtablecols.forEach((key,index) => {
+        this.map_list[model_index]['map_3'].table_columns.forEach((item,j) => {
+            if(item.desc === key) {
+              common_key_list.push(this.map_list[model_index]['map_3'].table_columns[j])
+            }
+        })
+      })
+      // console.log(common_key_list,'common_key_list')
+     
+      sort_key_list = [...first_key_list,...common_key_list]
+      // console.log(sort_key_list,'sort_key_list')
+      //建造对象
+      var list_model = new Array();
+      var list =this.map_list[model_index]['map_3'].table_1
+      for (var row = 0; row < list.length; row++) {
+        var node_list = new Array();
+
+        var row_max = 0;
+        var row_max_cell = 0;
+        for (var cell = 0; cell < sort_key_list.length; cell++) {
+          var node = {};
+          node.cell = cell;
+          node.row = row;
+          node.key = sort_key_list[cell].desc;
+          node.value = list[row][sort_key_list[cell].name];
+          node.fontcolor = this.default_color;
+          node.selected = false;
+          node_list.push(node);
+          if (node.key!='经营单位') {
+            //小数位
+            node.value = Number(Number(node.value).toFixed(5));
+          }
+        }
+        list_model.push(node_list);
+      }
+      // this.table3.data = list_model
+      // console.log(list_model,'map_3.newtable_1')
+      this.map_list[model_index]['map_3'].newtable_1=list_model
+      console.log(this.map_list[model_index]['map_3'].newtable_1,'this.table3.data')
+      // this.tab
+      this.table3.data=this.map_list[model_index].map_3.newtable_1
+
+      this.thirdlysetHigthRow()
+    },
     //处理下面的第一个表格
-    disposeFirstTable(list) {
+    disposeFirstTable(list,type) {
       var zuzhi = "ORG";
       //列名
       var key_list = [];
@@ -873,9 +1278,7 @@ export default {
           key_list.push(name);
         }
       }
-
       // console.log(key_list, "列名1");
-
       //排序
       sort_key_list.push(zuzhi);
       key_list.forEach((n) => {
@@ -918,24 +1321,10 @@ export default {
         list_model.push(node_list);
       }
 
-      // console.log(list_model, "建立模型对象");
-      // this.data_table = list_model;
-      this.table.data = list_model
-      console.log(this.table.data ,'this.table.data')
-      //RKPI综合得分
-      let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
-      if (datavbmodaltypeObj) {
-        datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
-        if (Object.keys(datavbmodaltypeObj).length > 0) {
-          for (const i in datavbmodaltypeObj) {
-            if (datavbmodaltypeObj.hasOwnProperty(i)) {
-              if (i.indexOf("因子分析datavb入库") != -1&&i.indexOf("_因子载荷")!= -1){
-              this.getData(datavbmodaltypeObj[i],'datavbindexdata1');
-            } 
-            }
-          }
-        }
-      }
+      
+      that.firstrkpilistObj1.firstTabble.data=list_model
+
+
       
     },
     //处理下面的第二个表格
@@ -996,7 +1385,7 @@ export default {
         list_model.push(node_list);
       }
 
-      // console.log(list_model, "建立模型对象");
+      
       let secondtablecols=[]
       list_model.forEach((v,i)=>{
         secondtablecols.push(v.value)
@@ -1004,20 +1393,7 @@ export default {
       this.secondtablecols=secondtablecols
       this.table1.data = list_model
 
-      //RKPI综合得分
-      let datavbmodaltypeObj = localStorage.getItem("datavbmodaltypeObj");
-      if (datavbmodaltypeObj) {
-        datavbmodaltypeObj = JSON.parse(datavbmodaltypeObj);
-        if (Object.keys(datavbmodaltypeObj).length > 0) {
-          for (const i in datavbmodaltypeObj) {
-            if (datavbmodaltypeObj.hasOwnProperty(i)) {
-              if (i == 'datavb入库'){
-              this.getData(datavbmodaltypeObj[i],'datavbindexdata2');
-            } 
-            }
-          }
-        }
-      }
+      
       
     },
     //处理下面的第三个表格头
@@ -1033,29 +1409,20 @@ export default {
         
       }
       console.log(key_list, "排序后列名");
-      this.table2.columns = key_list
+      this.table3.columns = key_list
+      
     },
     //处理下面的第三个表格
-    disposethirdlyTable(list) {
-      let secondtablecoumles =[]
-      if(this.table1.data.length>0){
-        this.table1.data.forEach((v,i)=>{
-          v.map((m,j)=>{
-            if(m.key=='ICE'){
-              secondtablecoumles.push(m.value)
-            }
-          })
-        })
-      }
-      // console.log(secondtablecoumles,'secondtablecoumles.push(m.value)')
+    disposethirdlyTable(list,headercolumlist) {
+      // console.log(headercolumlist,'headercolumlist')
       let common_key_list=[]
       let first_key_list=[]
       let sort_key_list =[]
-      first_key_list.push(this.table2.columns[0])
-        secondtablecoumles.forEach((key,index) => {
-          this.table2.columns.forEach((item,j) => {
+      first_key_list.push(this.table3.columns[0])
+        headercolumlist.forEach((key,index) => {
+          this.table3.columns.forEach((item,j) => {
               if(item.desc === key) {
-                common_key_list.push(this.table2.columns[j])
+                common_key_list.push(this.table3.columns[j])
               }
           })
       })
@@ -1081,22 +1448,54 @@ export default {
           if (node.key!='经营单位') {
             //小数位
             node.value = Number(Number(node.value).toFixed(5));
-            //找行最大值
-            if (Math.abs(node.value) > row_max) {
-              row_max = Math.abs(node.value);
-              row_max_cell = cell;
-              
-            }
           }
         }
-        node_list[row_max_cell].fontcolor = this.select_color;
         list_model.push(node_list);
       }
+      this.table3.data = list_model
+      this.thirdlysetHigthRow()
+    },
+    //第三个表格高亮
+    thirdlysetHigthRow(){
+        let firsttabble1columns=new Object()  //第一个表格行数据
+        firsttabble1columns=this.$refs.ktable.getCurrentRecord()
+        //修改第一个表格高亮行选中
+        let firsthightRowName = ''
+        if(firsttabble1columns.length>0){
+          firsttabble1columns.map((w,j)=>{
+            if(w.key=='ORG'){
+              firsthightRowName=w.value
+            }
+          })
+        }
+        
+        // console.log(this.table3.data,'this.table3.data')
+        var row_max3 = 0;
+        var row_max3_cell = 0;
+        let row_index3=0 //索引
+        this.table3.data.map((v,i)=>{
+          if(v[0].value==firsthightRowName){
+            row_index3=i
+          }else{
+            v.map((w,j)=>{
+              w.fontcolor=this.default_color
+            })
+          }
+        })
+        this.table3.data[row_index3].map((v,i)=>{
+          v.fontcolor = this.select_color
+          if (Math.abs(v.value) > row_max3) {
+            row_max3 = Math.abs(v.value);
+            row_max3_cell = i
+          }
+        })
+        this.table3.data[row_index3][row_max3_cell].fontcolor=this.max_color
+        this.$nextTick(()=>{
+          this.tablerow_index3=row_index3
+          this.$refs.ktable3.setCurrentRow(this.$refs.ktable3.getData(row_index3));
+        })
+        
 
-      // console.log(list_model, "建立模型对象");
-      this.table2.data = list_model
-      
-      
     },
     //处理下面的第四个表格
     disposefourTable(list) {
@@ -1163,8 +1562,8 @@ export default {
         list_model.push(node_list);
       }
 
-      // console.log(list_model, "建立模型对象");
-      this.table1.data = list_model
+      
+      // this.table1.data = list_model
       
       
     },
@@ -1172,114 +1571,26 @@ export default {
     tabclick(item){
         this.tabsvalue = item.toString();
     },
-    //综合得分排序
-    RKPIsort(data) {
+    newRKPIsort(i){
+      let data =this.map_list[i].sort
       if (data == "scoreup") {
         // 得分升序
-        this.sortByKey(this.firstrkpilist, "number");
+        this.sortByKey(this.map_list[i].map_top.table_1, "number");
         // 下面对应的表格排序
-        // this.sortByKey1(this.table.data, "value");
       } else if (data == "scoredown") {
         // 得分降序
-        this.sortDownByKey(this.firstrkpilist, "number");
+        this.sortDownByKey(this.map_list[i].map_top.table_1, "number");
         // 下面对应的表格排序
-        this.sortDownByKey(this.table.data, "value");
       } else if (data == "organizationup") {
         // 机构名升序
-        this.firstrkpilist.sort(this.nameasc("name"));
+        this.map_list[i].map_top.table_1.sort(this.nameasc("name"));
         // 下面对应的表格排序
-        this.table.data.sort(this.nameasc("value"));
       } else if (data == "organizationdown") {
         // 机构名降序
-        this.firstrkpilist.sort(this.namedesc("name"));
+        this.map_list[i].map_top.table_1.sort(this.namedesc("name"));
         // 下面对应的表格排序
-        this.table.data.sort(this.namedesc("value"));
       }
-    },
-    //总行排序
-    RKPIsort1(data){
-      if(data=='scoreup'){ 
-        // 得分升序
-        this.sortByKey(this.firstrkpilist1,'number')
-      }else if(data=='scoredown'){
-        // 得分降序
-        this.sortDownByKey(this.firstrkpilist1,'number')
-      }else if(data=='organizationup'){
-        // 机构名升序
-        this.firstrkpilist1.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
-        // 机构名降序
-        this.firstrkpilist1.sort(this.namedesc('name'))
-      }
-    },
-    //分行排序
-    RKPIsort2(data){
-      if(data=='scoreup'){ 
-        // 得分升序
-        this.sortByKey(this.firstrkpilist2,'number')
-      }else if(data=='scoredown'){
-        // 得分降序
-        this.sortDownByKey(this.firstrkpilist2,'number')
-      }else if(data=='organizationup'){
-        // 机构名升序
-        this.firstrkpilist2.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
-        // 机构名降序
-        this.firstrkpilist2.sort(this.namedesc('name'))
-      }
-    },
-    //监督排序
-    RKPIsort3(data){
-      if(data=='scoreup'){ 
-        // 得分升序
-        this.sortByKey(this.firstrkpilist3,'number')
-      }else if(data=='scoredown'){
-        // 得分降序
-        this.sortDownByKey(this.firstrkpilist3,'number')
-      }else if(data=='organizationup'){
-        // 机构名升序
-        this.firstrkpilist3.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
-        // 机构名降序
-        this.firstrkpilist3.sort(this.namedesc('name'))
-      }
-    },
-    //综合排序
-    RKPIsort4(data){
-      if(data=='scoreup'){ 
-        // 得分升序
-        this.sortByKey(this.firstrkpilist4,'number')
-      }else if(data=='scoredown'){
-        // 得分降序
-        this.sortDownByKey(this.firstrkpilist4,'number')
-      }else if(data=='organizationup'){
-        // 机构名升序
-        this.firstrkpilist4.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
-        // 机构名降序
-        this.firstrkpilist4.sort(this.namedesc('name'))
-      }
-    },
-    //RKPI和审核发现
-    RKPIsort5(data){
-      if(data=='scoreup'){ 
-        // 得分升序
-        this.sortByKey(this.firstrkpilist5,'number')
-      }else if(data=='scoredown'){
-        // 得分降序
-        this.sortDownByKey(this.firstrkpilist5,'number')
-      }else if(data=='organizationup'){
-        // 机构名升序
-        this.firstrkpilist5.sort(this.nameasc('name'))
-        
-      }else if(data=='organizationdown'){
-        // 机构名降序
-        this.firstrkpilist5.sort(this.namedesc('name'))
-      }
+      this.$forceUpdate()
     },
     //进度条算法
     get_progress(list) {
@@ -1382,141 +1693,243 @@ export default {
       }
       return s;
     },
-    ishowtable() {
-      // this.ishowtable1 = true;
+    //初始化数据
+    isshowfirsttable(item,index,typeindex){
+      // console.log(item,index,typeindex)
+      this.newdisposeFirstTable(this.map_list[typeindex].map_1.table_1,typeindex)
+      this.table1.data=this.map_list[typeindex].map_1.newtable_1
+      this.ishowtable =true
+      this.$nextTick(()=>{
+        this.table2.data=this.map_list[typeindex].map_2.newtable_1
 
-    },
-    ishowsecondtable() {
-      // console.log(1)
-      this.ishowtable2 = true;
-    },
-    ishowthreetable() {
-      this.ishowtable3 = true;
-    },
-    isshowfirsttable(item,index,type){
-      this.InitRowColor();
-      // var index = 1;
-      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
-      // this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(index));
-      this.SelectRowColor(index);
-      //第三个表格高亮
-      this.table2.data.forEach((v,i)=>{
-        v.map((m,j)=>{
-          if(m.value==item.name){
-            this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(i));
-          }
-        })
+        // this.SelectRowColor(index);
+        this.selectRowmap1(index,true)
+        // this.selectRowmap1block(index)
+        // this.$nextTick(()=>{
+        //   this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(row_index))
+          
+        // })
+        
       })
-    },
-    //设置高亮列
-    setHigthCell() {
-      this.InitRowColor();
-      var index = 1;
-      this.$refs.ktable.setCurrentColumn(this.$refs.ktable.getColumns()[index]);
-    },
-    //设置高亮行
-    setHigthRow() {
-      this.InitRowColor();
-      var index = 1;
-      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(index));
-      this.SelectRowColor(index);
-    },
-    //块点击
-    cell_click(event) {
-      console.log(event,'event');
       
-      this.InitRowColor();
+    },
+    //第一个表格块点击
+    cell_click1(event) {
+      // console.log(event,'event');
       //赋值选中
-      this.SelectRowColor(event.rowIndex);
-      //防止序号
-      if (event.columnIndex > 0) {
-        this.table.data[event.rowIndex][event.columnIndex - 1].selected = true;
-      }
-      // columnIndex
-      this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event.columnIndex-1]);
-      var row_max = 0;
-      var row_max_cell = 0;
-      var row_max_row=0
-      this.table1.data.forEach((m,i) => {
-        m.map((n,j) => {
-          // console.log(m,n,'nn',event.row[event.columnIndex-1].key)
-          if(n.key==event.row[event.columnIndex-1].key){
-            // if (n.fontcolor != this.default_color) n.fontcolor = this.max_color;
-            if(n.fontcolor!=this.default_color){
-              if (Math.abs(n.value) > row_max) {
-                row_max = Math.abs(n.value);
-                row_max_cell = j
-                row_max_row=i
-              }
-            }
-          }else{
-            if (n.fontcolor != this.default_color) n.fontcolor = this.select_color;
-            // n.fontcolor = this.default_color;
-          }
-          
-          
-        });
-      });
-      this.table1.data[row_max_row][row_max_cell].fontcolor=this.max_color
-      //第三个表格
-      this.table2.data.forEach((v,i)=>{
-        v.map((m,j)=>{
-          if(m.value==event.row[event.columnIndex-1].value){
-            // console.log(m,'vv')
-            this.$refs.ktable2.setCurrentRow(this.$refs.ktable2.getData(i));
-          }
-        })
-      })
+      // this.SelectRowColor(event.rowIndex);
+      this.selectRowmap1(event.rowIndex,false)
+      this.selectRowmap1block(event.rowIndex,event.columnIndex-1)
+      this.selectcellmap2(event.columnIndex-1)
+      
+      // console.log(event.rowIndex,event.columnIndex-1,1231234)
+      // //防止序号
+      // if (event.columnIndex > 0) {
+        
+      //   //this.table1.data[event.rowIndex][event.columnIndex - 1].selected = true;
+      // }
+      // //防止机构
+      // if(event.columnIndex > 1){
+      //   // columnIndex
+      //   this.table2CurrentColumnIndex = [event.columnIndex-1]
+      //   this.secondtableClick(event.columnIndex-1) //处理第二个表格列高亮
+      // }
     },
-    //头点击
-    header_cell_click(event) {
+    //第一个表格头点击
+    header_cell_click1(event) {
       //console.log(event);
-    },
-    //初始化颜色
-    InitRowColor() {
-      this.table.data.forEach((m) => {
-        m.map((n) => {
-          n.selected = false;
-          if (n.fontcolor != this.max_color) n.fontcolor = this.default_color;
-        });
-      });
     },
     //设置选中颜色
     SelectRowColor(row_index) {
       var row_max = 0;
       var row_max_cell = 0;
-      this.table.data[row_index].map((n,i) => {
+      // console.log(this.table1.data,row_index,'row_index')
+      this.table1.data[row_index].map((n,i) => {
         if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
         if (Math.abs(n.value) > row_max) {
           row_max = Math.abs(n.value);
           row_max_cell = i
         }
       });
-      this.table.data[row_index][row_max_cell].fontcolor=this.max_color
-      this.table.data.forEach((v,i)=>{
+      this.table1.data[row_index][row_max_cell].fontcolor=this.max_color
+      this.table1.data.forEach((v,i)=>{
         if(i!=row_index){
           v.map((n,i) => {
+            n.selected = false;
             n.fontcolor = this.default_color;
           })
         }
       })
+      //第二个表格列高亮 、第三个表格高亮 
+      this.$nextTick(()=>{
+        this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(row_index))
+        this.secondtableClick(row_index)
+      })
+      
     },
-
-    //块点击
-    cell_click1(event) {
-      //console.log(event);
-      this.InitRowColor();
-      //赋值选中
-      this.SelectRowColor(event.rowIndex);
-      //防止序号
-      if (event.columnIndex > 0) {
-        this.table.data[event.rowIndex][event.columnIndex].selected = true;
+    //第二个表格块点击
+    cell_click2(event) {
+      // console.log(event)
+      if(event.columnIndex>0){
+        this.selectcellmap2(event.columnIndex)
+        this.selectRowmap1block(this.$refs.ktable.getRowIndex(this.$refs.ktable.getCurrentRecord()),event.columnIndex)
+        
+      }
+      
+    },
+    //第二个表格头点击
+    header_cell_click2(event) {
+      // console.log(event);
+      if(event.columnIndex>0){
+        this.selectcellmap2(event.columnIndex)
+        this.selectRowmap1block(this.$refs.ktable.getRowIndex(this.$refs.ktable.getCurrentRecord()),event.columnIndex)
       }
     },
-    //头点击
-    header_cell_click1(event) {
-      //console.log(event);
+    //第二个表格点击
+    secondtableClick(event2columnIndex){
+      // console.log(event2columnIndex,'event')
+      //防止序号
+      if (event2columnIndex > 0) {
+        this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[event2columnIndex]);
+        this.table2CurrentColumnIndex = [event2columnIndex-1]
+        let firsttabble1columns=new Object()  //第一个表格行数据
+        firsttabble1columns=this.$refs.ktable.getCurrentRecord()
+        //修改第一个表格高亮行选中
+        if(firsttabble1columns.length>0){
+          firsttabble1columns.forEach((v,i)=>{
+            if(i==event2columnIndex){
+              firsttabble1columns[i].selected = true
+            }else{
+              firsttabble1columns[i].selected = false
+            }
+          })
+        }
+        
+        var row_max = 0;
+        var row_max_cell = 0;
+        var row_max_row=0
+        let TSsecondtablecols =[]
+        // console.log(this.table2.data,'this.table2.data')
+        this.table2.data.forEach((m,i) => {
+          m.map((n,j) => {
+            if(m[event2columnIndex].fontcolor!=this.default_color){
+                if (Math.abs(n.value) > row_max) {
+                  row_max = Math.abs(n.value);
+                  row_max_cell = j
+                  row_max_row=i
+                }
+            }
+            if(j!=event2columnIndex){
+              if (m[j].fontcolor== this.max_color) m[j].fontcolor= this.select_color;
+            } 
+          });
+          //蓝色、红色 得到第三个表格得头
+          // console.log(m[event2columnIndex],'m[event2columnIndex]')
+          if(m[event2columnIndex].fontcolor!=this.default_color){
+            TSsecondtablecols.push(m[0].value)
+          }
+          
+        });
+          this.table2.data[row_max_row][row_max_cell].fontcolor=this.max_color
+        // console.log(TSsecondtablecols,'TSsecondtablecols')
+        this.map_list[this.currentObjIndex]['map_3'].secondtablecols=TSsecondtablecols;
+        // console.log(TSsecondtablecols,11223344)
+
+       
+        // this.secondtablecols = TSsecondtablecols  //第三个表格头真实信息
+      
+      
+        //第三个表格重绘
+        // console.log(this.map_list,'this.map_list[modal_index]');
+        
+          this.newdisposethirdlyTable(this.currentObjIndex)
+        
+      }
+    
     },
+    cell_click3( {row, rowIndex, $rowIndex, column, columnIndex, $columnIndex, triggerRadio, triggerCheckbox, triggerTreeNode, triggerExpandNode, $event}){
+      // console.log(this.$refs.ktable3.getRowIndex(this.$refs.ktable3.getCurrentRecord()))
+      this.$refs.ktable3.setCurrentRow(this.$refs.ktable3.getData(this.tablerow_index3));
+    },
+    //
+    selectRowmap1(row_index,is_Init){
+      var row_max = 0;
+      var row_max_cell = 0;
+      // console.log(this.table1.data,row_index,'row_index')
+      this.table1.data[row_index].map((n,i) => {
+        if (n.fontcolor != this.max_color) n.fontcolor = this.select_color;
+        if (Math.abs(n.value) > row_max) {
+          row_max = Math.abs(n.value);
+          row_max_cell = i
+        }
+      });
+      this.table1.data[row_index][row_max_cell].fontcolor=this.max_color
+      this.table1.data.forEach((v,i)=>{
+        if(i!=row_index){
+          v.map((n,i) => {
+            n.selected = false;
+            n.fontcolor = this.default_color;
+          })
+        }
+      })
+      this.$refs.ktable.setCurrentRow(this.$refs.ktable.getData(row_index))
+      if(is_Init){
+        this.$nextTick(()=>{
+          this.selectRowmap1block(row_index,row_max_cell)
+        this.selectcellmap2(row_max_cell)
+        })
+        
+      }
+    },
+    selectRowmap1block(row_index,columnIndex){
+      this.table1.data[row_index].map((v,i)=>{
+        v.selected = false
+      })
+      if(columnIndex>0){
+         this.table1.data[row_index][columnIndex].selected = true;
+      }
+    },
+    selectcellmap2(columnIndex){
+      console.log(columnIndex)
+      if (columnIndex > 0) {
+        this.$refs.ktable1.setCurrentColumn(this.$refs.ktable1.getColumns()[columnIndex]);
+        this.table2CurrentColumnIndex = [columnIndex-1]
+        
+        //修改第一个表格高亮行选中
+        
+        
+        var row_max = 0;
+        var row_max_cell = 0;
+        var row_max_row=0
+        let TSsecondtablecols =[]
+        this.table2.data.forEach((m,i) => {
+          m.map((n,j) => {
+            if(m[columnIndex].fontcolor!=this.default_color){
+                if (Math.abs(n.value) > row_max) {
+                  row_max = Math.abs(n.value);
+                  row_max_cell = j
+                  row_max_row=i
+                }
+            }
+            if(j!=columnIndex){
+              if (m[j].fontcolor== this.max_color) m[j].fontcolor= this.select_color;
+            } 
+          });
+          //蓝色、红色 得到第三个表格得头
+          // console.log(m[columnIndex],'m[columnIndex]')
+          if(m[columnIndex].fontcolor!=this.default_color){
+            TSsecondtablecols.push(m[0].value)
+          }
+          
+        });
+        this.table2.data[row_max_row][row_max_cell].fontcolor=this.max_color
+        this.map_list[this.currentObjIndex]['map_3'].secondtablecols=TSsecondtablecols;
+
+        //第三个表格重绘
+        this.newdisposethirdlyTable(this.currentObjIndex)
+        
+      }
+    }
   },
 };
 </script>
